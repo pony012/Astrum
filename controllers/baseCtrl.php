@@ -90,5 +90,15 @@
 				return $data;
 			return "";
 		}
+		/**
+		*	Valida que la cadena de texto sea una fecha válida, retorna la cadena sin espacios al inicio o al final si lo es, en caso de no serlo returna una cadena vacía
+		*	@param string $data
+		*	@return string $data	
+		*/
+		public static function validateName($data){
+			$data = trim($data);
+			$d = DateTime::createFromFormat('Y-m-d', $data);
+    		return ($d && $d->format('Y-m-d') == $data)?$data:"";
+		}
 	}
 ?>
