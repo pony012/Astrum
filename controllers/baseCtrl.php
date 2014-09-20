@@ -49,5 +49,46 @@
 			//todo resultó perfecto
 			return $data;
 		}
+		
+		/**
+		*	Valida que la cadena de texto sea un correo válido, retorna la cadena sin espacios al inicio o al final si lo es, en caso de no serlo returna una cadena vacía
+		*	@param string $data
+		*	@return string $data
+		*/
+		public static function validateEmail($data){
+			$data = trim($data);
+			$regex = "/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/";
+			if(preg_match($regex, $data))
+				return $data;
+			return "";
+		}
+
+		/**
+		*	Valida que la cadena de texto sea un teléfono, retorna la cadena sin espacios al inicio o al final si lo es, en caso de no serlo returna una cadena vacía
+		*	@param string $data
+		*	@return string $data	
+		*/
+		public static function validatePhone($data){
+			$data = trim($data);
+			$regex = "/^(\+\d{1,4}[- ])?(\d+([ -])*)+$/";
+			if(preg_match($regex, $data))
+				return $data;
+			return "";
+		}
+
+		/**
+		*	Valida que la cadena de texto sea un nombre válido, retorna la cadena sin espacios al inicio o al final si lo es, en caso de no serlo returna una cadena vacía
+		*	@param string $data
+		*	@return string $data	
+		*/
+		public static function validateName($data){
+			$data = trim($data);
+			if(strcmp(substr($data,-1)," ")!=0)
+				$data.=' ';
+			$regex = "/^([a-zA-Z]+ ?){1,5}$/";
+			if(preg_match($regex, $data))
+				return $data;
+			return "";
+		}
 	}
 ?>
