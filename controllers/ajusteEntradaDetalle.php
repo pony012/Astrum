@@ -2,9 +2,9 @@
 	require_once 'controllers/baseCtrl.php';
 	
 	/**
-	* Controlador de Detalle de Ajuste Salida
+	* Controlador de Detalle de Ajuste Entrada
 	*/
-	class AjusteSalidaDetalleCtrl extends baseCtrl
+	class AjusteEntradaDetalleCtrl extends baseCtrl
 	{
 		private $model;
 
@@ -25,7 +25,7 @@
 			}
 		}
 		/**
-		* Crea un Detalle de Ajuste Salida
+		* Crea un Detalle de Ajuste Entrada
 		*/
 		private function create(){
 			
@@ -46,12 +46,12 @@
 				//Si pudo ser creado
 				if ($result) {
 					//Cargar la vista
-					require_once 'views/ajusteSalidaDetalleInserted.php';
+					require_once 'views/ajusteEntradaDetalleInserted.php';
 				}else{
-					require_once 'views/ajusteSalidaDetalleInsertedError.html';
+					require_once 'views/ajusteEntradaDetalleInsertedError.html';
 				}
 			}else{
-				require_once 'views/ajusteSalidaDetalleInsertedError.html';
+				require_once 'views/ajusteEntradaDetalleInsertedError.html';
 			}
 		}
 
@@ -72,8 +72,8 @@
 		}
 
 		function __construct(){
-			require_once 'models/ajusteSalidaDetalleMdl.php';
-			$this->model = new AjusteSalidaDetalleMdl();
+			require_once 'models/ajusteEntradaDetalleMdl.php';
+			$this->model = new AjusteEntradaDetalleMdl();
 		}
 	}
 ?>

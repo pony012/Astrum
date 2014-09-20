@@ -2,9 +2,9 @@
 	require_once 'controllers/baseCtrl.php';
 	
 	/**
-	* Controlador de Ajuste Salida
+	* Controlador de Ajuste Entrada
 	*/
-	class AjusteSalidaCtrl extends baseCtrl
+	class AjusteEntradaCtrl extends baseCtrl
 	{
 		private $model;
 
@@ -25,21 +25,21 @@
 			}
 		}
 		/**
-		* Crea un Ajuste Salida
+		* Crea un Ajuste Entrada
 		*/
 		private function create(){
 			
 			$errors = array();
 
-			$idAjusteSalidaTipo 	= $this->validateNumber(isset($_POST['idAjusteSalidaTipo'])?$_POST['idAjusteSalidaTipo']:NULL);
-			$idProveedor 			= $this->validateNumber(isset($_POST['idProveedor'])?$_POST['idProveedor']:NULL);
+			$idAjusteEntradaTipo 	= $this->validateNumber(isset($_POST['idAjusteEntradaTipo'])?$_POST['idAjusteEntradaTipo']:NULL);
+			$idCliente 				= $this->validateNumber(isset($_POST['idCliente'])?$_POST['idCliente']:NULL);
 			$folio					= $this->validateNumber(isset($_POST['folio'])?$_POST['folio']:NULL);
 			$observaciones			= $this->validateText(isset($_POST['observaciones'])?$_POST['observaciones']:NULL);
 
-			if(strlen($idAjusteSalidaTipo)==0)
-				$errors['idAjusteSalidaTipo'] = 1;
-			if(strlen($idProveedor)==0)
-				$errors['idProveedor'] = 1;
+			if(strlen($idAjusteEntradaTipo)==0)
+				$errors['idAjusteEntradaTipo'] = 1;
+			if(strlen($idCliente)==0)
+				$errors['idCliente'] = 1;
 			if(strlen($folio)==0)
 				$errors['folio'] = 1;
 			/*
@@ -49,17 +49,17 @@
 
 			if (count($errors) == 0) {
 
-				$result = $this->model->create($idAjusteSalidaTipo, $idProveedor, $folio, $observaciones);
+				$result = $this->model->create($idAjusteEntradaTipo, $idCliente, $folio, $observaciones);
 
 				//Si pudo ser creado
 				if ($result) {
 					//Cargar la vista
-					require_once 'views/ajusteSalidaInserted.php';
+					require_once 'views/ajusteEntradaInserted.php';
 				}else{
-					require_once 'views/ajusteSalidaInsertedError.html';
+					require_once 'views/ajusteEntradaInsertedError.html';
 				}
 			}else{
-				require_once 'views/ajusteSalidaInsertedError.html';
+				require_once 'views/ajusteEntradaInsertedError.html';
 			}
 		}
 
@@ -80,8 +80,8 @@
 		}
 
 		function __construct(){
-			require_once 'models/ajusteSalidaMdl.php';
-			$this->model = new AjusteSalidaMdl();
+			require_once 'models/ajusteEntradaMdl.php';
+			$this->model = new AjusteEntradaMdl();
 		}
 	}
 ?>
