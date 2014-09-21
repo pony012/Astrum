@@ -5,7 +5,6 @@ require_once 'models/baseMdl.php';
 	* Modelo de Ajuste de Entrada
 	*/
 class AjusteEntradaMdl extends BaseMdl{
-	private $idMovimientoAlmacen;
 	private $idAjusteEntradaTipo;
 	private $idCliente;
 	private $folio;
@@ -16,21 +15,25 @@ class AjusteEntradaMdl extends BaseMdl{
 	private $cantidad
 	
 	/**
-	 *@param integer $idMovimientoAlmacen
 	 *@param integer $idAjusteEntradaTipo
 	 *@param integer $idCliente
 	 *@param integer $folio
 	 *@param string $observaciones
+	 *@param integer $idAjusteEntrada
+	 *@param array $idProductos
+	 *@param array $cantidades
 	 *Crea un nuevo ajuste de entrada
 	 *@return true
 	 */
-	function create($idMovimientoAlmacen, $idAjusteEntradaTipo, $idCliente = NULL, $folio, $observaciones){
-		$this->idMovimientoAlmacen = $idMovimientoAlmacen;
+	function create( $idAjusteEntradaTipo, $idCliente = NULL, $folio, $observaciones,$idProductos,$cantidades){
 		$this->idAjusteEntradaTipo = $idAjusteEntradaTipo;
 		$this->idCliente	= $idCliente;
 		$this->folio	= $folio;
 		$this->observaciones	= $observaciones;
-		
+		for($i = 0;$i < count($idProductos);$i++){
+			if(!$this->createDetails(1,$idProductos[$i],$cantidades[$i])
+				return false;
+		}
 		return true;
 	}
 	
