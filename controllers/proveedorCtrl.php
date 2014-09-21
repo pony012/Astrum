@@ -6,8 +6,6 @@
 	*/
 	class ProveedorCtrl extends baseCtrl
 	{
-		private $model;
-
 		/**
 		 * Ejecuta acciones basado en la accion seleccionada por los agrumentos
 		 */
@@ -76,6 +74,20 @@
 											$celular);
 				//Si pudo ser creado
 				if ($result) {
+					//Guardamos los campos en un arreglo
+					$data = array(	$nombre, 
+									$apellidoPaterno, 
+									$apellidoMaterno,
+									$RFC,
+									$calle,
+									$numExterior,
+									$numInterior,
+									$colonia,
+									$codigoPostal,
+									$foto,
+									$email,
+									$telefono,
+									$celular);
 					//Cargar la vista
 					require_once 'views/proveedorInserted.php';
 				}else{
@@ -98,7 +110,7 @@
 
 		}
 
-		private function list(){
+		private function lists(){
 
 		}
 

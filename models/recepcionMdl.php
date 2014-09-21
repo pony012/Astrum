@@ -4,21 +4,19 @@ require_once 'models/baseMdl.php';
 	* Clase para el modelo de Recepciones
 	*/
 class RecepcionMdl extends BaseMdl{
-	private $idMovimientoAlmacen;
 	private $idProveedor;
 	private $folio;
 	private $fechaRecepcion;
 	private $total;
 	
-	private $idRecepcion
-	private $idProductoServicio
-	private $cantidad
-	private $precioUnitario
-	private $iva
-	private $descuento
+	private $idRecepcion;
+	private $idProductoServicio;
+	private $cantidad;
+	private $precioUnitario;
+	private $iva;
+	private $descuento;
 	
 	/**
-	 *@param integer $idMovimientoAlmacen
 	 *@param integer $idProveedor
 	 *@param integer $folio
 	 *@param date $fechaRemision
@@ -26,13 +24,17 @@ class RecepcionMdl extends BaseMdl{
 	 *Crea una nueva recepcion
 	 *@return true
 	 */
-	function create($idMovimientoAlmacen, $idProveedor, $folio, $fechaRemision, $total){
-		$this->idMovimientoAlmacen = $idMovimientoAlmacen;
+	function create($idProveedor, $folio, $fechaRecepcion,$idProductos,$cantidades,$precioUnitario,$ivas,$descuentos){
 		$this->idProveedor = $idProveedor;
 		$this->folio	= $folio;
-		$this->fechaRemision	= $fechaRemision;
-		$this->total	= $total;
-		
+		$this->fechaRecepcion	= $fechaRecepcion;
+		$total = 0;
+		for($i = 0;$i < count($idProductos);$i++){
+			if(!$this->createDetails(1,$idProductos[$i],$cantidades[$i],$precioUnitario[$i],$ivas[$i],$descuentos[$i]))
+				return false;
+			$total += $cantidades[$i]*$precioUnitario[$i];
+		}
+		$this->total = $total;
 		return true;
 	}
 	
@@ -46,7 +48,7 @@ class RecepcionMdl extends BaseMdl{
 	 *Crea un nuevo detalle de una recepcion
 	 *@return true
 	 */
-	function createDetails($idRecepcion, $idProductoServicio, $cantidad, $idProductoServicio, $cantidad){
+	function createDetails($idRecepcion,$idProductoServicio,$cantidad,$precioUnitario,$iva,$descuento){
 		$this->idRecepcion = $idRecepcion;
 		$this->idProductoServicio = $idProductoServicio;
 		$this->cantidad	= $cantidad;

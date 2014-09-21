@@ -6,8 +6,6 @@
 	*/
 	class RecepcionCtrl extends baseCtrl
 	{
-		private $model;
-
 		/**
 		 * Ejecuta acciones basado en la accion seleccionada por los agrumentos
 		 */
@@ -30,30 +28,39 @@
 		private function create(){
 			
 			$errors = array();
-
-			$idMovimientoAlmacen 	= $this->validateNumber(isset($_POST['idMovimientoAlmacen'])?$_POST['idMovimientoAlmacen']:NULL);
+			
 			$idProveedor 			= $this->validateNumber(isset($_POST['idProveedor'])?$_POST['idProveedor']:NULL);
 			$folio					= $this->validateNumber(isset($_POST['folio'])?$_POST['folio']:NULL);
 			$fechaRecepcion 		= $this->validateDate(isset($_POST['fechaRecepcion'])?$_POST['fechaRecepcion']:NULL);
-			$total 					= $this->validateNumber(isset($_POST['total'])?$_POST['total']:NULL);
 			
-			if(strlen($idMovimientoAlmacen)==0)
-				$errors['idMovimientoAlmacen'] = 1;
+			$idProductos 	= $this->validateNumber(isset($_POST['idProductos'])?$_POST['idProductos']:NULL);
+			$cantidades		= $this->validateNumber(isset($_POST['cantidades'])?$_POST['cantidades']:NULL);
+			$precioUnitario	= $this->validateNumber(isset($_POST['precioUnitario'])?$_POST['precioUnitario']:NULL);
+			$ivas 			= $this->validateNumber(isset($_POST['ivas'])?$_POST['ivas']:NULL);
+			$descuentos 	= $this->validateNumber(isset($_POST['descuentos'])?$_POST['descuentos']:NULL);
+			
 			if(strlen($idProveedor)==0)
 				$errors['idProveedor'] = 1;
 			if(strlen($folio)==0)
 				$errors['folio'] = 1;
 			if(strlen($fechaRecepcion)==0)
 				$errors['fechaRecepcion'] = 1;
-			if(strlen($total)==0)
-				$errors['total'] = 1;
-
+			
+			if(count(baseCtrl::validateNumericArrays($cantidades)) != 0)
+				$errors['cantidades'] = 1;
+			if(count(baseCtrl::validateNumericArrays($ivas)) != 0)
+				$errors['ivas'] = 1;
+			if(count(baseCtrl::validateNumericArrays($descuentos)) != 0)
+				$errors['descuentos'] = 1;
+			
 			if (count($errors) == 0) {
-
-				$result = $this->model->create($idMovimientoAlmacen, $idProveedor, $folio, $fechaRecepcion, $total);
+				
+				$result = $this->model->create($idProveedor, $folio, $fechaRecepcion,$idProductos,$cantidades,$precioUnitario,$ivas,$descuentos);
 
 				//Si pudo ser creado
 				if ($result) {
+					//Guardamos los campos en un arreglo
+					$data = array($idProveedor, $folio, $fechaRecepcion,$idProductos,$cantidades,$precioUnitario,$ivas,$descuentos);
 					//Cargar la vista
 					require_once 'views/recepcionInserted.php';
 				}else{
@@ -76,8 +83,19 @@
 
 		}
 
-		private function list(){
+		private function lists(){
 
+		}
+		
+		private function validateDetails($idProducto,$cantidad){
+			if(strlen($idProducto)==0)
+				$errors['idProducto'] = 1;
+			if(strlen($cantidad)==0)
+				$errors['cantidad'] = 1;
+			if(strlen($precioUnitario)==0)
+				$errors['precioUnitario'] = 1;
+			if(strlen($iva)==0)
+				$errors['iva'] = 1;
 		}
 
 		function __construct(){

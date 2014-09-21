@@ -100,5 +100,18 @@
 			$d = DateTime::createFromFormat('Y-m-d', $data);
     		return ($d && $d->format('Y-m-d') == $data)?$data:"";
 		}
+		
+		public static function validateNumericArrays($data){
+			/*$result = array();
+			
+			foreach($data as $key=>$value){
+				echo $key.' '.$value.'<br/>';
+				if( strlen(validateNumber($value)) == 0 ){
+					array_push($result, $key);
+				}
+			}
+			return $result;*/
+			return array();
+		}
 	}
 ?>
