@@ -1,4 +1,4 @@
 <?php
-	echo 'Empleado Insertado';
+	echo 'Empleado Insertado','<br/ >';
 	var_dump($data);
 ?>
