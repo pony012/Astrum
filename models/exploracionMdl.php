@@ -4,7 +4,6 @@ require_once 'models/baseMdl.php';
 	* Clase para el modelo
 	*/
 class ExploracionMdl extends BaseMdl{
-	private $idHistorialMedicoIni;
 	private $pesoIni;
 	private $bustoIni;
 	private $diafragmaIni;
@@ -14,7 +13,6 @@ class ExploracionMdl extends BaseMdl{
 	private $caderaIni;
 	private $musloIni;
 	
-	private $idHistorialMedicoFin;
 	private $pesoFin;
 	private $bustoFin;
 	private $diafragmaFin;
@@ -25,7 +23,6 @@ class ExploracionMdl extends BaseMdl{
 	private $musloFin;
 	
 	/**
-	 *@param integer $idHistorialMedicoIni
 	 *@param decimal $pesoIni
 	 *@param decimal $bustoIni
 	 *@param decimal $diafragmaIni
@@ -37,8 +34,7 @@ class ExploracionMdl extends BaseMdl{
 	 *Crea una nueva exploracion con los datos iniciales de un cliente
 	 *@return true
 	 */
-	function createInit($idHistorialMedicoIni, $pesoIni, $bustoIni, $diafragmaIni, $brazoIni, $cinturaIni, $abdomenIni, $caderaIni, $musloIni){
-		$this->idHistorialMedicoIni = $idHistorialMedicoIniIni;
+	function createInit($pesoIni, $bustoIni, $diafragmaIni, $brazoIni, $cinturaIni, $abdomenIni, $caderaIni, $musloIni){
 		$this->pesoIni = $pesoIni;
 		$this->bustoIni = $bustoIni;
 		$this->diafragmaIni = $diafragmaIni;
@@ -52,7 +48,6 @@ class ExploracionMdl extends BaseMdl{
 	}
 	
 	/**
-	 *@param integer $idHistorialMedicoFin
 	 *@param decimal $pesoFin
 	 *@param decimal $bustoFin
 	 *@param decimal $diafragmaFin
@@ -64,8 +59,7 @@ class ExploracionMdl extends BaseMdl{
 	 *Inserta los datos finales de la exploracion de un cliente
 	 *@return true
 	 */
-	function createInit($idHistorialMedicoFin, $pesoFin, $bustoFin, $diafragmaFin, $brazoFin, $cinturaFin, $abdomenFin, $caderaFin, $musloFin){
-		$this->idHistorialMedicoFin = $idHistorialMedicoFin;
+	function createFin($pesoFin, $bustoFin, $diafragmaFin, $brazoFin, $cinturaFin, $abdomenFin, $caderaFin, $musloFin){
 		$this->pesoFin = $pesoFin;
 		$this->bustoFin = $bustoFin;
 		$this->diafragmaFin = $diafragmaFin;

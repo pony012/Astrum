@@ -17,7 +17,7 @@ class HistorialMedicoMdl extends BaseMdl{
 	 *Crea un nuevo historial medico de un cliente
 	 *@return true
 	 */
-	function create($idCliente, $fechaRegistro, $idServicio, $idServicio, $observaciones){
+	function create($idCliente, $fechaRegistro, $idServicio, $observaciones){
 		$this->idCliente = $idCliente;
 		$this->fechaRegistro	= $fechaRegistro;
 		$this->idServicio	= $idServicio;

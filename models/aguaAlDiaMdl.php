@@ -4,7 +4,7 @@ require_once 'models/baseMdl.php';
 	* Clase para el modelo AguaAlDia que son parte de los datos del cliente
 	*/
 class AguaAlDiaMdl extends BaseMdl{
-	private $estado;
+	private $estadoAguaAlDia;
 	
 	/**
 	 *@param string $estado
@@ -12,7 +12,7 @@ class AguaAlDiaMdl extends BaseMdl{
 	 *@return true
 	 */
 	function create($estado){
-		$this->estado = $estado;
+		$this->estadoAguaAlDia = $estado;
 		
 		return true;
 	}

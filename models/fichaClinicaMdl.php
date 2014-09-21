@@ -4,7 +4,6 @@ require_once 'models/baseMdl.php';
 	* Clase para el modelo de FichaClinica del cliente
 	*/
 class FichaClinicaMdl extends BaseMdl{
-	private $idHistorialMedico;
 	private $motivoConsulta;
 	private $tiempoProblema;
 	private $relacionaCon;
@@ -13,7 +12,6 @@ class FichaClinicaMdl extends BaseMdl{
 	private $resAnteriores;
 	
 	/**
-	 *@param integer $idHistorialMedico
 	 *@param string $motivoConsulta
 	 *@param string $tiempoProblema
 	 *@param string $relacionaCon
@@ -23,8 +21,7 @@ class FichaClinicaMdl extends BaseMdl{
 	 *Crea un nuevo
 	 *@return true
 	 */
-	function create($idHistorialMedico, $motivoConsulta, $tiempoProblema, $relacionaCon, $tratamientoAnterior, $metProbados, $resAnteriores){
-		$this->idHistorialMedico = $idHistorialMedico;
+	function create($motivoConsulta, $tiempoProblema, $relacionaCon, $tratamientoAnterior, $metProbados, $resAnteriores){
 		$this->motivoConsulta = $motivoConsulta;
 		$this->tiempoProblema = $tiempoProblema;
 		$this->relacionaCon = $relacionaCon;
