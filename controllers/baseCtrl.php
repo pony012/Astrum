@@ -101,7 +101,11 @@
     		return ($d && $d->format('Y-m-d') == $data)?$data:"";
 		}
 		
-		public static function validateNumericArrays($data){
+		/**
+		* TODO
+		* DOCS
+		*/
+		public static function validateNumericArray($data){
 			/*$result = array();
 			
 			foreach($data as $key=>$value){

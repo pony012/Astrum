@@ -4,7 +4,7 @@
 	/**
 	* Controlador de Proveedor
 	*/
-	class ProveedorCtrl extends baseCtrl
+	class ProveedorCtrl extends BaseCtrl
 	{
 		/**
 		 * Ejecuta acciones basado en la accion seleccionada por los agrumentos

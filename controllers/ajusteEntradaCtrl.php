@@ -4,10 +4,8 @@
 	/**
 	* Controlador de Ajuste Entrada
 	*/
-	class AjusteEntradaCtrl extends baseCtrl
+	class AjusteEntradaCtrl extends BaseCtrl
 	{
-		private $model;
-
 		/**
 		 * Ejecuta acciones basado en la accion seleccionada por los agrumentos
 		 */
@@ -35,6 +33,8 @@
 			$idCliente 				= $this->validateNumber(isset($_POST['idCliente'])?$_POST['idCliente']:NULL);
 			$folio					= $this->validateNumber(isset($_POST['folio'])?$_POST['folio']:NULL);
 			$observaciones			= $this->validateText(isset($_POST['observaciones'])?$_POST['observaciones']:NULL);
+			$idProductoServicios 	= (isset($_POST['idProductoServicios'])?$_POST['idProductoServicios']:NULL);
+			$cantidades				= (isset($_POST['cantidades'])?$_POST['cantidades']:NULL);
 
 			if(strlen($idAjusteEntradaTipo)==0)
 				$errors['idAjusteEntradaTipo'] = 1;
@@ -42,6 +42,8 @@
 				$errors['idCliente'] = 1;
 			if(strlen($folio)==0)
 				$errors['folio'] = 1;
+			if(count($this->validateNumericArrays($cantidades)) != 0)
+				$errors['cantidades'] = 1;
 			/*
 			if(strlen($observaciones)==0)
 				$errors['observaciones'] = 1;
@@ -49,10 +51,11 @@
 
 			if (count($errors) == 0) {
 
-				$result = $this->model->create($idAjusteEntradaTipo, $idCliente, $folio, $observaciones);
+				$result = $this->model->create($idAjusteEntradaTipo, $idCliente, $folio, $observaciones, $idProductoServicios, $cantidades);
 
 				//Si pudo ser creado
 				if ($result) {
+					$data = array($idAjusteEntradaTipo, $idCliente, $folio, $observaciones, $idProductoServicios, $cantidades);
 					//Cargar la vista
 					require_once 'views/ajusteEntradaInserted.php';
 				}else{

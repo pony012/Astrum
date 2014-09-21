@@ -4,7 +4,7 @@
 	/**
 	* Controlador de Repecion
 	*/
-	class RecepcionCtrl extends baseCtrl
+	class RecepcionCtrl extends BaseCtrl
 	{
 		/**
 		 * Ejecuta acciones basado en la accion seleccionada por los agrumentos
@@ -29,15 +29,14 @@
 			
 			$errors = array();
 			
-			$idProveedor 			= $this->validateNumber(isset($_POST['idProveedor'])?$_POST['idProveedor']:NULL);
-			$folio					= $this->validateNumber(isset($_POST['folio'])?$_POST['folio']:NULL);
-			$fechaRecepcion 		= $this->validateDate(isset($_POST['fechaRecepcion'])?$_POST['fechaRecepcion']:NULL);
-			
-			$idProductos 	= $this->validateNumber(isset($_POST['idProductos'])?$_POST['idProductos']:NULL);
-			$cantidades		= $this->validateNumber(isset($_POST['cantidades'])?$_POST['cantidades']:NULL);
-			$precioUnitario	= $this->validateNumber(isset($_POST['precioUnitario'])?$_POST['precioUnitario']:NULL);
-			$ivas 			= $this->validateNumber(isset($_POST['ivas'])?$_POST['ivas']:NULL);
-			$descuentos 	= $this->validateNumber(isset($_POST['descuentos'])?$_POST['descuentos']:NULL);
+			$idProveedor	= $this->validateNumber(isset($_POST['idProveedor'])?$_POST['idProveedor']:NULL);
+			$folio			= $this->validateNumber(isset($_POST['folio'])?$_POST['folio']:NULL);
+			$fechaRecepcion	= $this->validateDate(isset($_POST['fechaRecepcion'])?$_POST['fechaRecepcion']:NULL);
+			$idProductos 	= (isset($_POST['idProductos'])?$_POST['idProductos']:NULL);
+			$cantidades		= (isset($_POST['cantidades'])?$_POST['cantidades']:NULL);
+			$precioUnitario	= (isset($_POST['precioUnitario'])?$_POST['precioUnitario']:NULL);
+			$ivas 			= (isset($_POST['ivas'])?$_POST['ivas']:NULL);
+			$descuentos 	= (isset($_POST['descuentos'])?$_POST['descuentos']:NULL);
 			
 			if(strlen($idProveedor)==0)
 				$errors['idProveedor'] = 1;
@@ -45,12 +44,11 @@
 				$errors['folio'] = 1;
 			if(strlen($fechaRecepcion)==0)
 				$errors['fechaRecepcion'] = 1;
-			
-			if(count(baseCtrl::validateNumericArrays($cantidades)) != 0)
+			if(count($this->validateNumericArrays($cantidades)) != 0)
 				$errors['cantidades'] = 1;
-			if(count(baseCtrl::validateNumericArrays($ivas)) != 0)
+			if(count($this->validateNumericArrays($ivas)) != 0)
 				$errors['ivas'] = 1;
-			if(count(baseCtrl::validateNumericArrays($descuentos)) != 0)
+			if(count($this->validateNumericArrays($descuentos)) != 0)
 				$errors['descuentos'] = 1;
 			
 			if (count($errors) == 0) {
@@ -67,6 +65,7 @@
 					require_once 'views/recepcionInsertedError.html';
 				}
 			}else{
+
 				require_once 'views/recepcionInsertedError.html';
 			}
 		}
@@ -85,17 +84,6 @@
 
 		private function lists(){
 
-		}
-		
-		private function validateDetails($idProducto,$cantidad){
-			if(strlen($idProducto)==0)
-				$errors['idProducto'] = 1;
-			if(strlen($cantidad)==0)
-				$errors['cantidad'] = 1;
-			if(strlen($precioUnitario)==0)
-				$errors['precioUnitario'] = 1;
-			if(strlen($iva)==0)
-				$errors['iva'] = 1;
 		}
 
 		function __construct(){

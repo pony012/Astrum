@@ -4,10 +4,8 @@
 	/**
 	* Controlador de Ajuste Salida
 	*/
-	class AjusteSalidaCtrl extends baseCtrl
+	class AjusteSalidaCtrl extends BaseCtrl
 	{
-		private $model;
-
 		/**
 		 * Ejecuta acciones basado en la accion seleccionada por los agrumentos
 		 */
@@ -35,6 +33,8 @@
 			$idProveedor 			= $this->validateNumber(isset($_POST['idProveedor'])?$_POST['idProveedor']:NULL);
 			$folio					= $this->validateNumber(isset($_POST['folio'])?$_POST['folio']:NULL);
 			$observaciones			= $this->validateText(isset($_POST['observaciones'])?$_POST['observaciones']:NULL);
+			$idProductoServicios 	= (isset($_POST['idProductoServicios'])?$_POST['idProductoServicios']:NULL);
+			$cantidades				= (isset($_POST['cantidades'])?$_POST['cantidades']:NULL);
 
 			if(strlen($idAjusteSalidaTipo)==0)
 				$errors['idAjusteSalidaTipo'] = 1;
@@ -42,6 +42,10 @@
 				$errors['idProveedor'] = 1;
 			if(strlen($folio)==0)
 				$errors['folio'] = 1;
+			if(strlen($folio)==0)
+				$errors['folio'] = 1;
+			if(count($this->validateNumericArrays($cantidades)) != 0)
+				$errors['cantidades'] = 1;
 			/*
 			if(strlen($observaciones)==0)
 				$errors['observaciones'] = 1;
@@ -49,10 +53,11 @@
 
 			if (count($errors) == 0) {
 
-				$result = $this->model->create($idAjusteSalidaTipo, $idProveedor, $folio, $observaciones);
+				$result = $this->model->create($idAjusteSalidaTipo, $idProveedor, $folio, $observaciones, $idProductoServicios, $cantidades);
 
 				//Si pudo ser creado
 				if ($result) {
+					$data = array($idAjusteSalidaTipo, $idProveedor, $folio, $observaciones, $idProductoServicios, $cantidades);
 					//Cargar la vista
 					require_once 'views/ajusteSalidaInserted.php';
 				}else{
