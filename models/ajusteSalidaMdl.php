@@ -10,9 +10,9 @@ class AjusteSalidaMdl extends BaseMdl{
 	private $folio;
 	private $observaciones;
 	
-	private $idAjusteSalida
-	private $idProductoServicio
-	private $cantidad
+	private $idAjusteSalida;
+	private $idProductoServicio;
+	private $cantidad;
 	
 	/**
 	 *@param integer $idMovimientoAlmacen
@@ -32,7 +32,7 @@ class AjusteSalidaMdl extends BaseMdl{
 		$this->folio	= $folio;
 		$this->observaciones	= $observaciones;
 		for($i = 0;$i < count($idProductos);$i++){
-			if(!$this->createDetails(1,$idProductos[$i],$cantidades[$i])
+			if(!$this->createDetails(1,$idProductos[$i],$cantidades[$i]))
 				return false;
 		}
 		return true;

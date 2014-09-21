@@ -85,7 +85,7 @@
 			$data = trim($data);
 			if(strcmp(substr($data,-1)," ")!=0)
 				$data.=' ';
-			$regex = "/^([a-zA-Z]+ ?){1,5}$/";
+			$regex = "/^([a-zA-ZáéíóúÁÉÍÓÚ]+ ?){1,5}$/";
 			if(preg_match($regex, $data))
 				return $data;
 			return "";

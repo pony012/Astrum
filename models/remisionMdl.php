@@ -9,12 +9,12 @@ class RemisionMdl extends BaseMdl{
 	private $fechaRemision;
 	private $total;
 	
-	private $idRemision
-	private $idProductoServicio
-	private $cantidad
-	private $precioUnitario
-	private $iva
-	private $descuento
+	private $idRemision;
+	private $idProductoServicio;
+	private $cantidad;
+	private $precioUnitario;
+	private $iva;
+	private $descuento;
 	
 	/**
 	 *@param integer $idMovimientoAlmacen
@@ -29,7 +29,7 @@ class RemisionMdl extends BaseMdl{
 	 *Crea una nueva remision
 	 *@return true
 	 */
-	function create($idCliente, $folio, $fechaRemision, $total,$idProductos,$cantidades,$precioUnitario,$ivas,$descuentos){
+	function create($idCliente, $folio, $fechaRemision,$idProductos,$cantidades,$precioUnitario,$ivas,$descuentos){
 		$this->idCliente 		= $idCliente;
 		$this->folio			= $folio;
 		$this->fechaRemision	= $fechaRemision;

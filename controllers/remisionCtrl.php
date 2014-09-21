@@ -44,11 +44,11 @@
 				$errors['folio'] = 1;
 			if(strlen($fechaRemision)==0)
 				$errors['fechaRemision'] = 1;
-			if(count($this->validateNumericArrays($cantidades)) != 0)
+			if(count($this->validateNumericArray($cantidades)) != 0)
 				$errors['cantidades'] = 1;
-			if(count($this->validateNumericArrays($ivas)) != 0)
+			if(count($this->validateNumericArray($ivas)) != 0)
 				$errors['ivas'] = 1;
-			if(count($this->validateNumericArrays($descuentos)) != 0)
+			if(count($this->validateNumericArray($descuentos)) != 0)
 				$errors['descuentos'] = 1;
 			
 			if (count($errors) == 0) {

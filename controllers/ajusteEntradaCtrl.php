@@ -42,7 +42,7 @@
 				$errors['idCliente'] = 1;
 			if(strlen($folio)==0)
 				$errors['folio'] = 1;
-			if(count($this->validateNumericArrays($cantidades)) != 0)
+			if(count($this->validateNumericArray($cantidades)) != 0)
 				$errors['cantidades'] = 1;
 			/*
 			if(strlen($observaciones)==0)
@@ -78,7 +78,7 @@
 
 		}
 
-		private function list(){
+		private function lists(){
 
 		}
 

@@ -10,9 +10,9 @@ class AjusteEntradaMdl extends BaseMdl{
 	private $folio;
 	private $observaciones;
 	
-	private $idAjusteEntrada
-	private $idProductoServicio
-	private $cantidad
+	private $idAjusteEntrada;
+	private $idProductoServicio;
+	private $cantidad;
 	
 	/**
 	 *@param integer $idAjusteEntradaTipo
@@ -31,7 +31,7 @@ class AjusteEntradaMdl extends BaseMdl{
 		$this->folio	= $folio;
 		$this->observaciones	= $observaciones;
 		for($i = 0;$i < count($idProductos);$i++){
-			if(!$this->createDetails(1,$idProductos[$i],$cantidades[$i])
+			if(!$this->createDetails(1,$idProductos[$i],$cantidades[$i]))
 				return false;
 		}
 		return true;

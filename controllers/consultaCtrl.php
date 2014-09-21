@@ -78,7 +78,7 @@
 
 		}
 
-		private function list(){
+		private function lists(){
 
 		}
 
