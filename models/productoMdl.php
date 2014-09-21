@@ -1,9 +1,9 @@
 <?php
 require_once 'models/baseMdl.php';
 	/**
-	* Clase para el modelo Producto-Servicio que se ofrecen a los clientes
+	* Clase para el modelo Producto
 	*/
-class ProductoServicioMdl extends BaseMdl{
+class ProductoMdl extends BaseMdl{
 	private $idProductoTipo;
 	private $producto;
 	private $precioUnitario;
