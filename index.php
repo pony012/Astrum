@@ -47,6 +47,11 @@
 			require('controllers/servicioCtrl.php');
 			$ctrl = new ServicioCtrl();
 			break;
+		case 'historialMedico':
+			//Crear el controlador y ejecutarlo
+			require('controllers/historialMedicoCtrl.php');
+			$ctrl = new HistorialMedicoCtrl();
+			break;
 		default:
 			# code...
 			break;
