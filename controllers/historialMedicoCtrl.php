@@ -77,7 +77,19 @@
 			$arregloPadecimiento  = (isset($_POST['arregloPadecimiento'])?$_POST['arregloPadecimiento']:NULL);
 			$arregloPiel		  = (isset($_POST['arregloPiel'])?$_POST['arregloPiel']:NULL);
 			$arregloTipoCelulitis = (isset($_POST['arregloTipoCelulitis'])?$_POST['arregloTipoCelulitis']:NULL);
-
+			
+			//Los siguientes if's para los arreglos se borrarán
+			if(count($arregloExfolacion) <= 1)
+				$arregloExfolacion = array($arregloExfolacion);
+			if(count($arregloHabito) <= 1)
+				$arregloHabito =  array($arregloHabito);
+			if(count($arregloPadecimiento) <= 1)
+				$arregloPadecimiento =  array($arregloPadecimiento);
+			if(count($arregloPiel) <= 1)
+				$arregloPiel =  array($arregloPiel);
+			if(count($arregloTipoCelulitis) <= 1)
+				$arregloTipoCelulitis =  array($arregloTipoCelulitis);
+				
 			if(strlen($idCliente)==0)
 				$errors['idCliente'] = 1;
 			if(strlen($fechaRegistro)==0)
@@ -204,7 +216,7 @@
 				$cuidadoCorporal	= NULL;
 				$embarazo			= NULL;
 				
-				foreach($arregloHabito as $value)
+				foreach($arregloPadecimiento as $value)
 					switch($value){
 						case 'diabetes':
 							$diabetes ='S';
@@ -340,7 +352,7 @@
 				$dolorosa = NULL;
 				
 				foreach($arregloTipoCelulitis as $value)
-					switch(value){
+					switch($value){
 						case 'fibrosa':
 							$fibrosa ='S';
 							break;
@@ -363,6 +375,29 @@
 					};
 					
 				$tipoCelulitis    = $this->tipoCelulitisMdl->create($fibrosa, $edematosa, $flacida, $dura, $mixta, $dolorosa);
+				if (!$result)
+					echo 'Historial Medico';
+				if( !$exploracionIni)
+					echo 'explo ini';
+				if(!$exploracionFin)
+					echo 'explo fin';
+				if(!$fichaClinica)
+					echo 'ficha';
+				if(!$aguaAlDia)
+					echo 'Agua';
+				if(!$alimentacion)
+					echo 'ali';
+				if(!$exfoliacion)
+					echo 'exfo';
+				if(!$habito)
+					echo 'Habito';
+				if(!$padecimiento)
+					echo 'Padecimiento';
+				if(!$piel)
+					echo 'piel';
+				if(!$tipoCelulitis)
+					echo 'Celulitis';
+				
 				//Si pudo ser creado
 				if ($result and $exploracionIni and $exploracionFin and $fichaClinica and $aguaAlDia and $alimentacion and $exfoliacion and $habito and $padecimiento and $piel and $tipoCelulitis){
 					$data = array($idCliente, $fechaRegistro, $idServicio, $observaciones,$pesoIni, $bustoIni, $diafragmaIni, $brazoIni, $cinturaIni, 
@@ -376,13 +411,13 @@
 									$lunares,$pecas,$puntosNegros,$verrugas,$arrugas,$brilloFacial,$pielAsfixiada,$despigmentacion,
 									$fibrosa, $edematosa, $flacida, $dura, $mixta, $dolorosa);
 					//Cargar la vista
-					require_once 'views/empleadoInserted.php';
+					require_once 'views/historialMedicoInserted.php';
 				}else{
-					require_once 'views/empleadoInsertedError.html';
+					require_once 'views/historialMedicoInsertedError.html';
 				}	
 			}else{
 				//Se cambiará por la misma vista donde se encuentre el formulario de insercción, y se mostrarán los errores en un modal
-				require_once 'views/empleadoInsertedError.html';
+				require_once 'views/historialMedicoInsertedError.html';
 			}
 		}
 
