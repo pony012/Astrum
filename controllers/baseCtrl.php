@@ -95,7 +95,7 @@
 		*	@param string $data
 		*	@return string $data	
 		*/
-		public static function validateName($data){
+		public static function validateDate($data){
 			$data = trim($data);
 			$d = DateTime::createFromFormat('Y-m-d', $data);
     		return ($d && $d->format('Y-m-d') == $data)?$data:"";

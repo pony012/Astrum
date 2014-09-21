@@ -4,10 +4,8 @@
 	/**
 	* Controlador de Empleado
 	*/
-	class EmpleadoCtrl extends baseCtrl
+	class EmpleadoCtrl extends BaseCtrl
 	{
-		private $model;
-
 		/**
 		 * Ejecuta acciones basado en la accion seleccionada por los agrumentos
 		 */
@@ -61,6 +59,8 @@
 				$errors['idCargo'] = 1;
 			if(strlen($calle)==0)
 				$errors['calle'] = 1;
+			if(strlen($numExterior)==0)
+				$errors['numExterior'] = 1;
 			if(strlen($colonia)==0)
 				$errors['colonia'] = 1;
 			if(strlen($codigoPostal)==0)
@@ -85,6 +85,21 @@
 
 				//Si pudo ser creado
 				if ($result) {
+					$data = array(	$nombre, 
+									$apellidoPaterno, 
+									$apellidoMaterno,
+									$usuario,
+									$contrasena,
+									$idCargo,
+									$calle,
+									$numExterior,
+									$numInterior,
+									$colonia,
+									$codigoPostal,
+									$foto,
+									$email,
+									$telefono,
+									$celular);
 					//Cargar la vista
 					require_once 'views/empleadoInserted.php';
 				}else{
@@ -108,7 +123,7 @@
 
 		}
 
-		private function list(){
+		private function lists(){
 
 		}
 
