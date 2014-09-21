@@ -2,9 +2,9 @@
 	require_once 'controllers/baseCtrl.php';
 	
 	/**
-	* Controlador de Repecion
+	* Controlador de Remision
 	*/
-	class RecepcionCtrl extends BaseCtrl
+	class RemisionCtrl extends BaseCtrl
 	{
 		/**
 		 * Ejecuta acciones basado en la accion seleccionada por los agrumentos
@@ -23,27 +23,27 @@
 			}
 		}
 		/**
-		* Crea una Repecion
+		* Crea una Remision
 		*/
 		private function create(){
 			
 			$errors = array();
 			
-			$idProveedor	= $this->validateNumber(isset($_POST['idProveedor'])?$_POST['idProveedor']:NULL);
+			$idCliente	= $this->validateNumber(isset($_POST['idCliente'])?$_POST['idCliente']:NULL);
 			$folio			= $this->validateNumber(isset($_POST['folio'])?$_POST['folio']:NULL);
-			$fechaRecepcion	= $this->validateDate(isset($_POST['fechaRecepcion'])?$_POST['fechaRecepcion']:NULL);
+			$fechaRemision	= $this->validateDate(isset($_POST['fechaRemision'])?$_POST['fechaRemision']:NULL);
 			$idProductos 	= (isset($_POST['idProductos'])?$_POST['idProductos']:NULL);
 			$cantidades		= (isset($_POST['cantidades'])?$_POST['cantidades']:NULL);
 			$precioUnitario	= (isset($_POST['precioUnitario'])?$_POST['precioUnitario']:NULL);
 			$ivas 			= (isset($_POST['ivas'])?$_POST['ivas']:NULL);
 			$descuentos 	= (isset($_POST['descuentos'])?$_POST['descuentos']:NULL);
 			
-			if(strlen($idProveedor)==0)
-				$errors['idProveedor'] = 1;
+			if(strlen($idCliente)==0)
+				$errors['idCliente'] = 1;
 			if(strlen($folio)==0)
 				$errors['folio'] = 1;
-			if(strlen($fechaRecepcion)==0)
-				$errors['fechaRecepcion'] = 1;
+			if(strlen($fechaRemision)==0)
+				$errors['fechaRemision'] = 1;
 			if(count($this->validateNumericArrays($cantidades)) != 0)
 				$errors['cantidades'] = 1;
 			if(count($this->validateNumericArrays($ivas)) != 0)
@@ -53,20 +53,20 @@
 			
 			if (count($errors) == 0) {
 				
-				$result = $this->model->create($idProveedor, $folio, $fechaRecepcion,$idProductos,$cantidades,$precioUnitario,$ivas,$descuentos);
+				$result = $this->model->create($idCliente, $folio, $fechaRemision,$idProductos,$cantidades,$precioUnitario,$ivas,$descuentos);
 
 				//Si pudo ser creado
 				if ($result) {
 					//Guardamos los campos en un arreglo
-					$data = array($idProveedor, $folio, $fechaRecepcion,$idProductos,$cantidades,$precioUnitario,$ivas,$descuentos);
+					$data = array($idCliente, $folio, $fechaRemision,$idProductos,$cantidades,$precioUnitario,$ivas,$descuentos);
 					//Cargar la vista
-					require_once 'views/recepcionInserted.php';
+					require_once 'views/remisionInserted.php';
 				}else{
-					require_once 'views/recepcionInsertedError.html';
+					require_once 'views/remisionInsertedError.html';
 				}
 			}else{
 
-				require_once 'views/recepcionInsertedError.html';
+				require_once 'views/remisionInsertedError.html';
 			}
 		}
 
@@ -87,8 +87,8 @@
 		}
 
 		function __construct(){
-			require_once 'models/recepcionMdl.php';
-			$this->model = new RecepcionMdl();
+			require_once 'models/remisionMdl.php';
+			$this->model = new RemisionMdl();
 		}
 	}
 ?>
