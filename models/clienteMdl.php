@@ -59,7 +59,7 @@ class ClienteMdl extends BaseMdl{
 										'$this->email', 
 										'$this->telefono', 
 										'$this->celular')");
-		if ($this->driver->connect_error) {
+		if ($this->driver->error) {
 			die('Error al insertar en la base de datos');
 		}
 		return true;

@@ -109,7 +109,7 @@
 
 		private function lists(){
 			$result = $this->model->driver->query("SELECT * FROM Cliente");
-			if($this->model->driver->connect_error){
+			if($this->model->driver->error){
 				die("No se pudo listar");
 			}
 			$lista = array();
