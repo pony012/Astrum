@@ -49,8 +49,8 @@ class ClienteMdl extends BaseMdl{
 		$this->driver->query("	INSERT INTO 
 								Cliente (Nombre, ApellidoPaterno, ApellidoMaterno, Calle, NumExterior, NumInterior, Colonia, CodigoPostal, Email, Telefono, Celular) 
 								VALUES('$this->nombre', 
-										'$this->apellidoPaterno', 
-										'$this->apellidoMaterno', 
+										'$this->apellidoPat', 
+										'$this->apellidoMat', 
 										'$this->calle', 
 										'$this->numExterior', 
 										'$this->numInterior', 

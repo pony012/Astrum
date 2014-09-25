@@ -16,7 +16,9 @@
 					//Crear un Cliente
 					$this->create();
 					break;
-				
+				case 'list':
+					$this->lists();
+					break;
 				default:
 					# code...
 					break;
@@ -106,7 +108,15 @@
 		}
 
 		private function lists(){
-
+			$result = $this->model->driver->query("SELECT * FROM Cliente");
+			if($this->model->driver->connect_error){
+				die("No se pudo listar");
+			}
+			$lista = array();
+			while ($arr = $result->fetch_array()) {
+				$lista[] = $arr;
+			}
+			require_once 'views/clienteList.php';
 		}
 
 		function __construct(){

@@ -6,7 +6,7 @@
 	*/
 	class BaseMdl
 	{
-		protected $driver;
+		public $driver;
 		
 		/**
 		 *	Crea el driver necesario para la conexión a la base de datos
