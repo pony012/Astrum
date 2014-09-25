@@ -13,6 +13,11 @@
 				require('controllers/ajusteSalidaCtrl.php');
 				$ctrl = new AjusteSalidaCtrl();
 				break;
+			case 'cliente':
+				//Crear el controlador y ejecutarlo
+				require('controllers/clienteCtrl.php');
+				$ctrl = new ConsultaCtrl();
+				break;
 			case 'consulta':
 				//Crear el controlador y ejecutarlo
 				require('controllers/consultaCtrl.php');
