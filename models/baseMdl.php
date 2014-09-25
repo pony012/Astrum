@@ -28,7 +28,8 @@
 		}	
 
 		function __construct(){
-			//setDriver(__SERVER__,__USER__,__PASS__,__DB__);
+			require_once 'config.cf';
+			$this->setDriver(__SERVER_NAME__,__USER_NAME__,__PASS__,__DB_NAME__);
 		}
 	}
 ?>
