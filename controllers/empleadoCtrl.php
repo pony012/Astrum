@@ -66,6 +66,7 @@
 			if(strlen($codigoPostal)==0)
 				$errors['codigoPostal'] = 1;
 
+			
 			if (count($errors) == 0) {
 				$result = $this->model->create(	$nombre, 
 											$apellidoPaterno, 
