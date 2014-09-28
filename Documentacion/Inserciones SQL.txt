@@ -9,10 +9,10 @@ INSERT INTO ProductoServicioTipo (ProductoServicioTipo,Descripcion) VALUES ('Pro
 INSERT INTO ProductoServicioTipo (ProductoServicioTipo,Descripcion) VALUES ('Servicio','Todo aquel trabajo realizado, por ejemplo: las terapias');
 
 AjusteSalidaTipo
-INSERT INTO AjusteSalidaTipo (Tipo,ExclusivoSistema,Descripcion) VALUES ('Por Devolución','N','Mercancía que se regresa al Proveedor');
+INSERT INTO AjusteSalidaTipo (Tipo,ExclusivoSistema,Descripcion) VALUES ('Salida por Devolución','N','Mercancía que se regresa al Proveedor');
 
 AjusteEntradaTipo
-INSERT INTO AjusteEntradaTipo (Tipo,ExclusivoSistema,Descripcion) VALUES ('Por Devolución','N','Mercancía que nos regresa un Cliente');
+INSERT INTO AjusteEntradaTipo (Tipo,ExclusivoSistema,Descripcion) VALUES ('Entrada por Devolución','N','Mercancía que nos regresa un Cliente');
 
 MovimientoAlmacenTipo
 INSERT INTO MovimientoAlmacenTipo (TipoMovimientoAlmacen,EntradaSalida,Descripcion) VALUES ('Ajuste de Entrada','E','Entrada de Mercancía al Almacén');

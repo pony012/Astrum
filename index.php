@@ -58,6 +58,21 @@
 				require('controllers/historialMedicoCtrl.php');
 				$ctrl = new HistorialMedicoCtrl();
 				break;
+			case 'cargo':
+				//Crear el controlador y ejecutarlo
+				require('controllers/cargoCtrl.php');
+				$ctrl = new CargoCtrl();
+				break;
+			case 'consultaStatus':
+				//Crear el controlador y ejecutarlo
+				require('controllers/consultaStatusCtrl.php');
+				$ctrl = new ConsultaStatusCtrl();
+				break;
+			case 'existencia':
+				//Crear el controlador y ejecutarlo
+				require('controllers/existenciaCtrl.php');
+				$ctrl = new ExistenciaCtrl();
+				break;
 			default:
 				require_once 'views/provisional.html';
 				break;
