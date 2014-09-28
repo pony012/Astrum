@@ -14,9 +14,15 @@ class ConsultaStatusMdl extends BaseMdl{
 	 *@return true
 	 */
 	function create($status, $descripcion){
-		$this->status = $status;
-		$this->descripcion	= $descripcion;
+		$this->status		= $this->driver->real_escape_string($status);
+		$this->descripcion	= $this->driver->real_escape_string($descripcion);
 		
+		$result = $this->driver->query("INSERT INTO ConsultaStatus (Status,Descripcion) 
+								VALUES('$this->status','$this->descripcion')");
+		
+		if($this->driver->error){
+			return false;
+		}
 		return true;
 	}
 }

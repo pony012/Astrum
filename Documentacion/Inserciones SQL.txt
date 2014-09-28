@@ -1,0 +1,21 @@
+Inserciones SQL:
+
+ConsultaStatus
+INSERT INTO ConsultaStatus (Status,Descripcion) VALUES ('Cliente Iniciado','Cliente que empezo su terapia');
+INSERT INTO ConsultaStatus (Status,Descripcion) VALUES ('Cliente Finalizado','Cliente que termino su terapia');
+
+ProductoServicioTipo
+INSERT INTO ProductoServicioTipo (ProductoServicioTipo,Descripcion) VALUES ('Producto','Mercancía que ofrecemos al cliente');
+INSERT INTO ProductoServicioTipo (ProductoServicioTipo,Descripcion) VALUES ('Servicio','Todo aquel trabajo realizado, por ejemplo: las terapias');
+
+AjusteSalidaTipo
+INSERT INTO AjusteSalidaTipo (Tipo,ExclusivoSistema,Descripcion) VALUES ('Por Devolución','N','Mercancía que se regresa al Proveedor');
+
+AjusteEntradaTipo
+INSERT INTO AjusteEntradaTipo (Tipo,ExclusivoSistema,Descripcion) VALUES ('Por Devolución','N','Mercancía que nos regresa un Cliente');
+
+MovimientoAlmacenTipo
+INSERT INTO MovimientoAlmacenTipo (TipoMovimientoAlmacen,EntradaSalida,Descripcion) VALUES ('Ajuste de Entrada','E','Entrada de Mercancía al Almacén');
+INSERT INTO MovimientoAlmacenTipo (TipoMovimientoAlmacen,EntradaSalida,Descripcion) VALUES ('Ajuste de Salida','S','Salida de Mercancía del Almacén');
+INSERT INTO MovimientoAlmacenTipo (TipoMovimientoAlmacen,EntradaSalida,Descripcion) VALUES ('Remision','S','Venta de Mercancía');
+INSERT INTO MovimientoAlmacenTipo (TipoMovimientoAlmacen,EntradaSalida,Descripcion) VALUES ('Recepcion','E','Compra de Mercancía');

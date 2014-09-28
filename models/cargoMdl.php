@@ -14,9 +14,15 @@ class CargoMdl  extends BaseMdl{
 	 *@return true
 	 */
 	function create($cargo, $descripcion){
-		$this->cargo = $cargo;
-		$this->descripcion	= $descripcion;
+		$this->cargo 		= $this->driver->real_escape_string($cargo);
+		$this->descripcion	= $this->driver->real_escape_string($descripcion);
 		
+		$result = $this->driver->query("INSERT INTO Cargo (Cargo,Descripcion) 
+								VALUES('$this->cargo','$this->descripcion')");
+		
+		if($this->driver->error){
+			return false;
+		}
 		return true;
 	}
 }

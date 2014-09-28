@@ -18,10 +18,17 @@ class ExistenciaMdl extends BaseMdl{
 	 *@return true
 	 */
 	function create($fechaReferencia, $idProducto, $precioUnitario, $cantidad){
-		$this->fechaReferencia = $fechaReferencia;
-		$this->idProducto	= $idProducto;
+		$this->fechaReferencia	= $this->driver->real_escape_string($fechaReferencia);
+		$this->idProducto		= $idProducto;
 		$this->precioUnitario	= $precioUnitario;
-		$this->cantidad	= $cantidad;
+		$this->cantidad			= $cantidad;
+		
+		$result = $this->driver->query("INSERT INTO Existencia (FechaReferencia,IDProductoServicio,PrecioUnitario,Cantidad) 
+								VALUES('$this->fechaReferencia',$this->idProducto,$this->precioUnitario,$this->cantidad)");
+		
+		if($this->driver->error){
+			return false;
+		}
 		
 		return true;
 	}
