@@ -19,3 +19,7 @@ INSERT INTO MovimientoAlmacenTipo (TipoMovimientoAlmacen,EntradaSalida,Descripci
 INSERT INTO MovimientoAlmacenTipo (TipoMovimientoAlmacen,EntradaSalida,Descripcion) VALUES ('Ajuste de Salida','S','Salida de Mercancía del Almacén');
 INSERT INTO MovimientoAlmacenTipo (TipoMovimientoAlmacen,EntradaSalida,Descripcion) VALUES ('Remision','S','Venta de Mercancía');
 INSERT INTO MovimientoAlmacenTipo (TipoMovimientoAlmacen,EntradaSalida,Descripcion) VALUES ('Recepcion','E','Compra de Mercancía');
+
+Cargo
+INSERT INTO Cargo (Cargo, Descripcion) VALUES('Administrador', 'Encargado de las Operaciones Del Sistema');
+INSERT INTO Cargo (Cargo, Descripcion) VALUES('Terapeuta', 'Encargado de Atender a Los Pacientes en Las Consultas y Autorizado para Vender Producto');
