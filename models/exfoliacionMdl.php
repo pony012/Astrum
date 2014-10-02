@@ -35,20 +35,41 @@ class ExfoliacionMdl extends BaseMdl{
 	function create($peellingQuim,$laser,$dermobrasion,$retinA,$renova,$racutan,
 					$adapaleno,$acidoGlicolico,$alfaHidroiacidos,$exfolianteGranuloso,
 					$acidoLactico,$vitaminaA,$blanqueadorAclarador){
-		$this->peellingQuim			= $peellingQuim;
-		$this->laser				= $laser;
-		$this->dermobrasion			= $dermobrasion;
-		$this->retinA				= $retinA;
-		$this->renova				= $renova;
-		$this->racutan				= $racutan;
-		$this->adapaleno			= $adapaleno;
-		$this->acidoGlicolico		= $acidoGlicolico;
-		$this->alfaHidroiacidos		= $alfaHidroiacidos;
-		$this->exfolianteGranuloso	= $exfolianteGranuloso;
-		$this->acidoLactico			= $acidoLactico;
-		$this->vitaminaA			= $vitaminaA;
-		$this->blanqueadorAclarador	= $blanqueadorAclarador;
+		$this->peellingQuim			= $this->driver->real_escape_string($peellingQuim);
+		$this->laser				= $this->driver->real_escape_string($laser);
+		$this->dermobrasion			= $this->driver->real_escape_string($dermobrasion);
+		$this->retinA				= $this->driver->real_escape_string($retinA);
+		$this->renova				= $this->driver->real_escape_string($renova);
+		$this->racutan				= $this->driver->real_escape_string($racutan);
+		$this->adapaleno			= $this->driver->real_escape_string($adapaleno);
+		$this->acidoGlicolico		= $this->driver->real_escape_string($acidoGlicolico);
+		$this->alfaHidroiacidos		= $this->driver->real_escape_string($alfaHidroiacidos);
+		$this->exfolianteGranuloso	= $this->driver->real_escape_string($exfolianteGranuloso);
+		$this->acidoLactico			= $this->driver->real_escape_string($acidoLactico);
+		$this->vitaminaA			= $this->driver->real_escape_string($vitaminaA);
+		$this->blanqueadorAclarador	= $this->driver->real_escape_string($blanqueadorAclarador);
+
+		$stmt = $this->driver->prepare("INSERT INTO Exfolacion (PeellingQuim, Laser, Dermoabrasion, RetinA, Renova, Racutan, 
+																Adapaleno, AcidoGlicolico, AlfaHidroxiacidos, ExfolianteGranuloso,
+																AcidoLactico, VitaminaA, BlanqueadorOAclarador) 
+										VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
+		if(!$stmt->bind_param('sssssssssssss',	$this->peellingQuim, $this->laser, $this->dermobrasion, $this->retinA, $this->renova, 
+												$this->racutan, $this->adapaleno, $this->acidoGlicolico, $this->alfaHidroiacidos, 
+												$this->exfolianteGranuloso, $this->acidoLactico, $this->vitaminaA, $this->blanqueadorAclarador)){
+			die('Error al insertar en la base de datos');
+		}
+		if (!$stmt->execute()) {
+			die('Error al insertar en la base de datos');
+		}
+
+		if($this->driver->error){
+			return false;
+		}
 		
+		if($this->driver->error){
+			return false;
+		}
+
 		return true;
 	}
 }

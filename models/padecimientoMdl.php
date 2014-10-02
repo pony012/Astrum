@@ -32,18 +32,33 @@ class PadecimientoMdl extends BaseMdl{
 	 */
 	function create($diabetes, $obesisdad, $depresion, $estres, $sobrepeso, $estrenimiento, $colitis,
 					$retencionLiquidos, $transtornoMes, $cuidadoCorporal, $embarazo){
-		$this->diabetes 		 = $diabetes;
-		$this->obesisdad  		 = $obesisdad;
-		$this->depresion 		 = $depresion;
-		$this->estres  			 = $estres;
-		$this->sobrepeso 		 = $sobrepeso;
-		$this->estrenimiento	 = $estrenimiento;
-		$this->colitis 			 = $colitis;
-		$this->retencionLiquidos = $retencionLiquidos;
-		$this->transtornoMes 	 = $transtornoMes;
-		$this->cuidadoCorporal   = $cuidadoCorporal;
+		$this->diabetes 		 = $this->driver->real_escape_string($diabetes);
+		$this->obesisdad  		 = $this->driver->real_escape_string($obesisdad);
+		$this->depresion 		 = $this->driver->real_escape_string($depresion);
+		$this->estres  			 = $this->driver->real_escape_string($estres);
+		$this->sobrepeso 		 = $this->driver->real_escape_string($sobrepeso);
+		$this->estrenimiento	 = $this->driver->real_escape_string($estrenimiento);
+		$this->colitis 			 = $this->driver->real_escape_string($colitis);
+		$this->retencionLiquidos = $this->driver->real_escape_string($retencionLiquidos);
+		$this->transtornoMes 	 = $this->driver->real_escape_string($transtornoMes);
+		$this->cuidadoCorporal   = $this->driver->real_escape_string($cuidadoCorporal);
 		$this->embarazo   		 = $embarazo;
 		
+		$stmt = $this->driver->prepare("INSERT INTO Padecimiento (Diabetes, Obesisdad, Depresion, Estres, Sobrepeso, Estreñimiento,
+																Colitis, RetencionLiquidos, TranstornosMenstruales, CuidadoCorporal, Embarazo) 
+										VALUES(?,?,?,?,?,?,?,?,?,?,?)");
+		if(!$stmt->bind_param('ssssssssssi',$this->diabetes,$this->obesisdad,$this->depresion,$this->estres,$this->sobrepeso,$this->estrenimiento,
+											$this->colitis,$this->retencionLiquidos,$this->transtornoMes,$this->cuidadoCorporal,$this->embarazo)){
+			die('Error al insertar en la base de datos');
+		}
+		if (!$stmt->execute()) {
+			die('Error al insertar en la base de datos');
+		}
+
+		if($this->driver->error){
+			return false;
+		}
+
 		return true;
 	}
 }

@@ -17,12 +17,19 @@ class ConsultaStatusMdl extends BaseMdl{
 		$this->status		= $this->driver->real_escape_string($status);
 		$this->descripcion	= $this->driver->real_escape_string($descripcion);
 		
-		$result = $this->driver->query("INSERT INTO ConsultaStatus (Status,Descripcion) 
-								VALUES('$this->status','$this->descripcion')");
-		
+		$stmt = $this->driver->prepare("INSERT INTO ConsultaStatus (Status,Descripcion) 
+										VALUES(?,?)");
+		if(!$stmt->bind_param('ss',$this->status,$this->descripcion)){
+			die('Error al insertar en la base de datos');
+		}
+		if (!$stmt->execute()) {
+			die('Error al insertar en la base de datos');
+		}
+
 		if($this->driver->error){
 			return false;
 		}
+
 		return true;
 	}
 }

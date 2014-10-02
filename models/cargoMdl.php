@@ -17,9 +17,15 @@ class CargoMdl  extends BaseMdl{
 		$this->cargo 		= $this->driver->real_escape_string($cargo);
 		$this->descripcion	= $this->driver->real_escape_string($descripcion);
 		
-		$result = $this->driver->query("INSERT INTO Cargo (Cargo,Descripcion) 
-								VALUES('$this->cargo','$this->descripcion')");
-		
+		$stmt = $this->driver->prepare("INSERT INTO Cargo (Cargo,Descripcion) 
+										VALUES(?,?)");
+		if(!$stmt->bind_param('ss',$this->cargo,$this->descripcion)){
+			die('Error al insertar en la base de datos');
+		}
+		if (!$stmt->execute()) {
+			die('Error al insertar en la base de datos');
+		}
+
 		if($this->driver->error){
 			return false;
 		}

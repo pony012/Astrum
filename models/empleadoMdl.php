@@ -41,40 +41,38 @@ class EmpleadoMdl extends BaseMdl{
 	 */
 	function create($nombre, $apellidoPat, $apellidoMat, $usuario, $contrasena, $idCargo, $calle, $numExterior, $numInterior, $colonia, $codigoPostal, 
 		$foto = NULL, $email = NULL, $telefono = NULL, $celular = NULL){
-		$this->nombre	= $this->driver->real_escape_string($nombre);
+		$this->nombre		= $this->driver->real_escape_string($nombre);
 		$this->apellidoPat	= $this->driver->real_escape_string($apellidoPat);
 		$this->apellidoMat	= $this->driver->real_escape_string($apellidoMat);
-		$this->usuario	= $this->driver->real_escape_string($usuario);
+		$this->usuario		= $this->driver->real_escape_string($usuario);
 		$this->contrasena	= $this->driver->real_escape_string($contrasena);
-		$this->idCargo	= $this->driver->real_escape_string($idCargo);
-		$this->calle	= $this->driver->real_escape_string($calle);
+		$this->idCargo		= $idCargo;
+		$this->calle		= $this->driver->real_escape_string($calle);
 		$this->numExterior	= $this->driver->real_escape_string($numExterior);
 		$this->numInterior	= $this->driver->real_escape_string($numInterior);
-		$this->colonia	= $this->driver->real_escape_string($colonia);
+		$this->colonia		= $this->driver->real_escape_string($colonia);
 		$this->codigoPostal	= $this->driver->real_escape_string($codigoPostal);
-		$this->foto	= $this->driver->real_escape_string($foto);
-		$this->email	= $this->driver->real_escape_string($email);
-		$this->telefono	= $this->driver->real_escape_string($telefono);
-		$this->celular	= $this->driver->real_escape_string($celular);
-		$this->driver->query('INSERT INTO Empleado (Nombre, ApellidoPaterno, ApellidoMaterno, Usuario, Contrasena, IDCargo, Calle, NumExterior, NumInterior, Colonia, CodigoPostal, Foto, Email, Telefono, Celular)
-				VALUES("'.$this->nombre.'",
-						"'.$this->apellidoPat.'",
-						"'.$this->apellidoMat.'",
-						"'.$this->usuario.'",
-						"'.$this->contrasena.'",
-						'.$this->idCargo.',
-						"'.$this->calle.'",
-						"'.$this->numExterior.'",
-						"'.$this->numInterior.'",
-						"'.$this->colonia.'",
-						"'.$this->codigoPostal.'",
-						"'.$this->foto.'",
-						"'.$this->email.'",
-						"'.$this->telefono.'",
-						"'.$this->celular.'")');
-		echo $this->driver->error;
-		if($this->driver->error)
+		$this->foto			= $this->driver->real_escape_string($foto);
+		$this->email		= $this->driver->real_escape_string($email);
+		$this->telefono		= $this->driver->real_escape_string($telefono);
+		$this->celular		= $this->driver->real_escape_string($celular);
+		
+		$stmt = $this->driver->prepare('INSERT INTO Empleado (Nombre, ApellidoPaterno, ApellidoMaterno, Usuario, Contrasena, IDCargo, Calle, NumExterior, NumInterior, Colonia, CodigoPostal, Foto, Email, Telefono, Celular)
+										VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)');
+		if(!$stmt->bind_param('sssssisssssssss',$this->nombre, $this->apellidoPat, $this->apellidoMat, $this->usuario, 
+												$this->contrasena, $this->idCargo, $this->calle, $this->numExterior,
+												$this->numInterior, $this->colonia, $this->codigoPostal, $this->foto,
+												$this->email, $this->telefono, $this->celular)){
+			die('Error al insertar en la base de datos');
+		}
+		if (!$stmt->execute()) {
+			die('Error al insertar en la base de datos');
+		}
+
+		if($this->driver->error){
 			return false;
+		}
+
 		return true;
 	}
 }

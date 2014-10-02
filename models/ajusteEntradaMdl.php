@@ -15,6 +15,7 @@ class AjusteEntradaMdl extends BaseMdl{
 	private $cantidad;
 	
 	/**
+	 *@param integer $idMovimientoAlmacen
 	 *@param integer $idAjusteEntradaTipo
 	 *@param integer $idCliente
 	 *@param integer $folio
@@ -26,12 +27,29 @@ class AjusteEntradaMdl extends BaseMdl{
 	 *@return true
 	 */
 	function create( $idAjusteEntradaTipo, $idCliente = NULL, $folio, $observaciones,$idProductos,$cantidades){
-		$this->idAjusteEntradaTipo = $idAjusteEntradaTipo;
-		$this->idCliente	= $idCliente;
-		$this->folio	= $folio;
-		$this->observaciones	= $observaciones;
+		$this->idAjusteEntradaTipo 	= $idAjusteEntradaTipo;
+		$this->idCliente			= $idCliente;
+		$this->folio				= $folio;
+		$this->observaciones		= $this->driver->real_escape_string($observaciones);
+
+		$stmt = $this->driver->prepare("INSERT INTO 
+										AjusteEntrada (IdAjusteEntradaTipo,IdCliente, Folio, Observaciones)
+										VALUES(?,?,?,?)";
+		if(!$stmt->bind_param('iiis',$this->idAjusteEntradaTipo,$this->idCliente,$this->folio,$this->observaciones)){
+			die('Error al insertar en la base de datos');
+		}
+		if (!$stmt->execute()) {
+			die('Error al insertar en la base de datos');
+		}
+
+		if($this->driver->error){
+			return false;
+		}
+
+		$lastId = $this->driver->insert_id;
+
 		for($i = 0;$i < count($idProductos);$i++){
-			if(!$this->createDetails(1,$idProductos[$i],$cantidades[$i]))
+			if(!$this->createDetails($lastId,$idProductos[$i],$cantidades[$i]))
 				return false;
 		}
 		return true;
@@ -45,10 +63,23 @@ class AjusteEntradaMdl extends BaseMdl{
 	 *@return true
 	 */
 	function createDetails($idAjusteEntrada, $idProductoServicio, $cantidad){
-		$this->idAjusteEntrada = $idAjusteEntrada;
-		$this->idProductoServicio = $idProductoServicio;
-		$this->cantidad	= $cantidad;
+		$this->idAjusteEntrada 		= $idAjusteEntrada;
+		$this->idProductoServicio 	= $idProductoServicio;
+		$this->cantidad				= $cantidad;
 		
+		$stmt = $this->driver->prepare("INSERT INTO 
+										AjusteEntradaDetalle (IdAjusteEntrada,IdProductoServicio,Cantidad)
+										VALUES(?,?,?)";
+		if(!$stmt->bind_param('iid',$this->idAjusteEntrada, $this->idProductoServicio, $this->cantidad)){
+			die('Error al insertar en la base de datos');
+		}
+		if (!$stmt->execute()) {
+			die('Error al insertar en la base de datos');
+		}
+
+		if($this->driver->error){
+			return false;
+		}
 		return true;
 	}
 }

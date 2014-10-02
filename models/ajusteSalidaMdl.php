@@ -27,12 +27,29 @@ class AjusteSalidaMdl extends BaseMdl{
 	 *@return true
 	 */
 	function create($idAjusteSalidaTipo, $idProveedor = NULL, $folio, $observaciones,$idProductos,$cantidades){
-		$this->idAjusteSalidaTipo = $idAjusteSalidaTipo;
-		$this->idProveedor	= $idProveedor;
-		$this->folio	= $folio;
-		$this->observaciones	= $observaciones;
+		$this->idAjusteSalidaTipo 	= $idAjusteSalidaTipo;
+		$this->idProveedor			= $idProveedor;
+		$this->folio				= $folio;
+		$this->observaciones		= $this->driver->real_escape_string($observaciones);
+
+		$stmt = $this->driver->prepare("INSERT INTO 
+										AjusteSalida (IdAjusteSalidaTipo,IdProveedor, Folio, Observaciones)
+										VALUES(?,?,?,?)";
+		if(!$stmt->bind_param('iiis',$this->idAjusteSalidaTipo,$this->idProveedor,$this->folio,$this->observaciones)){
+			die('Error al insertar en la base de datos');
+		}
+		if (!$stmt->execute()) {
+			die('Error al insertar en la base de datos');
+		}
+
+		if($this->driver->error){
+			return false;
+		}
+
+		$lastId = $this->driver->insert_id;
+
 		for($i = 0;$i < count($idProductos);$i++){
-			if(!$this->createDetails(1,$idProductos[$i],$cantidades[$i]))
+			if(!$this->createDetails($lastId,$idProductos[$i],$cantidades[$i]))
 				return false;
 		}
 		return true;
@@ -50,6 +67,20 @@ class AjusteSalidaMdl extends BaseMdl{
 		$this->idProductoServicio = $idProductoServicio;
 		$this->cantidad	= $cantidad;
 		
+		$stmt = $this->driver->prepare("INSERT INTO 
+										AjusteSalidaDetalle (IdAjusteSalida,IdProductoServicio,Cantidad)
+										VALUES(?,?,?)";
+		if(!$stmt->bind_param('iid',$this->idAjusteSalida, $this->idProductoServicio, $this->cantidad)){
+			die('Error al insertar en la base de datos');
+		}
+		if (!$stmt->execute()) {
+			die('Error al insertar en la base de datos');
+		}
+
+		if($this->driver->error){
+			return false;
+		}
+
 		return true;
 	}
 }

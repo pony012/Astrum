@@ -18,11 +18,26 @@ class HistorialMedicoMdl extends BaseMdl{
 	 *@return true
 	 */
 	function create($idCliente, $fechaRegistro, $idServicio, $observaciones){
-		$this->idCliente = $idCliente;
+		$this->idCliente 		= $idCliente;
 		$this->fechaRegistro	= $fechaRegistro;
-		$this->idServicio	= $idServicio;
-		$this->observaciones	= $observaciones;
+		$this->idServicio		= $idServicio;
+		$this->observaciones	= $this->driver->real_escape_string($observaciones);
 		
+		$stmt = $this->driver->prepare("INSERT INTO HistorialMedico (IdCliente, FechaRegistro, IdServicio, Observaciones) 
+										VALUES(?,?,?,?)");
+		if(!$stmt->bind_param('isis',$this->idCliente,$this->fechaRegistro,$this->idServicio,$this->observaciones)){
+			die('Error al insertar en la base de datos');
+		}
+		if (!$stmt->execute()) {
+			die('Error al insertar en la base de datos');
+		}
+
+		if($this->driver->error){
+			return false;
+		}
+
+		isis
+
 		return true;
 	}
 }

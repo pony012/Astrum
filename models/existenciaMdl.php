@@ -23,9 +23,15 @@ class ExistenciaMdl extends BaseMdl{
 		$this->precioUnitario	= $precioUnitario;
 		$this->cantidad			= $cantidad;
 		
-		$result = $this->driver->query("INSERT INTO Existencia (FechaReferencia,IDProductoServicio,PrecioUnitario,Cantidad) 
-								VALUES('$this->fechaReferencia',$this->idProducto,$this->precioUnitario,$this->cantidad)");
-		
+		$stmt = $this->driver->prepare("INSERT INTO Existencia (FechaReferencia,IDProductoServicio,PrecioUnitario,Cantidad) 
+										VALUES(?,?,?,?)");
+		if(!$stmt->bind_param('sidd',$this->fechaReferencia,$this->idProducto,$this->precioUnitario,$this->cantidad)){
+			die('Error al insertar en la base de datos');
+		}
+		if (!$stmt->execute()) {
+			die('Error al insertar en la base de datos');
+		}
+
 		if($this->driver->error){
 			return false;
 		}

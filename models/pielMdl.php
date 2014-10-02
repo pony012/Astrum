@@ -52,26 +52,43 @@ class PielMdl extends BaseMdl{
 	function create($fina,$gruesa,$deshidratada,$flacida,$seca,$mixta,$grasa,$acneica,$manchas,
 					$cicatrices,$poroAbierto,$ojeras,$lunares,$pecas,$puntosNegros,$verrugas,$arrugas,
 					$brilloFacial,$pielAsfixiada,$despigmentacion){
-		$this->fina = $fina;
-		$this->gruesa = $gruesa;
-		$this->deshidratada = $deshidratada;
-		$this->flacida = $flacida;
-		$this->mixta = $mixta;
-		$this->grasa = $grasa;
-		$this->acneica = $acneica;
-		$this->manchas = $manchas;
-		$this->cicatrices = $cicatrices;
-		$this->poroAbierto = $poroAbierto;
-		$this->ojeras = $ojeras;
-		$this->lunares = $lunares;
-		$this->pecas = $pecas;
-		$this->puntosNegros = $puntosNegros;
-		$this->verrugas = $verrugas;
-		$this->verrugas = $arrugas;
-		$this->verrugas = $brilloFacial;
-		$this->verrugas = $pielAsfixiada;
-		$this->verrugas = $despigmentacion;
+		$this->fina 			= $this->driver->real_escape_string($fina);
+		$this->gruesa 			= $this->driver->real_escape_string($gruesa);
+		$this->deshidratada 	= $this->driver->real_escape_string($deshidratada);
+		$this->flacida 			= $this->driver->real_escape_string($flacida);
+		$this->mixta 			= $this->driver->real_escape_string($mixta);
+		$this->grasa 			= $this->driver->real_escape_string($grasa);
+		$this->acneica 			= $this->driver->real_escape_string($acneica);
+		$this->manchas 			= $this->driver->real_escape_string($manchas);
+		$this->cicatrices 		= $this->driver->real_escape_string($cicatrices);
+		$this->poroAbierto 		= $this->driver->real_escape_string($poroAbierto);
+		$this->ojeras 			= $this->driver->real_escape_string($ojeras);
+		$this->lunares 			= $this->driver->real_escape_string($lunares);
+		$this->pecas 			= $this->driver->real_escape_string($pecas);
+		$this->puntosNegros 	= $this->driver->real_escape_string($puntosNegros);
+		$this->verrugas 		= $this->driver->real_escape_string($verrugas);
+		$this->arrugas 		= $this->driver->real_escape_string($arrugas);
+		$this->brilloFacial 	= $this->driver->real_escape_string($brilloFacial);
+		$this->pielAsfixiada 	= $this->driver->real_escape_string($pielAsfixiada);
+		$this->despigmentacion 	= $this->driver->real_escape_string($despigmentacion);
 		
+		$stmt = $this->driver->prepare("INSERT INTO Piel (Fina,Gruesa,Deshidratada,Flacida,Mixta,Grasa,Acneica,Manchas,Cicatrices,PoroAbierto,
+														Ojeras,Lunares,Pecas,PuntosNegros,Verrugas,Arrugas,BrilloFacial,PielAsfixiada,Despigmentacion) 
+										VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+		if(!$stmt->bind_param('sssssssssssssssssss',$this->fina,$this->gruesa,$this->deshidratada,$this->flacida,$this->mixta,$this->grasa,
+													$this->acneica,$this->manchas,$this->cicatrices,$this->poroAbierto,$this->ojeras,$this->lunares,
+													$this->pecas,$this->puntosNegros,$this->verrugas,$this->verrugas,$this->brilloFacial,
+													$this->pielAsfixiada,$this->despigmentacion)){
+			die('Error al insertar en la base de datos');
+		}
+		if (!$stmt->execute()) {
+			die('Error al insertar en la base de datos');
+		}
+
+		if($this->driver->error){
+			return false;
+		}
+
 		return true;
 	}
 }
