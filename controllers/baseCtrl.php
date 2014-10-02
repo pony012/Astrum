@@ -9,6 +9,44 @@
 		/** Donde se guardará el modelo */
 		protected $model;
 		
+		/**
+		*	Inicia una sesion y retorna true si se inició, false si ya existía una activa
+		*	@param string $user
+		*	@param string $pass
+		*	@param string $type
+		*	@return bool
+		*/
+		public static function startSession($user, $pass, $type){
+			if (BaseCtrl::isLoged() || empty($user) || empty($pass) || empty($type))
+				return FALSE;
+			$_SESSION['user'] = $user;
+			$_SESSION['pass'] = $pass;
+			$_SESSION['type'] = $type;
+
+			return TRUE;
+		}
+
+		/**
+		*	Destruye una sesion
+		*/
+		public static function killSession(){
+			session_start();
+
+			session_unset();
+			session_destroy();
+			
+			setcookie(session_name(), '', time()-3600);
+		}
+
+		/**
+		*	Verifica si hay una sesion activa
+		*/
+		public static function isLoged(){
+			return isset($_SESSION['user']);
+		}
+
+
+
 		/** 
 		 *	Valida que una cadena sea un número, retorna la cadena si lo es, en caso de no serlo returna una cadena vacía
 		 *	@param string $data
