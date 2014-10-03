@@ -16,7 +16,10 @@
 					//Crear 
 					$this->create();
 					break;
-				
+				case 'lists':
+					//Listar 
+					$this->lists();
+					break;
 				default:
 					# code...
 					break;
@@ -80,8 +83,31 @@
 
 		}
 
+		/**
+		*Listamos todas los ajustes de salida con sus detalles
+		**/
 		private function lists(){
 
+			if($resultRemision = $this->model->lists()){
+
+				$data = array();
+				foreach($resultRemision as $row){
+
+					$details = array();
+
+					if($resultRemisionDetalle = $this->model->listsDetails($row['IDAjusteSalida'])){
+
+						foreach($resultRemisionDetalle as $rowDetails)
+							array_push($details, $rowDetails);
+
+					}
+
+					array_push($data, array($row,$details));
+				}
+				
+				require_once 'views/ajusteSalidaSelected.php';
+			}else
+				require_once 'views/ajusteSalidaSelectedError.html';
 		}
 
 		function __construct(){

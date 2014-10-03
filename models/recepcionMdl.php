@@ -58,5 +58,66 @@ class RecepcionMdl extends BaseMdl{
 		
 		return true;
 	}
+	
+	/**
+	* Consulta las recepciones registradas
+	* @return array or false
+	**/
+	function lists(){
+		$rows = array();
+
+		if($stmt = $this->driver->prepare('SELECT * FROM V_Recepcion')){
+
+			if(!$stmt->execute())
+				die('Error Al Consultar');
+
+			$mySqliResult = $stmt->get_result();
+
+			if($mySqliResult->field_count > 0){
+				while($result = $mySqliResult->fetch_assoc())
+					array_push($rows, $result);
+
+				return $rows;
+			}else
+				die('No hay Resultados!!!');
+
+		}else
+			die('Error Al Consultar');
+
+		return false;
+	}
+
+	/**
+	* @param Integer $idRecepcion
+	* Consulta los detalles de las recepciones registradas
+	* @return array or false
+	**/
+	function listsDetails($idRecepcion){
+		$rows = array();
+
+		if($stmt = $this->driver->prepare('SELECT * FROM V_RecepcionDetalle WHERE IDRecepcion = ?')){
+
+			if(!$stmt->bind_param('i',$idRecepcion))
+				die('Error Al Consultar');
+
+			if(!$stmt->execute())
+				die('Error Al Consultar');
+
+			$mySqliResult = $stmt->get_result();
+
+			if($mySqliResult->field_count > 0){
+
+				while($result = $mySqliResult->fetch_assoc())
+					array_push($rows, $result);
+
+				return $rows;
+			}else
+				die('No hay Resultados!!!');
+
+		}else
+			die('Error Al Consultar');
+
+		return false;
+	}
 }
 ?>

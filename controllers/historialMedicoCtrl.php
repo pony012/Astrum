@@ -26,7 +26,10 @@
 					//Crear un Historial Clinico
 					$this->create();
 					break;
-				
+				case 'lists':
+					//Listar
+					$this->lists();
+					break;
 				default:
 					# code...
 					break;
@@ -433,8 +436,18 @@
 
 		}
 
+		/**
+		*Listamos todos los Historiales Médicos
+		**/
 		private function lists(){
+			if($result = $this->model->lists()){
 
+				$data = array($result);
+
+				require_once 'views/historialMedicoSelected.php';
+				
+			}else
+				require_once 'views/historialMedicoSelectedError.html';
 		}
 
 		function __construct(){

@@ -15,15 +15,18 @@
 				case 'create':
 					//Crear 
 					$this->create();
-					break;
-				
+					break;	
+				case 'lists':
+					//Listar 
+					$this->lists();
+					break;	
 				default:
 					# code...
 					break;
 			}
 		}
 		/**
-		* Crea una Repecion
+		* Crea una Recepcion
 		*/
 		private function create(){
 			
@@ -82,8 +85,31 @@
 
 		}
 
+		/**
+		*Listamos todas las recepciones con sus detalles
+		**/
 		private function lists(){
 
+			if($resultRemision = $this->model->lists()){
+
+				$data = array();
+				foreach($resultRemision as $row){
+
+					$details = array();
+
+					if($resultRemisionDetalle = $this->model->listsDetails($row['IDRecepcion'])){
+
+						foreach($resultRemisionDetalle as $rowDetails)
+							array_push($details, $rowDetails);
+
+					}
+
+					array_push($data, array($row,$details));
+				}
+				
+				require_once 'views/recepcionSelected.php';
+			}else
+				require_once 'views/recepcionSelectedError.html';
 		}
 
 		function __construct(){

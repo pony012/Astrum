@@ -38,5 +38,34 @@ class ExistenciaMdl extends BaseMdl{
 		
 		return true;
 	}
+	
+	/**
+	* Consulta a las Existencias de productos ya registrados
+	* @return array or false
+	**/
+	function lists(){
+		$rows = array();
+
+		if($stmt = $this->driver->prepare('SELECT * FROM V_Existencia')){
+
+			if(!$stmt->execute())
+				die('Error Al Consultar');
+
+			$mySqliResult = $stmt->get_result();
+
+			if($mySqliResult->field_count > 0){
+
+				while($result = $mySqliResult->fetch_assoc())
+					array_push($rows, $result);
+
+				return $rows;
+			}else
+				die('No hay Resultados!!!');
+
+		}else
+			die('Error Al Consultar');
+			
+		return false;
+	}
 }
 ?>

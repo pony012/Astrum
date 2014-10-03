@@ -40,5 +40,34 @@ class HistorialMedicoMdl extends BaseMdl{
 
 		return true;
 	}
+	
+	/**
+	* Consulta todos los Historiales Medicos registrados
+	* @return array or false
+	**/
+	function lists(){
+		$rows = array();
+
+		if($stmt = $this->driver->prepare('SELECT * FROM V_HistorialMedico')){
+
+			if(!$stmt->execute())
+				die('Error Al Consultar');
+
+			$mySqliResult = $stmt->get_result();
+
+			if($mySqliResult->field_count > 0){
+
+				while($result = $mySqliResult->fetch_assoc())
+					array_push($rows, $result);
+
+				return $rows;
+			}else
+				die('No hay Resultados!!!');
+
+		}else
+			die('Error Al Consultar');
+			
+		return false;
+	}
 }
 ?>

@@ -16,11 +16,9 @@
 					//Crear un Empleado
 					$this->create();
 					break;
-				
 				case 'lists':
 					$this->lists();
 					break;
-
 				default:
 					# code...
 					break;
@@ -129,7 +127,7 @@
 		}
 
 		/**
-		*listamos todos de los empleados
+		*listamos todos los empleados
 		**/
 		private function lists(){
 			if($result = $this->model->lists()){
@@ -139,7 +137,7 @@
 				require_once 'views/empleadoSelected.php';
 				
 			}else
-				require_once 'views/empleadoSelectedError.php';
+				require_once 'views/empleadoSelectedError.html';
 		}
 
 		function __construct(){

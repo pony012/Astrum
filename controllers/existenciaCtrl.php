@@ -16,7 +16,10 @@
 					//Crear 
 					$this->create();
 					break;
-				
+				case 'lists':
+					//Listar 
+					$this->lists();
+					break;
 				default:
 					# code...
 					break;
@@ -72,8 +75,18 @@
 
 		}
 
+		/**
+		*Listamos todas las Existencias de productos registrados
+		**/
 		private function lists(){
+			if($result = $this->model->lists()){
 
+				$data = array($result);
+
+				require_once 'views/existenciaSelected.php';
+				
+			}else
+				require_once 'views/existenciaSelectedError.html';
 		}
 
 		function __construct(){

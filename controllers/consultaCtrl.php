@@ -16,7 +16,10 @@
 					//Crear 
 					$this->create();
 					break;
-				
+				case 'lists':
+					//Listar 
+					$this->lists();
+					break;
 				default:
 					# code...
 					break;
@@ -78,8 +81,18 @@
 
 		}
 
+		/**
+		*Listamos todas las Consultas registrados
+		**/
 		private function lists(){
+			if($result = $this->model->lists()){
 
+				$data = array($result);
+
+				require_once 'views/consultaSelected.php';
+				
+			}else
+				require_once 'views/consultaSelectedError.html';
 		}
 
 		function __construct(){

@@ -16,7 +16,10 @@
 					//Crear proveedor
 					$this->create();
 					break;
-				
+				case 'lists':
+					//Listar Proveedores
+					$this->lists();
+					break;
 				default:
 					# code...
 					break;
@@ -110,8 +113,18 @@
 
 		}
 
+		/**
+		*Listamos todos los Proveedores registrados
+		**/
 		private function lists(){
+			if($result = $this->model->lists()){
 
+				$data = array($result);
+
+				require_once 'views/proveedorSelected.php';
+				
+			}else
+				require_once 'views/proveedorSelectedError.html';
 		}
 
 		function __construct(){

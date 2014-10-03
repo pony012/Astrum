@@ -73,7 +73,7 @@ class AjusteSalidaMdl extends BaseMdl{
 		if(!$stmt->bind_param('iid',$this->idAjusteSalida, $this->idProductoServicio, $this->cantidad)){
 			die('Error al insertar en la base de datos');
 		}
-		if (!$stmt->execute()) {
+		if (!$stmt->execute()){
 			die('Error al insertar en la base de datos');
 		}
 
@@ -82,6 +82,67 @@ class AjusteSalidaMdl extends BaseMdl{
 		}
 
 		return true;
+	}
+	
+	/**
+	* Consulta los Ajustes de Salida registrados
+	* @return array or false
+	**/
+	function lists(){
+		$rows = array();
+
+		if($stmt = $this->driver->prepare('SELECT * FROM V_AjusteSalida')){
+
+			if(!$stmt->execute())
+				die('Error Al Consultar');
+
+			$mySqliResult = $stmt->get_result();
+
+			if($mySqliResult->field_count > 0){
+				while($result = $mySqliResult->fetch_assoc())
+					array_push($rows, $result);
+
+				return $rows;
+			}else
+				die('No hay Resultados!!!');
+
+		}else
+			die('Error Al Consultar');
+
+		return false;
+	}
+
+	/**
+	* @param Integer $idAjusteSalida
+	* Consulta los detalles de los Ajustes de Salida registrados
+	* @return array or false
+	**/
+	function listsDetails($idAjusteSalida){
+		$rows = array();
+
+		if($stmt = $this->driver->prepare('SELECT * FROM V_AjusteSalidaDetalle WHERE IDAjusteSalida = ?')){
+
+			if(!$stmt->bind_param('i',$idAjusteSalida))
+				die('Error Al Consultar');
+
+			if(!$stmt->execute())
+				die('Error Al Consultar');
+
+			$mySqliResult = $stmt->get_result();
+
+			if($mySqliResult->field_count > 0){
+
+				while($result = $mySqliResult->fetch_assoc())
+					array_push($rows, $result);
+
+				return $rows;
+			}else
+				die('No hay Resultados!!!');
+
+		}else
+			die('Error Al Consultar');
+
+		return false;
 	}
 }
 ?>

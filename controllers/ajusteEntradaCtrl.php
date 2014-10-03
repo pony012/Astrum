@@ -16,7 +16,10 @@
 					//Crear 
 					$this->create();
 					break;
-				
+				case 'lists':
+					//Listar 
+					$this->lists();
+					break;
 				default:
 					# code...
 					break;
@@ -78,8 +81,31 @@
 
 		}
 
+		/**
+		*Listamos todas los ajustes de entrada con sus detalles
+		**/
 		private function lists(){
 
+			if($resultRemision = $this->model->lists()){
+
+				$data = array();
+				foreach($resultRemision as $row){
+
+					$details = array();
+
+					if($resultRemisionDetalle = $this->model->listsDetails($row['IDAjusteEntrada'])){
+
+						foreach($resultRemisionDetalle as $rowDetails)
+							array_push($details, $rowDetails);
+
+					}
+
+					array_push($data, array($row,$details));
+				}
+				
+				require_once 'views/ajusteEntradaSelected.php';
+			}else
+				require_once 'views/ajusteEntradaSelectedError.html';
 		}
 
 		function __construct(){

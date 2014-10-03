@@ -16,7 +16,10 @@
 					//Crear 
 					$this->create();
 					break;
-				
+				case 'lists':
+					//Listar 
+					$this->lists();
+					break;
 				default:
 					# code...
 					break;
@@ -75,8 +78,18 @@
 
 		}
 
+		/**
+		*Listamos todos los productos registrados
+		**/
 		private function lists(){
+			if($result = $this->model->lists()){
 
+				$data = array($result);
+
+				require_once 'views/productoSelected.php';
+				
+			}else
+				require_once 'views/productoSelectedError.html';
 		}
 
 		function __construct(){
