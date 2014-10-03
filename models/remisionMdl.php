@@ -70,19 +70,26 @@ class RemisionMdl extends BaseMdl{
 	**/
 	function lists(){
 		$rows = array();
+
 		if($stmt = $this->driver->prepare('SELECT * FROM V_Remision')){
+
 			if(!$stmt->execute())
 				die('Error Al Consultar');
+
 			$mySqliResult = $stmt->get_result();
+
 			if($mySqliResult->field_count > 0){
+
 				while($result = $mySqliResult->fetch_assoc())
 					array_push($rows, $result);
+
 				return $rows;
 			}else
 				die('No hay Resultados!!!');
 
 		}else
 			die('Error Al Consultar');
+
 		return false;
 	}
 
@@ -115,7 +122,7 @@ class RemisionMdl extends BaseMdl{
 
 		}else
 			die('Error Al Consultar');
-			
+
 		return false;
 	}
 }
