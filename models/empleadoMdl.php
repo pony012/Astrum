@@ -37,7 +37,7 @@ class EmpleadoMdl extends BaseMdl{
 	 *@param string $telefono
 	 *@param string $celular
 	 *Crea un nuevo empleado
-	 *@return true
+	 *@return true or false
 	 */
 	function create($nombre, $apellidoPat, $apellidoMat, $usuario, $contrasena, $idCargo, $calle, $numExterior, $numInterior, $colonia, $codigoPostal, 
 		$foto = NULL, $email = NULL, $telefono = NULL, $celular = NULL){
@@ -74,6 +74,35 @@ class EmpleadoMdl extends BaseMdl{
 		}
 
 		return true;
+	}
+
+	/**
+	* Consulta a los empleados registrados y que esten activos
+	* @return array or false
+	**/
+	function lists(){
+		$rows = array();
+
+		if($stmt = $this->driver->prepare('SELECT * FROM V_Empleado')){
+
+			if(!$stmt->execute())
+				die('Error Al Consultar');
+
+			$mySqliResult = $stmt->get_result();
+
+			if($mySqliResult->field_count > 0){
+
+				while($result = $mySqliResult->fetch_assoc())
+					array_push($rows, $result);
+
+				return $rows;
+			}else
+				die('No hay Resultados!!!');
+
+		}else
+			die('Error Al Consultar');
+			
+		return false;
 	}
 }
 ?>

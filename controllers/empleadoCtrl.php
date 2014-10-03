@@ -17,6 +17,10 @@
 					$this->create();
 					break;
 				
+				case 'lists':
+					$this->lists();
+					break;
+
 				default:
 					# code...
 					break;
@@ -124,8 +128,18 @@
 
 		}
 
+		/**
+		*listamos todos de los empleados
+		**/
 		private function lists(){
+			if($result = $this->model->lists()){
 
+				$data = array($result);
+
+				require_once 'views/empleadoSelected.php';
+				
+			}else
+				require_once 'views/empleadoSelectedError.php';
 		}
 
 		function __construct(){

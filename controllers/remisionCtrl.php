@@ -16,6 +16,11 @@
 					//Crear 
 					$this->create();
 					break;
+
+				case 'lists':
+					//Crear 
+					$this->lists();
+					break;	
 				
 				default:
 					# code...
@@ -82,8 +87,31 @@
 
 		}
 
+		/**
+		*listamos todas las remisiones con sus detalles
+		**/
 		private function lists(){
 
+			if($resultRemision = $this->model->lists()){
+
+				$data = array();
+				foreach($resultRemision as $row){
+
+					$details = array();
+
+					if($resultRemisionDetalle = $this->model->listsDetails($row['IDRemision'])){
+
+						foreach($resultRemisionDetalle as $rowDetails)
+							array_push($details, $rowDetails);
+
+					}
+
+					array_push($data, array($row,$details));
+				}
+				
+				require_once 'views/remisionSelected.php';
+			}else
+				require_once 'views/remisionSelectedError.php';
 		}
 
 		function __construct(){

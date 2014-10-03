@@ -5,9 +5,9 @@
 	//TODO 
 	//Mandar a llamar las vistas en un controlador
 	if(BaseCtrl::isLoged()===TRUE){
-		require 'views/bienvenido.php';
+		//require 'views/bienvenido.php';
 	}else{
-		require 'views/login.php';
+		//require 'views/login.php';
 	}
 
 	//Recibiendo

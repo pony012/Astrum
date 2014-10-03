@@ -63,5 +63,60 @@ class RemisionMdl extends BaseMdl{
 		
 		return true;
 	}
+
+	/**
+	* Consulta las remisiones registradas
+	* @return array or false
+	**/
+	function lists(){
+		$rows = array();
+		if($stmt = $this->driver->prepare('SELECT * FROM V_Remision')){
+			if(!$stmt->execute())
+				die('Error Al Consultar');
+			$mySqliResult = $stmt->get_result();
+			if($mySqliResult->field_count > 0){
+				while($result = $mySqliResult->fetch_assoc())
+					array_push($rows, $result);
+				return $rows;
+			}else
+				die('No hay Resultados!!!');
+
+		}else
+			die('Error Al Consultar');
+		return false;
+	}
+
+	/**
+	* @param Integer $idRemision
+	* Consulta los detalles de las remisiones registradas
+	* @return array or false
+	**/
+	function listsDetails($idRemision){
+		$rows = array();
+
+		if($stmt = $this->driver->prepare('SELECT * FROM V_RemisionDetalle WHERE IDRemision = ?')){
+
+			if(!$stmt->bind_param('i',$idRemision))
+				die('Error Al Consultar');
+
+			if(!$stmt->execute())
+				die('Error Al Consultar');
+
+			$mySqliResult = $stmt->get_result();
+
+			if($mySqliResult->field_count > 0){
+
+				while($result = $mySqliResult->fetch_assoc())
+					array_push($rows, $result);
+
+				return $rows;
+			}else
+				die('No hay Resultados!!!');
+
+		}else
+			die('Error Al Consultar');
+			
+		return false;
+	}
 }
 ?>
