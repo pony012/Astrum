@@ -46,13 +46,6 @@ on hm.IDHistorialMedico=con.IDHistorialMedico
 inner join ProductoServicio ps
 on ps.IDProductoServicio=hm.IDServicio;
 
-CREATE VIEW V_ProductoServicio AS
-SELECT IDProductoServicio, Producto, pst.ProductoServicioTipo, PrecioUnitario,
-Foto, ps.Descripcion
-From ProductoServicio ps
-inner join ProductoServicioTipo pst
-on pst.IDProductoServicioTipo=ps.IDProductoServicioTipo and ps.Activo='S';
-
 CREATE VIEW V_Recepcion AS
 SELECT IDRecepcion, rec.IDMovimientoAlmacen, Folio, p.IDProveedor, (p.Nombre + p.ApellidoPaterno + p.ApellidoMaterno) as Proveedor,
 e.IDEmpleado, (e.Nombre + e.ApellidoPaterno + e.ApellidoMaterno) as Empleado, FechaRecepcion, Total
@@ -114,3 +107,19 @@ inner join Cliente c
 on c.IDCliente=hm.IDCliente and c.Activo='S'
 inner join ProductoServicio ps
 on ps.IDProductoServicio=hm.IDServicio;
+
+CREATE VIEW V_Producto AS
+SELECT IDProductoServicio, ps.IDProductoServicioTipo, pst.ProductoServicioTipo,
+Producto, PrecioUnitario, Foto, ps.Descripcion
+FROM ProductoServicio ps
+INNER JOIN ProductoServicioTipo pst
+on pst.IDProductoServicioTipo=ps.IDProductoServicioTipo
+WHERE ps.IDProductoServicioTipo=1 and ps.Activo='S';
+
+CREATE VIEW V_Servicio AS
+SELECT IDProductoServicio, ps.IDProductoServicioTipo, pst.ProductoServicioTipo,
+Producto, PrecioUnitario, Foto, ps.Descripcion
+FROM ProductoServicio ps
+INNER JOIN ProductoServicioTipo pst
+on pst.IDProductoServicioTipo=ps.IDProductoServicioTipo
+WHERE ps.IDProductoServicioTipo=2 and ps.Activo='S';
