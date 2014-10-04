@@ -107,5 +107,23 @@ class EmpleadoMdl extends BaseMdl{
 			
 		return false;
 	}
+	
+	/**
+	*Da de baja a un determinado empleado
+	*@return true or false
+	**/
+	function delete($idEmpleado){
+		if($stmt = $this->driver->prepare('CALL desactivarEmpleado(?)')){
+			
+			if(!$stmt->bind_param('i',$idEmpleado))
+				die('Error Al Consultar 1');
+			
+			if(!$stmt->execute())
+				die('Error Al Consultar 2');
+			else
+				return true;
+		}
+		return false;
+	}
 }
 ?>

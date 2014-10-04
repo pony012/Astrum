@@ -19,6 +19,9 @@
 				case 'lists':
 					$this->lists();
 					break;
+				case 'delete':
+					$this->delete();
+					break;
 				default:
 					# code...
 					break;
@@ -117,9 +120,18 @@
 		private function read(){
 
 		}
-
+		
+		/**
+		*Da de baja a un determinado empleado
+		**/
 		private function delete(){
-
+			$idEmpleado	= $this->validateNumber(isset($_POST['idEmpleado'])?$_POST['idEmpleado']:NULL);
+			if(strlen($idEmpleado)==0)
+				require_once 'views/empleadoDeleteError.html';
+			else{
+				if($result = $this->model->delete($idEmpleado))
+					require_once 'views/empleadoDelete.html';
+			}
 		}
 
 		private function update(){
