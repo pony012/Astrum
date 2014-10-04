@@ -63,10 +63,13 @@ class ProveedorMdl extends BaseMdl{
 	* Consulta a los Proveedores registrados y que esten activos
 	* @return array or false
 	**/
-	function lists(){
+	function lists($constraint = '1 = 1'){
 		$rows = array();
 
-		if($stmt = $this->driver->prepare('SELECT * FROM Proveedor')){
+		if($stmt = $this->driver->prepare('SELECT * FROM Proveedor WHERE ?')){
+		
+			if(!$stmt->bind_param('s',$constraint))
+				die('Error Al Consultar');
 
 			if(!$stmt->execute())
 				die('Error Al Consultar');

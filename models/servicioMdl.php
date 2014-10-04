@@ -33,10 +33,13 @@ class ServicioMdl extends BaseMdl{
 	* Consulta todos los servicios registrados
 	* @return array or false
 	**/
-	function lists(){
+	function lists($constraint = '1 = 1'){
 		$rows = array();
 
-		if($stmt = $this->driver->prepare('SELECT * FROM V_Servicio')){
+		if($stmt = $this->driver->prepare('SELECT * FROM V_Servicio WHERE ?')){
+		
+			if(!$stmt->bind_param('s',$constraint))
+				die('Error Al Consultar');
 
 			if(!$stmt->execute())
 				die('Error Al Consultar');

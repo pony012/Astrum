@@ -1,4 +1,4 @@
 <?php
-	echo 'Lista de Existencias: <br>';
+	echo 'Lista de Existencias: <br/>';
 	var_dump($data);
 ?>

@@ -33,10 +33,13 @@ class ProductoMdl extends BaseMdl{
 	* Consulta todos los productos registrados
 	* @return array or false
 	**/
-	function lists(){
+	function lists($constraint = '1 = 1'){
 		$rows = array();
 
-		if($stmt = $this->driver->prepare('SELECT * FROM V_Producto')){
+		if($stmt = $this->driver->prepare('SELECT * FROM V_Producto WHERE ?')){
+		
+			if(!$stmt->bind_param('s',$constraint))
+				die('Error Al Consultar');
 
 			if(!$stmt->execute())
 				die('Error Al Consultar');

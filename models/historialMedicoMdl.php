@@ -45,10 +45,13 @@ class HistorialMedicoMdl extends BaseMdl{
 	* Consulta todos los Historiales Medicos registrados
 	* @return array or false
 	**/
-	function lists(){
+	function lists($constraint = '1 = 1'){
 		$rows = array();
 
-		if($stmt = $this->driver->prepare('SELECT * FROM V_HistorialMedico')){
+		if($stmt = $this->driver->prepare('SELECT * FROM V_HistorialMedico WHERE ?')){
+		
+			if(!$stmt->bind_param('s',$constraint))
+				die('Error Al Consultar');
 
 			if(!$stmt->execute())
 				die('Error Al Consultar');

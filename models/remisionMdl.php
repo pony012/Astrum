@@ -68,10 +68,13 @@ class RemisionMdl extends BaseMdl{
 	* Consulta las remisiones registradas
 	* @return array or false
 	**/
-	function lists(){
+	function lists($constraint = '1 = 1'){
 		$rows = array();
 
-		if($stmt = $this->driver->prepare('SELECT * FROM V_Remision')){
+		if($stmt = $this->driver->prepare('SELECT * FROM V_Remision WHERE ?')){
+		
+			if(!$stmt->bind_param('s',$constraint))
+				die('Error Al Consultar');
 
 			if(!$stmt->execute())
 				die('Error Al Consultar');

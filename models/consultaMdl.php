@@ -48,10 +48,13 @@ class ConsultaMdl extends BaseMdl{
 	* Busca a las Consultas registradas
 	* @return array or false
 	**/
-	function lists(){
+	function lists($constraint = '1 = 1'){
 		$rows = array();
 
-		if($stmt = $this->driver->prepare('SELECT * FROM V_Consulta')){
+		if($stmt = $this->driver->prepare('SELECT * FROM V_Consulta WHERE ?')){
+		
+			if(!$stmt->bind_param('s',$constraint))
+				die('Error Al Consultar');
 
 			if(!$stmt->execute())
 				die('Error Al Consultar');

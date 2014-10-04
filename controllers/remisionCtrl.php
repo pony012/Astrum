@@ -111,7 +111,7 @@
 				
 				require_once 'views/remisionSelected.php';
 			}else
-				require_once 'views/remisionSelectedError.php';
+				require_once 'views/remisionSelectedError.html';
 		}
 
 		function __construct(){

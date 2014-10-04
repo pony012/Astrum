@@ -88,11 +88,14 @@ class AjusteSalidaMdl extends BaseMdl{
 	* Consulta los Ajustes de Salida registrados
 	* @return array or false
 	**/
-	function lists(){
+	function lists($constraint = '1 = 1'){
 		$rows = array();
 
-		if($stmt = $this->driver->prepare('SELECT * FROM V_AjusteSalida')){
-
+		if($stmt = $this->driver->prepare('SELECT * FROM V_AjusteSalida WHERE ?')){
+			
+			if(!$stmt->bind_param('s',$constraint))
+				die('Error Al Consultar');
+			
 			if(!$stmt->execute())
 				die('Error Al Consultar');
 

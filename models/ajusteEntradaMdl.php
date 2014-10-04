@@ -87,11 +87,14 @@ class AjusteEntradaMdl extends BaseMdl{
 	* Consulta los ajustes de entrada registrados
 	* @return array or false
 	**/
-	function lists(){
+	function lists($constraint = '1 = 1'){
 		$rows = array();
 
-		if($stmt = $this->driver->prepare('SELECT * FROM V_AjusteEntrada')){
-
+		if($stmt = $this->driver->prepare('SELECT * FROM V_AjusteEntrada WHERE ?')){
+			
+			if(!$stmt->bind_param('s',$constraint))
+				die('Error Al Consultar');
+			
 			if(!$stmt->execute())
 				die('Error Al Consultar');
 
