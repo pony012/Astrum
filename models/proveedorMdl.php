@@ -81,7 +81,7 @@ class ProveedorMdl extends BaseMdl{
 	 *Modifica un proveedor
 	 *@return true
 	 */
-	function create($idProveedor, $nombre, $apellidoPat, $apellidoMat, $rfc = NULL, $calle, $numExterior, $numInterior, $colonia, $codigoPostal, 
+	function update($idProveedor, $nombre, $apellidoPat, $apellidoMat, $rfc = NULL, $calle, $numExterior, $numInterior, $colonia, $codigoPostal, 
 		$email = NULL, $telefono = NULL, $celular = NULL){
 		$this->nombre		= $this->driver->real_escape_string($nombre);
 		$this->apellidoPat	= $this->driver->real_escape_string($apellidoPat);

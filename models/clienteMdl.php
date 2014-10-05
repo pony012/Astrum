@@ -88,7 +88,7 @@ class ClienteMdl extends BaseMdl{
 	 *Modifica un cliente
 	 *@return true
 	 */
-	function create($idCliente, $nombre, $apellidoPat, $apellidoMat, $calle, $numExterior, $numInterior, $colonia, $codigoPostal, 
+	function update($idCliente, $nombre, $apellidoPat, $apellidoMat, $calle, $numExterior, $numInterior, $colonia, $codigoPostal, 
 		$email = NULL, $telefono = NULL, $celular = NULL){
 		$this->nombre		= $this->driver->real_escape_string($nombre);
 		$this->apellidoPat	= $this->driver->real_escape_string($apellidoPat);
