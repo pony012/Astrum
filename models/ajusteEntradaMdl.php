@@ -33,7 +33,7 @@ class AjusteEntradaMdl extends BaseMdl{
 		$this->observaciones		= $this->driver->real_escape_string($observaciones);
 
 		$stmt = $this->driver->prepare("INSERT INTO 
-										AjusteEntrada (IdAjusteEntradaTipo,IdCliente, Folio, Observaciones)
+										AjusteEntrada (IDAjusteEntradaTipo,IDCliente, Folio, Observaciones)
 										VALUES(?,?,?,?)");
 		if(!$stmt->bind_param('iiis',$this->idAjusteEntradaTipo,$this->idCliente,$this->folio,$this->observaciones)){
 			die('Error al insertar en la base de datos');
@@ -68,7 +68,7 @@ class AjusteEntradaMdl extends BaseMdl{
 		$this->cantidad				= $cantidad;
 		
 		$stmt = $this->driver->prepare("INSERT INTO 
-										AjusteEntradaDetalle (IdAjusteEntrada,IdProductoServicio,Cantidad)
+										AjusteEntradaDetalle (IDAjusteEntrada,IDProductoServicio,Cantidad)
 										VALUES(?,?,?)");
 		if(!$stmt->bind_param('iid',$this->idAjusteEntrada, $this->idProductoServicio, $this->cantidad)){
 			die('Error al insertar en la base de datos');

@@ -28,7 +28,7 @@ class ConsultaMdl extends BaseMdl{
 		$this->idConsultaStatus	= $idConsultaStatus;
 		$this->observaciones	= $this->driver->real_escape_string($observaciones);
 		
-		$stmt = $this->driver->prepare("INSERT INTO Consulta (IdCliente, IdTerapeuta, IdHistorialMedico, FechaCita, IdConsultaStatus, Observaciones)
+		$stmt = $this->driver->prepare("INSERT INTO Consulta (IDCliente, IDTerapeuta, IDHistorialMedico, FechaCita, IDConsultaStatus, Observaciones)
 										VALUES(?,?,?,?,?,?)");
 		if(!$stmt->bind_param('iiisis',$this->idcliente,$this->idTerapeuta,$this->idHistorialMedico,$this->fechaCita,$this->idConsultaStatus,$this->observaciones)){
 			die('Error al insertar en la base de datos');
