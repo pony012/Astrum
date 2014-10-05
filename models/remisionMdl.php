@@ -35,28 +35,76 @@ class RemisionMdl extends BaseMdl{
 		$this->fechaRemision	= $this->driver->real_escape_string($fechaRemision);
 		$total = 0;
 
+		$this->driver->autocommit(false);
+		$this->query->begin_transaction();
+
 		$stmt = $this->driver->prepare("INSERT INTO 
-										Remision (IDCliente, Folio, FechaRemision)
-										VALUES(?,?,?)");
-		if(!$stmt->bind_param('iis',$this->idCliente,$this->folio,$this->fechaRemision)){
+										MovimientoAlmacen (IDMovimientoAlmacenTipo, MovimientoAlmacenFecha, IDEmpleado)
+										VALUES(3,?,?)");
+		if(!$stmt->bind_param('si', date('Y-m-d'),$_SESSION['IDEmpleado'])){
+			$this->query->rollback();
 			die('Error al insertar en la base de datos');
 		}
 		if (!$stmt->execute()) {
+			$this->query->rollback();
 			die('Error al insertar en la base de datos');
-		}
-
-		if($this->driver->error){
-			return false;
 		}
 
 		$lastId = $this->driver->insert_id;
 
+		if($this->driver->error){
+			$this->query->rollback();
+			return false;
+		}
+
+		$stmt = $this->driver->prepare("INSERT INTO 
+										Remision (IDMovimientoAlmacen, IDCliente, Folio, FechaRemision)
+										VALUES(?,?,?,?)");
+		if(!$stmt->bind_param('iiis',$lastId, $this->idCliente,$this->folio,$this->fechaRemision)){
+			$this->query->rollback();
+			die('Error al insertar en la base de datos');
+		}
+		if (!$stmt->execute()) {
+			$this->query->rollback();
+			die('Error al insertar en la base de datos');
+		}
+
+		if($this->driver->error){
+			$this->query->rollback();
+			return false;
+		}
+
+		$lastId = $this->driver->insert_id;
+		$idRemision = $lastId;
+
 		for($i = 0;$i < count($idProductos);$i++){
-			if(!$this->createDetails($lastId,$idProductos[$i],$cantidades[$i],$precioUnitario[$i],$ivas[$i],$descuentos[$i]))
+			if(!$this->createDetails($lastId,$idProductos[$i],$cantidades[$i],$precioUnitario[$i],$ivas[$i],$descuentos[$i])){
+				$this->query->rollback();
 				return false;
+			}
 			$total += $cantidades[$i]*$precioUnitario[$i];
 		}
 		$this->total = $total;
+
+		$stmt = $this->driver->prepare("UPDATE 
+										Remision SET Total = ?
+										WHERE IDRemision = ?");
+		if(!$stmt->bind_param('di',$this->total, $idRemision)){
+			$this->query->rollback();
+		}
+		if (!$stmt->execute()) {
+			$this->query->rollback();
+			die('Error al insertar en la base de datos');
+		}
+
+		if($this->driver->error){
+			$this->query->rollback();
+			return false;
+		}
+
+		$this->query->commit();
+		$this->driver->autocommit(true);
+
 		return true;
 	}
 	
@@ -82,10 +130,10 @@ class RemisionMdl extends BaseMdl{
 										RemisionDetalle (IDRemision, IDProducto, Cantidad, PrecioUnitario, IVA, Descuento)
 										VALUES(?,?,?,?,?,?)");
 		if(!$stmt->bind_param('iidddd',$this->idRemision, $this->idProductoServicio, $this->cantidad, $this->precioUnitario, $this->iva, $this->descuento)){
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 		if (!$stmt->execute()) {
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 
 		if($this->driver->error){

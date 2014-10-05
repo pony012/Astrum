@@ -32,26 +32,57 @@ class AjusteEntradaMdl extends BaseMdl{
 		$this->folio				= $folio;
 		$this->observaciones		= $this->driver->real_escape_string($observaciones);
 
+		$this->driver->autocommit(false);
+		$this->query->begin_transaction();
+
 		$stmt = $this->driver->prepare("INSERT INTO 
-										AjusteEntrada (IDAjusteEntradaTipo,IDCliente, Folio, Observaciones)
-										VALUES(?,?,?,?)");
-		if(!$stmt->bind_param('iiis',$this->idAjusteEntradaTipo,$this->idCliente,$this->folio,$this->observaciones)){
+										MovimientoAlmacen (IDMovimientoAlmacenTipo, MovimientoAlmacenFecha, IDEmpleado)
+										VALUES(1,?,?)");
+		if(!$stmt->bind_param('si', date('Y-m-d'),$_SESSION['IDEmpleado'])){
+			$this->query->rollback();
 			die('Error al insertar en la base de datos');
 		}
 		if (!$stmt->execute()) {
+			$this->query->rollback();
+			die('Error al insertar en la base de datos');
+		}
+
+		$lastId = $this->driver->insert_id;
+
+		if($this->driver->error){
+			$this->query->rollback();
+			return false;
+		}
+
+		$stmt = $this->driver->prepare("INSERT INTO 
+										AjusteEntrada (IDMovimientoAlmacen, IDAjusteEntradaTipo, IDCliente, Folio, Observaciones)
+										VALUES(?,?,?,?,?)");
+		if(!$stmt->bind_param('iiiis',$lastId,$this->idAjusteEntradaTipo,$this->idCliente,$this->folio,$this->observaciones)){
+			$this->query->rollback();
+			die('Error al insertar en la base de datos');
+		}
+		if (!$stmt->execute()) {
+			$this->query->rollback();
 			die('Error al insertar en la base de datos');
 		}
 
 		if($this->driver->error){
+			$this->query->rollback();
 			return false;
 		}
 
 		$lastId = $this->driver->insert_id;
 
 		for($i = 0;$i < count($idProductos);$i++){
-			if(!$this->createDetails($lastId,$idProductos[$i],$cantidades[$i]))
+			if(!$this->createDetails($lastId,$idProductos[$i],$cantidades[$i])){
+				$this->query->rollback();
 				return false;
+			}
 		}
+
+		$this->query->commit();
+		$this->driver->autocommit(true);
+
 		return true;
 	}
 	
@@ -71,10 +102,10 @@ class AjusteEntradaMdl extends BaseMdl{
 										AjusteEntradaDetalle (IDAjusteEntrada,IDProductoServicio,Cantidad)
 										VALUES(?,?,?)");
 		if(!$stmt->bind_param('iid',$this->idAjusteEntrada, $this->idProductoServicio, $this->cantidad)){
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 		if (!$stmt->execute()) {
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 
 		if($this->driver->error){
