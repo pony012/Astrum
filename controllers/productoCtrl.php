@@ -20,6 +20,10 @@
 					//Listar 
 					$this->lists();
 					break;
+				case 'delete':
+					//Baja 
+					$this->delete();
+					break;
 				default:
 					# code...
 					break;
@@ -70,8 +74,19 @@
 
 		}
 
+		/**
+		*Da de baja a un determinado producto
+		**/
 		private function delete(){
-
+			$idProducto	= $this->validateNumber(isset($_POST['idProducto'])?$_POST['idProducto']:NULL);
+			if(strlen($idProducto)==0)
+				require_once 'views/productoDeleteError.html';
+			else{
+				if($result = $this->model->delete($idProducto))
+					require_once 'views/productoDelete.html';
+				else
+					require_once 'views/productoDeleteError.html';
+			}
 		}
 
 		private function update(){

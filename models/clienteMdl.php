@@ -103,5 +103,39 @@ class ClienteMdl extends BaseMdl{
 			
 		return false;
 	}
+	
+	/**
+	*Da de baja a un determinado cliente
+	*@return true or false
+	**/
+	function delete($idCliente){
+	
+		if($stmt = $this->driver->prepare('SELECT Activo FROM Cliente WHERE IDCliente=? AND Activo = "S"')){
+		
+			if(!$stmt->bind_param('i',$idCliente))
+				die('Error Al Eliminar');
+			
+			if(!$stmt->execute())
+				die('Error Al Eliminar');
+				
+			$mySqliResult = $stmt->get_result();
+
+			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['Activo']!=''){			
+			
+				if($stmt = $this->driver->prepare('CALL desactivarCliente(?)')){
+			
+					if(!$stmt->bind_param('i',$idCliente))
+						die('Error Al Eliminar');
+					
+					if(!$stmt->execute())
+						die('Error Al Eliminar');
+					else
+						return true;
+				}
+			}
+		}
+
+		return false;
+	}
 }
 ?>

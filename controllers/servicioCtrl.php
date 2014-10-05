@@ -20,6 +20,10 @@
 					//Listar 
 					$this->lists();
 					break;
+				case 'delete':
+					//Baja 
+					$this->delete();
+					break;
 				default:
 					# code...
 					break;
@@ -70,8 +74,19 @@
 
 		}
 
+		/**
+		*Da de baja a un determinado servicio
+		**/
 		private function delete(){
-
+			$idServicio	= $this->validateNumber(isset($_POST['idServicio'])?$_POST['idServicio']:NULL);
+			if(strlen($idServicio)==0)
+				require_once 'views/servicioDeleteError.html';
+			else{
+				if($result = $this->model->delete($idServicio))
+					require_once 'views/servicioDelete.html';
+				else
+					require_once 'views/servicioDeleteError.html';
+			}
 		}
 
 		private function update(){

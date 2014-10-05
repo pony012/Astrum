@@ -60,5 +60,39 @@ class ProductoMdl extends BaseMdl{
 			
 		return false;
 	}
+	
+	/**
+	*Da de baja a un determinado producto
+	*@return true or false
+	**/
+	function delete($idProducto){
+	
+		if($stmt = $this->driver->prepare('SELECT Activo FROM ProductoServicio WHERE IDProductoServicio=? AND Activo = "S"')){
+		
+			if(!$stmt->bind_param('i',$idProducto))
+				die('Error Al Eliminar');
+			
+			if(!$stmt->execute())
+				die('Error Al Eliminar');
+				
+			$mySqliResult = $stmt->get_result();
+
+			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['Activo']!=''){
+			
+				if($stmt = $this->driver->prepare('CALL desactivarProductoServicio(?)')){
+			
+					if(!$stmt->bind_param('i',$idProducto))
+						die('Error Al Eliminar');
+					
+					if(!$stmt->execute())
+						die('Error Al Eliminar');
+					else
+						return true;
+				}
+			}
+		}
+
+		return false;
+	}
 }
 ?>

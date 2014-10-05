@@ -113,16 +113,32 @@ class EmpleadoMdl extends BaseMdl{
 	*@return true or false
 	**/
 	function delete($idEmpleado){
-		if($stmt = $this->driver->prepare('CALL desactivarEmpleado(?)')){
-			
+	
+		if($stmt = $this->driver->prepare('SELECT Activo FROM Empleado WHERE IDEmpleado=? AND Activo = "S"')){
+		
 			if(!$stmt->bind_param('i',$idEmpleado))
-				die('Error Al Consultar 1');
+				die('Error Al Eliminar');
 			
 			if(!$stmt->execute())
-				die('Error Al Consultar 2');
-			else
-				return true;
+				die('Error Al Eliminar');
+				
+			$mySqliResult = $stmt->get_result();
+
+			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['Activo']!=''){			
+			
+				if($stmt = $this->driver->prepare('CALL desactivarEmpleado(?)')){
+			
+					if(!$stmt->bind_param('i',$idEmpleado))
+						die('Error Al Eliminar');
+					
+					if(!$stmt->execute())
+						die('Error Al Eliminar');
+					else
+						return true;
+				}
+			}
 		}
+
 		return false;
 	}
 }

@@ -20,6 +20,10 @@
 					//Listar Proveedores
 					$this->lists();
 					break;
+				case 'delete':
+					//Baja
+					$this->delete();
+					break;
 				default:
 					# code...
 					break;
@@ -105,8 +109,19 @@
 
 		}
 
+		/**
+		*Da de baja a un determinado proveedor
+		**/
 		private function delete(){
-
+			$idProveedor	= $this->validateNumber(isset($_POST['idProveedor'])?$_POST['idProveedor']:NULL);
+			if(strlen($idProveedor)==0)
+				require_once 'views/proveedorDeleteError.html';
+			else{
+				if($result = $this->model->delete($idProveedor))
+					require_once 'views/proveedorDelete.html';
+				else
+					require_once 'views/proveedorDeleteError.html';
+			}
 		}
 
 		private function update(){

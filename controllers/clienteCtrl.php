@@ -20,6 +20,10 @@
 					//Listar
 					$this->lists();
 					break;
+				case 'delete':
+					//Baja
+					$this->delete();
+					break;
 				default:
 					# code...
 					break;
@@ -100,8 +104,19 @@
 
 		}
 
+		/**
+		*Da de baja a un determinado cliente
+		**/
 		private function delete(){
-
+			$idCliente	= $this->validateNumber(isset($_POST['idCliente'])?$_POST['idCliente']:NULL);
+			if(strlen($idCliente)==0)
+				require_once 'views/clienteDeleteError.html';
+			else{
+				if($result = $this->model->delete($idCliente))
+					require_once 'views/clienteDelete.html';
+				else
+					require_once 'views/clienteDeleteError.html';
+			}
 		}
 
 		private function update(){

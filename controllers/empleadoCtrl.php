@@ -131,6 +131,8 @@
 			else{
 				if($result = $this->model->delete($idEmpleado))
 					require_once 'views/empleadoDelete.html';
+				else
+					require_once 'views/empleadoDeleteError.html';
 			}
 		}
 
