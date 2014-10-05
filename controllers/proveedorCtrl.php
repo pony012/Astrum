@@ -24,6 +24,10 @@
 					//Baja
 					$this->delete();
 					break;
+				case 'update':
+					//Baja
+					$this->update();
+					break;
 				default:
 					# code...
 					break;
@@ -140,7 +144,78 @@
 		}
 
 		private function update(){
+			$errors = array();
 
+			$idProveedor		= $this->validateNumber(isset($_POST['idProveedor'])?$_POST['idProveedor']:NULL);
+			$nombre 			= $this->validateName(isset($_POST['nombre'])?$_POST['nombre']:NULL);
+			$apellidoPaterno 	= $this->validateName(isset($_POST['apellidoPaterno'])?$_POST['apellidoPaterno']:NULL);
+			$apellidoMaterno	= $this->validateName(isset($_POST['apellidoMaterno'])?$_POST['apellidoMaterno']:NULL);
+			$RFC				= $this->validateText(isset($_POST['RFC'])?$_POST['RFC']:NULL);
+			$calle				= $this->validateText(isset($_POST['calle'])?$_POST['calle']:NULL);
+			$numExterior		= $this->validateText(isset($_POST['numExterior'])?$_POST['numExterior']:NULL);
+			$numInterior		= $this->validateText(isset($_POST['numInterior'])?$_POST['numInterior']:NULL);
+			$colonia			= $this->validateText(isset($_POST['colonia'])?$_POST['colonia']:NULL);
+			$codigoPostal		= $this->validateNumber(isset($_POST['codigoPostal'])?$_POST['codigoPostal']:NULL);
+			$foto				= $this->validateText(isset($_POST['foto'])?$_POST['foto']:NULL);
+			$email				= $this->validateEmail(isset($_POST['email'])?$_POST['email']:NULL);
+			$telefono			= $this->validatePhone(isset($_POST['telefono'])?$_POST['telefono']:NULL);
+			$celular			= $this->validatePhone(isset($_POST['celular'])?$_POST['celular']:NULL);
+
+			if(strlen($idProveedor)==0)
+				$errors['idProveedor'] = 1;
+			if(strlen($nombre)==0)
+				$errors['nombre'] = 1;
+			if(strlen($apellidoPaterno)==0)
+				$errors['apellidoPaterno'] = 1;
+			if(strlen($apellidoMaterno)==0)
+				$errors['apellidoMaterno'] = 1;
+			if(strlen($RFC)==0)
+				$errors['RFC'] = 1;
+			if(strlen($calle)==0)
+				$errors['calle'] = 1;
+			if(strlen($colonia)==0)
+				$errors['colonia'] = 1;
+			if(strlen($codigoPostal)==0)
+				$errors['codigoPostal'] = 1;
+
+			if (count($errors) == 0) {
+				$result = $this->model->update(	$idProveedor,$nombre, 
+											$apellidoPaterno, 
+											$apellidoMaterno,
+											$RFC,
+											$calle,
+											$numExterior,
+											$numInterior,
+											$colonia,
+											$codigoPostal,
+											$foto,
+											$email,
+											$telefono,
+											$celular);
+				//Si pudo ser actualizado
+				if ($result) {
+					//Guardamos los campos en un arreglo
+					$data = array(	$nombre, 
+									$apellidoPaterno, 
+									$apellidoMaterno,
+									$RFC,
+									$calle,
+									$numExterior,
+									$numInterior,
+									$colonia,
+									$codigoPostal,
+									$foto,
+									$email,
+									$telefono,
+									$celular);
+					//Cargar la vista
+					require_once 'views/proveedorUpdated.php';
+				}else{
+					require_once 'views/proveedorUpdatedError.html';
+				}
+			}else{
+				require_once 'views/proveedorUpdatedError.html';
+			}
 		}
 
 		/**

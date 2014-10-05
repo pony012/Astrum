@@ -24,6 +24,10 @@
 					//Baja 
 					$this->delete();
 					break;
+				case 'update':
+					//Baja
+					$this->update();
+					break;
 				default:
 					# code...
 					break;
@@ -105,7 +109,43 @@
 		}
 
 		private function update(){
+			$errors = array();
 
+			$idServicio 	= $this->validateNumber(isset($_POST['idServicio'])?$_POST['idServicio']:NULL);
+			$idServicioTipo = $this->validateNumber(isset($_POST['idServicioTipo'])?$_POST['idServicioTipo']:NULL);
+			$servicio 		= $this->validateText(isset($_POST['servicio'])?$_POST['servicio']:NULL);
+			$precioUnitario	= $this->validateNumber(isset($_POST['precioUnitario'])?$_POST['precioUnitario']:NULL);
+			$foto 			= $this->validateText(isset($_POST['foto'])?$_POST['foto']:NULL);
+			$descripcion 	= $this->validateText(isset($_POST['descripcion'])?$_POST['descripcion']:NULL);
+
+			if(strlen($idServicio)==0)
+				$errors['idServicio'] = 1;
+			if(strlen($idServicioTipo)==0)
+				$errors['idServicioTipo'] = 1;
+			if(strlen($servicio)==0)
+				$errors['servicio'] = 1;
+			if(strlen($precioUnitario)==0)
+				$errors['precioUnitario'] = 1;
+			if(strlen($foto)==0)
+				$errors['foto'] = 1;
+			if(strlen($descripcion)==0)
+				$errors['descripcion'] = 1;
+
+			if (count($errors) == 0) {
+
+				$result = $this->model->update($idServicio,$idServicioTipo, $servicio, $precioUnitario, $foto, $descripcion);
+
+				//Si pudo ser creado
+				if ($result) {
+					$data = array($idServicioTipo, $servicio, $precioUnitario, $foto, $descripcion);
+					//Cargar la vista
+					require_once 'views/servicioUpdated.php';
+				}else{
+					require_once 'views/servicioUpdatedError.html';
+				}
+			}else{
+				require_once 'views/servicioUpdatedError.html';
+			}
 		}
 
 		/**
