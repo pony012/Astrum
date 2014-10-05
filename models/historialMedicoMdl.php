@@ -56,10 +56,10 @@ class HistorialMedicoMdl extends BaseMdl{
 
 		$lastId = $this->driver->insert_id;
 
-		if(!$this->exploracionMdl->createInit($lastId, $pesoIni, $bustoIni, $diafragmaIni, $brazoIni, $cinturaIni, $abdomenIni, $caderaIni, $musloIni))
-			$this->driver->rollback();		
-		//crear otra tabla, dividir exploracion
-		/*if(!$this->exploracionMdl->createFin($lastId, $pesoFin, $bustoFin, $diafragmaFin, $brazoFin, $cinturaFin, $abdomenFin, $caderaFin, $musloFin))
+		if(!$this->exploracionInicialMdl->create($lastId, $pesoIni, $bustoIni, $diafragmaIni, $brazoIni, $cinturaIni, $abdomenIni, $caderaIni, $musloIni))
+			$this->driver->rollback();	
+		//verificar en que momento hay que llamar a esta funcion	
+		/*if(!$this->exploracionFinalMdl->create($lastId, $pesoFin, $bustoFin, $diafragmaFin, $brazoFin, $cinturaFin, $abdomenFin, $caderaFin, $musloFin))
 			$this->driver->rollback();*/
 		if(!$this->fichaClinicaMdl->create($lastId, $motivoConsulta, $tiempoProblema, $relacionaCon, $tratamientoAnterior, $metProbados, $resAnteriores))
 			$this->driver->rollback();
@@ -121,7 +121,8 @@ class HistorialMedicoMdl extends BaseMdl{
 	}
 
 	function __construct(){
-		require_once 'models/exploracionMdl.php';
+		require_once 'models/exploracionInicialMdl.php';
+		require_once 'models/exploracionFinalMdl.php';
 		require_once 'models/fichaClinicaMdl.php';
 		require_once 'models/aguaAlDiaMdl.php';
 		require_once 'models/alimentacionMdl.php';
@@ -131,7 +132,8 @@ class HistorialMedicoMdl extends BaseMdl{
 		require_once 'models/pielMdl.php';
 		require_once 'models/tipoCelulitisMdl.php';
 
-		$this->exploracionMdl   = new ExploracionMdl();
+		$this->exploracionInicialMdl   = new ExploracionInicialMdl();
+		$this->exploracionFinalMdl   = new ExploracionFinalMdl();
 		$this->fichaClinicaMdl  = new FichaClinicaMdl();
 		$this->aguaAlDiaMdl     = new AguaAlDiaMdl();
 		$this->alimentacionMdl  = new AlimentacionMdl();
