@@ -140,5 +140,48 @@ class ProductoMdl extends BaseMdl{
 
 		return false;
 	}
+
+	/**
+	*Actualiza la información de un producto
+	*@return true or false
+	**/
+	function update($idProducto,$idProductoTipo, $producto, $precioUnitario, $foto = NULL, $descripcion = NULL){
+		if($stmt = $this->driver->prepare('SELECT IDProductoServicio FROM ProductoServicio WHERE IDProductoServicio=?')){
+		
+			if(!$stmt->bind_param('i',$idProducto))
+				die('Error Al Actualizar');
+			
+			if(!$stmt->execute())
+				die('Error Al Actualizar');
+				
+			$mySqliResult = $stmt->get_result();
+
+			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['IDProductoServicio']!=''){
+				$this->idProductoTipo 	= $idProductoTipo;
+				$this->producto			= $this->driver->real_escape_string($producto);
+				$this->precioUnitario 	= $precioUnitario;
+				$this->foto				= $this->driver->real_escape_string($foto);
+				$this->descripcion		= $this->driver->real_escape_string($descripcion);
+				
+				$stmt = $this->driver->prepare("UPDATE ProductoServicio SET IDProductoServicioTipo=?, Producto=?, PrecioUnitario=?, Foto=?, Descripcion=? 
+												WHERE IDProductoServicio=?");
+				if(!$stmt->bind_param('isdssi',$this->idProductoTipo,$this->producto,$this->precioUnitario,$this->foto,$this->descripcion,$idProducto)){
+					die('Error al Actualizar en la base de datos');
+				}
+				if (!$stmt->execute()) {
+					die('Error al Actualizar en la base de datos');
+				}
+
+				if($this->driver->error){
+					return false;
+				}
+
+				return true;
+			}
+		}
+		else
+			die('Error al Actualizar en la base de datos');
+	}
+
 }
 ?>
