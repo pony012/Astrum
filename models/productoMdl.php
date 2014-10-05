@@ -20,12 +20,25 @@ class ProductoMdl extends BaseMdl{
 	 *@return true
 	 */
 	function create($idProductoTipo, $producto, $precioUnitario, $foto = NULL, $descripcion = NULL){
-		$this->idProductoTipo = $idProductoTipo;
-		$this->producto	= $producto;
-		$this->precioUnitario	= $precioUnitario;
-		$this->foto	= $foto;
-		$this->descripcion	= $descripcion;
+		$this->idProductoTipo 	= $idProductoTipo;
+		$this->producto			= $this->driver->real_escape_string($producto);
+		$this->precioUnitario 	= $precioUnitario;
+		$this->foto				= $this->driver->real_escape_string($foto);
+		$this->descripcion		= $this->driver->real_escape_string($descripcion);
 		
+		$stmt = $this->driver->prepare("INSERT INTO ProductoServicio (IDProductoServicioTipo, Producto, PrecioUnitario, Foto, Descripcion) 
+										VALUES(?,?,?,?,?)");
+		if(!$stmt->bind_param('isdss',$this->idProductoTipo,$this->producto,$this->precioUnitario,$this->foto,$this->descripcion)){
+			die('Error al insertar en la base de datos');
+		}
+		if (!$stmt->execute()) {
+			die('Error al insertar en la base de datos');
+		}
+
+		if($this->driver->error){
+			return false;
+		}
+
 		return true;
 	}
 	

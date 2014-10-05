@@ -25,12 +25,29 @@ class RecepcionMdl extends BaseMdl{
 	 *@return true
 	 */
 	function create($idProveedor, $folio, $fechaRecepcion,$idProductos,$cantidades,$precioUnitario,$ivas,$descuentos){
-		$this->idProveedor = $idProveedor;
-		$this->folio	= $folio;
-		$this->fechaRecepcion	= $fechaRecepcion;
+		$this->idProveedor 		= $idProveedor;
+		$this->folio			= $folio;
+		$this->fechaRecepcion	= $this->driver->real_escape_string($fechaRecepcion);
 		$total = 0;
+
+		$stmt = $this->driver->prepare("INSERT INTO 
+										Recepcion (IDProveedor, Folio, FechaRecepcion)
+										VALUES(?,?,?)");
+		if(!$stmt->bind_param('iis',$this->idProveedor,$this->folio,$this->fechaRecepcion)){
+			die('Error al insertar en la base de datos');
+		}
+		if (!$stmt->execute()) {
+			die('Error al insertar en la base de datos');
+		}
+
+		if($this->driver->error){
+			return false;
+		}
+
+		$lastId = $this->driver->insert_id;
+
 		for($i = 0;$i < count($idProductos);$i++){
-			if(!$this->createDetails(1,$idProductos[$i],$cantidades[$i],$precioUnitario[$i],$ivas[$i],$descuentos[$i]))
+			if(!$this->createDetails($lastId,$idProductos[$i],$cantidades[$i],$precioUnitario[$i],$ivas[$i],$descuentos[$i]))
 				return false;
 			$total += $cantidades[$i]*$precioUnitario[$i];
 		}
@@ -49,13 +66,27 @@ class RecepcionMdl extends BaseMdl{
 	 *@return true
 	 */
 	function createDetails($idRecepcion,$idProductoServicio,$cantidad,$precioUnitario,$iva,$descuento){
-		$this->idRecepcion = $idRecepcion;
-		$this->idProductoServicio = $idProductoServicio;
-		$this->cantidad	= $cantidad;
-		$this->precioUnitario	= $precioUnitario;
-		$this->iva	= $iva;
-		$this->descuento	= $descuento;
+		$this->idRecepcion 			= $idRecepcion;
+		$this->idProductoServicio 	= $idProductoServicio;
+		$this->cantidad				= $cantidad;
+		$this->precioUnitario		= $precioUnitario;
+		$this->iva					= $iva;
+		$this->descuento			= $descuento;
 		
+		$stmt = $this->driver->prepare("INSERT INTO 
+										RecepcionDetalle (IDRecepcion, IDProducto, Cantidad, PrecioUnitario, IVA, Descuento)
+										VALUES(?,?,?,?,?,?)");
+		if(!$stmt->bind_param('iidddd',$this->idRecepcion, $this->idProductoServicio, $this->cantidad, $this->precioUnitario, $this->iva, $this->descuento)){
+			die('Error al insertar en la base de datos');
+		}
+		if (!$stmt->execute()) {
+			die('Error al insertar en la base de datos');
+		}
+
+		if($this->driver->error){
+			return false;
+		}
+
 		return true;
 	}
 	

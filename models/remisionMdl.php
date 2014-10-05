@@ -32,10 +32,27 @@ class RemisionMdl extends BaseMdl{
 	function create($idCliente, $folio, $fechaRemision,$idProductos,$cantidades,$precioUnitario,$ivas,$descuentos){
 		$this->idCliente 		= $idCliente;
 		$this->folio			= $folio;
-		$this->fechaRemision	= $fechaRemision;
+		$this->fechaRemision	= $this->driver->real_escape_string($fechaRemision);
 		$total = 0;
+
+		$stmt = $this->driver->prepare("INSERT INTO 
+										Remision (IDCliente, Folio, FechaRemision)
+										VALUES(?,?,?)");
+		if(!$stmt->bind_param('iis',$this->idCliente,$this->folio,$this->fechaRemision)){
+			die('Error al insertar en la base de datos');
+		}
+		if (!$stmt->execute()) {
+			die('Error al insertar en la base de datos');
+		}
+
+		if($this->driver->error){
+			return false;
+		}
+
+		$lastId = $this->driver->insert_id;
+
 		for($i = 0;$i < count($idProductos);$i++){
-			if(!$this->createDetails(1,$idProductos[$i],$cantidades[$i],$precioUnitario[$i],$ivas[$i],$descuentos[$i]))
+			if(!$this->createDetails($lastId,$idProductos[$i],$cantidades[$i],$precioUnitario[$i],$ivas[$i],$descuentos[$i]))
 				return false;
 			$total += $cantidades[$i]*$precioUnitario[$i];
 		}
@@ -61,6 +78,20 @@ class RemisionMdl extends BaseMdl{
 		$this->iva				  = $iva;
 		$this->descuento		  = $descuento;
 		
+		$stmt = $this->driver->prepare("INSERT INTO 
+										RemisionDetalle (IDRemision, IDProducto, Cantidad, PrecioUnitario, IVA, Descuento)
+										VALUES(?,?,?,?,?,?)");
+		if(!$stmt->bind_param('iidddd',$this->idRemision, $this->idProductoServicio, $this->cantidad, $this->precioUnitario, $this->iva, $this->descuento)){
+			die('Error al insertar en la base de datos');
+		}
+		if (!$stmt->execute()) {
+			die('Error al insertar en la base de datos');
+		}
+
+		if($this->driver->error){
+			return false;
+		}
+
 		return true;
 	}
 

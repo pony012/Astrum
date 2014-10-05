@@ -48,10 +48,15 @@ class ProveedorMdl extends BaseMdl{
 		$this->telefono		= $this->driver->real_escape_string($telefono);
 		$this->celular		= $this->driver->real_escape_string($celular);
 		
-		$result = $this->driver->query("INSERT INTO Proveedor (Nombre, ApellidoPaterno, ApellidoMaterno, RFC, Calle, NumExterior, NumInterior, Colonia, CodigoPostal, Email, Telefono, Celular) 
-					VALUES('$this->nombre','$this->apellidoPat','$this->apellidoMat','$this->rfc','$this->calle',
-					'$this->numExterior','$this->numInterior','$this->colonia','$this->codigoPostal','$this->email','$this->telefono', $this->celular)");
-		
+		$stmt = $this->driver->prepare(("INSERT INTO Proveedor (Nombre, ApellidoPaterno, ApellidoMaterno, RFC, Calle, NumExterior, NumInterior, Colonia, CodigoPostal, Email, Telefono, Celular) 
+										 VALUES(?,?,?,?,?,?,?,?,?,?,?,?)");
+		if(!$stmt->bind_param('ssssssssssss',$this->nombre,$this->apellidoPat,$this->apellidoMat,$this->rfc,$this->calle,$this->numExterior,$this->numInterior,$this->colonia,$this->codigoPostal,$this->email,$this->telefono, $this->celular){
+			die('Error al insertar en la base de datos');
+		}
+		if (!$stmt->execute()) {
+			die('Error al insertar en la base de datos');
+		}
+
 		if($this->driver->error){
 			return false;
 		}

@@ -14,8 +14,21 @@ class ProdutoServicioTipoMdl extends BaseMdl{
 	 *@return true
 	 */
 	function create($productoServicioTipo, $descripcion){
-		$this->productoServicioTipo = $productoServicioTipo;
-		$this->descripcion	= $descripcion;
+		$this->productoServicioTipo = $this->driver->real_escape_string($productoServicioTipo);
+		$this->descripcion			= $this->driver->real_escape_string($descripcion);
+		
+		$stmt = $this->driver->prepare("INSERT INTO ProductoServicioTipo (ProductoServicioTipo, Descripcion) 
+										VALUES(?,?,?,?,?)");
+		if(!$stmt->bind_param('ss',$this->productoServicioTipo,$this->descripcion)){
+			die('Error al insertar en la base de datos');
+		}
+		if (!$stmt->execute()) {
+			die('Error al insertar en la base de datos');
+		}
+
+		if($this->driver->error){
+			return false;
+		}
 		
 		return true;
 	}

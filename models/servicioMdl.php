@@ -20,12 +20,25 @@ class ServicioMdl extends BaseMdl{
 	 *@return true
 	 */
 	function create($idServicioTipo, $servicio, $precioUnitario, $foto = NULL, $descripcion = NULL){
-		$this->idServicioTipo = $idServicioTipo;
-		$this->servicio	= $servicio;
+		$this->idServicioTipo 	= $idServicioTipo;
+		$this->servicio			= $this->driver->real_escape_string($servicio);
 		$this->precioUnitario	= $precioUnitario;
-		$this->foto	= $foto;
-		$this->descripcion	= $descripcion;
+		$this->foto				= $this->driver->real_escape_string($foto);
+		$this->descripcion		= $this->driver->real_escape_string($descripcion);
 		
+		$stmt = $this->driver->prepare("INSERT INTO ProductoServicio (IDProductoServicioTipo, Producto, PrecioUnitario, Foto, Descripcion) 
+										VALUES(?,?,?,?,?)");
+		if(!$stmt->bind_param('isdss',$this->idProductoTipo,$this->servicio,$this->precioUnitario,$this->foto,$this->descripcion)){
+			die('Error al insertar en la base de datos');
+		}
+		if (!$stmt->execute()) {
+			die('Error al insertar en la base de datos');
+		}
+
+		if($this->driver->error){
+			return false;
+		}
+
 		return true;
 	}
 	

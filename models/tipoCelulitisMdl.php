@@ -21,13 +21,26 @@ class TipoCelulitisMdl extends BaseMdl{
 	 *@return true
 	 */
 	function create($fibrosa, $edematosa, $flacida, $dura, $mixta, $dolorosa){
-		$this->fibrosa 	 = $fibrosa;
-		$this->edematosa = $edematosa;
-		$this->flacida   = $flacida;
-		$this->dura		 = $dura;
-		$this->mixta 	 = $mixta;
-		$this->dolorosa  = $dolorosa;
+		$this->fibrosa 	 = $this->driver->real_escape_string($fibrosa);
+		$this->edematosa = $this->driver->real_escape_string($edematosa);
+		$this->flacida   = $this->driver->real_escape_string($flacida);
+		$this->dura		 = $this->driver->real_escape_string($dura);
+		$this->mixta 	 = $this->driver->real_escape_string($mixta);
+		$this->dolorosa  = $this->driver->real_escape_string($dolorosa);
 		
+		$stmt = $this->driver->prepare("INSERT INTO TipoCelulitis (Fibrosa, Edematosa, Flacida, Dura, Mixta, Dolorosa) 
+										VALUES(?,?,?,?,?,?)");
+		if(!$stmt->bind_param('ssssss',	$this->fibrosa, $this->edematosa, $this->flacida, $this->dura, $this->mixta, $this->dolorosa)){
+			die('Error al insertar en la base de datos');
+		}
+		if (!$stmt->execute()) {
+			die('Error al insertar en la base de datos');
+		}
+		
+		if($this->driver->error){
+			return false;
+		}
+
 		return true;
 	}
 }
