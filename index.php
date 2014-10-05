@@ -2,7 +2,9 @@
 	require_once 'controllers/baseCtrl.php';
 	session_start();
 
-
+	$index = new BaseCtrl();
+		
+		
 	//Recibiendo
 	//Get query args
 	if (isset($_GET['ctrl'])) {
@@ -89,7 +91,6 @@
 				break;
 		}
 	}else{
-		$index = new BaseCtrl();
 		require_once 'views/provisional.html';
 	}
 	if (isset($ctrl)) {
