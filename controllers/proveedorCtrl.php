@@ -124,6 +124,21 @@
 			}
 		}
 
+		/**
+		*Activa a un determinado proveedor
+		**/
+		private function active(){
+			$idProveedor	= $this->validateNumber(isset($_POST['idProveedor'])?$_POST['idProveedor']:NULL);
+			if(strlen($idProveedor)==0)
+				require_once 'views/proveedorActiveError.html';
+			else{
+				if($result = $this->model->active($idProveedor))
+					require_once 'views/proveedorActive.html';
+				else
+					require_once 'views/proveedorActiveError.html';
+			}
+		}
+
 		private function update(){
 
 		}

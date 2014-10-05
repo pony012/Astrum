@@ -123,3 +123,17 @@ FROM ProductoServicio ps
 INNER JOIN ProductoServicioTipo pst
 on pst.IDProductoServicioTipo=ps.IDProductoServicioTipo
 WHERE ps.IDProductoServicioTipo=2 and ps.Activo='S';
+
+CREATE VIEW V_Proveedor AS
+SELECT IDProveedor, Nombre, ApellidoPaterno, ApellidoMaterno, 
+RFC, Calle, NumExterior, 
+NumInterior, Colonia, CodigoPostal as CP, Email, Telefono, Celular 
+From Proveedor p
+WHERE p.Activo='S'; 
+
+CREATE VIEW V_Cliente AS
+SELECT IDCliente, Nombre, ApellidoPaterno, ApellidoMaterno, 
+Calle, NumExterior, 
+NumInterior, Colonia, CodigoPostal as CP, Email, Telefono, Celular 
+From Cliente c
+WHERE c.Activo='S'; 

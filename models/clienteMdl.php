@@ -79,7 +79,7 @@ class ClienteMdl extends BaseMdl{
 	function lists($constraint = '1 = 1'){
 		$rows = array();
 
-		if($stmt = $this->driver->prepare('SELECT * FROM Cliente WHERE ?')){
+		if($stmt = $this->driver->prepare('SELECT * FROM V_Cliente WHERE ?')){
 			
 			if(!$stmt->bind_param('s',$constraint))
 				die('Error Al Consultar');
@@ -129,6 +129,39 @@ class ClienteMdl extends BaseMdl{
 					
 					if(!$stmt->execute())
 						die('Error Al Eliminar');
+					else
+						return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	*Da Activa a un determinado cliente que estuviera eliminado
+	*@return true or false
+	**/
+	function active($idCliente){
+		if($stmt = $this->driver->prepare('SELECT Activo FROM Cliente WHERE IDCliente=? AND Activo = "N"')){
+		
+			if(!$stmt->bind_param('i',$idCliente))
+				die('Error Al Activar');
+			
+			if(!$stmt->execute())
+				die('Error Al Activar');
+				
+			$mySqliResult = $stmt->get_result();
+
+			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['Activo']!=''){			
+			
+				if($stmt = $this->driver->prepare('CALL activarCliente(?)')){
+			
+					if(!$stmt->bind_param('i',$idCliente))
+						die('Error Al Activar');
+					
+					if(!$stmt->execute())
+						die('Error Al Activar');
 					else
 						return true;
 				}

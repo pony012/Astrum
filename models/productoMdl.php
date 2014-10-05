@@ -94,5 +94,38 @@ class ProductoMdl extends BaseMdl{
 
 		return false;
 	}
+
+	/**
+	*Da Activa a un determinado producto que estuviera eliminado
+	*@return true or false
+	**/
+	function active($idProducto){
+		if($stmt = $this->driver->prepare('SELECT Activo FROM ProductoServicio WHERE IDProductoServicio=? AND Activo = "N"')){
+		
+			if(!$stmt->bind_param('i',$idProducto))
+				die('Error Al Activar');
+			
+			if(!$stmt->execute())
+				die('Error Al Activar');
+				
+			$mySqliResult = $stmt->get_result();
+
+			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['Activo']!=''){			
+			
+				if($stmt = $this->driver->prepare('CALL activarProductoServicio(?)')){
+			
+					if(!$stmt->bind_param('i',$idProducto))
+						die('Error Al Activar');
+					
+					if(!$stmt->execute())
+						die('Error Al Activar');
+					else
+						return true;
+				}
+			}
+		}
+
+		return false;
+	}
 }
 ?>

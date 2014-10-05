@@ -89,6 +89,21 @@
 			}
 		}
 
+		/**
+		*Activa a un determinado servicio
+		**/
+		private function active(){
+			$idServicio	= $this->validateNumber(isset($_POST['idServicio'])?$_POST['idServicio']:NULL);
+			if(strlen($idServicio)==0)
+				require_once 'views/servicioActiveError.html';
+			else{
+				if($result = $this->model->active($idServicio))
+					require_once 'views/servicioActive.html';
+				else
+					require_once 'views/servicioActiveError.html';
+			}
+		}
+
 		private function update(){
 
 		}

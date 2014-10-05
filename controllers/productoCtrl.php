@@ -89,6 +89,21 @@
 			}
 		}
 
+		/**
+		*Activa a un determinado producto
+		**/
+		private function active(){
+			$idProducto	= $this->validateNumber(isset($_POST['idProducto'])?$_POST['idProducto']:NULL);
+			if(strlen($idProducto)==0)
+				require_once 'views/productoActiveError.html';
+			else{
+				if($result = $this->model->active($idProducto))
+					require_once 'views/productoActive.html';
+				else
+					require_once 'views/productoActiveError.html';
+			}
+		}
+
 		private function update(){
 
 		}

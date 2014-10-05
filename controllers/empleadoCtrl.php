@@ -136,6 +136,21 @@
 			}
 		}
 
+		/**
+		*Activa a un determinado empleado
+		**/
+		private function active(){
+			$idEmpleado	= $this->validateNumber(isset($_POST['idEmpleado'])?$_POST['idEmpleado']:NULL);
+			if(strlen($idEmpleado)==0)
+				require_once 'views/empleadoActiveError.html';
+			else{
+				if($result = $this->model->active($idEmpleado))
+					require_once 'views/empleadoActive.html';
+				else
+					require_once 'views/empleadoActiveError.html';
+			}
+		}
+
 		private function update(){
 
 		}

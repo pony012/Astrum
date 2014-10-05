@@ -119,6 +119,21 @@
 			}
 		}
 
+		/**
+		*Activa a un determinado cliente
+		**/
+		private function active(){
+			$idCliente	= $this->validateNumber(isset($_POST['idCliente'])?$_POST['idCliente']:NULL);
+			if(strlen($idCliente)==0)
+				require_once 'views/clienteActiveError.html';
+			else{
+				if($result = $this->model->active($idCliente))
+					require_once 'views/clienteActive.html';
+				else
+					require_once 'views/clienteActiveError.html';
+			}
+		}
+
 		private function update(){
 
 		}

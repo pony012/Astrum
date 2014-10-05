@@ -141,5 +141,38 @@ class EmpleadoMdl extends BaseMdl{
 
 		return false;
 	}
+
+	/**
+	*Da Activa a un determinado empleado que estuviera eliminado
+	*@return true or false
+	**/
+	function active($idEmpleado){
+		if($stmt = $this->driver->prepare('SELECT Activo FROM Empleado WHERE IDEmpleado=? AND Activo = "N"')){
+		
+			if(!$stmt->bind_param('i',$idEmpleado))
+				die('Error Al Activar');
+			
+			if(!$stmt->execute())
+				die('Error Al Activar');
+				
+			$mySqliResult = $stmt->get_result();
+
+			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['Activo']!=''){			
+			
+				if($stmt = $this->driver->prepare('CALL activarEmpleado(?)')){
+			
+					if(!$stmt->bind_param('i',$idEmpleado))
+						die('Error Al Activar');
+					
+					if(!$stmt->execute())
+						die('Error Al Activar');
+					else
+						return true;
+				}
+			}
+		}
+
+		return false;
+	}
 }
 ?>
