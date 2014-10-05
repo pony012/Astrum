@@ -23,6 +23,8 @@
 			$_SESSION['pass'] = $pass;
 			$_SESSION['type'] = $type;
 
+			echo '<meta http-equiv="refresh" content="0; url=./">';
+			
 			return TRUE;
 		}
 
@@ -36,6 +38,8 @@
 			session_destroy();
 			
 			setcookie(session_name(), '', time()-3600);
+
+			die('<meta http-equiv="refresh" content="0; url=./">');
 		}
 
 		/**
@@ -154,6 +158,20 @@
 			}
 			return $result;*/
 			return array();
+		}
+
+		/**
+		* Construye un controlador Base
+		* Manda a llamar el header y
+		* el inicio de sesión o la bienvenida en caso de que esté logueado
+		*/
+		function __construct(){
+			//require_once 'views/header.php';
+			if(BaseCtrl::isLoged()){
+				require_once 'views/bienvenido.php';
+			}else{
+				require_once 'views/login.php';
+			}
 		}
 	}
 ?>

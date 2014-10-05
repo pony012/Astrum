@@ -2,27 +2,16 @@
 	require_once 'controllers/baseCtrl.php';
 	session_start();
 
-	//TODO 
-	//Mandar a llamar las vistas en un controlador
-	if(BaseCtrl::isLoged()===TRUE){
-		//require 'views/bienvenido.php';
-	}else{
-		//require 'views/login.php';
-	}
 
 	//Recibiendo
 	//Get query args
 	if (isset($_GET['ctrl'])) {
 		switch($_GET['ctrl']){
 			case 'login':
-				//Crear el controlador y ejecutarlo
 				BaseCtrl::startSession($_POST['u'],$_POST['p'],$_POST['t']);
-				die('<meta http-equiv="refresh" content="0; url=./">');
 				break;
 			case 'logout':
-				//Crear el controlador y ejecutarlo
 				BaseCtrl::killSession();
-				die('<meta http-equiv="refresh" content="0; url=./">');
 				break;
 			case 'ajusteEntrada':
 				//Crear el controlador y ejecutarlo
@@ -95,10 +84,12 @@
 				$ctrl = new ExistenciaCtrl();
 				break;
 			default:
+				$ctrl = new BaseCtrl();
 				require_once 'views/provisional.html';
 				break;
 		}
 	}else{
+		$index = new BaseCtrl();
 		require_once 'views/provisional.html';
 	}
 	if (isset($ctrl)) {
