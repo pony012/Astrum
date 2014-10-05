@@ -102,12 +102,47 @@
 			
 
 			if (count($errors) == 0) {
-				$result 			= $this->model->create($idCliente, $fechaRegistro, $idServicio, $observaciones);
-				$exploracionIni   = $this->exploracionMdl->createInit($pesoIni, $bustoIni, $diafragmaIni, $brazoIni, $cinturaIni, $abdomenIni, $caderaIni, $musloIni);
-				$exploracionFin   = $this->exploracionMdl->createFin($pesoFin, $bustoFin, $diafragmaFin, $brazoFin, $cinturaFin, $abdomenFin, $caderaFin, $musloFin);
-				$fichaClinica  	  = $this->fichaClinicaMdl->create($motivoConsulta, $tiempoProblema, $relacionaCon, $tratamientoAnterior, $metProbados, $resAnteriores);
-				$aguaAlDia        = $this->aguaAlDiaMdl->create($estadoAguaAlDia);
-				$alimentacion     = $this->alimentacionMdl->create($estadoAlimentacion);
+				
+				$poca = NULL;
+				$regularAg = NULL;
+				$mucha = NULL;
+
+				switch ($aguaAlDia) {
+					case 'poca':
+						$poca = 'S';
+						break;
+
+					case 'regular':
+						$regularAg = 'S';
+						break;
+
+					case 'mucha':
+						$mucha = 'S';
+						break;
+					
+					default:
+
+				}
+
+				$buena = NULL;
+				$regularAl = NULL;
+				$mala = NULL;
+
+				switch ($alimentacion) {
+					case 'buena':
+						$buena = 'S';
+						break;
+
+					case 'regular':
+						$regularAl = 'S';
+						break;
+
+					case 'mala':
+						$mala = 'S';
+						break;
+					
+					default:
+				}
 				
 				$peellingQuim = NULL;
 				$laser = NULL;
@@ -167,10 +202,6 @@
 						default:
 					};
 				
-				$exfoliacion      = $this->exfoliacionMdl->create($peellingQuim,$laser,$dermobrasion,$retinA,$renova,$racutan,
-																	$adapaleno,$acidoGlicolico,$alfaHidroiacidos,$exfolianteGranuloso,
-																	$acidoLactico,$vitaminaA,$blanqueadorAclarador);
-				
 				$fumar 			= NULL;
 				$ejercicio 	    = NULL;
 				$usarFaja 		= NULL;
@@ -204,8 +235,6 @@
 							break;
 						default:
 					};
-					
-				$habito   	      = $this->habitoMdl->create($fumar, $ejercicio, $usarFaja, $suenio, $tomaSol, $bloqueador, $hidroquinona);
 				
 				$diabetes			= NULL;
 				$obesisdad			= NULL;
@@ -257,9 +286,6 @@
 						default:
 					};
 					
-				$padecimiento     = $this->padecimientoMdl->create($diabetes, $obesisdad, $depresion, $estres, $sobrepeso, $estrenimiento, $colitis,
-																   $retencionLiquidos, $transtornoMes, $cuidadoCorporal, $embarazo);
-				
 				$fina = NULL;
 				$gruesa = NULL;
 				$deshidratada = NULL;
@@ -342,10 +368,6 @@
 							break;
 						default:
 					};
-				
-				$piel		      = $this->pielMdl->create($fina,$gruesa,$deshidratada,$flacida,$seca,$mixta,$grasa,$acneica,$manchas,
-															$cicatrices,$poroAbierto,$ojeras,$lunares,$pecas,$puntosNegros,$verrugas,$arrugas,
-															$brilloFacial,$pielAsfixiada,$despigmentacion);
 															
 				$fibrosa = NULL;
 				$edematosa = NULL;
@@ -376,43 +398,39 @@
 							break;
 						default:
 					};
-					
-				$tipoCelulitis    = $this->tipoCelulitisMdl->create($fibrosa, $edematosa, $flacida, $dura, $mixta, $dolorosa);
+
+				$result 			= $this->model->create($idCliente, $fechaRegistro, $idServicio, $observaciones, 
+															$pesoIni, $bustoIni, $diafragmaIni, $brazoIni, $cinturaIni, $abdomenIni, $caderaIni, $musloIni,
+															$pesoFin, $bustoFin, $diafragmaFin, $brazoFin, $cinturaFin, $abdomenFin, $caderaFin, $musloFin,
+															$motivoConsulta, $tiempoProblema, $relacionaCon, $tratamientoAnterior, $metProbados, $resAnteriores,
+															$poca,$regularAg,$mucha,$buena,$regularAl,$mala,
+															$peellingQuim,$laser,$dermobrasion,$retinA,$renova,$racutan,
+															$adapaleno,$acidoGlicolico,$alfaHidroiacidos,$exfolianteGranuloso,
+															$acidoLactico,$vitaminaA,$blanqueadorAclarador, $fumar, $ejercicio, $usarFaja, $suenio, $tomaSol, $bloqueador, $hidroquinona,
+															$diabetes, $obesisdad, $depresion, $estres, $sobrepeso, $estrenimiento, $colitis,
+														    $retencionLiquidos, $transtornoMes, $cuidadoCorporal, $embarazo,
+															$fina,$gruesa,$deshidratada,$flacida,$seca,$mixta,$grasa,$acneica,$manchas,
+															$cicatrices,$poroAbierto,$ojeras,$lunares,$pecas,$puntosNegros,$verrugas,$arrugas,
+															$brilloFacial,$pielAsfixiada,$despigmentacion, $fibrosa, $edematosa, $flacida, $dura, $mixta, $dolorosa);
+
 				if (!$result)
 					echo 'Historial Medico';
-				if( !$exploracionIni)
-					echo 'explo ini';
-				if(!$exploracionFin)
-					echo 'explo fin';
-				if(!$fichaClinica)
-					echo 'ficha';
-				if(!$aguaAlDia)
-					echo 'Agua';
-				if(!$alimentacion)
-					echo 'ali';
-				if(!$exfoliacion)
-					echo 'exfo';
-				if(!$habito)
-					echo 'Habito';
-				if(!$padecimiento)
-					echo 'Padecimiento';
-				if(!$piel)
-					echo 'piel';
-				if(!$tipoCelulitis)
-					echo 'Celulitis';
 				
 				//Si pudo ser creado
-				if ($result and $exploracionIni and $exploracionFin and $fichaClinica and $aguaAlDia and $alimentacion and $exfoliacion and $habito and $padecimiento and $piel and $tipoCelulitis){
-					$data = array($idCliente, $fechaRegistro, $idServicio, $observaciones,$pesoIni, $bustoIni, $diafragmaIni, $brazoIni, $cinturaIni, 
-									$abdomenIni, $caderaIni, $musloIni,$pesoFin, $bustoFin, $diafragmaFin, $brazoFin, $cinturaFin, $abdomenFin, $caderaFin,
-									$musloFin,$motivoConsulta, $tiempoProblema, $relacionaCon, $tratamientoAnterior, $metProbados, $resAnteriores,
-									$estadoAguaAlDia,$estadoAlimentacion,$peellingQuim,$laser,$dermobrasion,$retinA,$renova,$racutan,
-									$adapaleno,$acidoGlicolico,$alfaHidroiacidos,$exfolianteGranuloso,$acidoLactico,$vitaminaA,$blanqueadorAclarador,
-									$fumar, $ejercicio, $usarFaja, $suenio, $tomaSol, $bloqueador, $hidroquinona,$diabetes, $obesisdad, $depresion, 
-									$estres, $sobrepeso, $estrenimiento, $colitis,$retencionLiquidos, $transtornoMes, $cuidadoCorporal, $embarazo,
-									$fina,$gruesa,$deshidratada,$flacida,$seca,$mixta,$grasa,$acneica,$manchas,$cicatrices,$poroAbierto,$ojeras,
-									$lunares,$pecas,$puntosNegros,$verrugas,$arrugas,$brilloFacial,$pielAsfixiada,$despigmentacion,
-									$fibrosa, $edematosa, $flacida, $dura, $mixta, $dolorosa);
+				if ($result ){
+					$data = array($idCliente, $fechaRegistro, $idServicio, $observaciones, 
+												$pesoIni, $bustoIni, $diafragmaIni, $brazoIni, $cinturaIni, $abdomenIni, $caderaIni, $musloIni,
+												$pesoFin, $bustoFin, $diafragmaFin, $brazoFin, $cinturaFin, $abdomenFin, $caderaFin, $musloFin,
+												$motivoConsulta, $tiempoProblema, $relacionaCon, $tratamientoAnterior, $metProbados, $resAnteriores,
+												$poca,$regularAg,$mucha,$buena,$regularAl,$mala,
+												$peellingQuim,$laser,$dermobrasion,$retinA,$renova,$racutan,
+												$adapaleno,$acidoGlicolico,$alfaHidroiacidos,$exfolianteGranuloso,
+												$acidoLactico,$vitaminaA,$blanqueadorAclarador, $fumar, $ejercicio, $usarFaja, $suenio, $tomaSol, $bloqueador, $hidroquinona,
+												$diabetes, $obesisdad, $depresion, $estres, $sobrepeso, $estrenimiento, $colitis,
+											    $retencionLiquidos, $transtornoMes, $cuidadoCorporal, $embarazo,
+												$fina,$gruesa,$deshidratada,$flacida,$seca,$mixta,$grasa,$acneica,$manchas,
+												$cicatrices,$poroAbierto,$ojeras,$lunares,$pecas,$puntosNegros,$verrugas,$arrugas,
+												$brilloFacial,$pielAsfixiada,$despigmentacion, $fibrosa, $edematosa, $flacida, $dura, $mixta, $dolorosa);
 					//Cargar la vista
 					require_once 'views/historialMedicoInserted.php';
 				}else{
@@ -452,27 +470,8 @@
 
 		function __construct(){
 			require_once 'models/historialMedicoMdl.php';
-			require_once 'models/exploracionMdl.php';
-			require_once 'models/fichaClinicaMdl.php';
-			require_once 'models/aguaAlDiaMdl.php';
-			require_once 'models/alimentacionMdl.php';
-			require_once 'models/exfoliacionMdl.php';
-			require_once 'models/habitoMdl.php';
-			require_once 'models/padecimientoMdl.php';
-			require_once 'models/pielMdl.php';
-			require_once 'models/tipoCelulitisMdl.php';
+			$this->model = new HistorialMedicoMdl();
 			
-			$this->model 			= new HistorialMedicoMdl();
-			$this->exploracionMdl   = new ExploracionMdl();
-			$this->fichaClinicaMdl  = new FichaClinicaMdl();
-			$this->aguaAlDiaMdl     = new AguaAlDiaMdl();
-			$this->alimentacionMdl  = new AlimentacionMdl();
-			
-			$this->exfoliacionMdl   = new ExfoliacionMdl();
-			$this->habitoMdl    	= new HabitoMdl();
-			$this->padecimientoMdl  = new PadecimientoMdl();
-			$this->pielMdl		    = new PielMdl();
-			$this->tipoCelulitisMdl = new TipoCelulitisMdl();
 		}
 	}
 ?>

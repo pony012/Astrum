@@ -30,7 +30,7 @@ class PadecimientoMdl extends BaseMdl{
 	 *Crea un nuevo registro de Padecimiento
 	 *@return true
 	 */
-	function create($diabetes, $obesisdad, $depresion, $estres, $sobrepeso, $estrenimiento, $colitis,
+	function create($lastId, $diabetes, $obesisdad, $depresion, $estres, $sobrepeso, $estrenimiento, $colitis,
 					$retencionLiquidos, $transtornoMes, $cuidadoCorporal, $embarazo){
 		$this->diabetes 		 = $this->driver->real_escape_string($diabetes);
 		$this->obesisdad  		 = $this->driver->real_escape_string($obesisdad);
@@ -44,10 +44,10 @@ class PadecimientoMdl extends BaseMdl{
 		$this->cuidadoCorporal   = $this->driver->real_escape_string($cuidadoCorporal);
 		$this->embarazo   		 = $embarazo;
 		
-		$stmt = $this->driver->prepare("INSERT INTO Padecimiento (Diabetes, Obesisdad, Depresion, Estres, Sobrepeso, Estreñimiento,
+		$stmt = $this->driver->prepare("INSERT INTO Padecimiento (IDHistorialMedico,Diabetes, Obesisdad, Depresion, Estres, Sobrepeso, Estreñimiento,
 																Colitis, RetencionLiquidos, TranstornosMenstruales, CuidadoCorporal, Embarazo) 
-										VALUES(?,?,?,?,?,?,?,?,?,?,?)");
-		if(!$stmt->bind_param('ssssssssssi',$this->diabetes,$this->obesisdad,$this->depresion,$this->estres,$this->sobrepeso,$this->estrenimiento,
+										VALUES(?,?,?,?,?,?,?,?,?,?,?,?)");
+		if(!$stmt->bind_param('issssssssssi',$lastId, $this->diabetes,$this->obesisdad,$this->depresion,$this->estres,$this->sobrepeso,$this->estrenimiento,
 											$this->colitis,$this->retencionLiquidos,$this->transtornoMes,$this->cuidadoCorporal,$this->embarazo)){
 			die('Error al insertar en la base de datos');
 		}

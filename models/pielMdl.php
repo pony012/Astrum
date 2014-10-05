@@ -49,7 +49,7 @@ class PielMdl extends BaseMdl{
 	 *Crea un nuevo
 	 *@return true
 	 */
-	function create($fina,$gruesa,$deshidratada,$flacida,$seca,$mixta,$grasa,$acneica,$manchas,
+	function create($lastId, $fina,$gruesa,$deshidratada,$flacida,$seca,$mixta,$grasa,$acneica,$manchas,
 					$cicatrices,$poroAbierto,$ojeras,$lunares,$pecas,$puntosNegros,$verrugas,$arrugas,
 					$brilloFacial,$pielAsfixiada,$despigmentacion){
 		$this->fina 			= $this->driver->real_escape_string($fina);
@@ -72,10 +72,10 @@ class PielMdl extends BaseMdl{
 		$this->pielAsfixiada 	= $this->driver->real_escape_string($pielAsfixiada);
 		$this->despigmentacion 	= $this->driver->real_escape_string($despigmentacion);
 		
-		$stmt = $this->driver->prepare("INSERT INTO Piel (Fina,Gruesa,Deshidratada,Flacida,Mixta,Grasa,Acneica,Manchas,Cicatrices,PoroAbierto,
+		$stmt = $this->driver->prepare("INSERT INTO Piel (IDHistorialMedico,Fina,Gruesa,Deshidratada,Flacida,Mixta,Grasa,Acneica,Manchas,Cicatrices,PoroAbierto,
 														Ojeras,Lunares,Pecas,PuntosNegros,Verrugas,Arrugas,BrilloFacial,PielAsfixiada,Despigmentacion) 
-										VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
-		if(!$stmt->bind_param('sssssssssssssssssss',$this->fina,$this->gruesa,$this->deshidratada,$this->flacida,$this->mixta,$this->grasa,
+										VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+		if(!$stmt->bind_param('isssssssssssssssssss',$lastId, $this->fina,$this->gruesa,$this->deshidratada,$this->flacida,$this->mixta,$this->grasa,
 													$this->acneica,$this->manchas,$this->cicatrices,$this->poroAbierto,$this->ojeras,$this->lunares,
 													$this->pecas,$this->puntosNegros,$this->verrugas,$this->verrugas,$this->brilloFacial,
 													$this->pielAsfixiada,$this->despigmentacion)){

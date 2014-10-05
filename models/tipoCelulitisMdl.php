@@ -20,7 +20,7 @@ class TipoCelulitisMdl extends BaseMdl{
 	 *Crea un nuevo
 	 *@return true
 	 */
-	function create($fibrosa, $edematosa, $flacida, $dura, $mixta, $dolorosa){
+	function create($lastId, $fibrosa, $edematosa, $flacida, $dura, $mixta, $dolorosa){
 		$this->fibrosa 	 = $this->driver->real_escape_string($fibrosa);
 		$this->edematosa = $this->driver->real_escape_string($edematosa);
 		$this->flacida   = $this->driver->real_escape_string($flacida);
@@ -28,9 +28,9 @@ class TipoCelulitisMdl extends BaseMdl{
 		$this->mixta 	 = $this->driver->real_escape_string($mixta);
 		$this->dolorosa  = $this->driver->real_escape_string($dolorosa);
 		
-		$stmt = $this->driver->prepare("INSERT INTO TipoCelulitis (Fibrosa, Edematosa, Flacida, Dura, Mixta, Dolorosa) 
-										VALUES(?,?,?,?,?,?)");
-		if(!$stmt->bind_param('ssssss',	$this->fibrosa, $this->edematosa, $this->flacida, $this->dura, $this->mixta, $this->dolorosa)){
+		$stmt = $this->driver->prepare("INSERT INTO TipoCelulitis (IDHistorialMedico,Fibrosa, Edematosa, Flacida, Dura, Mixta, Dolorosa) 
+										VALUES(?,?,?,?,?,?,?)");
+		if(!$stmt->bind_param('issssss',	$lastId, $this->fibrosa, $this->edematosa, $this->flacida, $this->dura, $this->mixta, $this->dolorosa)){
 			die('Error al insertar en la base de datos');
 		}
 		if (!$stmt->execute()) {

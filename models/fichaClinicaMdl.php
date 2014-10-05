@@ -21,7 +21,7 @@ class FichaClinicaMdl extends BaseMdl{
 	 *Crea un nuevo
 	 *@return true
 	 */
-	function create($motivoConsulta, $tiempoProblema, $relacionaCon, $tratamientoAnterior, $metProbados, $resAnteriores){
+	function create($lastId, $motivoConsulta, $tiempoProblema, $relacionaCon, $tratamientoAnterior, $metProbados, $resAnteriores){
 		$this->motivoConsulta		= $this->driver->real_escape_string($motivoConsulta);
 		$this->tiempoProblema		= $this->driver->real_escape_string($tiempoProblema);
 		$this->relacionaCon 		= $this->driver->real_escape_string($relacionaCon);
@@ -29,10 +29,10 @@ class FichaClinicaMdl extends BaseMdl{
 		$this->metProbados 			= $this->driver->real_escape_string($metProbados);
 		$this->resAnteriores 		= $this->driver->real_escape_string($resAnteriores);
 		
-		$stmt = $this->driver->prepare("INSERT INTO FichaClinica (MotivoConsulta, TiempoProblema, RelacionaCon, TratamientoAnterior, 
+		$stmt = $this->driver->prepare("INSERT INTO FichaClinica (IDHistorialMedico,MotivoConsulta, TiempoProblema, RelacionaCon, TratamientoAnterior, 
 																	MetodosProbados, ResultadosAnteriores) 
-										VALUES(?,?,?,?,?,?)");
-		if(!$stmt->bind_param('ssssss',	$this->motivoConsulta, $this->tiempoProblema, $this->relacionaCon, $this->tratamientoAnterior, 
+										VALUES(?,?,?,?,?,?,?)");
+		if(!$stmt->bind_param('issssss',	$lastId, $this->motivoConsulta, $this->tiempoProblema, $this->relacionaCon, $this->tratamientoAnterior, 
 										$this->metProbados, $this->resAnteriores)){
 			die('Error al insertar en la base de datos');
 		}

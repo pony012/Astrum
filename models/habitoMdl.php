@@ -23,7 +23,7 @@ class HabitoMdl extends BaseMdl{
 	 *Crea un nuevo registro de habito
 	 *@return true
 	 */
-	function create($fumar, $ejercicio, $usarFaja, $suenio, $tomaSol, $bloqueador, $hidroquinona){
+	function create($lastId, $fumar, $ejercicio, $usarFaja, $suenio, $tomaSol, $bloqueador, $hidroquinona){
 		$this->fumar 		= $this->driver->real_escape_string($fumar);
 		$this->ejercicio 	= $this->driver->real_escape_string($ejercicio);
 		$this->usarFaja 	= $this->driver->real_escape_string($usarFaja);
@@ -32,9 +32,9 @@ class HabitoMdl extends BaseMdl{
 		$this->bloqueador 	= $this->driver->real_escape_string($bloqueador);
 		$this->hidroquinona = $this->driver->real_escape_string($hidroquinona);
 		
-		$stmt = $this->driver->prepare("INSERT INTO Habito (Fumar, Ejercicio, UsarFaja, Suenio, TomaSol, Bloqueador, Hidroquinona) 
-										VALUES (?,?,?,?,?,?,?)");
-		if(!$stmt->bind_param('sssssss',$this->fumar, $this->ejercicio, $this->usarFaja, $this->suenio, $this->tomaSol, $this->bloqueador, $this->hidroquinona)){
+		$stmt = $this->driver->prepare("INSERT INTO Habito (IDHistorialMedico, Fumar, Ejercicio, UsarFaja, Suenio, TomaSol, Bloqueador, Hidroquinona) 
+										VALUES (?,?,?,?,?,?,?,?)");
+		if(!$stmt->bind_param('isssssss',$lastId, $this->fumar, $this->ejercicio, $this->usarFaja, $this->suenio, $this->tomaSol, $this->bloqueador, $this->hidroquinona)){
 			die('Error al insertar en la base de datos');
 		}
 		if (!$stmt->execute()) {

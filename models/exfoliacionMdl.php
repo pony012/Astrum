@@ -32,7 +32,7 @@ class ExfoliacionMdl extends BaseMdl{
 	 *Crea un nuevo registro de Exfolacion
 	 *@return true
 	 */
-	function create($peellingQuim,$laser,$dermobrasion,$retinA,$renova,$racutan,
+	function create($lastId, $peellingQuim,$laser,$dermobrasion,$retinA,$renova,$racutan,
 					$adapaleno,$acidoGlicolico,$alfaHidroiacidos,$exfolianteGranuloso,
 					$acidoLactico,$vitaminaA,$blanqueadorAclarador){
 		$this->peellingQuim			= $this->driver->real_escape_string($peellingQuim);
@@ -49,11 +49,11 @@ class ExfoliacionMdl extends BaseMdl{
 		$this->vitaminaA			= $this->driver->real_escape_string($vitaminaA);
 		$this->blanqueadorAclarador	= $this->driver->real_escape_string($blanqueadorAclarador);
 
-		$stmt = $this->driver->prepare("INSERT INTO Exfolacion (PeellingQuim, Laser, Dermoabrasion, RetinA, Renova, Racutan, 
+		$stmt = $this->driver->prepare("INSERT INTO Exfolacion (IDHistorialMedico,PeellingQuim, Laser, Dermoabrasion, RetinA, Renova, Racutan, 
 																Adapaleno, AcidoGlicolico, AlfaHidroxiacidos, ExfolianteGranuloso,
 																AcidoLactico, VitaminaA, BlanqueadorOAclarador) 
-										VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)");
-		if(!$stmt->bind_param('sssssssssssss',	$this->peellingQuim, $this->laser, $this->dermobrasion, $this->retinA, $this->renova, 
+										VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
+		if(!$stmt->bind_param('isssssssssssss',	$lastId, $this->peellingQuim, $this->laser, $this->dermobrasion, $this->retinA, $this->renova, 
 												$this->racutan, $this->adapaleno, $this->acidoGlicolico, $this->alfaHidroiacidos, 
 												$this->exfolianteGranuloso, $this->acidoLactico, $this->vitaminaA, $this->blanqueadorAclarador)){
 			die('Error al insertar en la base de datos');
@@ -62,10 +62,6 @@ class ExfoliacionMdl extends BaseMdl{
 			die('Error al insertar en la base de datos');
 		}
 
-		if($this->driver->error){
-			return false;
-		}
-		
 		if($this->driver->error){
 			return false;
 		}
