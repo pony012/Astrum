@@ -135,6 +135,31 @@ class EmpleadoMdl extends BaseMdl{
 		return true;
 	}
 
+
+	/**
+	 *@param int $idEmpleado
+	 *@param string $contrasena
+	 *Modifica la contraseña de un empleado
+	 *@return true or false
+	 */
+	function updatePassword($idEmpleado, $contrasena){
+		$this->contrasena	= $this->driver->real_escape_string($contrasena);
+		
+		$stmt = $this->driver->prepare('UPDATE Empleado SET Contrasena = ? WHERE IDEmpleado = ?');
+		if(!$stmt->bind_param('si',	$this->contrasena, $idEmpleado)){
+			die('Error al hacer Update en la base de datos');
+		}
+		if (!$stmt->execute()) {
+			die('Error al hacer Update en la base de datos');
+		}
+
+		if($this->driver->error){
+			return false;
+		}
+
+		return true;
+	}
+
 	/**
 	* Consulta a los empleados registrados y que esten activos
 	* @return array or false
