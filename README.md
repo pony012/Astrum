@@ -16,7 +16,26 @@ Spa Damaris es un spa que tiene ya años en el mercado satisfaciendo la necesida
 Version
 ----
 
+0.2
+
+Changelog
+----
 0.1
+
+- Creación del Proyecto
+- Creación del esqueleto MVC
+- Creación de los Modelos y Controladores Base
+- Creación de la acción ```create```
+- Craeción de algunas vistas
+- Creación del index
+
+0.2
+
+- Modificación del index
+- Creación de la Base de Datos
+- ABC de la base de datos (acciones básicas)
+- Se comenzó con el proceso de login
+- Creación de las acciones ```delete```, ```lists``` y  ```update``` y modificación de ```create```
 
 URL del proyecto y parámetros
 --------------
@@ -27,7 +46,7 @@ Para elegir el módulo a utilizar, se usa la variable enviada por ```GET```
     
     $_GET['ctrl']
 
-y para elegir la acción a realizar (actualmente sólo ```create```)
+y para elegir la acción a realizar (las posibles son ```create```, ```delete```, ```lists``` y  ```update```)
 
     $_GET['act']
     
@@ -47,7 +66,26 @@ Los datos que se enviarán a los módulos será por medio de ```POST```, y se ex
 ```List``` es una lista de *checkboxes* o *radiobuttons*, por el momento no es necesario mandar esos parámetros.
 
 
-El proyecto actualmente cuenta con 10 módulos, y la única acción que puede ser realizada es crear:
+El proyecto actualmente cuenta con 11 módulos.
+
+Los enlaces aquí mostrados sólo llaman al controlador, falta decirles qué acción hacer.
+
+En caso de llamarse con la acción de ```update```, además de los parámetros de su respectivo  ```create```, tendrá que mandarse un *Int* con el id del elemento a modificar, en caso de llamarse con la acción de ```delete```, sólo bastará con el parámetro antes mencionado. El nombre del parámetro será id*Modulo*, por ejemplo:
+    
+    //Para modificar o eliminar el cliente con id 2
+    $_POST['idCliente'] = 2;
+    //Para modificar o eliminar el proveedor con id 10
+    $_POST['idProveedor'] = 10;
+
+Los módulos en los que se puede llamar a ```update``` o ```delete``` son:
+ 
+ - [empleado]
+ - [proveedor]
+ - [cliente]
+ - [producto]
+ - [servicio]
+
+En caso de llamarse con la ación de ```create``` los parámetros serán los siguientes (A estos mismos modulos podrán hacerse ```lists```, sólo que para esta acción no es necesario mandarle parámetros, en un futuro podrán filtrarse por *id* o por algún otro parámetro):
 
   - [ajusteEntrada]
    -  *Int* ```idAjusteEntradaTipo ```
@@ -70,6 +108,18 @@ El proyecto actualmente cuenta con 10 módulos, y la única acción que puede se
    - *Date* ```fechaCita ```
    - *Int* ```idConsultaStatus ```
    - *String* ```observaciones```
+  - [cliente]
+    - *Name* ```nombre    ```
+    - *Name* ```apellidoPaterno```
+    - *Name* ```apellidoMaterno```
+    - *String* ```calle    ```
+    - *String* ```numExterior```
+    - *String* ```numInterior```
+    - *String* ```colonia  ```
+    - *Int* ```codigoPostal```
+    - *Email* ```email```
+    - *Phone* ```telefono ```
+    - *Phone* ```celular  ```
   - [empleado]
    - *Name* ```nombre ```
    - *Name*  ```apellidoPaterno ```
@@ -175,13 +225,14 @@ MIT
 [Alan Andrés Sánchez Castro]:http://github.com/pony012
 [Ramón Lozano Franco]:http://github.com/rmn528
 [Christian Abimael Velázquez Pérez]:http://github.com/abimael93
-[ajusteEntrada]:http://astrum.x10.mx/?ctrl=ajusteEntrada&act=create
-[ajusteSalida]:http://astrum.x10.mx/?ctrl=ajusteSalida&act=create
-[consulta]:http://astrum.x10.mx/?ctrl=consulta&act=create
-[empleado]:http://astrum.x10.mx/?ctrl=empleado&act=create
-[historialMedico]:http://astrum.x10.mx/?ctrl=historialMedico&act=create
-[producto]:http://astrum.x10.mx/?ctrl=producto&act=create
-[proveedor]:http://astrum.x10.mx/?ctrl=proveedor&act=create
-[recepcion]:http://astrum.x10.mx/?ctrl=recepcion&act=create
-[remision]:http://astrum.x10.mx/?ctrl=remision&act=create
-[servicio]:http://astrum.x10.mx/?ctrl=servicio&act=create
+[ajusteEntrada]:http://astrum.x10.mx/?ctrl=ajusteEntrada
+[ajusteSalida]:http://astrum.x10.mx/?ctrl=ajusteSalida
+[consulta]:http://astrum.x10.mx/?ctrl=consulta
+[cliente]:http://astrum.x10.mx/?ctrl=cliente
+[empleado]:http://astrum.x10.mx/?ctrl=empleado
+[historialMedico]:http://astrum.x10.mx/?ctrl=historialMedico
+[producto]:http://astrum.x10.mx/?ctrl=producto
+[proveedor]:http://astrum.x10.mx/?ctrl=proveedor
+[recepcion]:http://astrum.x10.mx/?ctrl=recepcion
+[remision]:http://astrum.x10.mx/?ctrl=remision
+[servicio]:http://astrum.x10.mx/?ctrl=servicio

@@ -17,10 +17,10 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Base de datos: `SpaDamaris`
+-- Base de datos: `astrumx1_SpaDamaris`
 --
-CREATE DATABASE IF NOT EXISTS `SpaDamaris` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-USE `SpaDamaris`;
+CREATE DATABASE IF NOT EXISTS `astrumx1_SpaDamaris` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+USE `astrumx1_SpaDamaris`;
 
 DELIMITER $$
 --
@@ -28,42 +28,42 @@ DELIMITER $$
 --
 CREATE DEFINER=`root`@`localhost` PROCEDURE `activarCliente`(IN ID INT)
 BEGIN
-	UPDATE Cliente SET Activo="S" WHERE IDCliente=ID AND Activo = 'N';
+  UPDATE Cliente SET Activo="S" WHERE IDCliente=ID AND Activo = 'N';
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `activarEmpleado`(IN ID INT)
 BEGIN
-	UPDATE Empleado SET Activo="S" WHERE IDEmpleado=ID AND Activo = 'N';
+  UPDATE Empleado SET Activo="S" WHERE IDEmpleado=ID AND Activo = 'N';
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `activarProductoServicio`(IN ID INT)
 BEGIN
-	UPDATE ProductoServicio SET Activo="S" WHERE IDProductoServicio=ID AND Activo = 'N';
+  UPDATE ProductoServicio SET Activo="S" WHERE IDProductoServicio=ID AND Activo = 'N';
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `activarProveedor`(IN ID INT)
 BEGIN
-	UPDATE Proveedor SET Activo="S" WHERE IDProveedor=ID AND Activo = 'N';
+  UPDATE Proveedor SET Activo="S" WHERE IDProveedor=ID AND Activo = 'N';
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `desactivarCliente`(IN ID INT)
 BEGIN
-	UPDATE Cliente SET Activo="N" WHERE IDCliente=ID AND Activo = 'S';
+  UPDATE Cliente SET Activo="N" WHERE IDCliente=ID AND Activo = 'S';
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `desactivarEmpleado`(IN ID INT)
 BEGIN
-	UPDATE Empleado SET Activo="N" WHERE IDEmpleado=ID AND Activo = 'S';
+  UPDATE Empleado SET Activo="N" WHERE IDEmpleado=ID AND Activo = 'S';
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `desactivarProductoServicio`(IN ID INT)
 BEGIN
-	UPDATE ProductoServicio SET Activo="N" WHERE IDProductoServicio=ID AND Activo = 'S';
+  UPDATE ProductoServicio SET Activo="N" WHERE IDProductoServicio=ID AND Activo = 'S';
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `desactivarProveedor`(IN ID INT)
 BEGIN
-	UPDATE Proveedor SET Activo="N" WHERE IDProveedor=ID AND Activo = 'S';
+  UPDATE Proveedor SET Activo="N" WHERE IDProveedor=ID AND Activo = 'S';
 END$$
 
 DELIMITER ;
