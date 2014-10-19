@@ -20,17 +20,21 @@
 		*	@return bool
 		*/
 		public static function startSession($user, $pass){
-			if (BaseCtrl::isLoged())
+			if (BaseCtrl::isLoged()){
+				echo '<meta http-equiv="refresh" content="0; url=./">';
 				return true;
-			if (empty($user) || empty($pass))
+			}
+			if (empty($user) || empty($pass)){
+				echo '<meta http-equiv="refresh" content="0; url=./">';
 				return false;
+			}
 			require_once 'models/baseMdl.php';
 
 			$userMdl = new BaseMdl();
 
 			$_user	= $userMdl->driver->real_escape_string($user);
 			$_pass	= $userMdl->driver->real_escape_string($pass);
-			
+
 			$stmt = $userMdl->driver->prepare("SELECT * FROM Empleado WHERE Usuario = ?");
 			if(!$stmt->bind_param('s',$_user)){
 				//No se pudo bindear el nombre, error en la base de datos
@@ -46,15 +50,18 @@
 						$_SESSION['user'] = $user;
 						//$_SESSION['pass'] = $pass;
 						$_SESSION['type'] = $result['IDCargo'];
+						echo '<meta http-equiv="refresh" content="0; url=./">';
 						return true;
 					}else{
 						//Cargar vista de fallo de contraseña
+						echo '<meta http-equiv="refresh" content="0; url=./">';
 					}
 				}else{
 					//No se encontró usuario con ese nombre :(
+					echo '<meta http-equiv="refresh" content="0; url=./">';
 				}
 			}
-			
+			echo '<meta http-equiv="refresh" content="0; url=./">';
 			return false;
 		}
 
