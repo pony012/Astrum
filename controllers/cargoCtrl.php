@@ -11,19 +11,22 @@
 		 */
 		public function run()
 		{
-			switch ($_GET['act']) {
-				case 'create':
-					//Crear 
-					$this->create();
-					break;
-				case 'update':
-					//Baja
-					$this->update();
-					break;
-				default:
-					# code...
-					break;
-			}
+			if(BaseCtrl::isAdmin())
+				switch ($_GET['act']) {
+					case 'create':
+						//Crear 
+						$this->create();
+						break;
+					case 'update':
+						//Baja
+						$this->update();
+						break;
+					default:
+						# code...
+						break;
+				}
+			else
+				require_once 'views/permisosError.html';
 		}
 		/**
 		* Crea un Producto

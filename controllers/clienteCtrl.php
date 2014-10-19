@@ -22,11 +22,17 @@
 					break;
 				case 'delete':
 					//Baja
-					$this->delete();
+					if(BaseCtrl::isAdmin())
+						$this->delete();
+					else
+						require_once 'views/permisosError.html';
 					break;
 				case 'update':
 					//Baja
-					$this->update();
+					if(BaseCtrl::isAdmin())
+						$this->update();
+					else
+						require_once 'views/permisosError.html';
 					break;
 				default:
 					# code...

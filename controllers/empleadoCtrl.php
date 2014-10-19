@@ -11,25 +11,28 @@
 		 */
 		public function run()
 		{
-			switch ($_GET['act']) {
-				case 'create':
-					//Crear un Empleado
-					$this->create();
-					break;
-				case 'lists':
-					$this->lists();
-					break;
-				case 'delete':
-					$this->delete();
-					break;
-				case 'update':
-					//Baja
-					$this->update();
-					break;
-				default:
-					# code...
-					break;
-			}
+			if(BaseCtrl::isAdmin())
+				switch ($_GET['act']) {
+					case 'create':
+						//Crear un Empleado
+						$this->create();
+						break;
+					case 'lists':
+						$this->lists();
+						break;
+					case 'delete':
+						$this->delete();
+						break;
+					case 'update':
+						//Baja
+						$this->update();
+						break;
+					default:
+						# code...
+						break;
+				}
+			else
+				require_once 'views/permisosError.html';
 		}
 		/**
 		* Crea un Empleado
@@ -95,23 +98,52 @@
 
 				//Si pudo ser creado
 				if ($result) {
-					$data = array(	$nombre, 
-									$apellidoPaterno, 
-									$apellidoMaterno,
-									$usuario,
-									$contrasena,
-									$idCargo,
-									$calle,
-									$numExterior,
-									$numInterior,
-									$colonia,
-									$codigoPostal,
-									$foto,
-									$email,
-									$telefono,
-									$celular);
-					//Cargar la vista
-					require_once 'views/empleadoInserted.php';
+					if($email !=== NULL){
+						$remplazos = array(
+						'$@Nombre@$' => $nombre,
+						'$@Usuario@$' => $usuario,
+						'$@Contrasena@$' => $contrasena
+						);
+						if(!BaseCtrl::enviarCorreo($email,'Bienvenido a SpaDamaris','../views/emails/altaEmpleado.html',$remplazos))
+							require_once 'views/empleadoInsertedError.html';
+						else{
+							$data = array(	$nombre, 
+										$apellidoPaterno, 
+										$apellidoMaterno,
+										$usuario,
+										$contrasena,
+										$idCargo,
+										$calle,
+										$numExterior,
+										$numInterior,
+										$colonia,
+										$codigoPostal,
+										$foto,
+										$email,
+										$telefono,
+										$celular);
+						//Cargar la vista
+						require_once 'views/empleadoInserted.php';
+						}
+					}else{
+						$data = array(	$nombre, 
+										$apellidoPaterno, 
+										$apellidoMaterno,
+										$usuario,
+										$contrasena,
+										$idCargo,
+										$calle,
+										$numExterior,
+										$numInterior,
+										$colonia,
+										$codigoPostal,
+										$foto,
+										$email,
+										$telefono,
+										$celular);
+						//Cargar la vista
+						require_once 'views/empleadoInserted.php';
+					}
 				}else{
 					require_once 'views/empleadoInsertedError.html';
 				}	

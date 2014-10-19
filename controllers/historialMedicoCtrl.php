@@ -21,19 +21,22 @@
 		 */
 		public function run()
 		{
-			switch ($_GET['act']) {
-				case 'create':
-					//Crear un Historial Clinico
-					$this->create();
-					break;
-				case 'lists':
-					//Listar
-					$this->lists();
-					break;
-				default:
-					# code...
-					break;
-			}
+			if(!BaseCtrl::isEmpleado())
+				switch ($_GET['act']) {
+					case 'create':
+						//Crear un Historial Clinico
+						$this->create();
+						break;
+					case 'lists':
+						//Listar
+						$this->lists();
+						break;
+					default:
+						# code...
+						break;
+				}
+			else
+				require_once 'views/permisosError.html';
 		}
 		/**
 		* Crea un Historial Clinico
