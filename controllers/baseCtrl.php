@@ -30,7 +30,7 @@
 
 			$_user	= $userMdl->driver->real_escape_string($user);
 			$_pass	= $userMdl->driver->real_escape_string($pass);
-
+			
 			$stmt = $userMdl->driver->prepare("SELECT * FROM Empleado WHERE Usuario = ?");
 			if(!$stmt->bind_param('s',$_user)){
 				//No se pudo bindear el nombre, error en la base de datos

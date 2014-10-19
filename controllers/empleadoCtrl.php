@@ -98,7 +98,7 @@
 
 				//Si pudo ser creado
 				if ($result) {
-					if($email !=== NULL){
+					if($email !== NULL){
 						$remplazos = array(
 						'$@Nombre@$' => $nombre,
 						'$@Usuario@$' => $usuario,
