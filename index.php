@@ -10,7 +10,7 @@
 	if (isset($_GET['ctrl'])) {
 		switch($_GET['ctrl']){
 			case 'login':
-				BaseCtrl::startSession($_POST['u'],$_POST['p'],$_POST['t']);
+				BaseCtrl::startSession(isset($_POST['u'])?$_POST['u']:NULL,isset($_POST['p'])?$_POST['p']:NULL);
 				break;
 			case 'logout':
 				BaseCtrl::killSession();

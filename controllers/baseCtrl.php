@@ -11,21 +11,51 @@
 		
 		/**
 		*	Inicia una sesion y retorna true si se inició, false si ya existía una activa
+		*	En caso de que el usuario esté en la base de datos, se guardará en la sesión el nombre del usuario
+		*	y su tipo.
+		*	Los tipos de usuario son:
+		*	{1=>Admin, 2=>Terapeuta, 3=>Empleado}
 		*	@param string $user
 		*	@param string $pass
-		*	@param string $type
 		*	@return bool
 		*/
-		public static function startSession($user, $pass, $type){
-			if (BaseCtrl::isLoged() || empty($user) || empty($pass) || empty($type))
-				return FALSE;
-			$_SESSION['user'] = $user;
-			$_SESSION['pass'] = $pass;
-			$_SESSION['type'] = $type;
+		public static function startSession($user, $pass){
+			if (BaseCtrl::isLoged())
+				return true;
+			if (empty($user) || empty($pass))
+				return false;
+			require_once 'models/baseMdl.php';
 
-			echo '<meta http-equiv="refresh" content="0; url=./">';
+			$userMdl = new BaseMdl();
+
+			$_user	= $userMdl->driver->real_escape_string($user);
+			$_pass	= $userMdl->driver->real_escape_string($pass);
+
+			$stmt = $userMdl->driver->prepare("SELECT * FROM Empleado WHERE Usuario = ?");
+			if(!$stmt->bind_param('s',$_user)){
+				//No se pudo bindear el nombre, error en la base de datos
+			}else if (!$stmt->execute()) {
+				//No se pudo ejecutar, error en la base de datos
+			}else{
+				$result = $stmt->get_result();
+				if($result->field_count > 0){
+					$result = $result->fetch_array();
+					if(strcmp($result['Contrasena'],$pass)==0){
+						//md5(md5("1234")."astrum1234".md5("astr"))
+						//b956f5207a5f0bfa514292171f1c285f
+						$_SESSION['user'] = $user;
+						//$_SESSION['pass'] = $pass;
+						$_SESSION['type'] = $result['IDCargo'];
+						return true;
+					}else{
+						//Cargar vista de fallo de contraseña
+					}
+				}else{
+					//No se encontró usuario con ese nombre :(
+				}
+			}
 			
-			return TRUE;
+			return false;
 		}
 
 		/**
@@ -49,7 +79,39 @@
 			return isset($_SESSION['user']);
 		}
 
-
+		/**
+		*	Retorna el id del cargo que está logueado
+		*/
+		public static function getType(){
+			return $_SESSION['type'];
+		}
+		/**
+		*	Retorna true si el usuario tiene permisos de administrador
+		*/
+		public static function isAdmin(){
+			if(BaseCtrl::isLoged()){
+				return BaseCtrl::getType()==1;
+			}
+			return false;
+		}
+		/**
+		*	Retorna true si el usuario tiene permisos de terapeuta
+		*/
+		public static function isTerapeuta(){
+			if(BaseCtrl::isLoged()){
+				return (BaseCtrl::isAdmin() || BaseCtrl::getType()==2);
+			}
+			return false;
+		}
+		/**
+		*	Retorna true si el usuario tiene permisos de empleado
+		*/
+		public static function isEmpleado(){
+			if(BaseCtrl::isLoged()){
+				return (BaseCtrl::isTerapeuta() || BaseCtrl::getType()==3);
+			}
+			return false;
+		}
 
 		/** 
 		 *	Valida que una cadena sea un número, retorna la cadena si lo es, en caso de no serlo returna una cadena vacía
