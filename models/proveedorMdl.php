@@ -163,7 +163,8 @@ class ProveedorMdl extends BaseMdl{
 
 			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['Activo']!=''){
 			
-				if($stmt = $this->driver->prepare('CALL desactivarProveedor(?)')){
+				//if($stmt = $this->driver->prepare('CALL desactivarProveedor(?)')){
+				if($stmt = $this->driver->prepare('UPDATE Proveedor SET Activo="N" WHERE IDProveedor=? AND Activo = "S"')){
 			
 					if(!$stmt->bind_param('i',$idProveedor))
 						die('Error Al Eliminar');
@@ -196,7 +197,8 @@ class ProveedorMdl extends BaseMdl{
 
 			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['Activo']!=''){			
 			
-				if($stmt = $this->driver->prepare('CALL activarProveedor(?)')){
+				//if($stmt = $this->driver->prepare('CALL activarProveedor(?)')){
+				if($stmt = $this->driver->prepare('UPDATE Proveedor SET Activo="S" WHERE IDProveedor=? AND Activo = "N"')){
 			
 					if(!$stmt->bind_param('i',$idProveedor))
 						die('Error Al Activar');

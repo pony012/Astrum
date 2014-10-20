@@ -168,7 +168,8 @@ class ClienteMdl extends BaseMdl{
 
 			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['Activo']!=''){			
 			
-				if($stmt = $this->driver->prepare('CALL desactivarCliente(?)')){
+				//if($stmt = $this->driver->prepare('CALL desactivarCliente(?)')){
+				if($stmt = $this->driver->prepare('UPDATE Cliente SET Activo="N" WHERE IDCliente=? AND Activo = "S"')){
 			
 					if(!$stmt->bind_param('i',$idCliente))
 						die('Error Al Eliminar');
@@ -201,7 +202,8 @@ class ClienteMdl extends BaseMdl{
 
 			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['Activo']!=''){			
 			
-				if($stmt = $this->driver->prepare('CALL activarCliente(?)')){
+				//1if($stmt = $this->driver->prepare('CALL activarCliente(?)')){
+				1if($stmt = $this->driver->prepare('UPDATE Cliente SET Activo="S" WHERE IDCliente=? AND Activo = "N"')){
 			
 					if(!$stmt->bind_param('i',$idCliente))
 						die('Error Al Activar');
