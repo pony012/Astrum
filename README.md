@@ -16,7 +16,7 @@ Spa Damaris es un spa que tiene ya años en el mercado satisfaciendo la necesida
 Version
 ----
 
-0.2
+0.3
 
 Changelog
 ----
@@ -36,6 +36,17 @@ Changelog
 - ABC de la base de datos (acciones básicas)
 - Se comenzó con el proceso de login
 - Creación de las acciones ```delete```, ```lists``` y  ```update``` y modificación de ```create```
+
+0.3
+- Creación del sistema de permisos (login)
+  - Las credenciales de prueba son
+    - ```User```: ```admin```
+    - ```Pass```: ```astrum1234```
+  - Los cargos de los usuarios son:
+    - ```Admin```
+    - ```Terapeuta```
+    - ```Empleado```
+- Mailing cuando se da de alta un usuario
 
 URL del proyecto y parámetros
 --------------
