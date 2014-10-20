@@ -210,8 +210,8 @@ class EmpleadoMdl extends BaseMdl{
 
 			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['Activo']!=''){			
 			
-				if($stmt = $this->driver->prepare('CALL desactivarEmpleado(?)')){
-			
+				//if($stmt = $this->driver->prepare('CALL desactivarEmpleado(?)')){
+				if($stmt = $this->driver->prepare('UPDATE Empleado SET Activo="N" WHERE IDEmpleado=? AND Activo = "S"')){
 					if(!$stmt->bind_param('i',$idEmpleado))
 						die('Error Al Eliminar');
 					
@@ -243,8 +243,8 @@ class EmpleadoMdl extends BaseMdl{
 
 			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['Activo']!=''){			
 			
-				if($stmt = $this->driver->prepare('CALL activarEmpleado(?)')){
-			
+				//if($stmt = $this->driver->prepare('CALL activarEmpleado(?)')){
+				if($stmt = $this->driver->prepare('UPDATE Empleado SET Activo="S" WHERE IDEmpleado=? AND Activo = "N"')){
 					if(!$stmt->bind_param('i',$idEmpleado))
 						die('Error Al Activar');
 					

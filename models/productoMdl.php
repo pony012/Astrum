@@ -92,8 +92,8 @@ class ProductoMdl extends BaseMdl{
 
 			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['Activo']!=''){
 			
-				if($stmt = $this->driver->prepare('CALL desactivarProductoServicio(?)')){
-			
+				//if($stmt = $this->driver->prepare('CALL desactivarProductoServicio(?)')){
+				if($stmt = $this->driver->prepare('UPDATE ProductoServicio SET Activo="N" WHERE IDProductoServicio=? AND Activo = "S"')){
 					if(!$stmt->bind_param('i',$idProducto))
 						die('Error Al Eliminar');
 					
@@ -125,8 +125,8 @@ class ProductoMdl extends BaseMdl{
 
 			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['Activo']!=''){			
 			
-				if($stmt = $this->driver->prepare('CALL activarProductoServicio(?)')){
-			
+				//if($stmt = $this->driver->prepare('CALL activarProductoServicio(?)')){
+				if($stmt = $this->driver->prepare('UPDATE ProductoServicio SET Activo="S" WHERE IDProductoServicio=? AND Activo = "N"')){
 					if(!$stmt->bind_param('i',$idProducto))
 						die('Error Al Activar');
 					
