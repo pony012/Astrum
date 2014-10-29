@@ -51,7 +51,7 @@ Changelog
 URL del proyecto y parámetros
 --------------
 
-http://astrum.x10.mx
+http://astrumcucei.com
 
 Para elegir el módulo a utilizar, se usa la variable enviada por ```GET```
     
@@ -61,7 +61,7 @@ y para elegir la acción a realizar (las posibles son ```create```, ```delete```
 
     $_GET['act']
     
-Ejemplo: http://astrum.x10.mx/?ctrl=empleado&act=create
+Ejemplo: http://astrumcucei.com/?ctrl=empleado&act=create
 
 Módulos y parámetros
 -----------
@@ -236,14 +236,14 @@ MIT
 [Alan Andrés Sánchez Castro]:http://github.com/pony012
 [Ramón Lozano Franco]:http://github.com/rmn528
 [Christian Abimael Velázquez Pérez]:http://github.com/abimael93
-[ajusteEntrada]:http://astrum.x10.mx/?ctrl=ajusteEntrada
-[ajusteSalida]:http://astrum.x10.mx/?ctrl=ajusteSalida
-[consulta]:http://astrum.x10.mx/?ctrl=consulta
-[cliente]:http://astrum.x10.mx/?ctrl=cliente
-[empleado]:http://astrum.x10.mx/?ctrl=empleado
-[historialMedico]:http://astrum.x10.mx/?ctrl=historialMedico
-[producto]:http://astrum.x10.mx/?ctrl=producto
-[proveedor]:http://astrum.x10.mx/?ctrl=proveedor
-[recepcion]:http://astrum.x10.mx/?ctrl=recepcion
-[remision]:http://astrum.x10.mx/?ctrl=remision
-[servicio]:http://astrum.x10.mx/?ctrl=servicio
+[ajusteEntrada]:http://astrumcucei.com/?ctrl=ajusteEntrada
+[ajusteSalida]:http://astrumcucei.com/?ctrl=ajusteSalida
+[consulta]:http://astrumcucei.com/?ctrl=consulta
+[cliente]:http://astrumcucei.com/?ctrl=cliente
+[empleado]:http://astrumcucei.com/?ctrl=empleado
+[historialMedico]:http://astrumcucei.com/?ctrl=historialMedico
+[producto]:http://astrumcucei.com/?ctrl=producto
+[proveedor]:http://astrumcucei.com/?ctrl=proveedor
+[recepcion]:http://astrumcucei.com/?ctrl=recepcion
+[remision]:http://astrumcucei.com/?ctrl=remision
+[servicio]:http://astrumcucei.com/?ctrl=servicio
