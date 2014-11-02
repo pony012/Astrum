@@ -49,8 +49,8 @@ class ProveedorMdl extends BaseMdl{
 		$this->celular		= $this->driver->real_escape_string($celular);
 		
 		$stmt = $this->driver->prepare(("INSERT INTO Proveedor (Nombre, ApellidoPaterno, ApellidoMaterno, RFC, Calle, NumExterior, NumInterior, Colonia, CodigoPostal, Email, Telefono, Celular) 
-										 VALUES(?,?,?,?,?,?,?,?,?,?,?,?)");
-		if(!$stmt->bind_param('ssssssssssss',$this->nombre,$this->apellidoPat,$this->apellidoMat,$this->rfc,$this->calle,$this->numExterior,$this->numInterior,$this->colonia,$this->codigoPostal,$this->email,$this->telefono, $this->celular){
+										 VALUES(?,?,?,?,?,?,?,?,?,?,?,?)"));
+		if(!$stmt->bind_param('ssssssssssss',$this->nombre,$this->apellidoPat,$this->apellidoMat,$this->rfc,$this->calle,$this->numExterior,$this->numInterior,$this->colonia,$this->codigoPostal,$this->email,$this->telefono, $this->celular)){
 			die('Error al insertar en la base de datos');
 		}
 		if (!$stmt->execute()) {
@@ -98,8 +98,8 @@ class ProveedorMdl extends BaseMdl{
 		
 		$stmt = $this->driver->prepare(("UPDATE Proveedor SET 
 										 Nombre = ?, ApellidoPaterno = ?, ApellidoMaterno = ?, RFC = ?, Calle = ?, NumExterior = ?, NumInterior = ?, Colonia = ?, CodigoPostal = ?, Email = ?, Telefono = ?, Celular = ?
-										 WHERE IDProveedor = ?");
-		if(!$stmt->bind_param('ssssssssssssi',$this->nombre,$this->apellidoPat,$this->apellidoMat,$this->rfc,$this->calle,$this->numExterior,$this->numInterior,$this->colonia,$this->codigoPostal,$this->email,$this->telefono, $this->celular, $idProveedor){
+										 WHERE IDProveedor = ?"));
+		if(!$stmt->bind_param('ssssssssssssi',$this->nombre,$this->apellidoPat,$this->apellidoMat,$this->rfc,$this->calle,$this->numExterior,$this->numInterior,$this->colonia,$this->codigoPostal,$this->email,$this->telefono, $this->celular, $idProveedor)){
 			die('Error al hacer Update en la base de datos');
 		}
 		if (!$stmt->execute()) {

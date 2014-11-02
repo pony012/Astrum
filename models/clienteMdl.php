@@ -203,7 +203,7 @@ class ClienteMdl extends BaseMdl{
 			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['Activo']!=''){			
 			
 				//1if($stmt = $this->driver->prepare('CALL activarCliente(?)')){
-				1if($stmt = $this->driver->prepare('UPDATE Cliente SET Activo="S" WHERE IDCliente=? AND Activo = "N"')){
+				if($stmt = $this->driver->prepare('UPDATE Cliente SET Activo="S" WHERE IDCliente=? AND Activo = "N"')){
 			
 					if(!$stmt->bind_param('i',$idCliente))
 						die('Error Al Activar');
