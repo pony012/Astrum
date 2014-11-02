@@ -1,4 +1,5 @@
-<form class="form-inline" role="form" action="?ctrl=login" method="POST">
+{% include 'header.html' %}
+<form class="form" role="form" action="?ctrl=login" method="POST">
 	<div class="form-group">
 		<label class="sr-only" for="u">Nombre</label>
 		<input type="text" class="form-control" placeholder="Ingresa un nombre" id="u" name="u">
@@ -9,3 +10,4 @@
 	</div>
 	<button type="submit" class="btn btn-default">Iniciar sesion</button>
 </form>
+{% include 'footer.html' %}

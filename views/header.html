@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>SB Admin 2 - Bootstrap Admin Theme</title>
+    <title>SpaDámaris</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -29,13 +29,16 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-
+    {% if cssLib is defined%}
+        {% for cssLib in cssLibs%}
+            <link href="{{cssLib}}" rel="stylesheet" type="text/css">        
+        {% endfor %}
+    {% endif %}
 </head>
 
 <body>
 
     <div id="wrapper">
-
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
@@ -46,19 +49,19 @@
                     <span class="icon-bar"></span>
                 </button>
                 <span class="navbar-brand">Spa Damaris</span>
-                <div style="float:right">
-                    {% if session.isLoged == true %}
-                        {% include 'bienvenido.html' %}
-                    {% else %}
-                        {% include 'login.html' %}
-                    {% endif %}
-                </div>
             </div>
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
                     <ul class="nav" id="side-menu">
+                        {% if session.isLoged == false %}
+                            <li>
+                                <a class="{{session.controller == 'loginB' ?'active':''}}" href="?ctrl=loginB"><i class="fa fa-key"></i> Iniciar Sesión</a>
+                            </li>
+                        {% else %}
+                            {% include 'bienvenido.html' %}
+                        {% endif %}
                         <li>
-                            <a class="active" href="#"><i class="fa fa-home"></i> Inicio</a>
+                            <a class="{{session.controller == 'index' ?'active':''}}" href="?"><i class="fa fa-home"></i> Inicio</a>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-user"></i> Empleados</a>

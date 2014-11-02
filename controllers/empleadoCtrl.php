@@ -17,6 +17,10 @@
 						//Crear un Empleado
 						$this->create();
 						break;
+					case 'createF':
+						//Crear un Empleado
+						$this->createF();
+						break;
 					case 'lists':
 						$this->lists();
 						break;
@@ -291,7 +295,18 @@
 				require_once 'views/empleadoSelectedError.html';
 		}
 
+		/**
+		* Llama al formulario para la creación de un empleado
+		*/
+		private function createF(){
+			$this->session['action']='create';
+			print_r($this->twig);
+			//$template = $this->twig->loadTemplate('empleadoForm.html');
+			//$template->render(array('session'=>$this->session));
+		}
+
 		function __construct(){
+			parent::__construct();
 			require_once 'models/empleadoMdl.php';
 			$this->model = new EmpleadoMdl();
 		}

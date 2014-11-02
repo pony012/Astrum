@@ -1,0 +1,63 @@
+{% include 'header.html' with {'cssLibs': {'css/something.css', 'css/something2.css'}} %}
+<div class="row">
+    <div class="col-xs-12">
+        <h1 class="page-header text-center col-xs-12">Nuevo Cliente</h1>
+    </div>
+</div>
+
+<section class = "row">
+    <section class = "col-sm-offset-1 col-sm-10 col-lg-offset-2 col-lg-8">
+        <form role="form" class="" action="?ctrl=cliente&act={{session.action}}">
+            <section class="form-group col-md-12 col-lg-12">
+                <label for="nombre">Nombre:</label>
+                <input class="form-control" type = "text" id = "nombre" name = "nombre" placeholder = "Nombre(s)" value="{{data.nombre}}">
+            </section>
+            <section class="form-group  col-md-12 col-lg-12">
+                <label for="apellidoPaterno">Apellido Paterno:</label>
+                <input class="form-control" type = "text" id = "apellidoPaterno" name = "apellidoPaterno" placeholder = "Apellido Paterno">
+            </section>
+            <section class="form-group  col-md-12 col-lg-12">
+                <label for="apellidoMaterno">Apellido Materno:</label>
+                <input class="form-control" type = "text" id = "apellidoMaterno" name = "apellidoMaterno" placeholder = "Apellido Materno">
+            </section>
+            <section class="form-group col-md-6 col-lg-6">
+                <label for="colonia">Colonia:</label>
+                <input class="form-control" type = "text" id = "colonia" name = "colonia" placeholder = "Colonia">
+            </section>
+            <section class="form-group col-md-6 col-lg-6">
+                <label for="calle">Calle:</label>
+                <input class="form-control" type = "text" id = "calle" name = "calle" placeholder = "Nombre de la Calle">
+            </section>
+            <section class="form-group col-md-6 col-lg-6">
+                <label for="numExterior">Número Exterior:</label>
+                <input class="form-control" type = "text" id = "numExterior" name = "numExterior" placeholder = "Número Exterior">
+            </section>
+            <section class="form-group col-md-6 col-lg-6">
+                <label for="numInterior">Número Interior:</label>
+                <input class="form-control" type = "text" id = "numInterior" name = "numInterior" placeholder = "Número Interior">
+            </section>
+            <section class="form-group col-md-6 col-lg-6">
+                <label>Código Postal:</label>
+                <input class="form-control" type = "text" id = "codigoPostal" name = "codigoPostal" placeholder = "Código Postal">
+            </section>
+            <section class="form-group col-md-6 col-lg-6">
+                <label>Email:</label>
+                <input class="form-control" type = "email" id = "email" name = "email" placeholder = "Email">
+            </section>
+            <section class="form-group col-md-6 col-lg-6">
+                <label>Teléfono:</label>
+                <input class="form-control" type = "tel" id = "telefono" name = "telefono" placeholder = "Teléfono">
+            </section>
+            <section class="form-group col-md-6 col-lg-6">
+                <label>Celular:</label>
+                <input class="form-control" type = "tel" id = "celular" name = "celular" placeholder = "Celular">
+            </section>
+
+            <section class = "col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <button type="submit" class="btn btn-default pull-left">Enviar</button>
+                <button type="reset" class="btn btn-default pull-right">Limpiar Campos</button>
+            </section>
+        </form>
+    </section>
+</section>
+{% include 'footer.html' with {'jsLib': 'something.js'}%}

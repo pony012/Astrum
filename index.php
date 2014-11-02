@@ -6,6 +6,9 @@
 	//Get query args
 	if (isset($_GET['ctrl'])) {
 		switch($_GET['ctrl']){
+			case 'loginB':
+				BaseCtrl::loadLogin();
+				break;
 			case 'login':
 				BaseCtrl::startSession(isset($_POST['u'])?$_POST['u']:NULL,isset($_POST['p'])?$_POST['p']:NULL);
 				break;

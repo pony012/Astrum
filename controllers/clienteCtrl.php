@@ -16,6 +16,10 @@
 					//Crear un Cliente
 					$this->create();
 					break;
+				case 'createF':
+						//Crear un Empleado
+						$this->createF();
+						break;
 				case 'lists':
 					//Listar
 					$this->lists();
@@ -228,7 +232,28 @@
 				require_once 'views/clienteSelectedError.html';
 		}
 
+		/**
+		* Llama al formulario para la creación de un cliente
+		*/
+		private function createF(){
+			$this->session['action']='create';
+			$template = $this->twig->loadTemplate('clienteForm.html');
+			echo $template->render(array('session'=>$this->session));
+		}
+
+		/**
+		* Llama al formulario para la actualización de un cliente
+		*/
+		private function updateF(){
+			//TODO
+			//Cargar en $data desde la base de datos
+			$this->session['action']='update';
+			$template = $this->twig->loadTemplate('clienteForm.html');
+			echo $template->render(array('session'=>$this->session));
+		}
+
 		function __construct(){
+			parent::__construct();
 			require_once 'models/clienteMdl.php';
 			$this->model = new ClienteMdl();
 		}

@@ -8,6 +8,9 @@
 	{
 		/** Donde se guardará el modelo */
 		protected $model;
+		protected $twig;
+		protected $loader;
+		protected $session;
 		
 		/**
 		*	Inicia una sesion y retorna true si se inició, false si ya existía una activa
@@ -278,7 +281,8 @@
 				'isAdmin' => BaseCtrl::isAdmin(),
 				'isTerapeuta' => BaseCtrl::isTerapeuta(),
 				'isEmpleado' => BaseCtrl::isEmpleado(),
-				'cargo'=>BaseCtrl::isAdmin()?'Admin':(BaseCtrl::isTerapeuta()?'Terapeuta':'Empleado')
+				'cargo'=>BaseCtrl::isAdmin()?'Admin':(BaseCtrl::isTerapeuta()?'Terapeuta':'Empleado'),
+				'controller'=>'index',
 			);
 
 			require_once 'Twig/Autoloader.php';
@@ -290,6 +294,31 @@
 			));
 
 			$template = $twig->loadTemplate('index.html');
+			echo $template->render(array('session'=>$session));
+		}
+
+		public static function loadLogin(){
+			if(BaseCtrl::isLoged())
+				die('<meta http-equiv="refresh" content="0; url=./">');
+			$session = array(
+				'isLoged'=>BaseCtrl::isLoged(),
+				'user'=>isset($_SESSION['user'])?$_SESSION['user']:NULL,
+				'isAdmin' => BaseCtrl::isAdmin(),
+				'isTerapeuta' => BaseCtrl::isTerapeuta(),
+				'isEmpleado' => BaseCtrl::isEmpleado(),
+				'cargo'=>BaseCtrl::isAdmin()?'Admin':(BaseCtrl::isTerapeuta()?'Terapeuta':'Empleado'),
+				'controller'=>'loginB',
+			);
+
+			require_once 'Twig/Autoloader.php';
+			Twig_Autoloader::register();
+
+			$loader = new Twig_Loader_Filesystem('views/');
+			$twig = new Twig_Environment($loader, array(
+			    //'cache' => '/cache',
+			));
+
+			$template = $twig->loadTemplate('loginB.html');
 			echo $template->render(array('session'=>$session));
 		}
 
@@ -306,14 +335,16 @@
 				'isAdmin' => BaseCtrl::isAdmin(),
 				'isTerapeuta' => BaseCtrl::isTerapeuta(),
 				'isEmpleado' => BaseCtrl::isEmpleado(),
-				'cargo'=>BaseCtrl::isAdmin()?'Admin':(BaseCtrl::isTerapeuta()?'Terapeuta':'Empleado')
+				'cargo'=>BaseCtrl::isAdmin()?'Admin':(BaseCtrl::isTerapeuta()?'Terapeuta':'Empleado'),
+				'controller'=>'index',
+				'action'=>''
 			);
 
 			require_once 'Twig/Autoloader.php';
 			Twig_Autoloader::register();
 
 			$this->loader = new Twig_Loader_Filesystem('views/');
-			$$this->twig = new Twig_Environment($loader, array(
+			$this->twig = new Twig_Environment($this->loader, array(
 			    //'cache' => '/cache',
 			));
 		}
