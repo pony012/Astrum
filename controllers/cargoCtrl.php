@@ -104,6 +104,7 @@
 		}
 
 		function __construct(){
+			parent::__construct();
 			require_once 'models/cargoMdl.php';
 			$this->model = new CargoMdl();
 		}

@@ -113,6 +113,7 @@
 		}
 
 		function __construct(){
+			parent::__construct();
 			require_once 'models/recepcionMdl.php';
 			$this->model = new RecepcionMdl();
 		}

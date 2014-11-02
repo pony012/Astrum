@@ -115,6 +115,7 @@
 		}
 
 		function __construct(){
+			parent::__construct();
 			require_once 'models/remisionMdl.php';
 			$this->model = new RemisionMdl();
 		}

@@ -96,6 +96,7 @@
 		}
 
 		function __construct(){
+			parent::__construct();
 			require_once 'models/consultaMdl.php';
 			$this->model = new ConsultaMdl();
 		}

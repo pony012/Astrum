@@ -172,6 +172,7 @@
 		}
 
 		function __construct(){
+			parent::__construct();
 			require_once 'models/servicioMdl.php';
 			$this->model = new ServicioMdl();
 		}

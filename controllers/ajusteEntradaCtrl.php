@@ -109,6 +109,7 @@
 		}
 
 		function __construct(){
+			parent::__construct();
 			require_once 'models/ajusteEntradaMdl.php';
 			$this->model = new AjusteEntradaMdl();
 		}

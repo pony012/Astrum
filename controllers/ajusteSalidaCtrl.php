@@ -111,6 +111,7 @@
 		}
 
 		function __construct(){
+			parent::__construct();
 			require_once 'models/ajusteSalidaMdl.php';
 			$this->model = new AjusteSalidaMdl();
 		}

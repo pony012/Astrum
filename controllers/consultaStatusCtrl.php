@@ -104,6 +104,7 @@
 		}
 
 		function __construct(){
+			parent::__construct();
 			require_once 'models/consultaStatusMdl.php';
 			$this->model = new ConsultaStatusMdl();
 		}

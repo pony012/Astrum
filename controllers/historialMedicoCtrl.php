@@ -472,6 +472,7 @@
 		}
 
 		function __construct(){
+			parent::__construct();
 			require_once 'models/historialMedicoMdl.php';
 			$this->model = new HistorialMedicoMdl();
 			

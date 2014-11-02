@@ -239,6 +239,7 @@
 		}
 
 		function __construct(){
+			parent::__construct();
 			require_once 'models/proveedorMdl.php';
 			$this->model = new ProveedorMdl();
 		}
