@@ -1,9 +1,6 @@
 <?php
 	require_once 'controllers/baseCtrl.php';
-	session_start();
-
-	$index = new BaseCtrl();
-		
+	session_start();		
 		
 	//Recibiendo
 	//Get query args
@@ -86,12 +83,12 @@
 				$ctrl = new ExistenciaCtrl();
 				break;
 			default:
-				$ctrl = new BaseCtrl();
-				require_once 'views/provisional.html';
+				BaseCtrl::loadIndex();
 				break;
 		}
 	}else{
-		require_once 'views/provisional.html';
+		BaseCtrl::loadIndex();
+		//require_once 'views/home.html';
 	}
 	if (isset($ctrl)) {
 		$ctrl->run();

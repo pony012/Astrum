@@ -46,6 +46,13 @@
                     <span class="icon-bar"></span>
                 </button>
                 <span class="navbar-brand">Spa Damaris</span>
+                <div style="float:right">
+                    {% if session.isLoged == true %}
+                        {% include 'bienvenido.html' %}
+                    {% else %}
+                        {% include 'login.html' %}
+                    {% endif %}
+                </div>
             </div>
             <div class="navbar-default sidebar" role="navigation">
                 <div class="sidebar-nav navbar-collapse">
@@ -98,21 +105,4 @@
             </div>
             <!-- /.navbar-static-side -->
         </nav>
-    </div>
-    <!-- /#wrapper -->
-
-    <!-- jQuery -->
-    <script src="js/jquery.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
-
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="js/plugins/metisMenu/metisMenu.min.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="js/sb-admin-2.js"></script>
-
-</body>
-
-</html>
+        <div id="page-wrapper">

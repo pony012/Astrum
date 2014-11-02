@@ -270,13 +270,17 @@
 			}
 		}
 
-		/**
-		* Construye un controlador Base
-		* Manda a llamar el header y
-		* el inicio de sesión o la bienvenida en caso de que esté logueado
-		*/
-		function __construct(){
+		public static function loadIndex(){
 			//require_once 'views/header.php';
+			$session = array(
+				'isLoged'=>BaseCtrl::isLoged(),
+				'user'=>isset($_SESSION['user'])?$_SESSION['user']:NULL,
+				'isAdmin' => BaseCtrl::isAdmin(),
+				'isTerapeuta' => BaseCtrl::isTerapeuta(),
+				'isEmpleado' => BaseCtrl::isEmpleado(),
+				'cargo'=>BaseCtrl::isAdmin()?'Admin':(BaseCtrl::isTerapeuta()?'Terapeuta':'Empleado')
+			);
+
 			require_once 'Twig/Autoloader.php';
 			Twig_Autoloader::register();
 
@@ -285,15 +289,33 @@
 			    //'cache' => '/cache',
 			));
 
-			if(BaseCtrl::isLoged()){
-				$template = $twig->loadTemplate('bienvenido.php');
-				echo $template->render(array('_SESSION'=>$_SESSION));
-				//require_once 'views/bienvenido.php';
-			}else{
-				$template = $twig->loadTemplate('login.php');
-				echo $template->render($_SESSION);
-				//require_once 'views/login.php';
-			}
+			$template = $twig->loadTemplate('index.html');
+			echo $template->render(array('session'=>$session));
+		}
+
+		/**
+		* Construye un controlador Base
+		* Manda a llamar el header y
+		* el inicio de sesión o la bienvenida en caso de que esté logueado
+		*/
+		function __construct(){
+			//require_once 'views/header.php';
+			$this->session = array(
+				'isLoged'=>BaseCtrl::isLoged(),
+				'user'=>isset($_SESSION['user'])?$_SESSION['user']:NULL,
+				'isAdmin' => BaseCtrl::isAdmin(),
+				'isTerapeuta' => BaseCtrl::isTerapeuta(),
+				'isEmpleado' => BaseCtrl::isEmpleado(),
+				'cargo'=>BaseCtrl::isAdmin()?'Admin':(BaseCtrl::isTerapeuta()?'Terapeuta':'Empleado')
+			);
+
+			require_once 'Twig/Autoloader.php';
+			Twig_Autoloader::register();
+
+			$this->loader = new Twig_Loader_Filesystem('views/');
+			$$this->twig = new Twig_Environment($loader, array(
+			    //'cache' => '/cache',
+			));
 		}
 	}
 ?>
