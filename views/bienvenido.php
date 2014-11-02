@@ -1,5 +1,2 @@
-<?php
-	echo 'Bienvenido ',$_SESSION['user'],'<br>';
-	var_dump($_SESSION);
-	echo '<br><a href="?ctrl=logout">Cerrar Sesion</a><br>';
-?>
+<div>Bienvenido {{_SESSION.user}}, tu cargo es {{_SESSION.type}}</div><br>
+<br><a href="?ctrl=logout">Cerrar Sesion</a><br>

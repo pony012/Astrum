@@ -277,10 +277,22 @@
 		*/
 		function __construct(){
 			//require_once 'views/header.php';
+			require_once 'Twig/Autoloader.php';
+			Twig_Autoloader::register();
+
+			$loader = new Twig_Loader_Filesystem('views/');
+			$twig = new Twig_Environment($loader, array(
+			    //'cache' => '/cache',
+			));
+
 			if(BaseCtrl::isLoged()){
-				require_once 'views/bienvenido.php';
+				$template = $twig->loadTemplate('bienvenido.php');
+				echo $template->render(array('_SESSION'=>$_SESSION));
+				//require_once 'views/bienvenido.php';
 			}else{
-				require_once 'views/login.php';
+				$template = $twig->loadTemplate('login.php');
+				echo $template->render($_SESSION);
+				//require_once 'views/login.php';
 			}
 		}
 	}
