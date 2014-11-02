@@ -12,8 +12,10 @@
     <!-- Custom Theme JavaScript -->
     <script src="js/sb-admin-2.js"></script>
 
-    {% if jsLib is defined%}
-        <script src="{{jsLib}}"></script>
+    {% if jsLibs is defined%}
+        {% for jsLib in jsLibs%}
+            <script src="{{jsLib}}"></script>
+        {% endfor %}
     {% endif %}
 
 </body>
