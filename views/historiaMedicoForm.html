@@ -1,0 +1,101 @@
+{% include 'header.html' with {'cssLibs': ['css/misEstilos.css']}%}
+<section class = "row">
+	<h1 class="page-header text-center col-xs-12">Nuevo Historial Medico</h1>
+	<div class="col-xs-12">
+		<form role="form" class="" action="?ctrl=historialMedico&act={{session.action}}" method="POST">
+			<h3 class="page-header col-xs-12">Estado Actual de la Piel</h3>
+			<div class="col-xs-offset-3 col-xs-6 col-sm-offset-1 col-sm-10">
+				<div class="form-group col-sm-6 col-md-3 quitarMargen">
+					<div class="checkbox">
+						<input type="checkbox" nombre="arregloPiel" value="fina" id="fina"/>
+					</div>
+					<label for="fina">Fina</label>
+					<div class="checkbox">
+						<input type="checkbox" nombre="arregloPiel" value="seca" id="seca"/>
+					</div>
+					<label for="seca">Seca</label>
+					<div class="checkbox">
+						<input type="checkbox" nombre="arregloPiel" value="manchas" id="manchas"/>
+					</div>
+					<label for="manchas">Manchas</label>
+					<div class="checkbox">
+						<input type="checkbox" nombre="arregloPiel" value="lunares" id="lunares"/>
+					</div>
+					<label for="lunares">Lunares</label>
+					<div class="checkbox">
+						<input type="checkbox" nombre="arregloPiel" value="arrugas" id="arrugas"/>
+					</div>
+					<label for="arrugas">Arrugas</label>
+				</div>
+				<div class="form-group col-sm-6 col-md-3 quitarMargen">
+					<div class="checkbox">
+						<input type="checkbox" nombre="arregloPiel" value="gruesa" id="gruesa"/>
+					</div>
+					<label for="gruesa">Gruesa</label>
+					<div class="checkbox">
+						<input type="checkbox" nombre="arregloPiel" value="mixta" id="mixta"/>
+					</div>
+					<label for="mixta">Mixta</label>
+					<div class="checkbox">
+						<input type="checkbox" nombre="arregloPiel" value="cicatrices" id="cicatrices"/>
+					</div>
+					<label for="cicatrices">Cicatrices</label>
+					<div class="checkbox">
+						<input type="checkbox" nombre="arregloPiel" value="pecas" id="pecas"/>
+					</div>
+					<label for="pecas">Pecas</label>
+					<div class="checkbox">
+						<input type="checkbox" nombre="arregloPiel" value="brilloFacial" id="brilloFacial"/>
+					</div>
+					<label for="brilloFacial">Brillo Facial</label>
+				</div>
+				<div class="form-group col-sm-6 col-md-3 quitarMargen">
+					<div class="checkbox">
+						<input type="checkbox" nombre="arregloPiel" value="deshidratada" id="deshidratada"/>
+					</div>
+					<label for="deshidratada">Deshidratada</label>
+					<div class="checkbox">
+						<input type="checkbox" nombre="arregloPiel" value="grasa" id="grasa"/>
+					</div>
+					<label for="grasa">Grasa</label>
+					<div class="checkbox">
+						<input type="checkbox" nombre="arregloPiel" value="poroAbierto" id="poroAbierto"/>
+					</div>
+					<label for="poroAbierto">Poro Abierto</label>
+					<div class="checkbox">
+						<input type="checkbox" nombre="arregloPiel" value="puntosNegros" id="puntosNegros"/>
+					</div>
+					<label for="puntosNegros">Puntos Negros</label>
+					<div class="checkbox">
+						<input type="checkbox" nombre="arregloPiel" value="pielAsfixiada" id="pielAsfixiada"/>
+					</div>
+					<label for="pielAsfixiada">Piel Asfixiada</label>
+				</div>
+				<div class="form-group col-sm-6 col-md-3 quitarMargen">
+					<div class="checkbox">
+						<input type="checkbox" nombre="arregloPiel" value="flacida" id="flacida"/>
+					</div>
+					<label for="flacida">Flácida</label>
+					<div class="checkbox">
+						<input type="checkbox" nombre="arregloPiel" value="acneica" id="acneica"/>
+					</div>
+					<label for="acneica">Acneica</label>
+					<div class="checkbox">
+						<input type="checkbox" nombre="arregloPiel" value="ojeras" id="ojeras"/>
+					</div>
+					<label for="ojeras">Ojeras</label>
+					<div class="checkbox">
+						<input type="checkbox" nombre="arregloPiel" value="verrugas" id="verrugas"/>
+					</div>
+					<label for="verrugas">Verrugas</label>
+					<div class="checkbox">
+						<input type="checkbox" nombre="arregloPiel" value="despigmentacion" id="despigmentacion"/>
+					</div>
+					<label for="despigmentacion">Despigmentación</label>
+				</div>
+			</div>
+		</form>
+	</div>
+</section>
+
+{% include 'footer.html' %}

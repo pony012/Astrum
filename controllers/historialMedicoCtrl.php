@@ -21,11 +21,15 @@
 		 */
 		public function run()
 		{
-			if(!BaseCtrl::isEmpleado())
+			if(BaseCtrl::isTerapeuta() || BaseCtrl::isAdmin())
 				switch ($_GET['act']) {
 					case 'create':
 						//Crear un Historial Clinico
 						$this->create();
+						break;
+					case 'createF':
+						//Crear un Empleado
+						$this->createF();
 						break;
 					case 'lists':
 						//Listar
@@ -469,6 +473,12 @@
 				
 			}else
 				require_once 'views/historialMedicoSelectedError.html';
+		}
+
+		private function createF(){
+			$this->session['action']='create';
+			$template = $this->twig->loadTemplate('historiaMedicoForm.html');
+			echo $template->render(array('session'=>$this->session));
 		}
 
 		function __construct(){
