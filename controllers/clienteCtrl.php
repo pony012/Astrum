@@ -38,6 +38,10 @@
 					else
 						require_once 'views/permisosError.html';
 					break;
+				case 'updateF':
+						//Crear un Empleado
+						$this->updateF();
+						break;
 				default:
 					# code...
 					break;
@@ -247,9 +251,16 @@
 		private function updateF(){
 			//TODO
 			//Cargar en $data desde la base de datos
-			$this->session['action']='update';
-			$template = $this->twig->loadTemplate('clienteForm.html');
-			echo $template->render(array('session'=>$this->session));
+			$data = $this->model->get(1);
+			if($data){
+				$this->session['action']='update';
+				$template = $this->twig->loadTemplate('clienteForm.html');
+				echo $template->render(array('session'=>$this->session,'data'=>$data));
+			}else{
+				//TODO
+				//Enviar a listar clientes con vista de inválido
+				//echo 'Error';
+			}
 		}
 
 		function __construct(){
