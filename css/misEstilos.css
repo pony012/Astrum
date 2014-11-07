@@ -2,8 +2,16 @@
 	margin-bottom: 0px;
 }
 
+.quitarPaddinIzquierdo{
+    padding-left: 0px;
+}
+
 .centrar{
 	margin-top: 25px;
+}
+
+.agregarMargenGrupos{
+    margin-top: 15px;
 }
 /*
 	mediaquery
@@ -13,5 +21,16 @@
 		min-width: 300px !important;
 		display: block !important;
 		visibility: visible !important;
+		height: 350px !important;
 	}
 }
+
+@media all and (min-width: 991px) { 
+	#formPiel{
+		min-width: 300px !important;
+		display: block !important;
+		visibility: visible !important;
+		height: 180px !important;
+	}
+}
+
