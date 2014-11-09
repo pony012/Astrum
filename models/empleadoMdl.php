@@ -164,12 +164,16 @@ class EmpleadoMdl extends BaseMdl{
 	* Consulta a los empleados registrados y que esten activos
 	* @return array or false
 	**/
-	function lists($constraint = '1 = 1'){
+	function lists($offset = -1,$constraint = '1 = 1'){
 		$rows = array();
-
-		if($stmt = $this->driver->prepare('SELECT * FROM V_Empleado WHERE ?')){
-			
-			if(!$stmt->bind_param('s',$constraint))
+		if($offset>-1)
+			$stmt = $this->driver->prepare('SELECT * FROM V_Empleado WHERE ? LIMIT ?,?');
+		else
+			$stmt = $this->driver->prepare('SELECT * FROM V_Empleado WHERE ?');
+		if($stmt){
+			$amountRows = 10;
+			$offset*=10;
+			if(!$stmt->bind_param('sii',$constraint,$offset,$amountRows))
 				die('Error Al Consultar');
 			
 			if(!$stmt->execute())
@@ -181,8 +185,7 @@ class EmpleadoMdl extends BaseMdl{
 
 				while($result = $mySqliResult->fetch_assoc())
 					array_push($rows, $result);
-
-				return $rows;
+				return json_encode($rows);
 			}else
 				die('No hay Resultados!!!');
 

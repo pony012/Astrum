@@ -1,2 +1,12 @@
 AddType application/x-httpd-php .cf
 IndexIgnore *.cf
+
+
+# Activar RewriteEngine
+RewriteEngine on
+RewriteCond %{SCRIPT_FILENAME} !-d  
+RewriteCond %{SCRIPT_FILENAME} !-f
+
+
+#rutas para empleado
+RewriteRule ^empleado/([0-9]*) index.php?ctrl=empleado&act=lists&offset=$1

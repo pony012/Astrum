@@ -285,7 +285,9 @@
 		*listamos todos los empleados
 		**/
 		private function lists(){
-			if($result = $this->model->lists()){
+			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
+			
+			if($offset!=='' && ($result = $this->model->lists($offset))){
 
 				$data = array($result);
 
