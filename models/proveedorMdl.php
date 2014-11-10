@@ -144,6 +144,32 @@ class ProveedorMdl extends BaseMdl{
 			
 		return false;
 	}
+
+	/**
+	* Consulta al Proveedor con el Id dado
+	* @return Object or false
+	**/
+	function get($idProveedor){
+		if($stmt = $this->driver->prepare('SELECT * FROM V_Proveedor WHERE IDProveedor = ?')){
+			
+			if(!$stmt->bind_param('i',$idProveedor))
+				die('Error Al Consultar');
+
+			if(!$stmt->execute())
+				die('Error Al Consultar');
+
+			$mySqliResult = $stmt->get_result();
+
+			if($mySqliResult->field_count > 0){
+				return $mySqliResult->fetch_assoc();
+			}else
+				return false;
+
+		}else
+			die('Error Al Consultar');
+			
+		return false;
+	}
 	
 	/**
 	*Da de baja a un determinado proveedor

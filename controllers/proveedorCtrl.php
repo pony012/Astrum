@@ -16,6 +16,10 @@
 					//Crear proveedor
 					$this->create();
 					break;
+				case 'createF':
+						//Crear un proveedor
+						$this->createF();
+						break;
 				case 'lists':
 					//Listar Proveedores
 					$this->lists();
@@ -34,6 +38,10 @@
 					else
 						require_once 'views/permisosError.html';
 					break;
+				case 'updateF':
+						//Actualizar un proveedor
+						$this->updateF();
+						break;
 				default:
 					# code...
 					break;
@@ -236,6 +244,33 @@
 				
 			}else
 				require_once 'views/proveedorSelectedError.html';
+		}
+
+		/**
+		* Llama al formulario para la creación de un proveedor
+		*/
+		private function createF(){
+			$this->session['action']='create';
+			$template = $this->twig->loadTemplate('proveedorForm.html');
+			echo $template->render(array('session'=>$this->session));
+		}
+
+		/**
+		* Llama al formulario para la actualización de un proveedor
+		*/
+		private function updateF(){
+			//TODO
+			//Cargar en $data desde la base de datos
+			$data = $this->model->get(1);
+			if($data){
+				$this->session['action']='update';
+				$template = $this->twig->loadTemplate('proveedorForm.html');
+				echo $template->render(array('session'=>$this->session,'data'=>$data));
+			}else{
+				//TODO
+				//Enviar a listar clientes con vista de inválido
+				//echo 'Error';
+			}
 		}
 
 		function __construct(){
