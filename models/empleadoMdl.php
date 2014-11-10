@@ -169,11 +169,7 @@ class EmpleadoMdl extends BaseMdl{
 	function lists($offset = -1,$idEmpleado = -1){
 		$rows = array();
 		if($offset>-1){
-			if($idEmpleado>-1){
-				$stmt = $this->driver->prepare('SELECT * FROM V_Empleado WHERE IDEmpleado=? LIMIT ?,?');
-			}else{
-				$stmt = $this->driver->prepare('SELECT * FROM V_Empleado LIMIT ?,?');
-			}
+			$stmt = $this->driver->prepare('SELECT * FROM V_Empleado LIMIT ?,?');
 		}else{
 			if($idEmpleado>-1){
 				$stmt = $this->driver->prepare('SELECT * FROM V_Empleado WHERE IDEmpleado=?');
@@ -182,16 +178,11 @@ class EmpleadoMdl extends BaseMdl{
 			}
 		}
 		if($stmt){
-			$amountRows = 10;
-			$offset*=10;
 			if($offset>-1){
-				if($idEmpleado>-1){
-					if(!$stmt->bind_param('iii',$idEmpleado,$offset,$amountRows))
-						die('Error Al Consultar');
-				}else{
-					if(!$stmt->bind_param('ii',$offset,$amountRows))
-						die('Error Al Consultar');
-				}
+				$amountRows = 10;
+				$offset*=10;
+				if(!$stmt->bind_param('ii',$offset,$amountRows))
+					die('Error Al Consultar');
 			}else if($idEmpleado>-1){
 				if(!$stmt->bind_param('i',$idEmpleado))
 					die('Error Al Consultar');

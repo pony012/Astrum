@@ -11,6 +11,7 @@
 		 */
 		public function run()
 		{
+			
 			if(BaseCtrl::isAdmin())
 				switch ($_GET['act']) {
 					case 'create':
@@ -34,7 +35,7 @@
 						//Baja
 						$this->update();
 						break;
-					case 'getEmpleado':
+					case 'get':
 						$this->getEmpleado();
 						break;
 					default:
@@ -292,13 +293,8 @@
 		private function lists(){
 			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
 			if($offset!=='' && ($result = $this->model->lists($offset))){
-
-				return json_encode($result);
-
-				require_once 'views/empleadoSelected.php';
-				
-			}else
-				require_once 'views/empleadoSelectedError.html';
+				return json_encode(array('error'=>0,'data'=>$result,'mensaje'=>'correcto'));
+			}
 		}
 
 		/**
@@ -306,13 +302,9 @@
 		**/
 		private function getEmpleado(){
 			$idEmpleado = $this->validateNumber(isset($_POST['idEmpleado'])?$_POST['idEmpleado']:NULL);
-
 			if($idEmpleado!=='' && ($result = $this->model->lists(-1,$idEmpleado))){
-				$data = array($result);
-				require_once 'views/empleadoSelected.php';
-				
-			}else
-				require_once 'views/empleadoSelectedError.html';
+				return json_encode(array('error'=>0,'data'=>$result,'mensaje'=>'Correcto'));
+			}
 		}
 
 		/**

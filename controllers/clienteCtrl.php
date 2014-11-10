@@ -10,7 +10,7 @@
 		 * Ejecuta acciones basado en la accion seleccionada por los agrumentos
 		 */
 		public function run()
-		{
+		{	
 			switch ($_GET['act']) {
 				case 'create':
 					//Crear un Cliente
@@ -24,7 +24,7 @@
 					//Listar
 					$this->lists();
 					break;
-				case 'getCliente':
+				case 'get':
 					$this->getCliente();
 					break;
 				case 'delete':
