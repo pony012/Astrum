@@ -1,4 +1,83 @@
-<% include 'header.html' %>
-<form role="form" action="?ctrl=empleado&act={{session.action}}">
-</form>
-<% include 'footer.html' %>
+{% include 'header.html' with {'jsLib': ['js/empleado.js']}%}
+<section class = "row">
+	<h1 class="page-header text-center col-xs-12">Nuevo Empleado</h1>
+    <div class = "col-sm-offset-1 col-sm-10 col-lg-offset-2 col-lg-8">
+        <form role="form" class="" action="?ctrl=cliente&act={{session.action}}" method="POST">
+            <div class="form-group col-md-12 col-lg-12">
+                <label for="nombre">Nombre:</label>
+                <input class="form-control" type = "text" id = "nombre" name = "nombre" placeholder = "Nombre(s)" value="{{data.Nombre}}" required>
+            </div>
+            <div class="form-group  col-md-12 col-lg-12">
+                <label for="apellidoPaterno">Apellido Paterno:</label>
+                <input class="form-control" type = "text" id = "apellidoPaterno" name = "apellidoPaterno" placeholder = "Apellido Paterno" value="{{data.ApellidoPaterno}}" required>
+            </div>
+            <div class="form-group  col-md-12 col-lg-12">
+                <label for="apellidoMaterno">Apellido Materno:</label>
+                <input class="form-control" type = "text" id = "apellidoMaterno" name = "apellidoMaterno" placeholder = "Apellido Materno" value="{{data.ApellidoMaterno}}" required>
+
+            </div>
+            <div class="form-group  col-md-12 col-lg-12">
+                <label for="usuario">Usuario:</label>
+                <input class="form-control" type = "text" id = "usuario" name = "usuario" placeholder = "Usuario" value="{{data.usuario}}" required>
+            </div>
+            <div class="form-group  col-md-12 col-lg-12">
+                <label for="contrasena">Contraseña:</label>
+                <input class="form-control" type = "password" id = "contrasena" name = "contrasena" placeholder = "Contraseña" value="{{data.contrasena}}" required>
+            </div>
+
+            <div class="form-group  col-md-6 col-lg-6">
+                <label for ="idCargo">Cargo:</label>
+                <select class="form-control" name = "idCargo">
+                	<option selected>Selecciona un cargo</option>
+            		<option value = "1">Administrador</option>
+                	<option value = "2">Terapeuta</option>
+                </select>
+            </div>
+
+            <div class="form-group col-md-6 col-lg-6">
+                <label for="colonia">Colonia:</label>
+                <input class="form-control" type = "text" id = "colonia" name = "colonia" placeholder = "Colonia" value="{{data.Colonia}}">
+            </div>
+            <div class="form-group col-md-6 col-lg-6">
+                <label for="calle">Calle:</label>
+                <input class="form-control" type = "text" id = "calle" name = "calle" placeholder = "Nombre de la Calle" value="{{data.Calle}}">
+            </div>
+            <div class="form-group col-md-6 col-lg-6">
+                <label for="numExterior">Número Exterior:</label>
+                <input class="form-control" type = "text" id = "numExterior" name = "numExterior" placeholder = "Número Exterior" value="{{data.NumExterior}}">
+            </div>
+            <div class="form-group col-md-6 col-lg-6">
+                <label for="numInterior">Número Interior:</label>
+                <input class="form-control" type = "text" id = "numInterior" name = "numInterior" placeholder = "Número Interior" value="{{data.NumInterior}}">
+            </div>
+            <div class="form-group col-md-6 col-lg-6">
+                <label for="codigoPostal">Código Postal:</label>
+                <input class="form-control" type = "text" id = "codigoPostal" name = "codigoPostal" placeholder = "Código Postal" value="{{data.CP}}">
+            </div>
+
+            <div class="form-group col-md-6 col-lg-6">
+                <label for="foto">Fotografía:</label>
+                <input type = "file" id = "foto" name = "foto" value="{{data.CP}}">
+            </div>
+
+            <div class="form-group col-md-6 col-lg-6">
+                <label for="email">Email:</label>
+                <input class="form-control" type = "email" id = "email" name = "email" placeholder = "Email" value="{{data.Email}}">
+            </div>
+            <div class="form-group col-md-6 col-lg-6">
+                <label for="telefono">Teléfono:</label>
+                <input class="form-control" type = "tel" id = "telefono" name = "telefono" placeholder = "Teléfono" value="{{data.Telefono}}">
+            </div>
+            <div class="form-group col-md-6 col-lg-6">
+                <label for="celular">Celular:</label>
+                <input class="form-control" type = "tel" id = "celular" name = "celular" placeholder = "Celular" value="{{data.Celular}}">
+            </div>
+
+            <div class = "col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <button type="submit" class="btn btn-default pull-left">Enviar</button>
+                <button type="reset" class="btn btn-default pull-right">Limpiar Campos</button>
+            </div>
+        </form>
+    </div>
+</section>
+{% include 'footer.html' %}
