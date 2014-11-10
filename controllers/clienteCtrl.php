@@ -17,12 +17,15 @@
 					$this->create();
 					break;
 				case 'createF':
-						//Crear un Empleado
-						$this->createF();
-						break;
+					//Crear un cliente
+					$this->createF();
+					break;
 				case 'lists':
 					//Listar
 					$this->lists();
+					break;
+				case 'getCliente':
+					$this->getCliente();
 					break;
 				case 'delete':
 					//Baja
@@ -38,8 +41,14 @@
 					else
 						require_once 'views/permisosError.html';
 					break;
+				case 'active':
+					//Baja
+					if(BaseCtrl::isAdmin())
+						$this->active();
+					else
+						require_once 'views/permisosError.html';
+					break;
 				case 'updateF':
-						//Crear un Empleado
 						$this->updateF();
 						break;
 				default:
@@ -230,6 +239,20 @@
 
 				$data = array($result);
 
+				require_once 'views/clienteSelected.php';
+				
+			}else
+				require_once 'views/clienteSelectedError.html';
+		}
+
+		/**
+		*obtenemos los datos de un cliente
+		**/
+		private function getCliente(){
+			$idCliente = $this->validateNumber(isset($_POST['idCliente'])?$_POST['idCliente']:NULL);
+
+			if($idCliente!=='' && ($result = $this->model->lists(-1,$idCliente))){
+				$data = array($result);
 				require_once 'views/clienteSelected.php';
 				
 			}else

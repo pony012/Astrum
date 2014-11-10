@@ -1,20 +1,20 @@
 	</div>
     <!-- /#wrapper -->
     <!-- jQuery -->
-    <script src="js/jquery.js"></script>
+    <script src="{{session.document_root}}/js/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
-    <script src="js/bootstrap.min.js"></script>
+    <script src="{{session.document_root}}/js/bootstrap.min.js"></script>
 
     <!-- Metis Menu Plugin JavaScript -->
-    <script src="js/plugins/metisMenu/metisMenu.min.js"></script>
+    <script src="{{session.document_root}}/js/plugins/metisMenu/metisMenu.min.js"></script>
 
     <!-- Custom Theme JavaScript -->
-    <script src="js/sb-admin-2.js"></script>
+    <script src="{{session.document_root}}/js/sb-admin-2.js"></script>
 
     {% if jsLibs is defined%}
         {% for jsLib in jsLibs%}
-            <script src="{{jsLib}}"></script>
+            <script src="{{session.document_root}}/{{jsLib}}"></script>
         {% endfor %}
     {% endif %}
 

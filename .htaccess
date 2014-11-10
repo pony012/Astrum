@@ -9,4 +9,25 @@ RewriteCond %{SCRIPT_FILENAME} !-f
 
 
 #rutas para empleado
-RewriteRule ^empleado/([0-9]*) index.php?ctrl=empleado&act=lists&offset=$1
+RewriteRule ^([a-zA-z]*)/create index.php?ctrl=$1&act=createF
+
+RewriteRule ^([a-zA-z]*)/([a-zA-z]*) index.php?ctrl=$1&act=$2
+
+#RewriteRule ^empleado/(\-?[0-9]+) index.php?ctrl=empleado&act=lists&offset=$1
+#RewriteRule ^empleado index.php?ctrl=empleado&act=getEmpleado
+#RewriteRule ^crear/empleado index.php?ctrl=empleado&act=create
+#RewriteRule ^registrar/empleado index.php?ctrl=empleado&act=createF
+#RewriteRule ^actualizar/empleado index.php?ctrl=empleado&act=update
+#RewriteRule ^modificar/empleado index.php?ctrl=cliente&act=updateF
+#RewriteRule ^desactivar/empleado index.php?ctrl=empleado&act=delete
+#RewriteRule ^reactivar/empleado index.php?ctrl=empleado&act=active
+
+#rutas para clientes
+#RewriteRule ^cliente/(\-?[0-9]+) index.php?ctrl=cliente&act=lists&offset=$1
+#RewriteRule ^cliente index.php?ctrl=cliente&act=getCliente
+#RewriteRule ^crear/cliente index.php?ctrl=cliente&act=create
+#RewriteRule ^registrar/cliente index.php?ctrl=cliente&act=createF
+#RewriteRule ^actualizar/cliente index.php?ctrl=cliente&act=update
+#RewriteRule ^modificar/cliente index.php?ctrl=cliente&act=updateF
+#RewriteRule ^desactivar/cliente index.php?ctrl=cliente&act=delete
+#RewriteRule ^reactivar/cliente index.php?ctrl=cliente&act=active

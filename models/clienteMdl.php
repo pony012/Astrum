@@ -119,17 +119,41 @@ class ClienteMdl extends BaseMdl{
 	}
 	
 	/**
-	* Consulta a los Clientes registrados y que esten activos
+	* Consulta a los clientes registrados y que esten activos
+	*@param int $offset
+	*@param int $idCliente
 	* @return array or false
 	**/
-	function lists($constraint = '1 = 1'){
+	function lists($offset = -1,$idCliente = -1){
 		$rows = array();
-
-		if($stmt = $this->driver->prepare('SELECT * FROM V_Cliente WHERE ?')){
-			
-			if(!$stmt->bind_param('s',$constraint))
-				die('Error Al Consultar');
-
+		if($offset>-1){
+			if($idCliente>-1){
+				$stmt = $this->driver->prepare('SELECT * FROM V_Cliente WHERE IDCliente=? LIMIT ?,?');
+			}else{
+				$stmt = $this->driver->prepare('SELECT * FROM V_Cliente LIMIT ?,?');
+			}
+		}else{
+			if($idCliente>-1){
+				$stmt = $this->driver->prepare('SELECT * FROM V_Cliente WHERE IDCliente=?');
+			}else{
+				$stmt = $this->driver->prepare('SELECT * FROM V_Cliente');
+			}
+		}
+		if($stmt){
+			$amountRows = 10;
+			$offset*=10;
+			if($offset>-1){
+				if($idCliente>-1){
+					if(!$stmt->bind_param('iii',$idCliente,$offset,$amountRows))
+						die('Error Al Consultar');
+				}else{
+					if(!$stmt->bind_param('ii',$offset,$amountRows))
+						die('Error Al Consultar');
+				}
+			}else if($idCliente>-1){
+				if(!$stmt->bind_param('i',$idCliente))
+					die('Error Al Consultar');
+			}
 			if(!$stmt->execute())
 				die('Error Al Consultar');
 
@@ -139,7 +163,6 @@ class ClienteMdl extends BaseMdl{
 
 				while($result = $mySqliResult->fetch_assoc())
 					array_push($rows, $result);
-
 				return $rows;
 			}else
 				die('No hay Resultados!!!');

@@ -1,4 +1,5 @@
 <?php
+
 	/**
 	* Controlador Base
 	* Clase base para los controladores que serán creados en la aplicación
@@ -283,6 +284,7 @@
 				'isEmpleado' => BaseCtrl::isEmpleado(),
 				'cargo'=>BaseCtrl::isAdmin()?'Admin':(BaseCtrl::isTerapeuta()?'Terapeuta':'Empleado'),
 				'controller'=>'index',
+				'document_root' => __DOCUMENT_ROOT__
 			);
 
 			require_once 'Twig/Autoloader.php';
@@ -308,6 +310,7 @@
 				'isEmpleado' => BaseCtrl::isEmpleado(),
 				'cargo'=>BaseCtrl::isAdmin()?'Admin':(BaseCtrl::isTerapeuta()?'Terapeuta':'Empleado'),
 				'controller'=>'loginB',
+				'document_root' => __DOCUMENT_ROOT__
 			);
 
 			require_once 'Twig/Autoloader.php';
@@ -328,6 +331,7 @@
 		* el inicio de sesión o la bienvenida en caso de que esté logueado
 		*/
 		function __construct(){
+			require_once 'config.cf';
 			//require_once 'views/header.php';
 			$this->session = array(
 				'isLoged'=>BaseCtrl::isLoged(),
@@ -337,7 +341,8 @@
 				'isEmpleado' => BaseCtrl::isEmpleado(),
 				'cargo'=>BaseCtrl::isAdmin()?'Admin':(BaseCtrl::isTerapeuta()?'Terapeuta':'Empleado'),
 				'controller'=>'index',
-				'action'=>''
+				'action'=>'',
+				'document_root' => __DOCUMENT_ROOT__
 			);
 
 			require_once 'Twig/Autoloader.php';

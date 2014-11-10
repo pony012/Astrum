@@ -12,16 +12,16 @@
     <title>SpaDámaris</title>
 
     <!-- Bootstrap Core CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="{{session.document_root}}/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
-    <link href="css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <link href="{{session.document_root}}/css/plugins/metisMenu/metisMenu.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="css/sb-admin-2.css" rel="stylesheet">
+    <link href="{{session.document_root}}/css/sb-admin-2.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="{{session.document_root}}/font-awesome-4.2.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -31,7 +31,7 @@
     <![endif]-->
     {% if cssLibs is defined%}
         {% for cssLib in cssLibs%}
-            <link href="{{cssLib}}" rel="stylesheet" type="text/css">        
+            <link href="{{session.document_root}}/{{cssLib}}" rel="stylesheet" type="text/css">        
         {% endfor %}
     {% endif %}
 </head>

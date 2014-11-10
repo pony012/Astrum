@@ -27,9 +27,15 @@
 					case 'delete':
 						$this->delete();
 						break;
+					case 'active':
+						$this->active();
+						break;
 					case 'update':
 						//Baja
 						$this->update();
+						break;
+					case 'getEmpleado':
+						$this->getEmpleado();
 						break;
 					default:
 						# code...
@@ -49,7 +55,6 @@
 			$apellidoPaterno 	= $this->validateName(isset($_POST['apellidoPaterno'])?$_POST['apellidoPaterno']:NULL);
 			$apellidoMaterno	= $this->validateName(isset($_POST['apellidoMaterno'])?$_POST['apellidoMaterno']:NULL);
 			$usuario			= $this->validateText(isset($_POST['usuario'])?$_POST['usuario']:NULL);
-			$contrasena			= $this->validateText(isset($_POST['contrasena'])?$_POST['contrasena']:NULL);
 			$idCargo			= $this->validateNumber(isset($_POST['idCargo'])?$_POST['idCargo']:NULL);
 			$calle				= $this->validateText(isset($_POST['calle'])?$_POST['calle']:NULL);
 			$numExterior		= $this->validateText(isset($_POST['numExterior'])?$_POST['numExterior']:NULL);
@@ -60,7 +65,7 @@
 			$email				= $this->validateEmail(isset($_POST['email'])?$_POST['email']:NULL);
 			$telefono			= $this->validatePhone(isset($_POST['telefono'])?$_POST['telefono']:NULL);
 			$celular			= $this->validatePhone(isset($_POST['celular'])?$_POST['celular']:NULL);
-
+			$contrasena 		= sha1(chr(rand(65,90)).chr(rand(65,90)).chr(rand(65,90)).chr(rand(65,90)).chr(rand(65,90)));
 			if(strlen($nombre)==0)
 				$errors['nombre'] = 1;
 			if(strlen($apellidoPaterno)==0)
@@ -69,8 +74,6 @@
 				$errors['apellidoMaterno'] = 1;
 			if(strlen($usuario)==0)
 				$errors['usuario'] = 1;
-			if(strlen($contrasena)==0)
-				$errors['contrasena'] = 1;
 			if(strlen($idCargo)==0)
 				$errors['idCargo'] = 1;
 			if(strlen($calle)==0)
@@ -233,6 +236,8 @@
 				$errors['colonia'] = 1;
 			if(strlen($codigoPostal)==0)
 				$errors['codigoPostal'] = 1;
+			if(strlen($email)==0)
+				$errors['email'] = 1;
 
 			
 			if (count($errors) == 0) {
@@ -247,8 +252,8 @@
 											$numInterior,
 											$colonia,
 											$codigoPostal,
-											$foto,
 											$email,
+											$foto,
 											$telefono,
 											$celular);
 
@@ -265,8 +270,8 @@
 									$numInterior,
 									$colonia,
 									$codigoPostal,
-									$foto,
 									$email,
+									$foto,
 									$telefono,
 									$celular);
 					//Cargar la vista
@@ -286,11 +291,24 @@
 		**/
 		private function lists(){
 			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
-			
 			if($offset!=='' && ($result = $this->model->lists($offset))){
 
-				$data = array($result);
+				return json_encode($result);
 
+				require_once 'views/empleadoSelected.php';
+				
+			}else
+				require_once 'views/empleadoSelectedError.html';
+		}
+
+		/**
+		*obtenemos los datos de un empleado
+		**/
+		private function getEmpleado(){
+			$idEmpleado = $this->validateNumber(isset($_POST['idEmpleado'])?$_POST['idEmpleado']:NULL);
+
+			if($idEmpleado!=='' && ($result = $this->model->lists(-1,$idEmpleado))){
+				$data = array($result);
 				require_once 'views/empleadoSelected.php';
 				
 			}else
