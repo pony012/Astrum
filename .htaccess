@@ -13,9 +13,11 @@ RewriteRule ^([a-zA-z]+)/create index.php?ctrl=$1&act=createF
 RewriteRule ^([a-zA-z]+)/update index.php?ctrl=$1&act=updateF
 
 #rutas para api
-RewriteRule ^([a-zA-z]+)/api/lists/(\-?[0-9]+) index.php?ctrl=$1&act=lists&offset=$2
+RewriteRule ^([a-zA-z]+)/api/lists/activos/(\-?[0-9]+) index.php?ctrl=$1&act=lists&offset=$2
+RewriteRule ^([a-zA-z]+)/api/lists/eliminados/(\-?[0-9]+) index.php?ctrl=$1&act=listsDeleters&offset=$2
 RewriteRule ^([a-zA-z]+)/api/create index.php?ctrl=$1&act=create
 RewriteRule ^([a-zA-z]+)/api/update index.php?ctrl=$1&act=update
 RewriteRule ^([a-zA-z]+)/api/delete index.php?ctrl=$1&act=delete
 RewriteRule ^([a-zA-z]+)/api/active index.php?ctrl=$1&act=active
-RewriteRule ^([a-zA-z]+)/api/get index.php?ctrl=$1&act=get
+RewriteRule ^([a-zA-z]+)/api/activos/get index.php?ctrl=$1&act=get
+RewriteRule ^([a-zA-z]+)/api/eliminados/get index.php?ctrl=$1&act=getDeleter
