@@ -235,14 +235,24 @@
 		*Listamos todos los Clientes
 		**/
 		private function lists(){
-			if($result = $this->model->lists()){
-
-				$data = array($result);
-
-				require_once 'views/clienteSelected.php';
-				
-			}else
-				require_once 'views/clienteSelectedError.html';
+			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
+			if($offset!==''){ 
+				if(($result = $this->model->lists($offset))){
+					if(is_numeric($result)){
+						if($result === VACIO){
+							return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+						}else{
+							return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+						}
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
 		}
 
 		/**
@@ -250,13 +260,23 @@
 		**/
 		private function getCliente(){
 			$idCliente = $this->validateNumber(isset($_POST['idCliente'])?$_POST['idCliente']:NULL);
-
-			if($idCliente!=='' && ($result = $this->model->lists(-1,$idCliente))){
-				$data = array($result);
-				require_once 'views/clienteSelected.php';
-				
-			}else
-				require_once 'views/clienteSelectedError.html';
+			if($idCliente!==''){
+				if(($result = $this->model->lists(-1,$idCliente))){
+					if(is_numeric($result)){
+						if($result === VACIO){
+							return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+						}else{
+							return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+						}
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
 		}
 
 		/**

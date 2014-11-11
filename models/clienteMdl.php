@@ -119,19 +119,34 @@ class ClienteMdl extends BaseMdl{
 	}
 	
 	/**
-	* Consulta a los Clientes registrados y que esten activos
+	* Consulta a los empleados registrados y que esten activos
+	*@param int $offset
+	*@param int $idEmpleado
 	* @return array or false
 	**/
-	function lists($constraint = '1 = 1'){
+	function lists($offset = -1,$idCliente = -1){
 		$rows = array();
-
-		if($stmt = $this->driver->prepare('SELECT * FROM V_Cliente WHERE ?')){
-			
-			if(!$stmt->bind_param('s',$constraint))
-				die('Error Al Consultar');
-
+		if($offset>-1){
+			$stmt = $this->driver->prepare('SELECT * FROM V_Cliente LIMIT ?,?');
+		}else{
+			if($idCliente>-1){
+				$stmt = $this->driver->prepare('SELECT * FROM V_Cliente WHERE IDCliente=?');
+			}else{
+				$stmt = $this->driver->prepare('SELECT * FROM V_Cliente');
+			}
+		}
+		if($stmt){
+			if($offset>-1){
+				$amountRows = 10;
+				$offset*=10;
+				if(!$stmt->bind_param('ii',$offset,$amountRows))
+					return ERROR_DB;
+			}else if($idCliente>-1){
+				if(!$stmt->bind_param('i',$idCliente))
+					return ERROR_DB;
+			}
 			if(!$stmt->execute())
-				die('Error Al Consultar');
+				return ERROR_DB;
 
 			$mySqliResult = $stmt->get_result();
 
@@ -139,13 +154,12 @@ class ClienteMdl extends BaseMdl{
 
 				while($result = $mySqliResult->fetch_assoc())
 					array_push($rows, $result);
-
 				return $rows;
 			}else
-				die('No hay Resultados!!!');
+				return VACIO;
 
 		}else
-			die('Error Al Consultar');
+			return ERROR_DB;
 			
 		return false;
 	}
