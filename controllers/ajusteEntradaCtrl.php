@@ -14,17 +14,33 @@
 			switch ($_GET['act']) {
 				case 'create':
 					//Crear 
-					$this->create();
+					if(BaseCtrl::isAdmin())
+						$this->create();
+					else
+						return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
 					break;
 				case 'lists':
-					//Listar 
+					//Listar
 					$this->lists();
 					break;
+				case 'get':
+					//Obtener un AjusteEntrada
+					$this->getAjusteEntrada();
+					break;
+				case 'listsDeleters':
+					//Lista los AjusteEntrada
+					$this->listsDeleters();
+					break;
+				case 'getDeleter':
+					//Obtener un AjusteEntrada
+					$this->getAjusteEntradaDeleter();
+					break;
 				default:
-					# code...
+					return json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
 					break;
 			}
 		}
+
 		/**
 		* Crea un Ajuste Entrada
 		*/
@@ -59,13 +75,13 @@
 				//Si pudo ser creado
 				if ($result) {
 					$data = array($idAjusteEntradaTipo, $idCliente, $folio, $observaciones, $idProductoServicios, $cantidades);
-					//Cargar la vista
-					require_once 'views/ajusteEntradaInserted.php';
+					
+					return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 				}else{
-					require_once 'views/ajusteEntradaInsertedError.html';
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 				}
 			}else{
-				require_once 'views/ajusteEntradaInsertedError.html';
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
@@ -82,20 +98,128 @@
 		}
 
 		/**
-		*Listamos todas los ajustes de entrada con sus detalles
+		*listamos todos los Ajustes de Entrada activos
 		**/
 		private function lists(){
+			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
+			if($offset!==''){ 
+				if(($result = $this->model->lists($offset))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
+		}
 
-			if($resultRemision = $this->model->lists()){
+		/**
+		*obtenemos los datos de un AjusteEntrada activo
+		**/
+		private function getAjusteEntrada(){
+			$idAjusteEntrada = $this->validateNumber(isset($_POST['idAjusteEntrada'])?$_POST['idAjusteEntrada']:NULL);
+			if($idAjusteEntrada!==''){
+				if(($result = $this->model->lists(-1,$idAjusteEntrada))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
+		}
+
+		/**
+		*listamos todos los Ajustes de Entrada inactivos
+		**/
+		private function listsDeleters(){
+			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
+			if($offset!==''){ 
+				if(($result = $this->model->listsDeleters($offset))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
+		}
+
+		/**
+		*obtenemos los datos de un AjusteEntrada inactivo
+		**/
+		private function getAjusteEntradaDeleter(){
+			$idAjusteEntrada = $this->validateNumber(isset($_POST['idAjusteEntrada'])?$_POST['idAjusteEntrada']:NULL);
+			if($idAjusteEntrada!==''){
+				if(($result = $this->model->listsDeleters(-1,$idAjusteEntrada))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
+		}
+
+
+		/**
+		* Llama al formulario para la creación de un Ajuste de Entrada
+		*/
+		private function createF(){
+			$this->session['action']='create';
+			$template = $this->twig->loadTemplate('ajusteEntradaForm.html');
+			echo $template->render(array('session'=>$this->session));
+		}
+
+		/**
+		* Llama al formulario para la actualización de un Ajuste de Entrada
+		*/
+		private function updateF(){
+			//TODO
+			//Cargar en $data desde la base de datos
+			$data = $this->model->get(1);
+			if($data){
+				$this->session['action']='update';
+				$template = $this->twig->loadTemplate('ajusteEntradaForm.html');
+				echo $template->render(array('session'=>$this->session,'data'=>$data));
+			}else{
+				//TODO
+				//Enviar a listar clientes con vista de inválido
+				//echo 'Error';
+			}
+		}
+
+		/**
+		*Listamos todas los ajustes de entrada con sus detalles
+		**/
+		private function listss(){
+
+			if($resultAjusteEntrada = $this->model->lists()){
 
 				$data = array();
-				foreach($resultRemision as $row){
+				foreach($resultAjusteEntrada as $row){
 
 					$details = array();
 
-					if($resultRemisionDetalle = $this->model->listsDetails($row['IDAjusteEntrada'])){
+					if($resultAjusteEntradaDetalle = $this->model->listsDetails($row['IDAjusteEntrada'])){
 
-						foreach($resultRemisionDetalle as $rowDetails)
+						foreach($resultAjusteEntradaDetalle as $rowDetails)
 							array_push($details, $rowDetails);
 
 					}

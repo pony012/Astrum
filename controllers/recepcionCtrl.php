@@ -13,15 +13,30 @@
 		{
 			switch ($_GET['act']) {
 				case 'create':
-					//Crear 
-					$this->create();
+					//Crear
+					if(BaseCtrl::isAdmin())
+						$this->create();
+					else
+						return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
 					break;	
 				case 'lists':
 					//Listar 
 					$this->lists();
-					break;	
+					break;
+				case 'get':
+					//Obtener una Recepcion
+					$this->getRecepcion();
+					break;
+				case 'listsDeleters':
+					//Lista las Recepciones
+					$this->listsDeleters();
+					break;
+				case 'getDeleter':
+					//Obtener una Recepcion
+					$this->getRecepcionDeleter();
+					break;
 				default:
-					# code...
+					return json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
 					break;
 			}
 		}
@@ -62,14 +77,13 @@
 				if ($result) {
 					//Guardamos los campos en un arreglo
 					$data = array($idProveedor, $folio, $fechaRecepcion,$idProductos,$cantidades,$precioUnitario,$ivas,$descuentos);
-					//Cargar la vista
-					require_once 'views/recepcionInserted.php';
+					
+					return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 				}else{
-					require_once 'views/recepcionInsertedError.html';
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 				}
 			}else{
-
-				require_once 'views/recepcionInsertedError.html';
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
@@ -86,30 +100,111 @@
 		}
 
 		/**
-		*Listamos todas las recepciones con sus detalles
+		*listamos todos las Recepciones activos
 		**/
 		private function lists(){
-
-			if($resultRemision = $this->model->lists()){
-
-				$data = array();
-				foreach($resultRemision as $row){
-
-					$details = array();
-
-					if($resultRemisionDetalle = $this->model->listsDetails($row['IDRecepcion'])){
-
-						foreach($resultRemisionDetalle as $rowDetails)
-							array_push($details, $rowDetails);
-
+			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
+			if($offset!==''){ 
+				if(($result = $this->model->lists($offset))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 					}
-
-					array_push($data, array($row,$details));
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
 				}
-				
-				require_once 'views/recepcionSelected.php';
-			}else
-				require_once 'views/recepcionSelectedError.html';
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
+		}
+
+		/**
+		*obtenemos los datos de una Recepcion activo
+		**/
+		private function getRecepcion(){
+			$idRecepcion = $this->validateNumber(isset($_POST['idRecepcion'])?$_POST['idRecepcion']:NULL);
+			if($idRecepcion!==''){
+				if(($result = $this->model->lists(-1,$idRecepcion))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
+		}
+
+		/**
+		*listamos todos las Recepciones inactivos
+		**/
+		private function listsDeleters(){
+			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
+			if($offset!==''){ 
+				if(($result = $this->model->listsDeleters($offset))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
+		}
+
+		/**
+		*obtenemos los datos de una Recepcion inactivo
+		**/
+		private function getRecepcionDeleter(){
+			$idRecepcion = $this->validateNumber(isset($_POST['idRecepcion'])?$_POST['idRecepcion']:NULL);
+			if($idRecepcion!==''){
+				if(($result = $this->model->listsDeleters(-1,$idRecepcion))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
+		}
+
+
+		/**
+		* Llama al formulario para la creación de una Recepcion
+		*/
+		private function createF(){
+			$this->session['action']='create';
+			$template = $this->twig->loadTemplate('recepcionForm.html');
+			echo $template->render(array('session'=>$this->session));
+		}
+
+		/**
+		* Llama al formulario para la actualización de una Recepcion
+		*/
+		private function updateF(){
+			//TODO
+			//Cargar en $data desde la base de datos
+			$data = $this->model->get(1);
+			if($data){
+				$this->session['action']='update';
+				$template = $this->twig->loadTemplate('recepcionForm.html');
+				echo $template->render(array('session'=>$this->session,'data'=>$data));
+			}else{
+				//TODO
+				//Enviar a listar clientes con vista de inválido
+				//echo 'Error';
+			}
 		}
 
 		function __construct(){

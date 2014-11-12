@@ -35,15 +35,25 @@
 						//Baja
 						$this->update();
 						break;
+					case 'updateF':
+						//Baja
+						$this->updateF();
+						break;
 					case 'get':
 						$this->getEmpleado();
 						break;
+					case 'listsDeleters':
+						$this->listsDeleters();
+						break;
+					case 'getDeleter':
+						$this->getEmpleadoDeleter();
+						break;
 					default:
-						# code...
+						return json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
 						break;
 				}
 			else
-				require_once 'views/permisosError.html';
+				return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
 		}
 		/**
 		* Crea un Empleado
@@ -131,7 +141,7 @@
 										$telefono,
 										$celular);
 						//Cargar la vista
-						require_once 'views/empleadoInserted.php';
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 						}
 					}else{
 						$data = array(	$nombre, 
@@ -150,14 +160,14 @@
 										$telefono,
 										$celular);
 						//Cargar la vista
-						require_once 'views/empleadoInserted.php';
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 					}
 				}else{
-					require_once 'views/empleadoInsertedError.html';
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 				}	
 			}else{
 				//Se cambiará por la misma vista donde se encuentre el formulario de insercción, y se mostrarán los errores en un modal
-				require_once 'views/empleadoInsertedError.html';
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
@@ -171,12 +181,12 @@
 		private function delete(){
 			$idEmpleado	= $this->validateNumber(isset($_POST['idEmpleado'])?$_POST['idEmpleado']:NULL);
 			if(strlen($idEmpleado)==0)
-				require_once 'views/empleadoDeleteError.html';
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			else{
 				if($result = $this->model->delete($idEmpleado))
-					require_once 'views/empleadoDelete.html';
+					return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 				else
-					require_once 'views/empleadoDeleteError.html';
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 			}
 		}
 
@@ -186,12 +196,12 @@
 		private function active(){
 			$idEmpleado	= $this->validateNumber(isset($_POST['idEmpleado'])?$_POST['idEmpleado']:NULL);
 			if(strlen($idEmpleado)==0)
-				require_once 'views/empleadoActiveError.html';
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			else{
 				if($result = $this->model->active($idEmpleado))
-					require_once 'views/empleadoActive.html';
+					return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 				else
-					require_once 'views/empleadoActiveError.html';
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 			}
 		}
 
@@ -276,34 +286,93 @@
 									$telefono,
 									$celular);
 					//Cargar la vista
-					require_once 'views/empleadoUpdated.php';
+					return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 				}else{
-					require_once 'views/empleadoUpdatedError.html';
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 				}	
 			}else{
 				//Se cambiará por la misma vista donde se encuentre el formulario de insercción, y se mostrarán los errores en un modal
-				require_once 'views/empleadoUpdatedError.html';
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
-
 		}
 
 		/**
-		*listamos todos los empleados
+		*listamos todos los empleados activos
 		**/
 		private function lists(){
 			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
-			if($offset!=='' && ($result = $this->model->lists($offset))){
-				return json_encode(array('error'=>0,'data'=>$result,'mensaje'=>'correcto'));
+			if($offset!==''){ 
+				if(($result = $this->model->lists($offset))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
 		/**
-		*obtenemos los datos de un empleado
+		*obtenemos los datos de un empleado activo
 		**/
 		private function getEmpleado(){
 			$idEmpleado = $this->validateNumber(isset($_POST['idEmpleado'])?$_POST['idEmpleado']:NULL);
-			if($idEmpleado!=='' && ($result = $this->model->lists(-1,$idEmpleado))){
-				return json_encode(array('error'=>0,'data'=>$result,'mensaje'=>'Correcto'));
+			if($idEmpleado!==''){
+				if(($result = $this->model->lists(-1,$idEmpleado))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
+		}
+
+		/**
+		*listamos todos los empleados inactivos
+		**/
+		private function listsDeleters(){
+			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
+			if($offset!==''){ 
+				if(($result = $this->model->listsDeleters($offset))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
+		}
+
+		/**
+		*obtenemos los datos de un empleado inactivo
+		**/
+		private function getEmpleadoDeleter(){
+			$idEmpleado = $this->validateNumber(isset($_POST['idEmpleado'])?$_POST['idEmpleado']:NULL);
+			if($idEmpleado!==''){
+				if(($result = $this->model->listsDeleters(-1,$idEmpleado))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 

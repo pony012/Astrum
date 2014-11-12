@@ -29,10 +29,10 @@ class ServicioMdl extends BaseMdl{
 		$stmt = $this->driver->prepare("INSERT INTO ProductoServicio (IDProductoServicioTipo, Producto, PrecioUnitario, Foto, Descripcion) 
 										VALUES(?,?,?,?,?)");
 		if(!$stmt->bind_param('isdss',$this->idProductoTipo,$this->servicio,$this->precioUnitario,$this->foto,$this->descripcion)){
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 		if (!$stmt->execute()) {
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 
 		if($this->driver->error){
@@ -43,19 +43,34 @@ class ServicioMdl extends BaseMdl{
 	}
 	
 	/**
-	* Consulta todos los servicios registrados
+	* Consulta los servicios registrados y que esten activos
+	*@param int $offset
+	*@param int $idServicio
 	* @return array or false
 	**/
-	function lists($constraint = '1 = 1'){
+	function lists($offset = -1,$idServicio = -1){
 		$rows = array();
-
-		if($stmt = $this->driver->prepare('SELECT * FROM V_Servicio WHERE ?')){
-		
-			if(!$stmt->bind_param('s',$constraint))
-				die('Error Al Consultar');
-
+		if($offset>-1){
+			$stmt = $this->driver->prepare('SELECT * FROM V_Servicio LIMIT ?,?');
+		}else{
+			if($idServicio>-1){
+				$stmt = $this->driver->prepare('SELECT * FROM V_Servicio WHERE IDProductoServicio=?');
+			}else{
+				$stmt = $this->driver->prepare('SELECT * FROM V_Servicio');
+			}
+		}
+		if($stmt){
+			if($offset>-1){
+				$amountRows = 10;
+				$offset*=10;
+				if(!$stmt->bind_param('ii',$offset,$amountRows))
+					return false;
+			}else if($idServicio>-1){
+				if(!$stmt->bind_param('i',$idServicio))
+					return false;
+			}
 			if(!$stmt->execute())
-				die('Error Al Consultar');
+				return false;
 
 			$mySqliResult = $stmt->get_result();
 
@@ -63,13 +78,58 @@ class ServicioMdl extends BaseMdl{
 
 				while($result = $mySqliResult->fetch_assoc())
 					array_push($rows, $result);
-
 				return $rows;
 			}else
-				die('No hay Resultados!!!');
+				return VACIO;
 
 		}else
-			die('Error Al Consultar');
+			return false;
+			
+		return false;
+	}
+
+	/**
+	* Consulta los servicios registrados y que estan inactivos
+	*@param int $offset
+	*@param int $idServicio
+	* @return array or false
+	**/
+	function listsDeleters($offset = -1,$idServicio = -1){
+		$rows = array();
+		if($offset>-1){
+			$stmt = $this->driver->prepare('SELECT * FROM V_Servicio_Deleter LIMIT ?,?');
+		}else{
+			if($idServicio>-1){
+				$stmt = $this->driver->prepare('SELECT * FROM V_Servicio_Deleter WHERE IDProductoServicio=?');
+			}else{
+				$stmt = $this->driver->prepare('SELECT * FROM V_Servicio_Deleter');
+			}
+		}
+		if($stmt){
+			if($offset>-1){
+				$amountRows = 10;
+				$offset*=10;
+				if(!$stmt->bind_param('ii',$offset,$amountRows))
+					return false;
+			}else if($idServicio>-1){
+				if(!$stmt->bind_param('i',$idServicio))
+					return false;
+			}
+			if(!$stmt->execute())
+				return false;
+
+			$mySqliResult = $stmt->get_result();
+
+			if($mySqliResult->field_count > 0){
+
+				while($result = $mySqliResult->fetch_assoc())
+					array_push($rows, $result);
+				return $rows;
+			}else
+				return VACIO;
+
+		}else
+			return false;
 			
 		return false;
 	}
@@ -83,10 +143,10 @@ class ServicioMdl extends BaseMdl{
 		if($stmt = $this->driver->prepare('SELECT Activo FROM ProductoServicio WHERE IDProductoServicio=? AND Activo = "S"')){
 		
 			if(!$stmt->bind_param('i',$idServicio))
-				die('Error Al Eliminar');
+				return false;
 			
 			if(!$stmt->execute())
-				die('Error Al Eliminar');
+				return false;
 				
 			$mySqliResult = $stmt->get_result();
 
@@ -96,10 +156,10 @@ class ServicioMdl extends BaseMdl{
 				if($stmt = $this->driver->prepare('UPDATE ProductoServicio SET Activo="N" WHERE IDProductoServicio=? AND Activo = "S"')){
 			
 					if(!$stmt->bind_param('i',$idServicio))
-						die('Error Al Eliminar');
+						return false;
 					
 					if(!$stmt->execute())
-						die('Error Al Eliminar');
+						return false;
 					else
 						return true;
 				}
@@ -117,10 +177,10 @@ class ServicioMdl extends BaseMdl{
 		if($stmt = $this->driver->prepare('SELECT Activo FROM ProductoServicio WHERE IDProductoServicio=? AND Activo = "N"')){
 		
 			if(!$stmt->bind_param('i',$idServicio))
-				die('Error Al Activar');
+				return false;
 			
 			if(!$stmt->execute())
-				die('Error Al Activar');
+				return false;
 				
 			$mySqliResult = $stmt->get_result();
 
@@ -130,10 +190,10 @@ class ServicioMdl extends BaseMdl{
 				if($stmt = $this->driver->prepare('UPDATE ProductoServicio SET Activo="S" WHERE IDProductoServicio=? AND Activo = "N"')){
 			
 					if(!$stmt->bind_param('i',$idServicio))
-						die('Error Al Activar');
+						return false;
 					
 					if(!$stmt->execute())
-						die('Error Al Activar');
+						return false;
 					else
 						return true;
 				}
@@ -151,10 +211,10 @@ class ServicioMdl extends BaseMdl{
 		if($stmt = $this->driver->prepare('SELECT IDProductoServicio FROM ProductoServicio WHERE IDProductoServicio=?')){
 		
 			if(!$stmt->bind_param('i',$idServicio))
-				die('Error Al Actualizar');
+				return false;
 			
 			if(!$stmt->execute())
-				die('Error Al Actualizar');
+				return false;
 				
 			$mySqliResult = $stmt->get_result();
 
@@ -168,10 +228,10 @@ class ServicioMdl extends BaseMdl{
 				$stmt = $this->driver->prepare("UPDATE ProductoServicio SET IDProductoServicioTipo=?, Producto=?, PrecioUnitario=?, Foto=?, Descripcion=? 
 												WHERE IDProductoServicio=?");
 				if(!$stmt->bind_param('isdssi',$this->idProductoTipo,$this->producto,$this->precioUnitario,$this->foto,$this->descripcion,$idServicio)){
-					die('Error al Actualizar en la base de datos');
+					return false;
 				}
 				if (!$stmt->execute()) {
-					die('Error al Actualizar en la base de datos');
+					return false;
 				}
 
 				if($this->driver->error){
@@ -181,7 +241,7 @@ class ServicioMdl extends BaseMdl{
 			}
 		}
 		else
-			die('Error al Actualizar en la base de datos');
+			return false;
 	}
 }
 ?>

@@ -17,7 +17,14 @@
 					if(BaseCtrl::isAdmin())
 						$this->create();
 					else
-						require_once 'views/permisosError.html';
+						return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
+					break;
+				case 'createF':
+					//Crear 
+					if(BaseCtrl::isAdmin())
+						$this->createF();
+					else
+						return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
 					break;
 				case 'lists':
 					//Listar 
@@ -28,17 +35,29 @@
 					if(BaseCtrl::isAdmin())
 						$this->delete();
 					else
-						require_once 'views/permisosError.html';
+						return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
 					break;
 				case 'update':
 					//Baja
 					if(BaseCtrl::isAdmin())
 						$this->update();
 					else
-						require_once 'views/permisosError.html';
+						return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
+					break;
+				case 'get':
+					//Obtener un servicio
+					$this->getServicio();
+					break;
+				case 'listsDeleters':
+					//Lista los servicios
+					$this->listsDeleters();
+					break;
+				case 'getDeleter':
+					//Obtener un servicio
+					$this->getServicioDeleter();
 					break;
 				default:
-					# code...
+					return json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
 					break;
 			}
 		}
@@ -74,12 +93,12 @@
 				if ($result) {
 					$data = array($idServicioTipo, $servicio, $precioUnitario, $foto, $descripcion);
 					//Cargar la vista
-					require_once 'views/servicioInserted.php';
+					return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 				}else{
-					require_once 'views/servicioInsertedError.html';
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 				}
 			}else{
-				require_once 'views/servicioInsertedError.html';
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
@@ -93,12 +112,12 @@
 		private function delete(){
 			$idServicio	= $this->validateNumber(isset($_POST['idServicio'])?$_POST['idServicio']:NULL);
 			if(strlen($idServicio)==0)
-				require_once 'views/servicioDeleteError.html';
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			else{
 				if($result = $this->model->delete($idServicio))
-					require_once 'views/servicioDelete.html';
+					return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 				else
-					require_once 'views/servicioDeleteError.html';
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 			}
 		}
 
@@ -108,12 +127,12 @@
 		private function active(){
 			$idServicio	= $this->validateNumber(isset($_POST['idServicio'])?$_POST['idServicio']:NULL);
 			if(strlen($idServicio)==0)
-				require_once 'views/servicioActiveError.html';
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			else{
 				if($result = $this->model->active($idServicio))
-					require_once 'views/servicioActive.html';
+					return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 				else
-					require_once 'views/servicioActiveError.html';
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 			}
 		}
 
@@ -147,28 +166,121 @@
 				//Si pudo ser creado
 				if ($result) {
 					$data = array($idServicioTipo, $servicio, $precioUnitario, $foto, $descripcion);
-					//Cargar la vista
-					require_once 'views/servicioUpdated.php';
+					//Cargar el modal
+					return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 				}else{
-					require_once 'views/servicioUpdatedError.html';
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 				}
 			}else{
-				require_once 'views/servicioUpdatedError.html';
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
 		/**
-		*Listamos todos los servicios registrados
+		*listamos todos los Servicios activos
 		**/
 		private function lists(){
-			if($result = $this->model->lists()){
+			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
+			if($offset!==''){ 
+				if(($result = $this->model->lists($offset))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
+		}
 
-				$data = array($result);
+		/**
+		*obtenemos los datos de un Servicio activo
+		**/
+		private function getServicio(){
+			$idServicio = $this->validateNumber(isset($_POST['idServicio'])?$_POST['idServicio']:NULL);
+			if($idServicio!==''){
+				if(($result = $this->model->lists(-1,$idServicio))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
+		}
 
-				require_once 'views/servicioSelected.php';
-				
-			}else
-				require_once 'views/servicioSelectedError.html';
+		/**
+		*listamos todos los Servicios inactivos
+		**/
+		private function listsDeleters(){
+			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
+			if($offset!==''){ 
+				if(($result = $this->model->listsDeleters($offset))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
+		}
+
+		/**
+		*obtenemos los datos de un Servicio inactivo
+		**/
+		private function getServicioDeleter(){
+			$idServicio = $this->validateNumber(isset($_POST['idServicio'])?$_POST['idServicio']:NULL);
+			if($idServicio!==''){
+				if(($result = $this->model->listsDeleters(-1,$idServicio))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
+		}
+
+		/**
+		* Llama al formulario para la creación de un Servicio
+		*/
+		private function createF(){
+			$this->session['action']='create';
+			$template = $this->twig->loadTemplate('servicioForm.html');
+			echo $template->render(array('session'=>$this->session));
+		}
+
+		/**
+		* Llama al formulario para la actualización de un servicio
+		*/
+		private function updateF(){
+			//TODO
+			//Cargar en $data desde la base de datos
+			$data = $this->model->get(1);
+			if($data){
+				$this->session['action']='update';
+				$template = $this->twig->loadTemplate('servicioForm.html');
+				echo $template->render(array('session'=>$this->session,'data'=>$data));
+			}else{
+				//TODO
+				//Enviar a listar clientes con vista de inválido
+				//echo 'Error';
+			}
 		}
 
 		function __construct(){

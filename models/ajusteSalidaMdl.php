@@ -40,11 +40,11 @@ class AjusteSalidaMdl extends BaseMdl{
 										VALUES(2,?,?)");
 		if(!$stmt->bind_param('si', date('Y-m-d'),$_SESSION['IDEmpleado'])){
 			$this->query->rollback();
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 		if (!$stmt->execute()) {
 			$this->query->rollback();
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 
 		$lastId = $this->driver->insert_id;
@@ -59,11 +59,11 @@ class AjusteSalidaMdl extends BaseMdl{
 										VALUES(?,?,?,?,?)");
 		if(!$stmt->bind_param('iiiis',$lastId, $this->idAjusteSalidaTipo,$this->idProveedor,$this->folio,$this->observaciones)){
 			$this->query->rollback();
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 		if (!$stmt->execute()) {
 			$this->query->rollback();
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 
 		if($this->driver->error){
@@ -116,33 +116,94 @@ class AjusteSalidaMdl extends BaseMdl{
 	}
 	
 	/**
-	* Consulta los Ajustes de Salida registrados
+	* Consulta los Ajustes de Salida registradas y que esten activas
+	*@param int $offset
+	*@param int $idAjusteSalida
 	* @return array or false
 	**/
-	function lists($constraint = '1 = 1'){
+	function lists($offset = -1,$idAjusteSalida = -1){
 		$rows = array();
-
-		if($stmt = $this->driver->prepare('SELECT * FROM V_AjusteSalida WHERE ?')){
-			
-			if(!$stmt->bind_param('s',$constraint))
-				die('Error Al Consultar');
-			
+		if($offset>-1){
+			$stmt = $this->driver->prepare('SELECT * FROM V_AjusteSalida LIMIT ?,?');
+		}else{
+			if($idAjusteSalida>-1){
+				$stmt = $this->driver->prepare('SELECT * FROM V_AjusteSalida WHERE IDAjusteSalida=?');
+			}else{
+				$stmt = $this->driver->prepare('SELECT * FROM V_AjusteSalida');
+			}
+		}
+		if($stmt){
+			if($offset>-1){
+				$amountRows = 10;
+				$offset*=10;
+				if(!$stmt->bind_param('ii',$offset,$amountRows))
+					return false;
+			}else if($idAjusteSalida>-1){
+				if(!$stmt->bind_param('i',$idAjusteSalida))
+					return false;
+			}
 			if(!$stmt->execute())
-				die('Error Al Consultar');
+				return false;
 
 			$mySqliResult = $stmt->get_result();
 
 			if($mySqliResult->field_count > 0){
+
 				while($result = $mySqliResult->fetch_assoc())
 					array_push($rows, $result);
-
 				return $rows;
 			}else
-				die('No hay Resultados!!!');
+				return VACIO;
 
 		}else
-			die('Error Al Consultar');
+			return false;
+			
+		return false;
+	}
 
+	/**
+	* Consulta los Ajustes de Salida registradas y que estan inactivas
+	*@param int $offset
+	*@param int $idAjusteSalida
+	* @return array or false
+	**/
+	function listsDeleters($offset = -1,$idAjusteSalida = -1){
+		$rows = array();
+		if($offset>-1){
+			$stmt = $this->driver->prepare('SELECT * FROM V_AjusteSalida_Deleter LIMIT ?,?');
+		}else{
+			if($idAjusteSalida>-1){
+				$stmt = $this->driver->prepare('SELECT * FROM V_AjusteSalida_Deleter WHERE IDAjusteSalida=?');
+			}else{
+				$stmt = $this->driver->prepare('SELECT * FROM V_AjusteSalida_Deleter');
+			}
+		}
+		if($stmt){
+			if($offset>-1){
+				$amountRows = 10;
+				$offset*=10;
+				if(!$stmt->bind_param('ii',$offset,$amountRows))
+					return false;
+			}else if($idAjusteSalida>-1){
+				if(!$stmt->bind_param('i',$idAjusteSalida))
+					return false;
+			}
+			if(!$stmt->execute())
+				return false;
+
+			$mySqliResult = $stmt->get_result();
+
+			if($mySqliResult->field_count > 0){
+
+				while($result = $mySqliResult->fetch_assoc())
+					array_push($rows, $result);
+				return $rows;
+			}else
+				return VACIO;
+
+		}else
+			return false;
+			
 		return false;
 	}
 
@@ -157,10 +218,10 @@ class AjusteSalidaMdl extends BaseMdl{
 		if($stmt = $this->driver->prepare('SELECT * FROM V_AjusteSalidaDetalle WHERE IDAjusteSalida = ?')){
 
 			if(!$stmt->bind_param('i',$idAjusteSalida))
-				die('Error Al Consultar');
+				return false;
 
 			if(!$stmt->execute())
-				die('Error Al Consultar');
+				return false;
 
 			$mySqliResult = $stmt->get_result();
 
@@ -171,10 +232,10 @@ class AjusteSalidaMdl extends BaseMdl{
 
 				return $rows;
 			}else
-				die('No hay Resultados!!!');
+				return VACIO;
 
 		}else
-			die('Error Al Consultar');
+			return false;
 
 		return false;
 	}

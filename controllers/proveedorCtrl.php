@@ -29,21 +29,36 @@
 					if(BaseCtrl::isAdmin())
 						$this->delete();
 					else
-						require_once 'views/permisosError.html';
+						return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
 					break;
 				case 'update':
 					//Baja
 					if(BaseCtrl::isAdmin())
 						$this->update();
 					else
-						require_once 'views/permisosError.html';
+						return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
 					break;
 				case 'updateF':
-						//Actualizar un proveedor
+					//Actualizar un proveedor
+					if(BaseCtrl::isAdmin())
 						$this->updateF();
-						break;
+					else
+						return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
+					break;
+				case 'get':
+					//Obtener un proveedor
+					$this->getProveedor();
+					break;
+				case 'listsDeleters':
+					//Lista los proveedores
+					$this->listsDeleters();
+					break;
+				case 'getDeleter':
+					//Obtener un proveedor
+					$this->getProveedorDeleter();
+					break;
 				default:
-					# code...
+					return json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
 					break;
 			}
 		}
@@ -114,12 +129,12 @@
 									$telefono,
 									$celular);
 					//Cargar la vista
-					require_once 'views/proveedorInserted.php';
+					return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 				}else{
-					require_once 'views/proveedorInsertedError.html';
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 				}
 			}else{
-				require_once 'views/proveedorInsertedError.html';
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
@@ -133,12 +148,12 @@
 		private function delete(){
 			$idProveedor	= $this->validateNumber(isset($_POST['idProveedor'])?$_POST['idProveedor']:NULL);
 			if(strlen($idProveedor)==0)
-				require_once 'views/proveedorDeleteError.html';
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			else{
 				if($result = $this->model->delete($idProveedor))
-					require_once 'views/proveedorDelete.html';
+					return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 				else
-					require_once 'views/proveedorDeleteError.html';
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 			}
 		}
 
@@ -148,12 +163,12 @@
 		private function active(){
 			$idProveedor	= $this->validateNumber(isset($_POST['idProveedor'])?$_POST['idProveedor']:NULL);
 			if(strlen($idProveedor)==0)
-				require_once 'views/proveedorActiveError.html';
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			else{
 				if($result = $this->model->active($idProveedor))
-					require_once 'views/proveedorActive.html';
+					return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 				else
-					require_once 'views/proveedorActiveError.html';
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 			}
 		}
 
@@ -223,27 +238,93 @@
 									$telefono,
 									$celular);
 					//Cargar la vista
-					require_once 'views/proveedorUpdated.php';
+					return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 				}else{
-					require_once 'views/proveedorUpdatedError.html';
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 				}
 			}else{
-				require_once 'views/proveedorUpdatedError.html';
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
 		/**
-		*Listamos todos los Proveedores registrados
+		*listamos todos los proveedors activos
 		**/
 		private function lists(){
-			if($result = $this->model->lists()){
+			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
+			if($offset!==''){ 
+				if(($result = $this->model->lists($offset))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
+		}
 
-				$data = array($result);
+		/**
+		*obtenemos los datos de un proveedor activo
+		**/
+		private function getProveedor(){
+			$idProveedor = $this->validateNumber(isset($_POST['idProveedor'])?$_POST['idProveedor']:NULL);
+			if($idProveedor!==''){
+				if(($result = $this->model->lists(-1,$idProveedor))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
+		}
 
-				require_once 'views/proveedorSelected.php';
-				
-			}else
-				require_once 'views/proveedorSelectedError.html';
+		/**
+		*listamos todos los proveedors inactivos
+		**/
+		private function listsDeleters(){
+			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
+			if($offset!==''){ 
+				if(($result = $this->model->listsDeleters($offset))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
+		}
+
+		/**
+		*obtenemos los datos de un proveedor inactivo
+		**/
+		private function getProveedorDeleter(){
+			$idProveedor = $this->validateNumber(isset($_POST['idProveedor'])?$_POST['idProveedor']:NULL);
+			if($idProveedor!==''){
+				if(($result = $this->model->listsDeleters(-1,$idProveedor))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
 		}
 
 		/**

@@ -63,10 +63,10 @@ class EmpleadoMdl extends BaseMdl{
 												$this->contrasena, $this->idCargo, $this->calle, $this->numExterior,
 												$this->numInterior, $this->colonia, $this->codigoPostal, $this->foto,
 												$this->email, $this->telefono, $this->celular)){
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 		if (!$stmt->execute()) {
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 
 		if($this->driver->error){
@@ -122,10 +122,10 @@ class EmpleadoMdl extends BaseMdl{
 												$this->contrasena, $this->idCargo, $this->calle, $this->numExterior,
 												$this->numInterior, $this->colonia, $this->codigoPostal, $this->foto,
 												$this->email, $this->telefono, $this->celular, $idEmpleado)){
-			die('Error al hacer Update en la base de datos');
+			return false;
 		}
 		if (!$stmt->execute()) {
-			die('Error al hacer Update en la base de datos');
+			return false;
 		}
 
 		if($this->driver->error){
@@ -147,10 +147,10 @@ class EmpleadoMdl extends BaseMdl{
 		
 		$stmt = $this->driver->prepare('UPDATE Empleado SET Contrasena = ? WHERE IDEmpleado = ?');
 		if(!$stmt->bind_param('si',	$this->contrasena, $idEmpleado)){
-			die('Error al hacer Update en la base de datos');
+			return false;
 		}
 		if (!$stmt->execute()) {
-			die('Error al hacer Update en la base de datos');
+			return false;
 		}
 
 		if($this->driver->error){
@@ -182,13 +182,13 @@ class EmpleadoMdl extends BaseMdl{
 				$amountRows = 10;
 				$offset*=10;
 				if(!$stmt->bind_param('ii',$offset,$amountRows))
-					die('Error Al Consultar');
+					return false;
 			}else if($idEmpleado>-1){
 				if(!$stmt->bind_param('i',$idEmpleado))
-					die('Error Al Consultar');
+					return false;
 			}
 			if(!$stmt->execute())
-				die('Error Al Consultar');
+				return false;
 
 			$mySqliResult = $stmt->get_result();
 
@@ -198,10 +198,56 @@ class EmpleadoMdl extends BaseMdl{
 					array_push($rows, $result);
 				return $rows;
 			}else
-				die('No hay Resultados!!!');
+				return VACIO;
 
 		}else
-			die('Error Al Consultar');
+			return false;
+			
+		return false;
+	}
+
+	/**
+	* Consulta a los empleados registrados y que estan inactivos
+	*@param int $offset
+	*@param int $idEmpleado
+	* @return array or false
+	**/
+	function listsDeleters($offset = -1,$idEmpleado = -1){
+		$rows = array();
+		if($offset>-1){
+			$stmt = $this->driver->prepare('SELECT * FROM V_Empleado_Deleter LIMIT ?,?');
+		}else{
+			if($idEmpleado>-1){
+				$stmt = $this->driver->prepare('SELECT * FROM V_Empleado_Deleter WHERE IDEmpleado=?');
+			}else{
+				$stmt = $this->driver->prepare('SELECT * FROM V_Empleado_Deleter');
+			}
+		}
+		if($stmt){
+			if($offset>-1){
+				$amountRows = 10;
+				$offset*=10;
+				if(!$stmt->bind_param('ii',$offset,$amountRows))
+					return false;
+			}else if($idEmpleado>-1){
+				if(!$stmt->bind_param('i',$idEmpleado))
+					return false;
+			}
+			if(!$stmt->execute())
+				return false;
+
+			$mySqliResult = $stmt->get_result();
+
+			if($mySqliResult->field_count > 0){
+
+				while($result = $mySqliResult->fetch_assoc())
+					array_push($rows, $result);
+				return $rows;
+			}else
+				return VACIO;
+
+		}else
+			return false;
 			
 		return false;
 	}
@@ -215,10 +261,10 @@ class EmpleadoMdl extends BaseMdl{
 		if($stmt = $this->driver->prepare('SELECT Activo FROM Empleado WHERE IDEmpleado=? AND Activo = "S"')){
 		
 			if(!$stmt->bind_param('i',$idEmpleado))
-				die('Error Al Eliminar');
+				return false;
 			
 			if(!$stmt->execute())
-				die('Error Al Eliminar');
+				return false;
 				
 			$mySqliResult = $stmt->get_result();
 
@@ -227,10 +273,10 @@ class EmpleadoMdl extends BaseMdl{
 				//if($stmt = $this->driver->prepare('CALL desactivarEmpleado(?)')){
 				if($stmt = $this->driver->prepare('UPDATE Empleado SET Activo="N" WHERE IDEmpleado=? AND Activo = "S"')){
 					if(!$stmt->bind_param('i',$idEmpleado))
-						die('Error Al Eliminar');
+						return false;
 					
 					if(!$stmt->execute())
-						die('Error Al Eliminar');
+						return false;
 					else
 						return true;
 				}
@@ -248,22 +294,22 @@ class EmpleadoMdl extends BaseMdl{
 		if($stmt = $this->driver->prepare('SELECT Activo FROM Empleado WHERE IDEmpleado=? AND Activo = "N"')){
 		
 			if(!$stmt->bind_param('i',$idEmpleado))
-				die('Error Al Activar');
+				return false;
 			
 			if(!$stmt->execute())
-				die('Error Al Activar');
+				return false;
 				
 			$mySqliResult = $stmt->get_result();
 
-			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['Activo']!=''){			
+			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['Activo']!=''){
 			
 				//if($stmt = $this->driver->prepare('CALL activarEmpleado(?)')){
 				if($stmt = $this->driver->prepare('UPDATE Empleado SET Activo="S" WHERE IDEmpleado=? AND Activo = "N"')){
 					if(!$stmt->bind_param('i',$idEmpleado))
-						die('Error Al Activar');
+						return false;
 					
 					if(!$stmt->execute())
-						die('Error Al Activar');
+						return false;
 					else
 						return true;
 				}

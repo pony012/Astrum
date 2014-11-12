@@ -43,11 +43,11 @@ class RemisionMdl extends BaseMdl{
 										VALUES(3,?,?)");
 		if(!$stmt->bind_param('si', date('Y-m-d'),$_SESSION['IDEmpleado'])){
 			$this->query->rollback();
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 		if (!$stmt->execute()) {
 			$this->query->rollback();
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 
 		$lastId = $this->driver->insert_id;
@@ -62,11 +62,11 @@ class RemisionMdl extends BaseMdl{
 										VALUES(?,?,?,?)");
 		if(!$stmt->bind_param('iiis',$lastId, $this->idCliente,$this->folio,$this->fechaRemision)){
 			$this->query->rollback();
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 		if (!$stmt->execute()) {
 			$this->query->rollback();
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 
 		if($this->driver->error){
@@ -94,7 +94,7 @@ class RemisionMdl extends BaseMdl{
 		}
 		if (!$stmt->execute()) {
 			$this->query->rollback();
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 
 		if($this->driver->error){
@@ -144,19 +144,34 @@ class RemisionMdl extends BaseMdl{
 	}
 
 	/**
-	* Consulta las remisiones registradas
+	* Consulta las remisiones registradas y que esten activas
+	*@param int $offset
+	*@param int $idRemision
 	* @return array or false
 	**/
-	function lists($constraint = '1 = 1'){
+	function lists($offset = -1,$idRemision = -1){
 		$rows = array();
-
-		if($stmt = $this->driver->prepare('SELECT * FROM V_Remision WHERE ?')){
-		
-			if(!$stmt->bind_param('s',$constraint))
-				die('Error Al Consultar');
-
+		if($offset>-1){
+			$stmt = $this->driver->prepare('SELECT * FROM V_Remision LIMIT ?,?');
+		}else{
+			if($idRemision>-1){
+				$stmt = $this->driver->prepare('SELECT * FROM V_Remision WHERE IDRemision=?');
+			}else{
+				$stmt = $this->driver->prepare('SELECT * FROM V_Remision');
+			}
+		}
+		if($stmt){
+			if($offset>-1){
+				$amountRows = 10;
+				$offset*=10;
+				if(!$stmt->bind_param('ii',$offset,$amountRows))
+					return false;
+			}else if($idRemision>-1){
+				if(!$stmt->bind_param('i',$idRemision))
+					return false;
+			}
 			if(!$stmt->execute())
-				die('Error Al Consultar');
+				return false;
 
 			$mySqliResult = $stmt->get_result();
 
@@ -164,14 +179,59 @@ class RemisionMdl extends BaseMdl{
 
 				while($result = $mySqliResult->fetch_assoc())
 					array_push($rows, $result);
-
 				return $rows;
 			}else
-				die('No hay Resultados!!!');
+				return VACIO;
 
 		}else
-			die('Error Al Consultar');
+			return false;
+			
+		return false;
+	}
 
+	/**
+	* Consulta las remisiones registradas y que estan inactivas
+	*@param int $offset
+	*@param int $idRemision
+	* @return array or false
+	**/
+	function listsDeleters($offset = -1,$idRemision = -1){
+		$rows = array();
+		if($offset>-1){
+			$stmt = $this->driver->prepare('SELECT * FROM V_Remision_Deleter LIMIT ?,?');
+		}else{
+			if($idRemision>-1){
+				$stmt = $this->driver->prepare('SELECT * FROM V_Remision_Deleter WHERE IDRemision=?');
+			}else{
+				$stmt = $this->driver->prepare('SELECT * FROM V_Remision_Deleter');
+			}
+		}
+		if($stmt){
+			if($offset>-1){
+				$amountRows = 10;
+				$offset*=10;
+				if(!$stmt->bind_param('ii',$offset,$amountRows))
+					return false;
+			}else if($idRemision>-1){
+				if(!$stmt->bind_param('i',$idRemision))
+					return false;
+			}
+			if(!$stmt->execute())
+				return false;
+
+			$mySqliResult = $stmt->get_result();
+
+			if($mySqliResult->field_count > 0){
+
+				while($result = $mySqliResult->fetch_assoc())
+					array_push($rows, $result);
+				return $rows;
+			}else
+				return VACIO;
+
+		}else
+			return false;
+			
 		return false;
 	}
 
@@ -186,10 +246,10 @@ class RemisionMdl extends BaseMdl{
 		if($stmt = $this->driver->prepare('SELECT * FROM V_RemisionDetalle WHERE IDRemision = ?')){
 
 			if(!$stmt->bind_param('i',$idRemision))
-				die('Error Al Consultar');
+				return false;
 
 			if(!$stmt->execute())
-				die('Error Al Consultar');
+				return false;
 
 			$mySqliResult = $stmt->get_result();
 
@@ -200,10 +260,10 @@ class RemisionMdl extends BaseMdl{
 
 				return $rows;
 			}else
-				die('No hay Resultados!!!');
+				return VACIO;
 
 		}else
-			die('Error Al Consultar');
+			return false;
 
 		return false;
 	}

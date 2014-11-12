@@ -38,11 +38,11 @@ class RecepcionMdl extends BaseMdl{
 										VALUES(4,?,?)");
 		if(!$stmt->bind_param('si', date('Y-m-d'),$_SESSION['IDEmpleado'])){
 			$this->query->rollback();
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 		if (!$stmt->execute()) {
 			$this->query->rollback();
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 
 		$lastId = $this->driver->insert_id;
@@ -57,11 +57,11 @@ class RecepcionMdl extends BaseMdl{
 										VALUES(?,?,?,?)");
 		if(!$stmt->bind_param('iiis', $lastId, $this->idProveedor,$this->folio,$this->fechaRecepcion)){
 			$this->query->rollback();
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 		if (!$stmt->execute()) {
 			$this->query->rollback();
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 
 		if($this->driver->error){
@@ -89,7 +89,7 @@ class RecepcionMdl extends BaseMdl{
 		}
 		if (!$stmt->execute()) {
 			$this->query->rollback();
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 
 		if($this->driver->error){
@@ -138,33 +138,94 @@ class RecepcionMdl extends BaseMdl{
 	}
 	
 	/**
-	* Consulta las recepciones registradas
+	* Consulta las recepciones registradas y que esten activos
+	*@param int $offset
+	*@param int $idRecepcion
 	* @return array or false
 	**/
-	function lists($constraint = '1 = 1'){
+	function lists($offset = -1,$idRecepcion = -1){
 		$rows = array();
-
-		if($stmt = $this->driver->prepare('SELECT * FROM V_Recepcion WHERE ?')){
-		
-			if(!$stmt->bind_param('s',$constraint))
-				die('Error Al Consultar');
-
+		if($offset>-1){
+			$stmt = $this->driver->prepare('SELECT * FROM V_Recepcion LIMIT ?,?');
+		}else{
+			if($idRecepcion>-1){
+				$stmt = $this->driver->prepare('SELECT * FROM V_Recepcion WHERE IDRecepcion=?');
+			}else{
+				$stmt = $this->driver->prepare('SELECT * FROM V_Recepcion');
+			}
+		}
+		if($stmt){
+			if($offset>-1){
+				$amountRows = 10;
+				$offset*=10;
+				if(!$stmt->bind_param('ii',$offset,$amountRows))
+					return false;
+			}else if($idRecepcion>-1){
+				if(!$stmt->bind_param('i',$idRecepcion))
+					return false;
+			}
 			if(!$stmt->execute())
-				die('Error Al Consultar');
+				return false;
 
 			$mySqliResult = $stmt->get_result();
 
 			if($mySqliResult->field_count > 0){
+
 				while($result = $mySqliResult->fetch_assoc())
 					array_push($rows, $result);
-
 				return $rows;
 			}else
-				die('No hay Resultados!!!');
+				return VACIO;
 
 		}else
-			die('Error Al Consultar');
+			return false;
+			
+		return false;
+	}
 
+	/**
+	* Consulta las recepciones registradas y que estan inactivos
+	*@param int $offset
+	*@param int $idRecepcion
+	* @return array or false
+	**/
+	function listsDeleters($offset = -1,$idRecepcion = -1){
+		$rows = array();
+		if($offset>-1){
+			$stmt = $this->driver->prepare('SELECT * FROM V_Recepcion_Deleter LIMIT ?,?');
+		}else{
+			if($idRecepcion>-1){
+				$stmt = $this->driver->prepare('SELECT * FROM V_Recepcion_Deleter WHERE IDRecepcion=?');
+			}else{
+				$stmt = $this->driver->prepare('SELECT * FROM V_Recepcion_Deleter');
+			}
+		}
+		if($stmt){
+			if($offset>-1){
+				$amountRows = 10;
+				$offset*=10;
+				if(!$stmt->bind_param('ii',$offset,$amountRows))
+					return false;
+			}else if($idRecepcion>-1){
+				if(!$stmt->bind_param('i',$idRecepcion))
+					return false;
+			}
+			if(!$stmt->execute())
+				return false;
+
+			$mySqliResult = $stmt->get_result();
+
+			if($mySqliResult->field_count > 0){
+
+				while($result = $mySqliResult->fetch_assoc())
+					array_push($rows, $result);
+				return $rows;
+			}else
+				return VACIO;
+
+		}else
+			return false;
+			
 		return false;
 	}
 
@@ -179,10 +240,10 @@ class RecepcionMdl extends BaseMdl{
 		if($stmt = $this->driver->prepare('SELECT * FROM V_RecepcionDetalle WHERE IDRecepcion = ?')){
 
 			if(!$stmt->bind_param('i',$idRecepcion))
-				die('Error Al Consultar');
+				return false;
 
 			if(!$stmt->execute())
-				die('Error Al Consultar');
+				return false;
 
 			$mySqliResult = $stmt->get_result();
 
@@ -193,10 +254,10 @@ class RecepcionMdl extends BaseMdl{
 
 				return $rows;
 			}else
-				die('No hay Resultados!!!');
+				return VACIO;
 
 		}else
-			die('Error Al Consultar');
+			return false;
 
 		return false;
 	}

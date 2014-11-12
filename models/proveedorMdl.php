@@ -51,10 +51,10 @@ class ProveedorMdl extends BaseMdl{
 		$stmt = $this->driver->prepare(("INSERT INTO Proveedor (Nombre, ApellidoPaterno, ApellidoMaterno, RFC, Calle, NumExterior, NumInterior, Colonia, CodigoPostal, Email, Telefono, Celular) 
 										 VALUES(?,?,?,?,?,?,?,?,?,?,?,?)"));
 		if(!$stmt->bind_param('ssssssssssss',$this->nombre,$this->apellidoPat,$this->apellidoMat,$this->rfc,$this->calle,$this->numExterior,$this->numInterior,$this->colonia,$this->codigoPostal,$this->email,$this->telefono, $this->celular)){
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 		if (!$stmt->execute()) {
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 
 		if($this->driver->error){
@@ -100,10 +100,10 @@ class ProveedorMdl extends BaseMdl{
 										 Nombre = ?, ApellidoPaterno = ?, ApellidoMaterno = ?, RFC = ?, Calle = ?, NumExterior = ?, NumInterior = ?, Colonia = ?, CodigoPostal = ?, Email = ?, Telefono = ?, Celular = ?
 										 WHERE IDProveedor = ?"));
 		if(!$stmt->bind_param('ssssssssssssi',$this->nombre,$this->apellidoPat,$this->apellidoMat,$this->rfc,$this->calle,$this->numExterior,$this->numInterior,$this->colonia,$this->codigoPostal,$this->email,$this->telefono, $this->celular, $idProveedor)){
-			die('Error al hacer Update en la base de datos');
+			return false;
 		}
 		if (!$stmt->execute()) {
-			die('Error al hacer Update en la base de datos');
+			return false;
 		}
 
 		if($this->driver->error){
@@ -114,19 +114,34 @@ class ProveedorMdl extends BaseMdl{
 	}
 	
 	/**
-	* Consulta a los Proveedores registrados y que esten activos
+	* Consulta a los proveedores registrados y que esten activos
+	*@param int $offset
+	*@param int $idProveedor
 	* @return array or false
 	**/
-	function lists($constraint = '1 = 1'){
+	function lists($offset = -1,$idProveedor = -1){
 		$rows = array();
-
-		if($stmt = $this->driver->prepare('SELECT * FROM V_Proveedor WHERE ?')){
-		
-			if(!$stmt->bind_param('s',$constraint))
-				die('Error Al Consultar');
-
+		if($offset>-1){
+			$stmt = $this->driver->prepare('SELECT * FROM V_Proveedor LIMIT ?,?');
+		}else{
+			if($idProveedor>-1){
+				$stmt = $this->driver->prepare('SELECT * FROM V_Proveedor WHERE IDProveedor=?');
+			}else{
+				$stmt = $this->driver->prepare('SELECT * FROM V_Proveedor');
+			}
+		}
+		if($stmt){
+			if($offset>-1){
+				$amountRows = 10;
+				$offset*=10;
+				if(!$stmt->bind_param('ii',$offset,$amountRows))
+					return false;
+			}else if($idProveedor>-1){
+				if(!$stmt->bind_param('i',$idProveedor))
+					return false;
+			}
 			if(!$stmt->execute())
-				die('Error Al Consultar');
+				return false;
 
 			$mySqliResult = $stmt->get_result();
 
@@ -134,13 +149,58 @@ class ProveedorMdl extends BaseMdl{
 
 				while($result = $mySqliResult->fetch_assoc())
 					array_push($rows, $result);
-
 				return $rows;
 			}else
-				die('No hay Resultados!!!');
+				return VACIO;
 
 		}else
-			die('Error Al Consultar');
+			return false;
+			
+		return false;
+	}
+
+	/**
+	* Consulta a los proveedores registrados y que estan inactivos
+	*@param int $offset
+	*@param int $idProveedor
+	* @return array or false
+	**/
+	function listsDeleters($offset = -1,$idProveedor = -1){
+		$rows = array();
+		if($offset>-1){
+			$stmt = $this->driver->prepare('SELECT * FROM V_Proveedor_Deleter LIMIT ?,?');
+		}else{
+			if($idProveedor>-1){
+				$stmt = $this->driver->prepare('SELECT * FROM V_Proveedor_Deleter WHERE IDProveedor=?');
+			}else{
+				$stmt = $this->driver->prepare('SELECT * FROM V_Proveedor_Deleter');
+			}
+		}
+		if($stmt){
+			if($offset>-1){
+				$amountRows = 10;
+				$offset*=10;
+				if(!$stmt->bind_param('ii',$offset,$amountRows))
+					return false;
+			}else if($idProveedor>-1){
+				if(!$stmt->bind_param('i',$idProveedor))
+					return false;
+			}
+			if(!$stmt->execute())
+				return false;
+
+			$mySqliResult = $stmt->get_result();
+
+			if($mySqliResult->field_count > 0){
+
+				while($result = $mySqliResult->fetch_assoc())
+					array_push($rows, $result);
+				return $rows;
+			}else
+				return VACIO;
+
+		}else
+			return false;
 			
 		return false;
 	}
@@ -153,10 +213,10 @@ class ProveedorMdl extends BaseMdl{
 		if($stmt = $this->driver->prepare('SELECT * FROM V_Proveedor WHERE IDProveedor = ?')){
 			
 			if(!$stmt->bind_param('i',$idProveedor))
-				die('Error Al Consultar');
+				return false;
 
 			if(!$stmt->execute())
-				die('Error Al Consultar');
+				return false;
 
 			$mySqliResult = $stmt->get_result();
 
@@ -166,7 +226,7 @@ class ProveedorMdl extends BaseMdl{
 				return false;
 
 		}else
-			die('Error Al Consultar');
+			return false;
 			
 		return false;
 	}
@@ -180,10 +240,10 @@ class ProveedorMdl extends BaseMdl{
 		if($stmt = $this->driver->prepare('SELECT Activo FROM Proveedor WHERE IDProveedor=? AND Activo = "S"')){
 		
 			if(!$stmt->bind_param('i',$idProveedor))
-				die('Error Al Eliminar');
+				return false;
 			
 			if(!$stmt->execute())
-				die('Error Al Eliminar');
+				return false;
 				
 			$mySqliResult = $stmt->get_result();
 
@@ -193,10 +253,10 @@ class ProveedorMdl extends BaseMdl{
 				if($stmt = $this->driver->prepare('UPDATE Proveedor SET Activo="N" WHERE IDProveedor=? AND Activo = "S"')){
 			
 					if(!$stmt->bind_param('i',$idProveedor))
-						die('Error Al Eliminar');
+						return false;
 					
 					if(!$stmt->execute())
-						die('Error Al Eliminar');
+						return false;
 					else
 						return true;
 				}
@@ -214,10 +274,10 @@ class ProveedorMdl extends BaseMdl{
 		if($stmt = $this->driver->prepare('SELECT Activo FROM Proveedor WHERE IDProveedor=? AND Activo = "N"')){
 		
 			if(!$stmt->bind_param('i',$idProveedor))
-				die('Error Al Activar');
+				return false;
 			
 			if(!$stmt->execute())
-				die('Error Al Activar');
+				return false;
 				
 			$mySqliResult = $stmt->get_result();
 
@@ -227,10 +287,10 @@ class ProveedorMdl extends BaseMdl{
 				if($stmt = $this->driver->prepare('UPDATE Proveedor SET Activo="S" WHERE IDProveedor=? AND Activo = "N"')){
 			
 					if(!$stmt->bind_param('i',$idProveedor))
-						die('Error Al Activar');
+						return false;
 					
 					if(!$stmt->execute())
-						die('Error Al Activar');
+						return false;
 					else
 						return true;
 				}
