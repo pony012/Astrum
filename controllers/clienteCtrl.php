@@ -27,32 +27,39 @@
 				case 'get':
 					$this->getCliente();
 					break;
+				case 'listsDeleters':
+					//Listar
+					$this->listsDeleters();
+					break;
+				case 'getDeleter':
+					$this->getClienteDeleter();
+					break;
 				case 'delete':
 					//Baja
 					if(BaseCtrl::isAdmin())
 						$this->delete();
 					else
-						require_once 'views/permisosError.html';
+						return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
 					break;
 				case 'update':
 					//Baja
 					if(BaseCtrl::isAdmin())
 						$this->update();
 					else
-						require_once 'views/permisosError.html';
+						return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
 					break;
 				case 'active':
 					//Baja
 					if(BaseCtrl::isAdmin())
 						$this->active();
 					else
-						require_once 'views/permisosError.html';
+						return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
 					break;
 				case 'updateF':
 						$this->updateF();
 						break;
 				default:
-					# code...
+					return json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
 					break;
 			}
 		}
@@ -105,7 +112,8 @@
 
 				//Si pudo ser creado
 				if ($result) {
-					$data = array(	$nombre, 
+					
+					/*$data = array(	$nombre, 
 									$apellidoPaterno, 
 									$apellidoMaterno,
 									$calle,
@@ -115,15 +123,14 @@
 									$codigoPostal,
 									$email,
 									$telefono,
-									$celular);
-					//Cargar la vista
-					require_once 'views/clienteInserted.php';
+									$celular);*/
+					return json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 				}else{
-					require_once 'views/clienteInsertedError.html';
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
 				}	
 			}else{
 				//Se cambiará por la misma vista donde se encuentre el formulario de insercción, y se mostrarán los errores en un modal
-				require_once 'views/clienteInsertedError.html';
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
@@ -137,12 +144,12 @@
 		private function delete(){
 			$idCliente	= $this->validateNumber(isset($_POST['idCliente'])?$_POST['idCliente']:NULL);
 			if(strlen($idCliente)==0)
-				require_once 'views/clienteDeleteError.html';
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			else{
 				if($result = $this->model->delete($idCliente))
-					require_once 'views/clienteDelete.html';
+					return json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 				else
-					require_once 'views/clienteDeleteError.html';
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
 			}
 		}
 
@@ -152,12 +159,12 @@
 		private function active(){
 			$idCliente	= $this->validateNumber(isset($_POST['idCliente'])?$_POST['idCliente']:NULL);
 			if(strlen($idCliente)==0)
-				require_once 'views/clienteActiveError.html';
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			else{
 				if($result = $this->model->active($idCliente))
-					require_once 'views/clienteActive.html';
+					return json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 				else
-					require_once 'views/clienteActiveError.html';
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
 			}
 		}
 
@@ -209,7 +216,8 @@
 
 				//Si pudo ser creado
 				if ($result) {
-					$data = array(	$nombre, 
+					return json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
+					/*$data = array(	$nombre, 
 									$apellidoPaterno, 
 									$apellidoMaterno,
 									$calle,
@@ -219,15 +227,14 @@
 									$codigoPostal,
 									$email,
 									$telefono,
-									$celular);
+									$celular);*/
 					//Cargar la vista
-					require_once 'views/clienteUpdated.php';
 				}else{
-					require_once 'views/clienteUpdatedError.html';
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
 				}	
 			}else{
 				//Se cambiará por la misma vista donde se encuentre el formulario de insercción, y se mostrarán los errores en un modal
-				require_once 'views/clienteUpdatedError.html';
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
@@ -239,11 +246,7 @@
 			if($offset!==''){ 
 				if(($result = $this->model->lists($offset))){
 					if(is_numeric($result)){
-						if($result === VACIO){
-							return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
-						}else{
-							return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
-						}
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 					}else{
 						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 					}
@@ -263,11 +266,47 @@
 			if($idCliente!==''){
 				if(($result = $this->model->lists(-1,$idCliente))){
 					if(is_numeric($result)){
-						if($result === VACIO){
-							return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
-						}else{
-							return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
-						}
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
+		}
+
+		/**
+		*Listamos todos los Clientes eliminados
+		**/
+		private function listsDeleters(){
+			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
+			if($offset!==''){ 
+				if(($result = $this->model->listsDeleters($offset))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
+		}
+
+		/**
+		*obtenemos los datos de un cliente eliminado
+		**/
+		private function getClienteDeleter(){
+			$idCliente = $this->validateNumber(isset($_POST['idCliente'])?$_POST['idCliente']:NULL);
+			if($idCliente!==''){
+				if(($result = $this->model->listsDeleters(-1,$idCliente))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 					}else{
 						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 					}

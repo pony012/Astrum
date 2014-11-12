@@ -26,10 +26,10 @@ class ExistenciaMdl extends BaseMdl{
 		$stmt = $this->driver->prepare("INSERT INTO Existencia (FechaReferencia,IDProductoServicio,PrecioUnitario,Cantidad) 
 										VALUES(?,?,?,?)");
 		if(!$stmt->bind_param('sidd',$this->fechaReferencia,$this->idProducto,$this->precioUnitario,$this->cantidad)){
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 		if (!$stmt->execute()) {
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 
 		if($this->driver->error){
@@ -41,18 +41,34 @@ class ExistenciaMdl extends BaseMdl{
 	
 	/**
 	* Consulta a las Existencias de productos ya registrados
+	*@param int $offset
+	*@param int $idExistencia
 	* @return array or false
 	**/
-	function lists($constraint = '1 = 1'){
+	
+	function lists($offset = -1,$idExistencia = -1){
 		$rows = array();
-
-		if($stmt = $this->driver->prepare('SELECT * FROM V_Existencia WHERE ?')){
-		
-			if(!$stmt->bind_param('s',$constraint))
-				die('Error Al Consultar');
-
+		if($offset>-1){
+			$stmt = $this->driver->prepare('SELECT * FROM V_Existencia LIMIT ?,?');
+		}else{
+			if($idExistencia>-1){
+				$stmt = $this->driver->prepare('SELECT * FROM V_Existencia WHERE IDExistencia=?');
+			}else{
+				$stmt = $this->driver->prepare('SELECT * FROM V_Existencia');
+			}
+		}
+		if($stmt){
+			if($offset>-1){
+				$amountRows = 10;
+				$offset*=10;
+				if(!$stmt->bind_param('ii',$offset,$amountRows))
+					return false;
+			}else if($idExistencia>-1){
+				if(!$stmt->bind_param('i',$idExistencia))
+					return false;
+			}
 			if(!$stmt->execute())
-				die('Error Al Consultar');
+				return false;
 
 			$mySqliResult = $stmt->get_result();
 
@@ -60,13 +76,12 @@ class ExistenciaMdl extends BaseMdl{
 
 				while($result = $mySqliResult->fetch_assoc())
 					array_push($rows, $result);
-
 				return $rows;
 			}else
-				die('No hay Resultados!!!');
+				return VACIO;
 
 		}else
-			die('Error Al Consultar');
+			return false;
 			
 		return false;
 	}

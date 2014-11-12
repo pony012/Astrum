@@ -28,7 +28,7 @@
 						$this->create();
 						break;
 					case 'createF':
-						//Crear un Empleado
+						
 						$this->createF();
 						break;
 					case 'lists':
@@ -36,11 +36,11 @@
 						$this->lists();
 						break;
 					default:
-						# code...
+						return json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
 						break;
 				}
 			else
-				require_once 'views/permisosError.html';
+				return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
 		}
 		/**
 		* Crea un Historial Clinico
@@ -425,7 +425,7 @@
 				
 				//Si pudo ser creado
 				if ($result ){
-					$data = array($idCliente, $fechaRegistro, $idServicio, $observaciones, 
+					/*$data = array($idCliente, $fechaRegistro, $idServicio, $observaciones, 
 												$pesoIni, $bustoIni, $diafragmaIni, $brazoIni, $cinturaIni, $abdomenIni, $caderaIni, $musloIni,
 												$pesoFin, $bustoFin, $diafragmaFin, $brazoFin, $cinturaFin, $abdomenFin, $caderaFin, $musloFin,
 												$motivoConsulta, $tiempoProblema, $relacionaCon, $tratamientoAnterior, $metProbados, $resAnteriores,
@@ -437,15 +437,15 @@
 											    $retencionLiquidos, $transtornoMes, $cuidadoCorporal, $embarazo,
 												$fina,$gruesa,$deshidratada,$flacida,$seca,$mixta,$grasa,$acneica,$manchas,
 												$cicatrices,$poroAbierto,$ojeras,$lunares,$pecas,$puntosNegros,$verrugas,$arrugas,
-												$brilloFacial,$pielAsfixiada,$despigmentacion, $fibrosa, $edematosa, $flacida, $dura, $mixta, $dolorosa);
+												$brilloFacial,$pielAsfixiada,$despigmentacion, $fibrosa, $edematosa, $flacida, $dura, $mixta, $dolorosa);*/
 					//Cargar la vista
-					require_once 'views/historialMedicoInserted.php';
+					return json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 				}else{
-					require_once 'views/historialMedicoInsertedError.html';
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
 				}	
 			}else{
 				//Se cambiará por la misma vista donde se encuentre el formulario de insercción, y se mostrarán los errores en un modal
-				require_once 'views/historialMedicoInsertedError.html';
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
@@ -465,14 +465,20 @@
 		*Listamos todos los Historiales Médicos
 		**/
 		private function lists(){
-			if($result = $this->model->lists()){
-
-				$data = array($result);
-
-				require_once 'views/historialMedicoSelected.php';
-				
-			}else
-				require_once 'views/historialMedicoSelectedError.html';
+			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
+			if($offset!==''){ 
+				if(($result = $this->model->lists($offset))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
 		}
 
 		private function createF(){

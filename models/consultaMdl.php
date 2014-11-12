@@ -31,10 +31,10 @@ class ConsultaMdl extends BaseMdl{
 		$stmt = $this->driver->prepare("INSERT INTO Consulta (IDCliente, IDTerapeuta, IDHistorialMedico, FechaCita, IDConsultaStatus, Observaciones)
 										VALUES(?,?,?,?,?,?)");
 		if(!$stmt->bind_param('iiisis',$this->idcliente,$this->idTerapeuta,$this->idHistorialMedico,$this->fechaCita,$this->idConsultaStatus,$this->observaciones)){
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 		if (!$stmt->execute()) {
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 
 		if($this->driver->error){
@@ -46,18 +46,34 @@ class ConsultaMdl extends BaseMdl{
 	
 	/**
 	* Busca a las Consultas registradas
+	*@param int $offset
+	*@param int $idConsulta
 	* @return array or false
 	**/
-	function lists($constraint = '1 = 1'){
+	
+	function lists($offset = -1,$idConsulta = -1){
 		$rows = array();
-
-		if($stmt = $this->driver->prepare('SELECT * FROM V_Consulta WHERE ?')){
-		
-			if(!$stmt->bind_param('s',$constraint))
-				die('Error Al Consultar');
-
+		if($offset>-1){
+			$stmt = $this->driver->prepare('SELECT * FROM V_Consulta LIMIT ?,?');
+		}else{
+			if($idConsulta>-1){
+				$stmt = $this->driver->prepare('SELECT * FROM V_Consulta WHERE IDConsulta=?');
+			}else{
+				$stmt = $this->driver->prepare('SELECT * FROM V_Consulta');
+			}
+		}
+		if($stmt){
+			if($offset>-1){
+				$amountRows = 10;
+				$offset*=10;
+				if(!$stmt->bind_param('ii',$offset,$amountRows))
+					return false;
+			}else if($idConsulta>-1){
+				if(!$stmt->bind_param('i',$idConsulta))
+					return false;
+			}
 			if(!$stmt->execute())
-				die('Error Al Consultar');
+				return false;
 
 			$mySqliResult = $stmt->get_result();
 
@@ -65,13 +81,12 @@ class ConsultaMdl extends BaseMdl{
 
 				while($result = $mySqliResult->fetch_assoc())
 					array_push($rows, $result);
-
 				return $rows;
 			}else
-				die('No hay Resultados!!!');
+				return VACIO;
 
 		}else
-			die('Error Al Consultar');
+			return false;
 			
 		return false;
 	}

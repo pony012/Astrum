@@ -20,10 +20,10 @@ class CargoMdl  extends BaseMdl{
 		$stmt = $this->driver->prepare("INSERT INTO Cargo (Cargo,Descripcion) 
 										VALUES(?,?)");
 		if(!$stmt->bind_param('ss',$this->cargo,$this->descripcion)){
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 		if (!$stmt->execute()) {
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 
 		if($this->driver->error){
@@ -40,10 +40,10 @@ class CargoMdl  extends BaseMdl{
 		if($stmt = $this->driver->prepare('SELECT IDCargo FROM Cargo WHERE IDCargo=?')){
 		
 			if(!$stmt->bind_param('i',$idCargo))
-				die('Error Al Actualizar');
+				return false;
 			
 			if(!$stmt->execute())
-				die('Error Al Actualizar');
+				return false;
 				
 			$mySqliResult = $stmt->get_result();
 
@@ -54,10 +54,10 @@ class CargoMdl  extends BaseMdl{
 				$stmt = $this->driver->prepare("UPDATE Cargo SET Cargo=?,Descripcion=? WHERE IDCargo=?");
 
 				if(!$stmt->bind_param('ssi',$this->cargo,$this->descripcion,$idCargo)){
-					die('Error al Actualizar en la base de datos');
+					return false;
 				}
 				if (!$stmt->execute()) {
-					die('Error al Actualizar en la base de datos');
+					return false;
 				}
 
 				if($this->driver->error){
@@ -67,7 +67,54 @@ class CargoMdl  extends BaseMdl{
 			}
 		}
 		else
-			die('Error al Actualizar en la base de datos');
+			return false;
 	}
+
+	/**
+	* Consulta los cargos registrados en el sistema
+	*@param int $offset
+	*@param int $idCargo
+	* @return array or false
+	**/
+	function lists($offset = -1,$idCargo = -1){
+		$rows = array();
+		if($offset>-1){
+			$stmt = $this->driver->prepare('SELECT * FROM Cargo LIMIT ?,?');
+		}else{
+			if($idCargo>-1){
+				$stmt = $this->driver->prepare('SELECT * FROM Cargo WHERE IDCargo=?');
+			}else{
+				$stmt = $this->driver->prepare('SELECT * FROM Cargo');
+			}
+		}
+		if($stmt){
+			if($offset>-1){
+				$amountRows = 10;
+				$offset*=10;
+				if(!$stmt->bind_param('ii',$offset,$amountRows))
+					return false;
+			}else if($idCargo>-1){
+				if(!$stmt->bind_param('i',$idCargo))
+					return false;
+			}
+			if(!$stmt->execute())
+				return false;
+
+			$mySqliResult = $stmt->get_result();
+
+			if($mySqliResult->field_count > 0){
+
+				while($result = $mySqliResult->fetch_assoc())
+					array_push($rows, $result);
+				return $rows;
+			}else
+				return VACIO;
+
+		}else
+			return false;
+			
+		return false;
+	}
+
 }
 ?>

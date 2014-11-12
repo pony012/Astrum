@@ -60,10 +60,10 @@ class ClienteMdl extends BaseMdl{
 												?, 
 												?)");
 		if(!$stmt->bind_param('sssssssssss',$this->nombre,$this->apellidoPat,$this->apellidoMat,$this->calle,$this->numExterior,$this->numInterior,$this->colonia,$this->codigoPostal,$this->email,$this->telefono,$this->celular)){
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 		if (!$stmt->execute()) {
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 
 		if($this->driver->error){
@@ -106,10 +106,10 @@ class ClienteMdl extends BaseMdl{
 										Nombre = ?, ApellidoPaterno = ?, ApellidoMaterno = ?, Calle = ?, NumExterior = ?, NumInterior = ?, Colonia = ?, CodigoPostal = ?, Email = ?, Telefono = ?, Celular = ?
 										WHERE IDCliente = ?");
 		if(!$stmt->bind_param('sssssssssssi',$this->nombre,$this->apellidoPat,$this->apellidoMat,$this->calle,$this->numExterior,$this->numInterior,$this->colonia,$this->codigoPostal,$this->email,$this->telefono,$this->celular, $idCliente)){
-			die('Error al hacer Update en la base de datos');
+			return false;
 		}
 		if (!$stmt->execute()) {
-			die('Error al hacer Update en la base de datos');
+			return false;
 		}
 
 		if($this->driver->error){
@@ -119,9 +119,9 @@ class ClienteMdl extends BaseMdl{
 	}
 	
 	/**
-	* Consulta a los empleados registrados y que esten activos
+	* Consulta a los clientes registrados y que esten activos
 	*@param int $offset
-	*@param int $idEmpleado
+	*@param int $idCliente
 	* @return array or false
 	**/
 	function lists($offset = -1,$idCliente = -1){
@@ -140,13 +140,13 @@ class ClienteMdl extends BaseMdl{
 				$amountRows = 10;
 				$offset*=10;
 				if(!$stmt->bind_param('ii',$offset,$amountRows))
-					return ERROR_DB;
+					return false;
 			}else if($idCliente>-1){
 				if(!$stmt->bind_param('i',$idCliente))
-					return ERROR_DB;
+					return false;
 			}
 			if(!$stmt->execute())
-				return ERROR_DB;
+				return false;
 
 			$mySqliResult = $stmt->get_result();
 
@@ -159,10 +159,57 @@ class ClienteMdl extends BaseMdl{
 				return VACIO;
 
 		}else
-			return ERROR_DB;
+			return false;
 			
 		return false;
 	}
+
+	/**
+	* Consulta a los clientes registrados y que esten eliminados
+	*@param int $offset
+	*@param int $idEmpleado
+	* @return array or false
+	**/
+	function listsDeleters($offset = -1,$idCliente = -1){
+		$rows = array();
+		if($offset>-1){
+			$stmt = $this->driver->prepare('SELECT * FROM V_Cliente_Deleter LIMIT ?,?');
+		}else{
+			if($idCliente>-1){
+				$stmt = $this->driver->prepare('SELECT * FROM V_Cliente_Deleter WHERE IDCliente=?');
+			}else{
+				$stmt = $this->driver->prepare('SELECT * FROM V_Cliente_Deleter');
+			}
+		}
+		if($stmt){
+			if($offset>-1){
+				$amountRows = 10;
+				$offset*=10;
+				if(!$stmt->bind_param('ii',$offset,$amountRows))
+					return false;
+			}else if($idCliente>-1){
+				if(!$stmt->bind_param('i',$idCliente))
+					return false;
+			}
+			if(!$stmt->execute())
+				return false;
+
+			$mySqliResult = $stmt->get_result();
+
+			if($mySqliResult->field_count > 0){
+
+				while($result = $mySqliResult->fetch_assoc())
+					array_push($rows, $result);
+				return $rows;
+			}else
+				return VACIO;
+
+		}else
+			return false;
+			
+		return false;
+	}
+
 
 	/**
 	* Consulta al Cliente con el Id dado
@@ -199,10 +246,10 @@ class ClienteMdl extends BaseMdl{
 		if($stmt = $this->driver->prepare('SELECT Activo FROM Cliente WHERE IDCliente=? AND Activo = "S"')){
 		
 			if(!$stmt->bind_param('i',$idCliente))
-				die('Error Al Eliminar');
+				return false;
 			
 			if(!$stmt->execute())
-				die('Error Al Eliminar');
+				return false;
 				
 			$mySqliResult = $stmt->get_result();
 
@@ -212,10 +259,10 @@ class ClienteMdl extends BaseMdl{
 				if($stmt = $this->driver->prepare('UPDATE Cliente SET Activo="N" WHERE IDCliente=? AND Activo = "S"')){
 			
 					if(!$stmt->bind_param('i',$idCliente))
-						die('Error Al Eliminar');
+						return false;
 					
 					if(!$stmt->execute())
-						die('Error Al Eliminar');
+						return false;
 					else
 						return true;
 				}
@@ -233,10 +280,10 @@ class ClienteMdl extends BaseMdl{
 		if($stmt = $this->driver->prepare('SELECT Activo FROM Cliente WHERE IDCliente=? AND Activo = "N"')){
 		
 			if(!$stmt->bind_param('i',$idCliente))
-				die('Error Al Activar');
+				return false;
 			
 			if(!$stmt->execute())
-				die('Error Al Activar');
+				return false;
 				
 			$mySqliResult = $stmt->get_result();
 
@@ -246,10 +293,10 @@ class ClienteMdl extends BaseMdl{
 				if($stmt = $this->driver->prepare('UPDATE Cliente SET Activo="S" WHERE IDCliente=? AND Activo = "N"')){
 			
 					if(!$stmt->bind_param('i',$idCliente))
-						die('Error Al Activar');
+						return false;
 					
 					if(!$stmt->execute())
-						die('Error Al Activar');
+						return false;
 					else
 						return true;
 				}

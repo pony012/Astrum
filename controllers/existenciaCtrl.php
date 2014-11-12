@@ -20,8 +20,11 @@
 					//Listar 
 					$this->lists();
 					break;
+				case 'get':
+					$this->getExistencia();
+					break;
 				default:
-					# code...
+					return json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
 					break;
 			}
 		}
@@ -52,14 +55,15 @@
 
 				//Si pudo ser creado
 				if ($result) {
-					$data = array($fechaReferencia, $idProductoServicio,$precioUnitario,$precioUnitario,$cantidad);
+					//$data = array($fechaReferencia, $idProductoServicio,$precioUnitario,$precioUnitario,$cantidad);
 					//Cargar la vista
-					require_once 'views/existenciaInserted.php';
+					return json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 				}else{
-					require_once 'views/existenciaInsertedError.html';
-				}
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}	
 			}else{
-				require_once 'views/existenciaInsertedError.html';
+				//Se cambiará por la misma vista donde se encuentre el formulario de insercción, y se mostrarán los errores en un modal
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
@@ -79,15 +83,42 @@
 		*Listamos todas las Existencias de productos registrados
 		**/
 		private function lists(){
-			if($result = $this->model->lists()){
-
-				$data = array($result);
-
-				require_once 'views/existenciaSelected.php';
-				
-			}else
-				require_once 'views/existenciaSelectedError.html';
+			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
+			if($offset!==''){ 
+				if(($result = $this->model->lists($offset))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
 		}
+
+		/**
+		*obtenemos los datos especificos de la existencia de un producto
+		**/
+		private function getExistencia(){
+			$idExistencia = $this->validateNumber(isset($_POST['idExistencia'])?$_POST['idExistencia']:NULL);
+			if($idExistencia!==''){
+				if(($result = $this->model->lists(-1,$idExistencia))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
+		}
+
 
 		function __construct(){
 			parent::__construct();

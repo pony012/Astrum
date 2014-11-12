@@ -21,12 +21,20 @@
 						//Baja
 						$this->update();
 						break;
+					case 'lists':
+						//Crear 
+						$this->lists();
+						break;
+					case 'get':
+						//Baja
+						$this->getCargo();
+						break;
 					default:
-						# code...
+						return json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
 						break;
 				}
 			else
-				require_once 'views/permisosError.html';
+				return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
 		}
 		/**
 		* Crea un Producto
@@ -49,14 +57,14 @@
 
 				//Si pudo ser creado
 				if ($result) {
-					$data = array($cargo, $descripcion);
+					//$data = array($cargo, $descripcion);
 					//Cargar la vista
-					require_once 'views/cargoInserted.php';
+					return json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 				}else{
-					require_once 'views/cargoInsertedError.html';
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
 				}
 			}else{
-				require_once 'views/cargoInsertedError.html';
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
@@ -88,19 +96,55 @@
 
 				//Si pudo ser creado
 				if ($result) {
-					$data = array($cargo, $descripcion);
+					//$data = array($cargo, $descripcion);
 					//Cargar la vista
-					require_once 'views/cargoUpdated.php';
+					return json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 				}else{
-					require_once 'views/cargoUpdatedError.html';
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
 				}
 			}else{
-				require_once 'views/cargoUpdatedError.html';
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
+		/**
+		*Listamos todos los cargos
+		**/
 		private function lists(){
+			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
+			if($offset!==''){ 
+				if(($result = $this->model->lists($offset))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
+		}
 
+		/**
+		*obtenemos los datos de un cargo
+		**/
+		private function getCargo(){
+			$idCargo = $this->validateNumber(isset($_POST['idCargo'])?$_POST['idCargo']:NULL);
+			if($idCargo!==''){
+				if(($result = $this->model->lists(-1,$idCargo))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
 		}
 
 		function __construct(){

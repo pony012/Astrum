@@ -20,8 +20,11 @@
 					//Listar 
 					$this->lists();
 					break;
+				case 'get':
+					$this->getConsulta();
+					break;
 				default:
-					# code...
+					return json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
 					break;
 			}
 		}
@@ -58,14 +61,14 @@
 
 				//Si pudo ser creado
 				if ($result) {
-					$data = array($idCliente, $idTerapeuta, $idHistorialMedico,$fechaCita, $idConsultaStatus, $observaciones);
-					//Cargar la vista
-					require_once 'views/consultaInserted.php';
+					//$data = array($idCliente, $idTerapeuta, $idHistorialMedico,$fechaCita, $idConsultaStatus, $observaciones);
+					return json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 				}else{
-					require_once 'views/consultaInsertedError.html';
-				}
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}	
 			}else{
-				require_once 'views/consultaInsertedError.html';
+				//Se cambiará por la misma vista donde se encuentre el formulario de insercción, y se mostrarán los errores en un modal
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
@@ -85,14 +88,40 @@
 		*Listamos todas las Consultas registrados
 		**/
 		private function lists(){
-			if($result = $this->model->lists()){
+			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
+			if($offset!==''){ 
+				if(($result = $this->model->lists($offset))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
+		}
 
-				$data = array($result);
-
-				require_once 'views/consultaSelected.php';
-				
-			}else
-				require_once 'views/consultaSelectedError.html';
+		/**
+		*obtenemos los datos de un consulta
+		**/
+		private function getConsulta(){
+			$idConsulta = $this->validateNumber(isset($_POST['idConsulta'])?$_POST['idConsulta']:NULL);
+			if($idConsulta!==''){
+				if(($result = $this->model->lists(-1,$idConsulta))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
 		}
 
 		function __construct(){

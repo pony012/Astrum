@@ -21,12 +21,19 @@
 						//Baja
 						$this->update();
 						break;
+					case 'lists':
+					//Listar
+						$this->lists();
+						break;
+					case 'get':
+						$this->getConsultaStatus();
+						break;
 					default:
-						# code...
+						return json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
 						break;
 				}
 			else
-				require_once 'views/permisosError.html';
+				return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
 		}
 		/**
 		* Crea un Producto
@@ -49,14 +56,15 @@
 
 				//Si pudo ser creado
 				if ($result) {
-					$data = array($status, $descripcion);
+					//$data = array($status, $descripcion);
 					//Cargar la vista
-					require_once 'views/consultaStatusInserted.php';
+					return json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 				}else{
-					require_once 'views/consultaStatusInsertedError.html';
-				}
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}	
 			}else{
-				require_once 'views/consultaStatusInsertedError.html';
+				//Se cambiará por la misma vista donde se encuentre el formulario de insercción, y se mostrarán los errores en un modal
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
@@ -88,19 +96,56 @@
 
 				//Si pudo ser creado
 				if ($result) {
-					$data = array($status, $descripcion);
+					//$data = array($status, $descripcion);
 					//Cargar la vista
-					require_once 'views/consultaStatusUpdated.php';
+					return json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 				}else{
-					require_once 'views/consultaStatusUpdatedError.html';
-				}
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}	
 			}else{
-				require_once 'views/consultaStatusUpdatedError.html';
+				//Se cambiará por la misma vista donde se encuentre el formulario de insercción, y se mostrarán los errores en un modal
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
+		/**
+		*Listamos todos los estatus de una consulta
+		**/
 		private function lists(){
+			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
+			if($offset!==''){ 
+				if(($result = $this->model->lists($offset))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
+		}
 
+		/**
+		*obtenemos los datos de un estatus de una consulta
+		**/
+		private function getConsultaStatus(){
+			$idConsultaStatus = $this->validateNumber(isset($_POST['idConsultaStatus'])?$_POST['idConsultaStatus']:NULL);
+			if($idConsultaStatus!==''){
+				if(($result = $this->model->lists(-1,$idConsultaStatus))){
+					if(is_numeric($result)){
+						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+					}else{
+						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					}
+				}else{
+					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+				}
+			}else{
+				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
 		}
 
 		function __construct(){
