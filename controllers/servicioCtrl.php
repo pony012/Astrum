@@ -44,6 +44,13 @@
 					else
 						return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
 					break;
+				case 'updateF':
+					//Baja
+					if(BaseCtrl::isAdmin())
+						$this->updateF();
+					else
+						return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
+					break;
 				case 'get':
 					//Obtener un servicio
 					$this->getServicio();
@@ -61,6 +68,7 @@
 					break;
 			}
 		}
+
 		/**
 		* Crea un Servicio
 		*/

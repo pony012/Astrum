@@ -19,6 +19,13 @@
 					else
 						return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
 					break;
+				case 'createF':
+					//Crear
+					if(BaseCtrl::isAdmin())
+						$this->createF();
+					else
+						return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
+					break;
 				case 'lists':
 					//Listar 
 					$this->lists();
@@ -34,6 +41,13 @@
 					//Baja
 					if(BaseCtrl::isAdmin)
 						$this->update();
+					else
+						return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
+					break;
+				case 'updateF':
+					//Baja
+					if(BaseCtrl::isAdmin)
+						$this->updateF();
 					else
 						return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
 					break;

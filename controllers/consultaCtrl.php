@@ -16,6 +16,10 @@
 					//Crear 
 					$this->create();
 					break;
+				case 'createF':
+					//Crear 
+					$this->createF();
+					break;
 				case 'lists':
 					//Listar 
 					$this->lists();
@@ -122,6 +126,15 @@
 			}else{
 				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
+		}
+
+		/**
+		* Llama al formulario para la creación de una consulta
+		*/
+		private function createF(){
+			$this->session['action']='create';
+			$template = $this->twig->loadTemplate('consultaForm.html');
+			echo $template->render(array('session'=>$this->session));
 		}
 
 		function __construct(){

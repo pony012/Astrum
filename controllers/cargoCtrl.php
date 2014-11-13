@@ -15,11 +15,31 @@
 				switch ($_GET['act']) {
 					case 'create':
 						//Crear 
-						$this->create();
+						if(BaseCtrl::isAdmin())
+							$this->create();
+						else
+							return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
+						break;
+					case 'createF':
+						//Crear 
+						if(BaseCtrl::isAdmin())
+							$this->createF();
+						else
+							return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
 						break;
 					case 'update':
-						//Baja
-						$this->update();
+						//Actualizar
+						if(BaseCtrl::isAdmin())
+							$this->update();
+						else
+							return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
+						break;
+					case 'updateF':
+						//Actualizar
+						if(BaseCtrl::isAdmin())
+							$this->updateF();
+						else
+							return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
 						break;
 					case 'lists':
 						//Crear 
@@ -144,6 +164,33 @@
 				}
 			}else{
 				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
+		}
+
+		/**
+		* Llama al formulario para la creación de un Cargo
+		*/
+		private function createF(){
+			$this->session['action']='create';
+			$template = $this->twig->loadTemplate('cargoForm.html');
+			echo $template->render(array('session'=>$this->session));
+		}
+
+		/**
+		* Llama al formulario para la actualización de un Cargo
+		*/
+		private function updateF(){
+			//TODO
+			//Cargar en $data desde la base de datos
+			$data = $this->model->get(1);
+			if($data){
+				$this->session['action']='update';
+				$template = $this->twig->loadTemplate('cargoForm.html');
+				echo $template->render(array('session'=>$this->session,'data'=>$data));
+			}else{
+				//TODO
+				//Enviar a listar clientes con vista de inválido
+				//echo 'Error';
 			}
 		}
 

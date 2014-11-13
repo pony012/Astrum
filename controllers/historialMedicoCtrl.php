@@ -28,7 +28,6 @@
 						$this->create();
 						break;
 					case 'createF':
-						
 						$this->createF();
 						break;
 					case 'lists':
@@ -481,10 +480,31 @@
 			}
 		}
 
+		/**
+		* Llama al formulario para la creación de un historial médico
+		*/
 		private function createF(){
 			$this->session['action']='create';
 			$template = $this->twig->loadTemplate('historiaMedicoForm.html');
 			echo $template->render(array('session'=>$this->session));
+		}
+
+		/**
+		* Llama al formulario para la actualización de un historial médico
+		*/
+		private function updateF(){
+			//TODO
+			//Cargar en $data desde la base de datos
+			$data = $this->model->get(1);
+			if($data){
+				$this->session['action']='update';
+				$template = $this->twig->loadTemplate('historiaMedicoForm.html');
+				echo $template->render(array('session'=>$this->session,'data'=>$data));
+			}else{
+				//TODO
+				//Enviar a listar consultaStatuss con vista de inválido
+				//echo 'Error';
+			}
 		}
 
 		function __construct(){

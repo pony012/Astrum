@@ -381,9 +381,26 @@
 		*/
 		private function createF(){
 			$this->session['action']='create';
-			print_r($this->twig);
-			//$template = $this->twig->loadTemplate('empleadoForm.html');
-			//$template->render(array('session'=>$this->session));
+			$template = $this->twig->loadTemplate('empleadoForm.html');
+			echo $template->render(array('session'=>$this->session));
+		}
+
+		/**
+		* Llama al formulario para la actualización de un empleado
+		*/
+		private function updateF(){
+			//TODO
+			//Cargar en $data desde la base de datos
+			$data = $this->model->get(1);
+			if($data){
+				$this->session['action']='update';
+				$template = $this->twig->loadTemplate('empleadoForm.html');
+				echo $template->render(array('session'=>$this->session,'data'=>$data));
+			}else{
+				//TODO
+				//Enviar a listar clientes con vista de inválido
+				//echo 'Error';
+			}
 		}
 
 		function __construct(){

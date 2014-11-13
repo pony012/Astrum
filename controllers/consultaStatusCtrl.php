@@ -17,9 +17,17 @@
 						//Crear 
 						$this->create();
 						break;
+					case 'createF':
+						//Crear 
+						$this->createF();
+						break;
 					case 'update':
 						//Baja
 						$this->update();
+						break;
+					case 'updateF':
+						//Baja
+						$this->updateF();
 						break;
 					case 'lists':
 					//Listar
@@ -145,6 +153,33 @@
 				}
 			}else{
 				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+			}
+		}
+
+		/**
+		* Llama al formulario para la creación de un estado de consulta
+		*/
+		private function createF(){
+			$this->session['action']='create';
+			$template = $this->twig->loadTemplate('consultaStatusForm.html');
+			echo $template->render(array('session'=>$this->session));
+		}
+
+		/**
+		* Llama al formulario para la actualización de un estado de consulta
+		*/
+		private function updateF(){
+			//TODO
+			//Cargar en $data desde la base de datos
+			$data = $this->model->get(1);
+			if($data){
+				$this->session['action']='update';
+				$template = $this->twig->loadTemplate('consultaStatusForm.html');
+				echo $template->render(array('session'=>$this->session,'data'=>$data));
+			}else{
+				//TODO
+				//Enviar a listar consultaStatuss con vista de inválido
+				//echo 'Error';
 			}
 		}
 
