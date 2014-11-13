@@ -83,7 +83,7 @@
 				if ($result) {
 					$data = array($idAjusteEntradaTipo, $idCliente, $folio, $observaciones, $idProductoServicios, $cantidades);
 					
-					return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					return json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 				}else{
 					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 				}

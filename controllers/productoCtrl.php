@@ -100,7 +100,7 @@
 				if ($result) {
 					$data = array($idProductoTipo, $producto, $precioUnitario, $foto, $descripcion);
 					//Cargar la vista
-					return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					return json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 				}else{
 					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 				}

@@ -85,7 +85,7 @@
 					//Guardamos los campos en un arreglo
 					$data = array($idProveedor, $folio, $fechaRecepcion,$idProductos,$cantidades,$precioUnitario,$ivas,$descuentos);
 					
-					return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					return json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 				}else{
 					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 				}

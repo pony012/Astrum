@@ -84,7 +84,7 @@
 				if ($result) {
 					$data = array($idAjusteSalidaTipo, $idProveedor, $folio, $observaciones, $idProductoServicios, $cantidades);
 					
-					return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					return json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 				}else{
 					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 				}
@@ -184,7 +184,6 @@
 				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
-
 
 		/**
 		* Llama al formulario para la creación de un Ajuste de Salida

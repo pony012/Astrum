@@ -124,7 +124,7 @@
 						);
 						if(!BaseCtrl::enviarCorreo($email,'Bienvenido a SpaDamaris','../views/emails/altaEmpleado.html',$remplazos))
 							require_once 'views/empleadoInsertedError.html';
-						else{
+						else{/*
 							$data = array(	$nombre, 
 										$apellidoPaterno, 
 										$apellidoMaterno,
@@ -139,11 +139,11 @@
 										$foto,
 										$email,
 										$telefono,
-										$celular);
+										$celular);*/
 						//Cargar la vista
-						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+						return json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 						}
-					}else{
+					}else{/*
 						$data = array(	$nombre, 
 										$apellidoPaterno, 
 										$apellidoMaterno,
@@ -158,9 +158,9 @@
 										$foto,
 										$email,
 										$telefono,
-										$celular);
+										$celular);*/
 						//Cargar la vista
-						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+						return json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 					}
 				}else{
 					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
