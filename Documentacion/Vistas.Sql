@@ -20,23 +20,11 @@ From AjusteEntrada ae
 inner join AjusteEntradaTipo aet
 on aet.IDAjusteEntradaTipo=ae.IDAjusteEntradaTipo
 inner join Cliente c
-on c.IDCliente=ae.IDCliente and c.Activo='S'
+on c.IDCliente=ae.IDCliente
 inner join MovimientoAlmacen ma
 on ma.IDMovimientoAlmacen=ae.IDMovimientoAlmacen
 inner join Empleado e
 on ma.IDEmpleado=e.IDEmpleado and e.Activo='S';
-
-CREATE VIEW V_AjusteEntrada_Deleter AS
-SELECT IDAjusteEntrada, ae.IDMovimientoAlmacen, Folio, aet.Tipo, c.IDCliente, (c.Nombre + c.ApellidoPaterno + c.ApellidoMaterno) as Cliente, e.IDEmpleado, (e.Nombre + e.ApellidoPaterno + e.ApellidoMaterno) as Empleado, Observaciones
-From AjusteEntrada ae
-inner join AjusteEntradaTipo aet
-on aet.IDAjusteEntradaTipo=ae.IDAjusteEntradaTipo
-inner join Cliente c
-on c.IDCliente=ae.IDCliente and c.Activo='S'
-inner join MovimientoAlmacen ma
-on ma.IDMovimientoAlmacen=ae.IDMovimientoAlmacen
-inner join Empleado e
-on ma.IDEmpleado=e.IDEmpleado and e.Activo='N';
 
 CREATE VIEW V_AjusteSalida AS
 SELECT IDAjusteSalida, ae.IDMovimientoAlmacen, Folio, aet.Tipo, p.IDProveedor, (p.Nombre + p.ApellidoPaterno + p.ApellidoMaterno) as Proveedor, e.IDEmpleado, (e.Nombre + e.ApellidoPaterno + e.ApellidoMaterno) as Empleado, Observaciones
@@ -49,18 +37,6 @@ inner join MovimientoAlmacen ma
 on ma.IDMovimientoAlmacen=ae.IDMovimientoAlmacen
 inner join Empleado e
 on ma.IDEmpleado=e.IDEmpleado and e.Activo='S';
-
-CREATE VIEW V_AjusteSalida_Deleter AS
-SELECT IDAjusteSalida, ae.IDMovimientoAlmacen, Folio, aet.Tipo, p.IDProveedor, (p.Nombre + p.ApellidoPaterno + p.ApellidoMaterno) as Proveedor, e.IDEmpleado, (e.Nombre + e.ApellidoPaterno + e.ApellidoMaterno) as Empleado, Observaciones
-From AjusteSalida ae
-inner join AjusteSalidaTipo aet
-on aet.IDAjusteSalidaTipo=ae.IDAjusteSalidaTipo
-inner join Proveedor p
-on p.IDProveedor=ae.IDProveedor and p.Activo='S'
-inner join MovimientoAlmacen ma
-on ma.IDMovimientoAlmacen=ae.IDMovimientoAlmacen
-inner join Empleado e
-on ma.IDEmpleado=e.IDEmpleado and e.Activo='N';
 
 CREATE VIEW V_Consulta AS
 SELECT IDConsulta, con.IDCliente, (c.Nombre + c.ApellidoPaterno + c.ApellidoMaterno) as Cliente, 
@@ -89,17 +65,6 @@ on ma.IDMovimientoAlmacen=rec.IDMovimientoAlmacen
 inner join Empleado e
 on e.IDEmpleado=ma.IDEmpleado and e.Activo='S';
 
-CREATE VIEW V_Recepcion_Deleter AS
-SELECT IDRecepcion, rec.IDMovimientoAlmacen, Folio, p.IDProveedor, (p.Nombre + p.ApellidoPaterno + p.ApellidoMaterno) as Proveedor,
-e.IDEmpleado, (e.Nombre + e.ApellidoPaterno + e.ApellidoMaterno) as Empleado, FechaRecepcion, Total
-FROM Recepcion rec
-inner join Proveedor p
-on p.IDProveedor=rec.IDProveedor and p.Activo='S'
-inner join MovimientoAlmacen ma
-on ma.IDMovimientoAlmacen=rec.IDMovimientoAlmacen
-inner join Empleado e
-on e.IDEmpleado=ma.IDEmpleado and e.Activo='N';
-
 CREATE VIEW V_Remision AS
 SELECT IDRemision, rem.IDMovimientoAlmacen, Folio, c.IDCliente, (c.Nombre + c.ApellidoPaterno + c.ApellidoMaterno) as Cliente,
 e.IDEmpleado, (e.Nombre + e.ApellidoPaterno + e.ApellidoMaterno) as Empleado, FechaRemision, Total
@@ -110,17 +75,6 @@ inner join MovimientoAlmacen ma
 on ma.IDMovimientoAlmacen=rem.IDMovimientoAlmacen
 inner join Empleado e
 on e.IDEmpleado=ma.IDEmpleado and e.Activo='S';
-
-CREATE VIEW V_Remision_Deleter AS
-SELECT IDRemision, rem.IDMovimientoAlmacen, Folio, c.IDCliente, (c.Nombre + c.ApellidoPaterno + c.ApellidoMaterno) as Cliente,
-e.IDEmpleado, (e.Nombre + e.ApellidoPaterno + e.ApellidoMaterno) as Empleado, FechaRemision, Total
-FROM Remision rem
-inner join Cliente c
-on c.IDCliente=rem.IDCliente and c.Activo='S'
-inner join MovimientoAlmacen ma
-on ma.IDMovimientoAlmacen=rem.IDMovimientoAlmacen
-inner join Empleado e
-on e.IDEmpleado=ma.IDEmpleado and e.Activo='N';
 
 CREATE VIEW V_RemisionDetalle AS
 SELECT IDRemisionDetalle, IDRemision, remd.IDProducto, ps.Producto, Cantidad, remd.PrecioUnitario, IVA, Descuento
