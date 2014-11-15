@@ -140,7 +140,7 @@ class ServicioMdl extends BaseMdl{
 	**/
 	function delete($idServicio){
 	
-		if($stmt = $this->driver->prepare('SELECT Activo FROM ProductoServicio WHERE IDProductoServicio=? AND Activo = "S"')){
+		if($stmt = $this->driver->prepare('SELECT Activo FROM ProductoServicio WHERE IDProductoServicio=? AND Activo = "S" AND IDProductoServicioTipo=2')){
 		
 			if(!$stmt->bind_param('i',$idServicio))
 				return false;
@@ -153,7 +153,7 @@ class ServicioMdl extends BaseMdl{
 			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['Activo']!=''){
 			
 				//if($stmt = $this->driver->prepare('CALL desactivarProductoServicio(?)')){
-				if($stmt = $this->driver->prepare('UPDATE ProductoServicio SET Activo="N" WHERE IDProductoServicio=? AND Activo = "S"')){
+				if($stmt = $this->driver->prepare('UPDATE ProductoServicio SET Activo="N" WHERE IDProductoServicio=? AND Activo = "S" AND IDProductoServicioTipo=2')){
 			
 					if(!$stmt->bind_param('i',$idServicio))
 						return false;

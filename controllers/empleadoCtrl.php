@@ -11,7 +11,6 @@
 		 */
 		public function run()
 		{
-			
 			if(BaseCtrl::isAdmin())
 				switch ($_GET['act']) {
 					case 'create':
@@ -306,7 +305,6 @@
 					if(is_numeric($result)){
 						echo json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 					}else{
-						//print_r($result);
 						header('Content-Type: application/json');
 						BaseCtrl::utf8_encode_deep($result);
 						echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
@@ -329,6 +327,9 @@
 					if(is_numeric($result)){
 						echo json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 					}else{
+						header('Content-Type: application/json');
+						BaseCtrl::utf8_encode_deep($result);
+						echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
 						echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 					}
 				}else{
@@ -349,7 +350,9 @@
 					if(is_numeric($result)){
 						echo json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 					}else{
-						echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+						header('Content-Type: application/json');
+						BaseCtrl::utf8_encode_deep($result);
+						echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
 					}
 				}else{
 					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
@@ -369,7 +372,9 @@
 					if(is_numeric($result)){
 						echo json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 					}else{
-						echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+						header('Content-Type: application/json');
+						BaseCtrl::utf8_encode_deep($result);
+						echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
 					}
 				}else{
 					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));

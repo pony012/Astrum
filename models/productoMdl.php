@@ -140,7 +140,7 @@ class ProductoMdl extends BaseMdl{
 	**/
 	function delete($idProducto){
 	
-		if($stmt = $this->driver->prepare('SELECT Activo FROM ProductoServicio WHERE IDProductoServicio=? AND Activo = "S"')){
+		if($stmt = $this->driver->prepare('SELECT Activo FROM ProductoServicio WHERE IDProductoServicio=? AND Activo = "S" AND IDProductoServicioTipo=1')){
 		
 			if(!$stmt->bind_param('i',$idProducto))
 				return false;
@@ -173,7 +173,7 @@ class ProductoMdl extends BaseMdl{
 	*@return true or false
 	**/
 	function active($idProducto){
-		if($stmt = $this->driver->prepare('SELECT Activo FROM ProductoServicio WHERE IDProductoServicio=? AND Activo = "N"')){
+		if($stmt = $this->driver->prepare('SELECT Activo FROM ProductoServicio WHERE IDProductoServicio=? AND Activo = "N" AND IDProductoServicioTipo=1')){
 		
 			if(!$stmt->bind_param('i',$idProducto))
 				return false;

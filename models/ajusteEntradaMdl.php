@@ -159,53 +159,7 @@ class AjusteEntradaMdl extends BaseMdl{
 			
 		return false;
 	}
-
-	/**
-	* Consulta los Ajustes de Entrada registradas y que estan inactivas
-	*@param int $offset
-	*@param int $idAjusteEntrada
-	* @return array or false
-	**/
-	function listsDeleters($offset = -1,$idAjusteEntrada = -1){
-		$rows = array();
-		if($offset>-1){
-			$stmt = $this->driver->prepare('SELECT * FROM V_AjusteEntrada_Deleter LIMIT ?,?');
-		}else{
-			if($idAjusteEntrada>-1){
-				$stmt = $this->driver->prepare('SELECT * FROM V_AjusteEntrada_Deleter WHERE IDAjusteEntrada=?');
-			}else{
-				$stmt = $this->driver->prepare('SELECT * FROM V_AjusteEntrada_Deleter');
-			}
-		}
-		if($stmt){
-			if($offset>-1){
-				$amountRows = 10;
-				$offset*=10;
-				if(!$stmt->bind_param('ii',$offset,$amountRows))
-					return false;
-			}else if($idAjusteEntrada>-1){
-				if(!$stmt->bind_param('i',$idAjusteEntrada))
-					return false;
-			}
-			if(!$stmt->execute())
-				return false;
-
-			$mySqliResult = $stmt->get_result();
-
-			if($mySqliResult->field_count > 0){
-
-				while($result = $mySqliResult->fetch_assoc())
-					array_push($rows, $result);
-				return $rows;
-			}else
-				return VACIO;
-
-		}else
-			return false;
-			
-		return false;
-	}
-
+	
 	/**
 	* @param Integer $idAjusteEntrada
 	* Consulta los detalles de los ajustes de entrada registrados

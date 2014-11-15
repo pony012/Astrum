@@ -17,14 +17,14 @@
 					if(BaseCtrl::isAdmin())
 						$this->create();
 					else
-						return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
+						echo json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
 					break;
 				case 'createF':
 					//Crear 
 					if(BaseCtrl::isAdmin())
 						$this->createF();
 					else
-						return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
+						echo json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
 					break;
 				case 'lists':
 					//Listar
@@ -34,16 +34,8 @@
 					//Obtener un AjusteEntrada
 					$this->getAjusteEntrada();
 					break;
-				case 'listsDeleters':
-					//Lista los AjusteEntrada
-					$this->listsDeleters();
-					break;
-				case 'getDeleter':
-					//Obtener un AjusteEntrada
-					$this->getAjusteEntradaDeleter();
-					break;
 				default:
-					return json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
+					echo json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
 					break;
 			}
 		}
@@ -83,12 +75,12 @@
 				if ($result) {
 					$data = array($idAjusteEntradaTipo, $idCliente, $folio, $observaciones, $idProductoServicios, $cantidades);
 					
-					return json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
+					echo json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 				}else{
-					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
+					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 				}
 			}else{
-				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
@@ -112,15 +104,17 @@
 			if($offset!==''){ 
 				if(($result = $this->model->lists($offset))){
 					if(is_numeric($result)){
-						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+						echo json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 					}else{
-						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+						header('Content-Type: application/json');
+						BaseCtrl::utf8_encode_deep($result);
+						echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
 					}
 				}else{
-					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
 				}
 			}else{
-				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
@@ -132,58 +126,19 @@
 			if($idAjusteEntrada!==''){
 				if(($result = $this->model->lists(-1,$idAjusteEntrada))){
 					if(is_numeric($result)){
-						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+						echo json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 					}else{
-						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+						header('Content-Type: application/json');
+						BaseCtrl::utf8_encode_deep($result);
+						echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
 					}
 				}else{
-					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
 				}
 			}else{
-				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
-
-		/**
-		*listamos todos los Ajustes de Entrada inactivos
-		**/
-		private function listsDeleters(){
-			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
-			if($offset!==''){ 
-				if(($result = $this->model->listsDeleters($offset))){
-					if(is_numeric($result)){
-						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
-					}else{
-						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
-					}
-				}else{
-					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
-				}
-			}else{
-				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
-			}
-		}
-
-		/**
-		*obtenemos los datos de un AjusteEntrada inactivo
-		**/
-		private function getAjusteEntradaDeleter(){
-			$idAjusteEntrada = $this->validateNumber(isset($_POST['idAjusteEntrada'])?$_POST['idAjusteEntrada']:NULL);
-			if($idAjusteEntrada!==''){
-				if(($result = $this->model->listsDeleters(-1,$idAjusteEntrada))){
-					if(is_numeric($result)){
-						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
-					}else{
-						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
-					}
-				}else{
-					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
-				}
-			}else{
-				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
-			}
-		}
-
 
 		/**
 		* Llama al formulario para la creación de un Ajuste de Entrada

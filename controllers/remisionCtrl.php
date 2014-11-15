@@ -17,14 +17,14 @@
 					if(BaseCtrl::isAdmin())
 						$this->create();
 					else
-						return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
+						echo json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
 					break;
 				case 'createF':
 					//Crear 
 					if(BaseCtrl::isAdmin())
 						$this->createF();
 					else
-						return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
+						echo json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
 					break;
 				case 'lists':
 					//Crear 
@@ -34,16 +34,8 @@
 					//Obtener una Remision
 					$this->getRemision();
 					break;
-				case 'listsDeleters':
-					//Lista las Remisiones
-					$this->listsDeleters();
-					break;
-				case 'getDeleter':
-					//Obtener una Remision
-					$this->getRemisionDeleter();
-					break;
 				default:
-					return json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
+					echo json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
 					break;
 			}
 		}
@@ -86,12 +78,12 @@
 					//Guardamos los campos en un arreglo
 					$data = array($idCliente, $folio, $fechaRemision,$idProductos,$cantidades,$precioUnitario,$ivas,$descuentos);
 					
-					return json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
+					echo json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 				}else{
-					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
+					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 				}
 			}else{
-				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
@@ -115,15 +107,17 @@
 			if($offset!==''){ 
 				if(($result = $this->model->lists($offset))){
 					if(is_numeric($result)){
-						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+						echo json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 					}else{
-						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+						header('Content-Type: application/json');
+						BaseCtrl::utf8_encode_deep($result);
+						echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
 					}
 				}else{
-					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
 				}
 			}else{
-				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
@@ -135,58 +129,19 @@
 			if($idRemision!==''){
 				if(($result = $this->model->lists(-1,$idRemision))){
 					if(is_numeric($result)){
-						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+						echo json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 					}else{
-						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+						header('Content-Type: application/json');
+						BaseCtrl::utf8_encode_deep($result);
+						echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
 					}
 				}else{
-					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
 				}
 			}else{
-				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
-
-		/**
-		*listamos todos las Remisiones inactivos
-		**/
-		private function listsDeleters(){
-			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
-			if($offset!==''){ 
-				if(($result = $this->model->listsDeleters($offset))){
-					if(is_numeric($result)){
-						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
-					}else{
-						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
-					}
-				}else{
-					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
-				}
-			}else{
-				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
-			}
-		}
-
-		/**
-		*obtenemos los datos de una Remision inactivo
-		**/
-		private function getRemisionDeleter(){
-			$idRemision = $this->validateNumber(isset($_POST['idRemision'])?$_POST['idRemision']:NULL);
-			if($idRemision!==''){
-				if(($result = $this->model->listsDeleters(-1,$idRemision))){
-					if(is_numeric($result)){
-						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
-					}else{
-						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
-					}
-				}else{
-					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
-				}
-			}else{
-				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
-			}
-		}
-
 
 		/**
 		* Llama al formulario para la creación de una Remisión

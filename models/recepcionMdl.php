@@ -182,53 +182,7 @@ class RecepcionMdl extends BaseMdl{
 			
 		return false;
 	}
-
-	/**
-	* Consulta las recepciones registradas y que estan inactivos
-	*@param int $offset
-	*@param int $idRecepcion
-	* @return array or false
-	**/
-	function listsDeleters($offset = -1,$idRecepcion = -1){
-		$rows = array();
-		if($offset>-1){
-			$stmt = $this->driver->prepare('SELECT * FROM V_Recepcion_Deleter LIMIT ?,?');
-		}else{
-			if($idRecepcion>-1){
-				$stmt = $this->driver->prepare('SELECT * FROM V_Recepcion_Deleter WHERE IDRecepcion=?');
-			}else{
-				$stmt = $this->driver->prepare('SELECT * FROM V_Recepcion_Deleter');
-			}
-		}
-		if($stmt){
-			if($offset>-1){
-				$amountRows = 10;
-				$offset*=10;
-				if(!$stmt->bind_param('ii',$offset,$amountRows))
-					return false;
-			}else if($idRecepcion>-1){
-				if(!$stmt->bind_param('i',$idRecepcion))
-					return false;
-			}
-			if(!$stmt->execute())
-				return false;
-
-			$mySqliResult = $stmt->get_result();
-
-			if($mySqliResult->field_count > 0){
-
-				while($result = $mySqliResult->fetch_assoc())
-					array_push($rows, $result);
-				return $rows;
-			}else
-				return VACIO;
-
-		}else
-			return false;
-			
-		return false;
-	}
-
+	
 	/**
 	* @param Integer $idRecepcion
 	* Consulta los detalles de las recepciones registradas

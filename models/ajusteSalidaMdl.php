@@ -162,52 +162,6 @@ class AjusteSalidaMdl extends BaseMdl{
 	}
 
 	/**
-	* Consulta los Ajustes de Salida registradas y que estan inactivas
-	*@param int $offset
-	*@param int $idAjusteSalida
-	* @return array or false
-	**/
-	function listsDeleters($offset = -1,$idAjusteSalida = -1){
-		$rows = array();
-		if($offset>-1){
-			$stmt = $this->driver->prepare('SELECT * FROM V_AjusteSalida_Deleter LIMIT ?,?');
-		}else{
-			if($idAjusteSalida>-1){
-				$stmt = $this->driver->prepare('SELECT * FROM V_AjusteSalida_Deleter WHERE IDAjusteSalida=?');
-			}else{
-				$stmt = $this->driver->prepare('SELECT * FROM V_AjusteSalida_Deleter');
-			}
-		}
-		if($stmt){
-			if($offset>-1){
-				$amountRows = 10;
-				$offset*=10;
-				if(!$stmt->bind_param('ii',$offset,$amountRows))
-					return false;
-			}else if($idAjusteSalida>-1){
-				if(!$stmt->bind_param('i',$idAjusteSalida))
-					return false;
-			}
-			if(!$stmt->execute())
-				return false;
-
-			$mySqliResult = $stmt->get_result();
-
-			if($mySqliResult->field_count > 0){
-
-				while($result = $mySqliResult->fetch_assoc())
-					array_push($rows, $result);
-				return $rows;
-			}else
-				return VACIO;
-
-		}else
-			return false;
-			
-		return false;
-	}
-
-	/**
 	* @param Integer $idAjusteSalida
 	* Consulta los detalles de los Ajustes de Salida registrados
 	* @return array or false

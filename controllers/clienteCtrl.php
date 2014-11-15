@@ -39,30 +39,35 @@
 					if(BaseCtrl::isAdmin())
 						$this->delete();
 					else
-						return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
+						echo json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
 					break;
 				case 'update':
-					//Baja
+					//Actualizar
 					if(BaseCtrl::isAdmin())
 						$this->update();
 					else
-						return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
+						echo json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
+					break;
+				case 'updateFP':
+					//Actualizar
+						$this->updateFP();
 					break;
 				case 'active':
 					//Baja
 					if(BaseCtrl::isAdmin())
 						$this->active();
 					else
-						return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
+						echo json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
 					break;
 				case 'updateF':
 						$this->updateF();
 						break;
 				default:
-					return json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
+					echo json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
 					break;
 			}
 		}
+
 		/**
 		* Crea un Cliente
 		*/
@@ -124,13 +129,13 @@
 									$email,
 									$telefono,
 									$celular);*/
-					return json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
+					echo json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 				}else{
-					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
 				}	
 			}else{
 				//Se cambiará por la misma vista donde se encuentre el formulario de insercción, y se mostrarán los errores en un modal
-				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
@@ -144,12 +149,12 @@
 		private function delete(){
 			$idCliente	= $this->validateNumber(isset($_POST['idCliente'])?$_POST['idCliente']:NULL);
 			if(strlen($idCliente)==0)
-				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			else{
 				if($result = $this->model->delete($idCliente))
-					return json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
+					echo json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 				else
-					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
 			}
 		}
 
@@ -159,12 +164,12 @@
 		private function active(){
 			$idCliente	= $this->validateNumber(isset($_POST['idCliente'])?$_POST['idCliente']:NULL);
 			if(strlen($idCliente)==0)
-				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			else{
 				if($result = $this->model->active($idCliente))
-					return json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
+					echo json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 				else
-					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
 			}
 		}
 
@@ -216,7 +221,7 @@
 
 				//Si pudo ser creado
 				if ($result) {
-					return json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
+					echo json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 					/*$data = array(	$nombre, 
 									$apellidoPaterno, 
 									$apellidoMaterno,
@@ -230,11 +235,11 @@
 									$celular);*/
 					//Cargar la vista
 				}else{
-					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
 				}	
 			}else{
 				//Se cambiará por la misma vista donde se encuentre el formulario de insercción, y se mostrarán los errores en un modal
-				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
@@ -246,15 +251,17 @@
 			if($offset!==''){ 
 				if(($result = $this->model->lists($offset))){
 					if(is_numeric($result)){
-						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+						echo json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 					}else{
-						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+						header('Content-Type: application/json');
+						BaseCtrl::utf8_encode_deep($result);
+						echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
 					}
 				}else{
-					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
 				}
 			}else{
-				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
@@ -266,15 +273,17 @@
 			if($idCliente!==''){
 				if(($result = $this->model->lists(-1,$idCliente))){
 					if(is_numeric($result)){
-						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+						echo json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 					}else{
-						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+						header('Content-Type: application/json');
+						BaseCtrl::utf8_encode_deep($result);
+						echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
 					}
 				}else{
-					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
 				}
 			}else{
-				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
@@ -285,16 +294,19 @@
 			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
 			if($offset!==''){ 
 				if(($result = $this->model->listsDeleters($offset))){
+					//var_dump($result);
 					if(is_numeric($result)){
-						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+						echo json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 					}else{
-						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+						header('Content-Type: application/json');
+						BaseCtrl::utf8_encode_deep($result);
+						echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
 					}
 				}else{
-					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
 				}
 			}else{
-				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
@@ -306,15 +318,17 @@
 			if($idCliente!==''){
 				if(($result = $this->model->listsDeleters(-1,$idCliente))){
 					if(is_numeric($result)){
-						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+						echo json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 					}else{
-						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+						header('Content-Type: application/json');
+						BaseCtrl::utf8_encode_deep($result);
+						echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
 					}
 				}else{
-					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
 				}
 			}else{
-				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
@@ -338,6 +352,48 @@
 				$this->session['action']='update';
 				$template = $this->twig->loadTemplate('clienteForm.html');
 				echo $template->render(array('session'=>$this->session,'data'=>$data));
+			}else{
+				//TODO
+				//Enviar a listar clientes con vista de inválido
+				//echo 'Error';
+			}
+		}
+
+		/**
+		* Llama al formulario para la actualización de un cliente
+		*/
+		private function updateFP(){
+			//TODO
+			//Cargar en $data desde la base de datos
+			$data = $this->model->get(1);
+			if($data){
+				//Obtener la vista
+				$vista		= file_get_contents("views/clienteFormP.html");
+				$headerP	= file_get_contents("views/headerP.html");
+				$footerP		= file_get_contents("views/footerP.html");
+
+				$diccionario = array(
+					'{idCliente}' 		=> $data['IDCliente'],
+					'{nombre}' 			=> $data['Nombre'],
+					'{apellidoPaterno}' => $data['ApellidoPaterno'],
+					'{apellidoMaterno}' => $data['ApellidoMaterno'],
+					'{colonia}' 		=> $data['Colonia'],
+					'{calle}' 			=> $data['Calle'],
+					'{numExterior}'		=> $data['NumExterior'],
+					'{numInterior}'		=> $data['NumInterior'],
+					'{codigoPostal}'	=> $data['CP'],
+					'{email}'			=> $data['Email'],
+					'{telefono}'		=> $data['Telefono'],
+					'{celular}'			=> $data['Celular']
+					);
+
+				$vista = strtr($vista,$diccionario);
+
+				echo $headerP.$vista.$footerP;
+
+				/*$this->session['action']='update';
+				$template = $this->twig->loadTemplate('clienteForm.html');
+				echo $template->render(array('session'=>$this->session,'data'=>$data));*/
 			}else{
 				//TODO
 				//Enviar a listar clientes con vista de inválido

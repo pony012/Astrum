@@ -190,52 +190,6 @@ class RemisionMdl extends BaseMdl{
 	}
 
 	/**
-	* Consulta las remisiones registradas y que estan inactivas
-	*@param int $offset
-	*@param int $idRemision
-	* @return array or false
-	**/
-	function listsDeleters($offset = -1,$idRemision = -1){
-		$rows = array();
-		if($offset>-1){
-			$stmt = $this->driver->prepare('SELECT * FROM V_Remision_Deleter LIMIT ?,?');
-		}else{
-			if($idRemision>-1){
-				$stmt = $this->driver->prepare('SELECT * FROM V_Remision_Deleter WHERE IDRemision=?');
-			}else{
-				$stmt = $this->driver->prepare('SELECT * FROM V_Remision_Deleter');
-			}
-		}
-		if($stmt){
-			if($offset>-1){
-				$amountRows = 10;
-				$offset*=10;
-				if(!$stmt->bind_param('ii',$offset,$amountRows))
-					return false;
-			}else if($idRemision>-1){
-				if(!$stmt->bind_param('i',$idRemision))
-					return false;
-			}
-			if(!$stmt->execute())
-				return false;
-
-			$mySqliResult = $stmt->get_result();
-
-			if($mySqliResult->field_count > 0){
-
-				while($result = $mySqliResult->fetch_assoc())
-					array_push($rows, $result);
-				return $rows;
-			}else
-				return VACIO;
-
-		}else
-			return false;
-			
-		return false;
-	}
-
-	/**
 	* @param Integer $idRemision
 	* Consulta los detalles de las remisiones registradas
 	* @return array or false
