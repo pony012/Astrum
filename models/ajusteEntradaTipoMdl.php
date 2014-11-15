@@ -25,10 +25,10 @@ class AjusteEntradaTipoMdl extends BaseMdl{
 										AjusteEntradaTipo (Tipo,ExclusivoSistema,Descripcion)
 										VALUES(?,?,?)");
 		if(!$stmt->bind_param('sss',$this->tipo,$this->exclusivoSistema,$this->descripcion)){
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 		if (!$stmt->execute()) {
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 
 		if($this->driver->error){

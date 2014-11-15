@@ -21,9 +21,9 @@ class AlimentacionMdl extends BaseMdl{
 		
 		$stmt = $this->driver->prepare("INSERT INTO Alimentacion (IDHistorialMedico,Buena,Regular,Mala) VALUES (?,?,?,?)");
 		if(!$stmt->bind_param('isss',$lastId, $this->buena,$this->regularAl,$this->mala))
-			die('Error al insertar en la base de datos');
+			return false;
 		if (!$stmt->execute()) 
-			die('Error al insertar en la base de datos');
+			return false;
 		if($this->driver->error)
 			return false;
 

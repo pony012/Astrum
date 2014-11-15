@@ -39,9 +39,9 @@ class ExploracionInicialMdl extends BaseMdl{
 										AbdomenInicial,CaderaInicial,MusloInicial) VALUES (?,?,?,?,?,?,?,?,?)");
 		if(!$stmt->bind_param('idddddddd',$lastId, $this->pesoIni,$this->bustoIni,$this->diafragmaIni,$this->brazoIni,$this->cinturaIni,$this->abdomenIni,
 			$this->caderaIni,$this->musloIni))
-			die('Error al insertar en la base de datos');
+			return false;
 		if (!$stmt->execute()) 
-			die('Error al insertar en la base de datos');
+			return false;
 		if($this->driver->error)
 			return false;
 		

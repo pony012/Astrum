@@ -21,9 +21,9 @@ class AguaAlDiaMdl extends BaseMdl{
 		
 		$stmt = $this->driver->prepare("INSERT INTO AguaAlDia (IDHistorialMedico,Poca,Regular,Mucha) VALUES (?,?,?,?)");
 		if(!$stmt->bind_param('isss',$lastId, $this->poca,$this->regularAg,$this->mucha))
-			die('Error al insertar en la base de datos');
+			return false;
 		if (!$stmt->execute()) 
-			die('Error al insertar en la base de datos');
+			return false;
 		if($this->driver->error)
 			return false;
 

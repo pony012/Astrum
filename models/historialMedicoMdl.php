@@ -57,10 +57,9 @@ class HistorialMedicoMdl extends BaseMdl{
 		$lastId = $this->driver->insert_id;
 
 		if(!$this->exploracionInicialMdl->create($lastId, $pesoIni, $bustoIni, $diafragmaIni, $brazoIni, $cinturaIni, $abdomenIni, $caderaIni, $musloIni))
-			$this->driver->rollback();	
-		//verificar en que momento hay que llamar a esta funcion	
-		/*if(!$this->exploracionFinalMdl->create($lastId, $pesoFin, $bustoFin, $diafragmaFin, $brazoFin, $cinturaFin, $abdomenFin, $caderaFin, $musloFin))
-			$this->driver->rollback();*/
+			$this->driver->rollback();		
+		if(!$this->exploracionFinalMdl->create($lastId, $pesoFin, $bustoFin, $diafragmaFin, $brazoFin, $cinturaFin, $abdomenFin, $caderaFin, $musloFin))
+			$this->driver->rollback();
 		if(!$this->fichaClinicaMdl->create($lastId, $motivoConsulta, $tiempoProblema, $relacionaCon, $tratamientoAnterior, $metProbados, $resAnteriores))
 			$this->driver->rollback();
 		if(!$this->aguaAlDiaMdl->create($lastId, $poca,$regularAg,$mucha))

@@ -105,7 +105,7 @@
 
 				//Si pudo ser creado
 				if ($result) {
-					$data = array($idProductoTipo, $producto, $precioUnitario, $foto, $descripcion);
+					//$data = array($idProductoTipo, $producto, $precioUnitario, $foto, $descripcion);
 					//Cargar la vista
 					echo json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 				}else{
@@ -179,7 +179,7 @@
 
 				//Si pudo ser creado
 				if ($result) {
-					$data = array($idProductoTipo, $producto, $precioUnitario, $foto, $descripcion);
+					//$data = array($idProductoTipo, $producto, $precioUnitario, $foto, $descripcion);
 					//Cargar la vista
 					echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 				}else{

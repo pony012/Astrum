@@ -210,32 +210,6 @@ class ClienteMdl extends BaseMdl{
 		return false;
 	}
 
-
-	/**
-	* Consulta al Cliente con el Id dado
-	* @return Object or false
-	**/
-	function get($idCliente){
-		if($stmt = $this->driver->prepare('SELECT * FROM V_Cliente WHERE IDCliente = ?')){
-			
-			if(!$stmt->bind_param('i',$idCliente))
-				die('Error Al Consultar');
-
-			if(!$stmt->execute())
-				die('Error Al Consultar');
-
-			$mySqliResult = $stmt->get_result();
-
-			if($mySqliResult->field_count > 0){
-				return $mySqliResult->fetch_assoc();
-			}else
-				return false;
-
-		}else
-			die('Error Al Consultar');
-			
-		return false;
-	}
 	
 	/**
 	*Da de baja a un determinado cliente

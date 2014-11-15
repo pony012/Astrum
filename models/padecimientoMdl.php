@@ -49,10 +49,10 @@ class PadecimientoMdl extends BaseMdl{
 										VALUES(?,?,?,?,?,?,?,?,?,?,?,?)");
 		if(!$stmt->bind_param('issssssssssi',$lastId, $this->diabetes,$this->obesisdad,$this->depresion,$this->estres,$this->sobrepeso,$this->estrenimiento,
 											$this->colitis,$this->retencionLiquidos,$this->transtornoMes,$this->cuidadoCorporal,$this->embarazo)){
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 		if (!$stmt->execute()) {
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 
 		if($this->driver->error){

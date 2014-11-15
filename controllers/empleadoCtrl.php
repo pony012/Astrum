@@ -269,7 +269,7 @@
 
 				//Si pudo ser actualizado
 				if ($result) {
-					$data = array(	$nombre, 
+					/*$data = array(	$nombre, 
 									$apellidoPaterno, 
 									$apellidoMaterno,
 									$usuario,
@@ -283,9 +283,9 @@
 									$email,
 									$foto,
 									$telefono,
-									$celular);
+									$celular);*/
 					//Cargar la vista
-					echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					echo json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 				}else{
 					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 				}	

@@ -31,10 +31,10 @@ class TipoCelulitisMdl extends BaseMdl{
 		$stmt = $this->driver->prepare("INSERT INTO TipoCelulitis (IDHistorialMedico,Fibrosa, Edematosa, Flacida, Dura, Mixta, Dolorosa) 
 										VALUES(?,?,?,?,?,?,?)");
 		if(!$stmt->bind_param('issssss',	$lastId, $this->fibrosa, $this->edematosa, $this->flacida, $this->dura, $this->mixta, $this->dolorosa)){
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 		if (!$stmt->execute()) {
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 		
 		if($this->driver->error){

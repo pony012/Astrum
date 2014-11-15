@@ -36,13 +36,13 @@ class ExploracionFinalMdl extends BaseMdl{
 		$this->caderaFin = $this->driver->real_escape_string($caderaFin);
 		$this->musloFin = $this->driver->real_escape_string($musloFin);
 
-		$stmt = $this->driver->prepare("INSERT INTO ExploracionFinal (IDHistorialMedico,PesoInicial,BustoInicial,DiafragmaInicial,BrazoInicial,CinturaInicial,
-										AbdomenInicial,CaderaInicial,MusloInicial) VALUES (?,?,?,?,?,?,?,?,?)");
+		$stmt = $this->driver->prepare("INSERT INTO ExploracionFinal (IDHistorialMedico,PesoFinal,BustoFinal,DiafragmaFinal,BrazoFinal,CinturaFinal,
+										AbdomenFinal,CaderaFinal,MusloFinal) VALUES (?,?,?,?,?,?,?,?,?)");
 		if(!$stmt->bind_param('idddddddd',$lastId, $this->pesoFin,$this->bustoFin,$this->diafragmaFin,$this->brazoFin,$this->cinturaFin,$this->abdomenFin,
 			$this->caderaFin,$this->musloFin))
-			die('Error al insertar en la base de datos');
+			return false;
 		if (!$stmt->execute()) 
-			die('Error al insertar en la base de datos');
+			return false;
 		if($this->driver->error)
 			return false;
 		

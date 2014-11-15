@@ -56,10 +56,10 @@ class ExfoliacionMdl extends BaseMdl{
 		if(!$stmt->bind_param('isssssssssssss',	$lastId, $this->peellingQuim, $this->laser, $this->dermobrasion, $this->retinA, $this->renova, 
 												$this->racutan, $this->adapaleno, $this->acidoGlicolico, $this->alfaHidroiacidos, 
 												$this->exfolianteGranuloso, $this->acidoLactico, $this->vitaminaA, $this->blanqueadorAclarador)){
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 		if (!$stmt->execute()) {
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 
 		if($this->driver->error){

@@ -34,10 +34,10 @@ class FichaClinicaMdl extends BaseMdl{
 										VALUES(?,?,?,?,?,?,?)");
 		if(!$stmt->bind_param('issssss',	$lastId, $this->motivoConsulta, $this->tiempoProblema, $this->relacionaCon, $this->tratamientoAnterior, 
 										$this->metProbados, $this->resAnteriores)){
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 		if (!$stmt->execute()) {
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 
 		if($this->driver->error){

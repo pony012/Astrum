@@ -106,7 +106,7 @@
 
 				//Si pudo ser creado
 				if ($result) {
-					$data = array($idServicioTipo, $servicio, $precioUnitario, $foto, $descripcion);
+					//$data = array($idServicioTipo, $servicio, $precioUnitario, $foto, $descripcion);
 					//Cargar la vista
 					echo json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 				}else{
@@ -180,9 +180,9 @@
 
 				//Si pudo ser creado
 				if ($result) {
-					$data = array($idServicioTipo, $servicio, $precioUnitario, $foto, $descripcion);
+					//$data = array($idServicioTipo, $servicio, $precioUnitario, $foto, $descripcion);
 					//Cargar el modal
-					echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					echo json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 				}else{
 					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 				}

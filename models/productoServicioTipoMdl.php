@@ -20,10 +20,10 @@ class ProdutoServicioTipoMdl extends BaseMdl{
 		$stmt = $this->driver->prepare("INSERT INTO ProductoServicioTipo (ProductoServicioTipo, Descripcion) 
 										VALUES(?,?,?,?,?)");
 		if(!$stmt->bind_param('ss',$this->productoServicioTipo,$this->descripcion)){
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 		if (!$stmt->execute()) {
-			die('Error al insertar en la base de datos');
+			return false;
 		}
 
 		if($this->driver->error){
