@@ -1,6 +1,6 @@
 CREATE VIEW V_Empleado_Deleter AS
 SELECT IDEmpleado, Nombre, ApellidoPaterno, ApellidoMaterno, 
-Usuario, Contrasena, c.Cargo as Cargo, Calle, NumExterior, 
+Usuario, Contrasena, e.IDCargo, c.Cargo as Cargo, Calle, NumExterior, 
 NumInterior, Colonia, CodigoPostal as CP, Foto, Email, Telefono, Celular 
 From Empleado e 
 inner join Cargo c 
@@ -8,7 +8,7 @@ on c.IDCargo=e.IDCargo and e.Activo='N';
 
 CREATE VIEW V_Empleado AS
 SELECT IDEmpleado, Nombre, ApellidoPaterno, ApellidoMaterno, 
-Usuario, Contrasena, c.Cargo as Cargo, Calle, NumExterior, 
+Usuario, Contrasena, e.IDCargo, c.Cargo as Cargo, Calle, NumExterior, 
 NumInterior, Colonia, CodigoPostal as CP, Foto, Email, Telefono, Celular 
 From Empleado e 
 inner join Cargo c 
@@ -109,7 +109,7 @@ on ps.IDProductoServicio=ex.IDProductoServicio;
 
 CREATE VIEW V_HistorialMedico AS
 SELECT IDHistorialMedico, hm.IDCliente, (c.Nombre + c.ApellidoPaterno + c.ApellidoMaterno) as Cliente,
-FechaRegistro, hm.IDServicio, ps.Producto, hm.Observaciones
+FechaRegistro, hm.IDServicio, ps.Producto as Servicio, hm.Observaciones
 FROM HistorialMedico hm
 inner join Cliente c
 on c.IDCliente=hm.IDCliente and c.Activo='S'
@@ -134,7 +134,7 @@ WHERE ps.IDProductoServicioTipo=1 and ps.Activo='N';
 
 CREATE VIEW V_Servicio AS
 SELECT IDProductoServicio, ps.IDProductoServicioTipo, pst.ProductoServicioTipo,
-Producto, PrecioUnitario, Foto, ps.Descripcion
+Producto as Servicio, PrecioUnitario, Foto, ps.Descripcion
 FROM ProductoServicio ps
 INNER JOIN ProductoServicioTipo pst
 on pst.IDProductoServicioTipo=ps.IDProductoServicioTipo
@@ -142,7 +142,7 @@ WHERE ps.IDProductoServicioTipo=2 and ps.Activo='S';
 
 CREATE VIEW V_Servicio_Deleter AS
 SELECT IDProductoServicio, ps.IDProductoServicioTipo, pst.ProductoServicioTipo,
-Producto, PrecioUnitario, Foto, ps.Descripcion
+Producto as Servicio, PrecioUnitario, Foto, ps.Descripcion
 FROM ProductoServicio ps
 INNER JOIN ProductoServicioTipo pst
 on pst.IDProductoServicioTipo=ps.IDProductoServicioTipo
