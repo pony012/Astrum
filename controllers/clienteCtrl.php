@@ -274,15 +274,15 @@
 			if($offset!==''){ 
 				if(($result = $this->model->lists($offset,-1,$constrain))){
 					if(is_numeric($result)){
-						die(json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno')));
+						echo json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 					}else{
-						die(json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto')));
+						echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 					}
 				}else{
-					die(json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta')));
+					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
 				}
 			}else{
-				die(json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto')));
+				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
