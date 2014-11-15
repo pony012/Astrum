@@ -74,7 +74,6 @@
 			$resAnteriores		  = $this->validateText(isset($_POST['resAnteriores'])?$_POST['resAnteriores']:NULL);
 			
 			$idCliente			  = $this->validateNumber(isset($_POST['idCliente'])?$_POST['idCliente']:NULL);
-			$fechaRegistro		  = $this->validateDate(isset($_POST['fechaRegistro'])?$_POST['fechaRegistro']:NULL);
 			$idServicio			  = $this->validateNumber(isset($_POST['idServicio'])?$_POST['idServicio']:NULL);
 			$observaciones		  = $this->validateText(isset($_POST['observaciones'])?$_POST['observaciones']:NULL);
 			
@@ -101,8 +100,6 @@
 				
 			if(strlen($idCliente)==0)
 				$errors['idCliente'] = 1;
-			if(strlen($fechaRegistro)==0)
-				$errors['fechaRegistro'] = 1;
 			if(strlen($idServicio)==0)
 				$errors['idServicio'] = 1;
 			
@@ -405,7 +402,7 @@
 						default:
 					};
 
-				$result 			= $this->model->create($idCliente, $fechaRegistro, $idServicio, $observaciones, 
+				$result 			= $this->model->create($idCliente, $idServicio, $observaciones, 
 															$pesoIni, $bustoIni, $diafragmaIni, $brazoIni, $cinturaIni, $abdomenIni, $caderaIni, $musloIni,
 															$pesoFin, $bustoFin, $diafragmaFin, $brazoFin, $cinturaFin, $abdomenFin, $caderaFin, $musloFin,
 															$motivoConsulta, $tiempoProblema, $relacionaCon, $tratamientoAnterior, $metProbados, $resAnteriores,
@@ -424,7 +421,7 @@
 				
 				//Si pudo ser creado
 				if ($result ){
-					/*$data = array($idCliente, $fechaRegistro, $idServicio, $observaciones, 
+					/*$data = array($idCliente, $idServicio, $observaciones, 
 												$pesoIni, $bustoIni, $diafragmaIni, $brazoIni, $cinturaIni, $abdomenIni, $caderaIni, $musloIni,
 												$pesoFin, $bustoFin, $diafragmaFin, $brazoFin, $cinturaFin, $abdomenFin, $caderaFin, $musloFin,
 												$motivoConsulta, $tiempoProblema, $relacionaCon, $tratamientoAnterior, $metProbados, $resAnteriores,

@@ -5,19 +5,17 @@ require_once 'models/baseMdl.php';
 	*/
 class HistorialMedicoMdl extends BaseMdl{
 	private $idCliente;
-	private $fechaRegistro;
 	private $idServicio;
 	private $observaciones;
 	
 	/**
 	 *@param integer $idCliente
-	 *@param date $fechaRegistro
 	 *@param integer $idServicio
 	 *@param string $observaciones
 	 *Crea un nuevo historial medico de un cliente
 	 *@return true
 	 */
-	function create($idCliente, $fechaRegistro, $idServicio, $observaciones, 
+	function create($idCliente, $idServicio, $observaciones, 
 					$pesoIni, $bustoIni, $diafragmaIni, $brazoIni, $cinturaIni, $abdomenIni, $caderaIni, $musloIni,
 					$pesoFin, $bustoFin, $diafragmaFin, $brazoFin, $cinturaFin, $abdomenFin, $caderaFin, $musloFin,
 					$motivoConsulta, $tiempoProblema, $relacionaCon, $tratamientoAnterior, $metProbados, $resAnteriores,
@@ -31,16 +29,15 @@ class HistorialMedicoMdl extends BaseMdl{
 					$cicatrices,$poroAbierto,$ojeras,$lunares,$pecas,$puntosNegros,$verrugas,$arrugas,
 					$brilloFacial,$pielAsfixiada,$despigmentacion, $fibrosa, $edematosa, $flacida, $dura, $mixta, $dolorosa){
 		$this->idCliente 		= $idCliente;
-		$this->fechaRegistro	= $fechaRegistro;
 		$this->idServicio		= $idServicio;
 		$this->observaciones	= $this->driver->real_escape_string($observaciones);
 
 		$this->driver->autocommit(false);
 		$this->driver->begin_transaction();
 		
-		$stmt = $this->driver->prepare("INSERT INTO HistorialMedico (IDCliente, FechaRegistro, IDServicio, Observaciones) 
+		$stmt = $this->driver->prepare("INSERT INTO HistorialMedico (IDCliente, IDServicio, Observaciones) 
 										VALUES(?,?,?,?)");
-		if(!$stmt->bind_param('isis',$this->idCliente,$this->fechaRegistro,$this->idServicio,$this->observaciones)){
+		if(!$stmt->bind_param('isis',$this->idCliente,$this->idServicio,$this->observaciones)){
 			$this->driver->rollback();
 			return false;
 		}

@@ -39,9 +39,9 @@ class RemisionMdl extends BaseMdl{
 		$this->query->begin_transaction();
 
 		$stmt = $this->driver->prepare("INSERT INTO 
-										MovimientoAlmacen (IDMovimientoAlmacenTipo, MovimientoAlmacenFecha, IDEmpleado)
-										VALUES(3,?,?)");
-		if(!$stmt->bind_param('si', date('Y-m-d'),$_SESSION['IDEmpleado'])){
+										MovimientoAlmacen (IDMovimientoAlmacenTipo, IDEmpleado)
+										VALUES(3,?)");
+		if(!$stmt->bind_param('i',$_SESSION['IDEmpleado'])){
 			$this->query->rollback();
 			return false;
 		}

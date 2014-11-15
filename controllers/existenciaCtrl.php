@@ -35,13 +35,10 @@
 			
 			$errors = array();
 
-			$fechaReferencia	= $this->validateText(isset($_POST['fechaReferencia'])?$_POST['fechaReferencia']:NULL);
 			$idProductoServicio = $this->validateNumber(isset($_POST['idProductoServicio'])?$_POST['idProductoServicio']:NULL);
 			$precioUnitario 	= $this->validateNumber(isset($_POST['precioUnitario'])?$_POST['precioUnitario']:NULL);
 			$cantidad 			= $this->validateNumber(isset($_POST['cantidad'])?$_POST['cantidad']:NULL);
 
-			if(strlen($fechaReferencia)==0)
-				$errors['fechaReferencia'] = 1;
 			if(strlen($idProductoServicio)==0)
 				$errors['idProductoServicio'] = 1;
 			if(strlen($precioUnitario)==0)
@@ -51,11 +48,11 @@
 			
 			if (count($errors) == 0){
 
-				$result = $this->model->create($fechaReferencia, $idProductoServicio,$precioUnitario,$precioUnitario,$cantidad);
+				$result = $this->model->create($idProductoServicio,$precioUnitario,$precioUnitario,$cantidad);
 
 				//Si pudo ser creado
 				if ($result) {
-					//$data = array($fechaReferencia, $idProductoServicio,$precioUnitario,$precioUnitario,$cantidad);
+					//$data = array($idProductoServicio,$precioUnitario,$precioUnitario,$cantidad);
 					//Cargar la vista
 					echo json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 				}else{
