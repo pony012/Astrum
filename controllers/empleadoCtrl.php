@@ -49,11 +49,11 @@
 						$this->getEmpleadoDeleter();
 						break;
 					default:
-						return json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
+						echo json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
 						break;
 				}
 			else
-				return json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
+				echo json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
 		}
 		/**
 		* Crea un Empleado
@@ -141,7 +141,7 @@
 										$telefono,
 										$celular);*/
 						//Cargar la vista
-						return json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
+						echo json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 						}
 					}else{/*
 						$data = array(	$nombre, 
@@ -160,14 +160,14 @@
 										$telefono,
 										$celular);*/
 						//Cargar la vista
-						return json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
+						echo json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 					}
 				}else{
-					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
+					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 				}	
 			}else{
 				//Se cambiará por la misma vista donde se encuentre el formulario de insercción, y se mostrarán los errores en un modal
-				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
@@ -181,12 +181,12 @@
 		private function delete(){
 			$idEmpleado	= $this->validateNumber(isset($_POST['idEmpleado'])?$_POST['idEmpleado']:NULL);
 			if(strlen($idEmpleado)==0)
-				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			else{
 				if($result = $this->model->delete($idEmpleado))
-					return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 				else
-					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
+					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 			}
 		}
 
@@ -196,12 +196,12 @@
 		private function active(){
 			$idEmpleado	= $this->validateNumber(isset($_POST['idEmpleado'])?$_POST['idEmpleado']:NULL);
 			if(strlen($idEmpleado)==0)
-				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			else{
 				if($result = $this->model->active($idEmpleado))
-					return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 				else
-					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
+					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 			}
 		}
 
@@ -286,13 +286,13 @@
 									$telefono,
 									$celular);
 					//Cargar la vista
-					return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 				}else{
-					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
+					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 				}	
 			}else{
 				//Se cambiará por la misma vista donde se encuentre el formulario de insercción, y se mostrarán los errores en un modal
-				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
@@ -304,15 +304,18 @@
 			if($offset!==''){ 
 				if(($result = $this->model->lists($offset))){
 					if(is_numeric($result)){
-						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+						echo json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 					}else{
-						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+						//print_r($result);
+						header('Content-Type: application/json');
+						BaseCtrl::utf8_encode_deep($result);
+						echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
 					}
 				}else{
-					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
 				}
 			}else{
-				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
@@ -324,15 +327,15 @@
 			if($idEmpleado!==''){
 				if(($result = $this->model->lists(-1,$idEmpleado))){
 					if(is_numeric($result)){
-						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+						echo json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 					}else{
-						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+						echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 					}
 				}else{
-					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
 				}
 			}else{
-				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
@@ -344,15 +347,15 @@
 			if($offset!==''){ 
 				if(($result = $this->model->listsDeleters($offset))){
 					if(is_numeric($result)){
-						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+						echo json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 					}else{
-						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+						echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 					}
 				}else{
-					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
 				}
 			}else{
-				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 
@@ -364,15 +367,15 @@
 			if($idEmpleado!==''){
 				if(($result = $this->model->listsDeleters(-1,$idEmpleado))){
 					if(is_numeric($result)){
-						return json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+						echo json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 					}else{
-						return json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+						echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 					}
 				}else{
-					return json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
 				}
 			}else{
-				return json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			}
 		}
 

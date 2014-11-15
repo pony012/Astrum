@@ -275,6 +275,7 @@
 		}
 
 		public static function loadIndex(){
+			require_once 'config.cf';
 			//require_once 'views/header.php';
 			$session = array(
 				'isLoged'=>BaseCtrl::isLoged(),
@@ -300,6 +301,7 @@
 		}
 
 		public static function loadLogin(){
+			require_once 'config.cf';
 			if(BaseCtrl::isLoged())
 				die('<meta http-equiv="refresh" content="0; url=./">');
 			$session = array(
@@ -325,6 +327,24 @@
 			echo $template->render(array('session'=>$session));
 		}
 
+		public static function utf8_encode_deep(&$input) {
+		    if (is_string($input)) {
+		        $input = utf8_encode($input);
+		    } else if (is_array($input)) {
+		        foreach ($input as &$value) {
+		            BaseCtrl::utf8_encode_deep($value);
+		        }
+
+		        unset($value);
+		    } else if (is_object($input)) {
+		        $vars = array_keys(get_object_vars($input));
+
+		        foreach ($vars as $var) {
+		            BaseCtrl::utf8_encode_deep($input->$var);
+		        }
+		    }
+		}
+
 		/**
 		* Construye un controlador Base
 		* Manda a llamar el header y
@@ -341,7 +361,7 @@
 				'isTerapeuta' => BaseCtrl::isTerapeuta(),
 				'isEmpleado' => BaseCtrl::isEmpleado(),
 				'cargo'=>BaseCtrl::isAdmin()?'Admin':(BaseCtrl::isTerapeuta()?'Terapeuta':'Empleado'),
-				'controller'=>'index',
+				'controller'=>isset($_GET['ctrl'])?$_GET['ctrl']:'index',
 				'action'=>'',
 				'document_root' => __DOCUMENT_ROOT__
 			);
@@ -353,6 +373,11 @@
 			$this->twig = new Twig_Environment($this->loader, array(
 			    //'cache' => '/cache',
 			));
+		}
+
+		public static function noPermisos(){
+			$template = $this->twig->loadTemplate('noPermisos.html');
+			$template->render(array('session'=>$this->session));
 		}
 	}
 ?>
