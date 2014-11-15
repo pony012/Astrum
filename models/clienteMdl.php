@@ -124,17 +124,18 @@ class ClienteMdl extends BaseMdl{
 	*@param int $idCliente
 	* @return array or false
 	**/
-	function lists($offset = -1,$idCliente = -1){
+	function lists($offset = -1,$idCliente = -1, $constrain = '1 = 1'){
 		$rows = array();
 		if($offset>-1){
-			$stmt = $this->driver->prepare('SELECT * FROM V_Cliente LIMIT ?,?');
+			$stmt = $this->driver->prepare('SELECT * FROM V_Cliente WHERE '.$constrain.' LIMIT ?,?');
 		}else{
 			if($idCliente>-1){
 				$stmt = $this->driver->prepare('SELECT * FROM V_Cliente WHERE IDCliente=?');
 			}else{
-				$stmt = $this->driver->prepare('SELECT * FROM V_Cliente');
+				$stmt = $this->driver->prepare('SELECT * FROM V_Cliente WHERE '.$constrain);
 			}
 		}
+
 		if($stmt){
 			if($offset>-1){
 				$amountRows = 10;

@@ -247,21 +247,42 @@
 		*Listamos todos los Clientes
 		**/
 		private function lists(){
+			$constrain = '';
 			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
-			if($offset!==''){ 
-				if(($result = $this->model->lists($offset))){
-					if(is_numeric($result)){
-						echo json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+			$constrains = isset($_POST['constrains'])?$_POST['constrains']:'1 = 1';
+			
+			if($constrains === '1 = 1'){
+				$constrain = $constrains;
+			}else{
+				$tam = count($constrains);
+				foreach ($constrains as $campo => $valor) {
+					if(--$tam){
+						if(is_numeric($valor)){
+							$constrain.=$campo.' = '.$valor.' AND ';
+						}else{
+							$constrain.=$campo.' LIKE "%'.$valor.'%" AND ';
+						}
 					}else{
-						header('Content-Type: application/json');
-						BaseCtrl::utf8_encode_deep($result);
-						echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
+						if(is_numeric($valor)){
+							$constrain.=$campo.' = '.$valor;
+						}else{
+							$constrain.=$campo.' LIKE "%'.$valor.'%"';
+						}
+					}
+				}
+			}
+			if($offset!==''){ 
+				if(($result = $this->model->lists($offset,-1,$constrain))){
+					if(is_numeric($result)){
+						die(json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno')));
+					}else{
+						die(json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto')));
 					}
 				}else{
-					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					die(json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta')));
 				}
 			}else{
-				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				die(json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto')));
 			}
 		}
 
