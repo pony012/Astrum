@@ -27,4 +27,34 @@ $(function(){
             });
         }
     });
+
+    $("#formulario").submit(function(e){
+        e.preventDefault();
+        var el = $(this);
+        $("#modalCargar").modal("toggle");
+        $.ajax({
+            type: 'POST',
+            data: el.serialize() ,
+            url: el.attr("action"),
+            dataType: 'json'
+        }).done(function(response){
+            if(response.error == 0){
+                document.location = $("#formulario").data("tolocation");
+            }
+        });
+    });
+
+    $("#fileUpload").fileupload({
+        url: $(this).data("url"),
+        dataType: 'json',
+        done: function(e, data){
+            if(data.result.length>0){
+                $("#foto").val(data.result[0]);
+            }
+        },
+        progressall: function(e, data){
+            var progress = parseInt(data.loaded / data.total *100, 10);
+            console.log(progress);
+        },
+    });
 });

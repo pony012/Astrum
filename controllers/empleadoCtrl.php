@@ -73,40 +73,8 @@
 				$colonia			= $this->validateText(isset($_POST['colonia'])?$_POST['colonia']:NULL);
 				$codigoPostal		= $this->validateNumber(isset($_POST['codigoPostal'])?$_POST['codigoPostal']:NULL);
 				
-				$uploadOk = 0;
-				if(isset($_FILES["foto"])){
-					$uploadOk = 1;
-					$target_dir = getcwd()."/uploads/";
-					//print_r($_FILES);
-					$target_file = $target_dir.basename($_FILES["foto"]["name"]);
-					$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-					$check = getimagesize($_FILES["foto"]["tmp_name"]);
-	    			if($check !== false) {
-						if (file_exists($target_file)) {
-						    //echo "Sorry, file already exists.";
-						    $uploadOk = 0;
-						}else{
-							if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-								&& $imageFileType != "gif" ) {
-							    //echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-							    $uploadOk = 0;
-							}else{
-								if (is_uploaded_file($_FILES["foto"]["tmp_name"])) {
-									if (move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file)) {
-								        $foto = $_FILES["foto"]["name"];
-								        //echo($foto);
-								    } else {
-								       //echo "Sorry, there was an error uploading your file.";
-								    }
-								}
-							}
-						}
-					}
-				}
-				if(!$uploadOk)
-					$foto = '';
+				$foto				= $this->validateText(isset($_POST['foto'])?$_POST['foto']:NULL);
 				
-				//$foto				= $this->validateText(isset($_POST['foto'])?$_POST['foto']:NULL);
 				$email				= $this->validateEmail(isset($_POST['email'])?$_POST['email']:NULL);
 				$telefono			= $this->validatePhone(isset($_POST['telefono'])?$_POST['telefono']:NULL);
 				$celular			= $this->validatePhone(isset($_POST['celular'])?$_POST['celular']:NULL);
@@ -263,38 +231,7 @@
 				$colonia			= $this->validateText(isset($_POST['colonia'])?$_POST['colonia']:NULL);
 				$codigoPostal		= $this->validateNumber(isset($_POST['codigoPostal'])?$_POST['codigoPostal']:NULL);
 				
-				$uploadOk = 0;
-				if(isset($_FILES["foto"])){
-					$uploadOk = 1;
-					$target_dir = getcwd()."/uploads/";
-					//print_r($_FILES);
-					$target_file = $target_dir.basename($_FILES["foto"]["name"]);
-					$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
-					$check = getimagesize($_FILES["foto"]["tmp_name"]);
-	    			if($check !== false) {
-						if (file_exists($target_file)) {
-						    //echo "Sorry, file already exists.";
-						    $uploadOk = 0;
-						}else{
-							if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
-								&& $imageFileType != "gif" ) {
-							    //echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
-							    $uploadOk = 0;
-							}else{
-								if (is_uploaded_file($_FILES["foto"]["tmp_name"])) {
-									if (move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file)) {
-								        $foto = $_FILES["foto"]["name"];
-								        //echo($foto);
-								    } else {
-								       //echo "Sorry, there was an error uploading your file.";
-								    }
-								}
-							}
-						}
-					}
-				}
-				if(!$uploadOk)
-					$foto = '';
+				$foto 				= $this->validateText(isset($_POST['foto'])?$_POST['foto']:NULL);
 				
 				$email				= $this->validateEmail(isset($_POST['email'])?$_POST['email']:NULL);
 				$telefono			= $this->validatePhone(isset($_POST['telefono'])?$_POST['telefono']:NULL);
@@ -325,7 +262,6 @@
 				if(strlen($email)==0)
 					$errors['email'] = 1;
 
-				
 				if (count($errors) == 0) {
 					$result = $this->model->update($idEmpleado,$nombre, 
 												$apellidoPaterno, 
@@ -338,8 +274,8 @@
 												$numInterior,
 												$colonia,
 												$codigoPostal,
-												$email,
 												$foto,
+												$email,
 												$telefono,
 												$celular);
 
@@ -361,7 +297,7 @@
 										$telefono,
 										$celular);*/
 						//Cargar la vista
-						echo $this->json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
+						echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 					}else{
 						echo $this->json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 					}	
@@ -389,6 +325,7 @@
 		private function lists(){
 			$constrain = '';
 			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
+			$idEmpleado = $this->validateNumber(isset($_GET['idEmpleado'])?$_GET['idEmpleado']:NULL);
 			$constrains = isset($_POST['constrains'])?$_POST['constrains']:'1 = 1';
 			
 			if($constrains === '1 = 1'){
@@ -411,8 +348,32 @@
 					}
 				}
 			}
-			if($offset!==''){ 
-				if(($result = $this->model->lists($offset,-1,$constrain))){
+			if($offset!==''){
+				if ($idEmpleado!=='') {
+					if(($result = $this->model->lists($offset,$idEmpleado,$constrain))){
+						if(is_numeric($result)){
+							if ($this->api) {
+								echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+							}else{
+								//CARGAR VISTA VACIO
+							}
+						}else{
+							if($this->api){
+								echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
+							}else{
+								$this->session['action']='list';
+								$template = $this->twig->loadTemplate('empleadoForm.html');
+								echo $template->render(array('session'=>$this->session,'data'=>$result[0]));
+							}
+						}
+					}else{
+						if($this->api){
+							echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+						}else{
+							//CARGAR VISTA FORMATO INCORRECTO
+						}
+					}
+				}else if(($result = $this->model->lists($offset,-1,$constrain))){
 					if(is_numeric($result)){
 						if ($this->api) {
 							echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
