@@ -108,6 +108,8 @@ class ConsultaStatusMdl extends BaseMdl{
 
 				while($result = $mySqliResult->fetch_assoc())
 					array_push($rows, $result);
+				if(empty($rows))
+					return VACIO;
 				return $rows;
 			}else
 				return VACIO;
