@@ -379,9 +379,9 @@
 			$this->twig = new Twig_Environment($this->loader, array(
 			    //'cache' => '/cache',
 			));
-			$api = isset($_GET['api'])?$_GET['api']:0;
+			$this->api = isset($_GET['api'])?$_GET['api']:0;
 
-			if($api){
+			if($this->api){
 				header('Content-Type: application/json');
 			}
 		}
