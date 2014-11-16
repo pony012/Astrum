@@ -119,15 +119,15 @@ class ProveedorMdl extends BaseMdl{
 	*@param int $idProveedor
 	* @return array or false
 	**/
-	function lists($offset = -1,$idProveedor = -1){
+	function lists($offset = -1,$idProveedor = -1, $constrain = '1 = 1'){
 		$rows = array();
 		if($offset>-1){
-			$stmt = $this->driver->prepare('SELECT * FROM V_Proveedor LIMIT ?,?');
+			$stmt = $this->driver->prepare('SELECT * FROM V_Proveedor WHERE '.$constrain.' LIMIT ?,?');
 		}else{
 			if($idProveedor>-1){
 				$stmt = $this->driver->prepare('SELECT * FROM V_Proveedor WHERE IDProveedor=?');
 			}else{
-				$stmt = $this->driver->prepare('SELECT * FROM V_Proveedor');
+				$stmt = $this->driver->prepare('SELECT * FROM V_Proveedor WHERE '.$constrain);
 			}
 		}
 		if($stmt){

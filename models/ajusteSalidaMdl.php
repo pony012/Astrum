@@ -121,15 +121,15 @@ class AjusteSalidaMdl extends BaseMdl{
 	*@param int $idAjusteSalida
 	* @return array or false
 	**/
-	function lists($offset = -1,$idAjusteSalida = -1){
+	function lists($offset = -1,$idAjusteSalida = -1, $constrain = '1 = 1'){
 		$rows = array();
 		if($offset>-1){
-			$stmt = $this->driver->prepare('SELECT * FROM V_AjusteSalida LIMIT ?,?');
+			$stmt = $this->driver->prepare('SELECT * FROM V_AjusteSalida WHERE '.$constrain.' LIMIT ?,?');
 		}else{
 			if($idAjusteSalida>-1){
 				$stmt = $this->driver->prepare('SELECT * FROM V_AjusteSalida WHERE IDAjusteSalida=?');
 			}else{
-				$stmt = $this->driver->prepare('SELECT * FROM V_AjusteSalida');
+				$stmt = $this->driver->prepare('SELECT * FROM V_AjusteSalida WHERE '.$constrain);
 			}
 		}
 		if($stmt){

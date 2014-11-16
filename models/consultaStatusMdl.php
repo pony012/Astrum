@@ -78,15 +78,15 @@ class ConsultaStatusMdl extends BaseMdl{
 	*@param int $idConsultaStatus
 	* @return array or false
 	**/
-	function lists($offset = -1,$idConsultaStatus = -1){
+	function lists($offset = -1,$idConsultaStatus = -1, $constrain = '1 = 1'){
 		$rows = array();
 		if($offset>-1){
-			$stmt = $this->driver->prepare('SELECT * FROM ConsultaStatus LIMIT ?,?');
+			$stmt = $this->driver->prepare('SELECT * FROM ConsultaStatus WHERE '.$constrain.' LIMIT ?,?');
 		}else{
 			if($idConsultaStatus>-1){
 				$stmt = $this->driver->prepare('SELECT * FROM ConsultaStatus WHERE IDConsultaStatus=?');
 			}else{
-				$stmt = $this->driver->prepare('SELECT * FROM ConsultaStatus');
+				$stmt = $this->driver->prepare('SELECT * FROM ConsultaStatus WHERE '.$constrain);
 			}
 		}
 		if($stmt){

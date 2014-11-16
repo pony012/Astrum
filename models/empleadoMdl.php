@@ -166,15 +166,15 @@ class EmpleadoMdl extends BaseMdl{
 	*@param int $idEmpleado
 	* @return array or false
 	**/
-	function lists($offset = -1,$idEmpleado = -1){
+	function lists($offset = -1,$idEmpleado = -1, $constrain = '1 = 1'){
 		$rows = array();
 		if($offset>-1){
-			$stmt = $this->driver->prepare('SELECT * FROM V_Empleado LIMIT ?,?');
+			$stmt = $this->driver->prepare('SELECT * FROM V_Empleado WHERE '.$constrain.' LIMIT ?,?');
 		}else{
 			if($idEmpleado>-1){
 				$stmt = $this->driver->prepare('SELECT * FROM V_Empleado WHERE IDEmpleado=?');
 			}else{
-				$stmt = $this->driver->prepare('SELECT * FROM V_Empleado');
+				$stmt = $this->driver->prepare('SELECT * FROM V_Empleado WHERE '.$constrain);
 			}
 		}
 		if($stmt){

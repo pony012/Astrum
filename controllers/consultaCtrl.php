@@ -97,11 +97,35 @@
 		*Listamos todas las Consultas registrados
 		**/
 		private function lists(){
+			$constrain = '';
 			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
+			$constrains = isset($_POST['constrains'])?$_POST['constrains']:'1 = 1';
+			
+			if($constrains === '1 = 1'){
+				$constrain = $constrains;
+			}else{
+				$tam = count($constrains);
+				foreach ($constrains as $campo => $valor) {
+					if(--$tam){
+						if(is_numeric($valor)){
+							$constrain.=$campo.' = '.$valor.' AND ';
+						}else{
+							$constrain.=$campo.' LIKE "%'.$valor.'%" AND ';
+						}
+					}else{
+						if(is_numeric($valor)){
+							$constrain.=$campo.' = '.$valor;
+						}else{
+							$constrain.=$campo.' LIKE "%'.$valor.'%"';
+						}
+					}
+				}
+			}
 			if($offset!==''){ 
-				if(($result = $this->model->lists($offset))){
+				if(($result = $this->model->lists($offset,-1,$constrain))){
 					if(is_numeric($result)){
-						echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+						if ($this->api) {
+							echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 						}else{
 							//CARGAR VISTA VACIO
 						}

@@ -48,15 +48,15 @@ class ProductoMdl extends BaseMdl{
 	*@param int $idProducto
 	* @return array or false
 	**/
-	function lists($offset = -1,$idProducto = -1){
+	function lists($offset = -1,$idProducto = -1, $constrain = '1 = 1'){
 		$rows = array();
 		if($offset>-1){
-			$stmt = $this->driver->prepare('SELECT * FROM V_Producto LIMIT ?,?');
+			$stmt = $this->driver->prepare('SELECT * FROM V_Producto WHERE '.$constrain.' LIMIT ?,?');
 		}else{
 			if($idProducto>-1){
 				$stmt = $this->driver->prepare('SELECT * FROM V_Producto WHERE IDProductoServicio=?');
 			}else{
-				$stmt = $this->driver->prepare('SELECT * FROM V_Producto');
+				$stmt = $this->driver->prepare('SELECT * FROM V_Producto WHERE '.$constrain);
 			}
 		}
 		if($stmt){

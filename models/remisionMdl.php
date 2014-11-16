@@ -149,15 +149,15 @@ class RemisionMdl extends BaseMdl{
 	*@param int $idRemision
 	* @return array or false
 	**/
-	function lists($offset = -1,$idRemision = -1){
+	function lists($offset = -1,$idRemision = -1, $constrain = '1 = 1'){
 		$rows = array();
 		if($offset>-1){
-			$stmt = $this->driver->prepare('SELECT * FROM V_Remision LIMIT ?,?');
+			$stmt = $this->driver->prepare('SELECT * FROM V_Remision WHERE '.$constrain.' LIMIT ?,?');
 		}else{
 			if($idRemision>-1){
 				$stmt = $this->driver->prepare('SELECT * FROM V_Remision WHERE IDRemision=?');
 			}else{
-				$stmt = $this->driver->prepare('SELECT * FROM V_Remision');
+				$stmt = $this->driver->prepare('SELECT * FROM V_Remision WHERE '.$constrain);
 			}
 		}
 		if($stmt){

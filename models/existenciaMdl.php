@@ -43,15 +43,15 @@ class ExistenciaMdl extends BaseMdl{
 	* @return array or false
 	**/
 	
-	function lists($offset = -1,$idExistencia = -1){
+	function lists($offset = -1,$idExistencia = -1, $constrain = '1 = 1'){
 		$rows = array();
 		if($offset>-1){
-			$stmt = $this->driver->prepare('SELECT * FROM V_Existencia LIMIT ?,?');
+			$stmt = $this->driver->prepare('SELECT * FROM V_Existencia WHERE '.$constrain.' LIMIT ?,?');
 		}else{
 			if($idExistencia>-1){
 				$stmt = $this->driver->prepare('SELECT * FROM V_Existencia WHERE IDExistencia=?');
 			}else{
-				$stmt = $this->driver->prepare('SELECT * FROM V_Existencia');
+				$stmt = $this->driver->prepare('SELECT * FROM V_Existencia WHERE '.$constrain);
 			}
 		}
 		if($stmt){

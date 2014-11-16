@@ -143,15 +143,15 @@ class RecepcionMdl extends BaseMdl{
 	*@param int $idRecepcion
 	* @return array or false
 	**/
-	function lists($offset = -1,$idRecepcion = -1){
+	function lists($offset = -1,$idRecepcion = -1, $constrain = '1 = 1'){
 		$rows = array();
 		if($offset>-1){
-			$stmt = $this->driver->prepare('SELECT * FROM V_Recepcion LIMIT ?,?');
+			$stmt = $this->driver->prepare('SELECT * FROM V_Recepcion WHERE '.$constrain.' LIMIT ?,?');
 		}else{
 			if($idRecepcion>-1){
 				$stmt = $this->driver->prepare('SELECT * FROM V_Recepcion WHERE IDRecepcion=?');
 			}else{
-				$stmt = $this->driver->prepare('SELECT * FROM V_Recepcion');
+				$stmt = $this->driver->prepare('SELECT * FROM V_Recepcion WHERE '.$constrain);
 			}
 		}
 		if($stmt){

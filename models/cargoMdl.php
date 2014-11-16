@@ -76,15 +76,15 @@ class CargoMdl  extends BaseMdl{
 	*@param int $idCargo
 	* @return array or false
 	**/
-	function lists($offset = -1,$idCargo = -1){
+	function lists($offset = -1,$idCargo = -1, $constrain = '1 = 1'){
 		$rows = array();
 		if($offset>-1){
-			$stmt = $this->driver->prepare('SELECT * FROM Cargo LIMIT ?,?');
+			$stmt = $this->driver->prepare('SELECT * FROM Cargo WHERE '.$constrain.' LIMIT ?,?');
 		}else{
 			if($idCargo>-1){
 				$stmt = $this->driver->prepare('SELECT * FROM Cargo WHERE IDCargo=?');
 			}else{
-				$stmt = $this->driver->prepare('SELECT * FROM Cargo');
+				$stmt = $this->driver->prepare('SELECT * FROM Cargo WHERE '.$constrain);
 			}
 		}
 		if($stmt){
