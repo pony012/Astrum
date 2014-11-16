@@ -4,29 +4,44 @@
 	/**
 	* Controlador de Producto
 	*/
-	class ConsultaStatusCtrl extends BaseCtrl
+	class EmpleadoSueldoCtrl extends BaseCtrl
 	{
 		/**
 		 * Ejecuta acciones basado en la accion seleccionada por los agrumentos
 		 */
 		public function run()
 		{
-			if(BaseCtrl::isAdmin())
 				switch ($_GET['act']) {
 					case 'create':
 						//Crear 
-						$this->create();
+						if(BaseCtrl::isAdmin())
+							$this->create();
+						else{
+							if ($this->api) {
+								echo $this->json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
+							}else{
+								//CARGAR VISTA DE NO PERMITIDO
+							}
+						}
 						break;
 					case 'update':
-						//Baja
-						$this->update();
+						//Actualizar
+						if(BaseCtrl::isAdmin())
+							$this->update();
+						else
+							if ($this->api) {
+								echo $this->json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
+							}else{
+								//CARGAR VISTA DE NO PERMITIDO
+							}
 						break;
 					case 'lists':
-					//Listar
+						//Crear 
 						$this->lists();
 						break;
 					case 'get':
-						$this->getConsultaStatus();
+						//Baja
+						$this->getEmpleadoSueldo();
 						break;
 					default:
 						if ($this->api) {
@@ -35,48 +50,41 @@
 							//CARGAR VISTA DE SERVICIO INEXISTENTE
 						}
 						break;
-				}
-			else
-				if ($this->api) {
-					echo $this->json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
-				}else{
-					//CARGAR VISTA DE NO PERMITIDO
-				}
+			}
 		}
 		/**
 		* Crea un Producto
 		*/
 		private function create(){
-			if($this->api){	
+			if($this->api){
+
 				$errors = array();
 
-				$status		    = $this->validateText(isset($_POST['status'])?$_POST['status']:NULL);
-				$descripcion 	= $this->validateText(isset($_POST['descripcion'])?$_POST['descripcion']:NULL);
+				$idEmpleado		    = $this->validateNumber(isset($_POST['idEmpleado'])?$_POST['idEmpleado']:NULL);
+				$sueldo 			= $this->validateNumber(isset($_POST['sueldo'])?$_POST['sueldo']:NULL);
 
-				if(strlen($status)==0)
-					$errors['status'] = 1;
-				if(strlen($descripcion)==0)
-					$errors['descripcion'] = 1;
+				if(strlen($idEmpleado)==0)
+					$errors['idEmpleado'] = 1;
+				if(strlen($sueldo)==0)
+					$errors['sueldo'] = 1;
 				
 				if (count($errors) == 0){
 
-					$result = $this->model->create($status, $descripcion);
+					$result = $this->model->create($idEmpleado,$sueldo);
 
 					//Si pudo ser creado
 					if ($result) {
-						//$data = array($status, $descripcion);
 						//Cargar la vista
 						echo $this->json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 					}else{
 						echo $this->json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
-					}	
+					}
 				}else{
-					//Se cambiará por la misma vista donde se encuentre el formulario de insercción, y se mostrarán los errores en un modal
 					echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 				}
 			}else{
 				$this->session['action']='create';
-				$template = $this->twig->loadTemplate('consultaStatusForm.html');
+				$template = $this->twig->loadTemplate('empleadoSueldoForm.html');
 				echo $template->render(array('session'=>$this->session));
 			}
 		}
@@ -90,34 +98,34 @@
 		}
 
 		private function update(){
-			if ($this->api) {
+			if($this->api){
+
 				$errors = array();
 
-				$idConsultaStatus=$this->validateNumber(isset($_POST['idConsultaStatus'])?$_POST['idConsultaStatus']:NULL);
-				$status		    = $this->validateText(isset($_POST['status'])?$_POST['status']:NULL);
-				$descripcion 	= $this->validateText(isset($_POST['descripcion'])?$_POST['descripcion']:NULL);
+				$idEmpleadoSueldo	= $this->validateNumber(isset($_POST['idEmpleadoSueldo'])?$_POST['idEmpleadoSueldo']:NULL);
+				$idEmpleado		    = $this->validateNumber(isset($_POST['idEmpleado'])?$_POST['idEmpleado']:NULL);
+				$sueldo 			= $this->validateNumber(isset($_POST['sueldo'])?$_POST['sueldo']:NULL);
 
-				if(strlen($idConsultaStatus)==0)
-					$errors['idConsultaStatus'] = 1;
-				if(strlen($status)==0)
-					$errors['status'] = 1;
-				if(strlen($descripcion)==0)
-					$errors['descripcion'] = 1;
+				if(strlen($idEmpleadoSueldo)==0)
+					$errors['idEmpleadoSueldo'] = 1;
+				if(strlen($idEmpleado)==0)
+					$errors['idEmpleado'] = 1;
+				if(strlen($sueldo)==0)
+					$errors['sueldo'] = 1;
 				
 				if (count($errors) == 0){
 
-					$result = $this->model->update($idConsultaStatus,$status, $descripcion);
+					$result = $this->model->update($idEmpleadoSueldo,$idEmpleado,$sueldo);
 
 					//Si pudo ser creado
 					if ($result) {
-						//$data = array($status, $descripcion);
+						//$data = array($cargo, $sueldo);
 						//Cargar la vista
 						echo $this->json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 					}else{
 						echo $this->json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
-					}	
+					}
 				}else{
-					//Se cambiará por la misma vista donde se encuentre el formulario de insercción, y se mostrarán los errores en un modal
 					echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 				}
 			}else{
@@ -126,18 +134,18 @@
 				$data = $this->model->get(1);
 				if($data){
 					$this->session['action']='update';
-					$template = $this->twig->loadTemplate('consultaStatusForm.html');
+					$template = $this->twig->loadTemplate('empleadoSueldoForm.html');
 					echo $template->render(array('session'=>$this->session,'data'=>$data));
 				}else{
 					//TODO
-					//Enviar a listar consultaStatuss con vista de inválido
+					//Enviar a listar clientes con vista de inválido
 					//echo 'Error';
 				}
 			}
 		}
 
 		/**
-		*Listamos todos los estatus de una consulta
+		*Listamos todos los Sueldos de los empleados
 		**/
 		private function lists(){
 			$constrain = '';
@@ -196,12 +204,12 @@
 		}
 
 		/**
-		*obtenemos los datos de un estatus de una consulta
+		*obtenemos los datos de un sueldo de un empleado
 		**/
-		private function getConsultaStatus(){
-			$idConsultaStatus = $this->validateNumber(isset($_POST['idConsultaStatus'])?$_POST['idConsultaStatus']:NULL);
-			if($idConsultaStatus!==''){
-				if(($result = $this->model->lists(-1,$idConsultaStatus))){
+		private function getEmpleadoSueldo(){
+			$idEmpleadoSueldo = $this->validateNumber(isset($_POST['idEmpleadoSueldo'])?$_POST['idEmpleadoSueldo']:NULL);
+			if($idEmpleadoSueldo!==''){
+				if(($result = $this->model->lists(-1,$idEmpleadoSueldo))){
 					if(is_numeric($result)){
 						if ($this->api) {
 							echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
@@ -224,6 +232,7 @@
 				}
 			}else{
 				if($this->api){
+					echo "string";
 					echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 				}else{
 					//CARGAR VISTA FORMATO INCORRECTO
@@ -233,8 +242,8 @@
 
 		function __construct(){
 			parent::__construct();
-			require_once 'models/consultaStatusMdl.php';
-			$this->model = new ConsultaStatusMdl();
+			require_once 'models/empleadoSueldoMdl.php';
+			$this->model = new EmpleadoSueldoMdl();
 		}
 	}
 ?>
