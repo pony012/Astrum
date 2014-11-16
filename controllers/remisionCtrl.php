@@ -73,7 +73,6 @@
 					$errors['ivas'] = 1;
 				if(count($this->validateNumericArray($descuentos)) != 0)
 					$errors['descuentos'] = 1;
-				
 				if (count($errors) == 0) {
 					
 					$result = $this->model->create($idCliente, $folio, $fechaRemision,$idProductos,$cantidades,$precioUnitario,$ivas,$descuentos);

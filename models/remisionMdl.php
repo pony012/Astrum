@@ -36,41 +36,45 @@ class RemisionMdl extends BaseMdl{
 		$total = 0;
 
 		$this->driver->autocommit(false);
-		$this->query->begin_transaction();
+		$this->driver->begin_transaction();
 
 		$stmt = $this->driver->prepare("INSERT INTO 
 										MovimientoAlmacen (IDMovimientoAlmacenTipo, IDEmpleado)
 										VALUES(3,?)");
+
+
 		if(!$stmt->bind_param('i',$_SESSION['IDEmpleado'])){
-			$this->query->rollback();
+			$this->driver->rollback();
 			return false;
 		}
+
 		if (!$stmt->execute()) {
-			$this->query->rollback();
+			$this->driver->rollback();
 			return false;
 		}
 
 		$lastId = $this->driver->insert_id;
 
 		if($this->driver->error){
-			$this->query->rollback();
+			$this->driver->rollback();
 			return false;
 		}
 
 		$stmt = $this->driver->prepare("INSERT INTO 
 										Remision (IDMovimientoAlmacen, IDCliente, Folio, FechaRemision)
 										VALUES(?,?,?,?)");
+
 		if(!$stmt->bind_param('iiis',$lastId, $this->idCliente,$this->folio,$this->fechaRemision)){
-			$this->query->rollback();
-			return false;
-		}
-		if (!$stmt->execute()) {
-			$this->query->rollback();
+			$this->driver->rollback();
 			return false;
 		}
 
+		if (!$stmt->execute()) {
+			$this->driver->rollback();
+			return false;
+		}
 		if($this->driver->error){
-			$this->query->rollback();
+			$this->driver->rollback();
 			return false;
 		}
 
@@ -79,7 +83,7 @@ class RemisionMdl extends BaseMdl{
 
 		for($i = 0;$i < count($idProductos);$i++){
 			if(!$this->createDetails($lastId,$idProductos[$i],$cantidades[$i],$precioUnitario[$i],$ivas[$i],$descuentos[$i])){
-				$this->query->rollback();
+				$this->driver->rollback();
 				return false;
 			}
 			$total += $cantidades[$i]*$precioUnitario[$i];
@@ -90,19 +94,19 @@ class RemisionMdl extends BaseMdl{
 										Remision SET Total = ?
 										WHERE IDRemision = ?");
 		if(!$stmt->bind_param('di',$this->total, $idRemision)){
-			$this->query->rollback();
+			$this->driver->rollback();
 		}
 		if (!$stmt->execute()) {
-			$this->query->rollback();
+			$this->driver->rollback();
 			return false;
 		}
 
 		if($this->driver->error){
-			$this->query->rollback();
+			$this->driver->rollback();
 			return false;
 		}
 
-		$this->query->commit();
+		$this->driver->commit();
 		$this->driver->autocommit(true);
 
 		return true;

@@ -55,6 +55,7 @@
 						$_SESSION['user'] = $user;
 						//$_SESSION['pass'] = $pass;
 						$_SESSION['type'] = $result['IDCargo'];
+						$_SESSION['IDEmpleado'] = $result['IDEmpleado'];
 						echo '<meta http-equiv="refresh" content="0; url=./">';
 						return true;
 					}else{
@@ -222,16 +223,14 @@
 		* DOCS
 		*/
 		public static function validateNumericArray($data){
-			/*$result = array();
+			$result = array();
 			
 			foreach($data as $key=>$value){
-				echo $key.' '.$value.'<br/>';
-				if( strlen(validateNumber($value)) == 0 ){
+				if( strlen(BaseCtrl::validateNumber($value)) == 0 ){
 					array_push($result, $key);
 				}
 			}
-			return $result;*/
-			return array();
+			return $result;
 		}
 
 
@@ -281,6 +280,7 @@
 			$session = array(
 				'isLoged'=>BaseCtrl::isLoged(),
 				'user'=>isset($_SESSION['user'])?$_SESSION['user']:NULL,
+				'IDEmpleado' => isset($_SESSION['IDEmpleado'])?$_SESSION['IDEmpleado']:NULL,
 				'isAdmin' => BaseCtrl::isAdmin(),
 				'isTerapeuta' => BaseCtrl::isTerapeuta(),
 				'isEmpleado' => BaseCtrl::isEmpleado(),
@@ -308,6 +308,7 @@
 			$session = array(
 				'isLoged'=>BaseCtrl::isLoged(),
 				'user'=>isset($_SESSION['user'])?$_SESSION['user']:NULL,
+				'IDEmpleado' => isset($_SESSION['IDEmpleado'])?$_SESSION['IDEmpleado']:NULL,
 				'isAdmin' => BaseCtrl::isAdmin(),
 				'isTerapeuta' => BaseCtrl::isTerapeuta(),
 				'isEmpleado' => BaseCtrl::isEmpleado(),
@@ -363,6 +364,7 @@
 			$this->session = array(
 				'isLoged'=>BaseCtrl::isLoged(),
 				'user'=>isset($_SESSION['user'])?$_SESSION['user']:NULL,
+				'IDEmpleado' => isset($_SESSION['IDEmpleado'])?$_SESSION['IDEmpleado']:NULL,
 				'isAdmin' => BaseCtrl::isAdmin(),
 				'isTerapeuta' => BaseCtrl::isTerapeuta(),
 				'isEmpleado' => BaseCtrl::isEmpleado(),
