@@ -54,7 +54,7 @@
 					break;
 				case 'update':
 					//Baja
-					if(BaseCtrl::isAdmin)
+					if(BaseCtrl::isAdmin())
 						$this->update();
 					else{
 						if ($this->api) {

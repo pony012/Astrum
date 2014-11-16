@@ -160,7 +160,8 @@
 			if($idConsulta!==''){
 				if(($result = $this->model->lists(-1,$idConsulta))){
 					if(is_numeric($result)){
-						echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+						if($this->api){
+							echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 						}else{
 							//CARGAR VISTA VACIO
 						}
