@@ -85,6 +85,31 @@
 				require('controllers/existenciaCtrl.php');
 				$ctrl = new ExistenciaCtrl();
 				break;
+			case 'ajusteEntradaTipo':
+				//Crear el controlador y ejecutarlo
+				require('controllers/ajusteEntradaTipoCtrl.php');
+				$ctrl = new AjusteEntradaTipoCtrl();
+				break;
+			case 'ajusteSalidaTipo':
+				//Crear el controlador y ejecutarlo
+				require('controllers/ajusteSalidaTipoCtrl.php');
+				$ctrl = new AjusteSalidaTipoCtrl();
+				break;
+			case 'empleadoSueldo':
+				//Crear el controlador y ejecutarlo
+				require('controllers/empleadoSueldoCtrl.php');
+				$ctrl = new EmpleadoSueldoCtrl();
+				break;
+			case 'movimientoAlmacenTipo':
+				//Crear el controlador y ejecutarlo
+				require('controllers/movimientoAlmacenTipoCtrl.php');
+				$ctrl = new MovimientoAlmacenTipoCtrl();
+				break;
+			case 'productoServicioTipo':
+				//Crear el controlador y ejecutarlo
+				require('controllers/productoServicioTipoCtrl.php');
+				$ctrl = new ProductoServicioTipoCtrl();
+				break;
 			default:
 				BaseCtrl::loadIndex();
 				break;
