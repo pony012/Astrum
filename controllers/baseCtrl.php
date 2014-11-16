@@ -347,7 +347,7 @@
 		}
 
 		public function json_encode($value){
-			$this->utf8_encode($value);
+			$this->utf8_encode_deep($value);
 			return json_encode($value);
 		}
 
