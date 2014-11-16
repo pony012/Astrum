@@ -17,17 +17,9 @@
 						//Crear 
 						$this->create();
 						break;
-					case 'createF':
-						//Crear 
-						$this->createF();
-						break;
 					case 'update':
 						//Baja
 						$this->update();
-						break;
-					case 'updateF':
-						//Baja
-						$this->updateF();
 						break;
 					case 'lists':
 					//Listar
@@ -37,42 +29,55 @@
 						$this->getConsultaStatus();
 						break;
 					default:
-						echo json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
+						if ($this->api) {
+							echo $this->json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
+						}else{
+							//CARGAR VISTA DE SERVICIO INEXISTENTE
+						}
 						break;
 				}
 			else
-				echo json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
+				if ($this->api) {
+					echo $this->json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
+				}else{
+					//CARGAR VISTA DE NO PERMITIDO
+				}
 		}
 		/**
 		* Crea un Producto
 		*/
 		private function create(){
-			
-			$errors = array();
+			if($this->api){	
+				$errors = array();
 
-			$status		    = $this->validateText(isset($_POST['status'])?$_POST['status']:NULL);
-			$descripcion 	= $this->validateText(isset($_POST['descripcion'])?$_POST['descripcion']:NULL);
+				$status		    = $this->validateText(isset($_POST['status'])?$_POST['status']:NULL);
+				$descripcion 	= $this->validateText(isset($_POST['descripcion'])?$_POST['descripcion']:NULL);
 
-			if(strlen($status)==0)
-				$errors['status'] = 1;
-			if(strlen($descripcion)==0)
-				$errors['descripcion'] = 1;
-			
-			if (count($errors) == 0){
+				if(strlen($status)==0)
+					$errors['status'] = 1;
+				if(strlen($descripcion)==0)
+					$errors['descripcion'] = 1;
+				
+				if (count($errors) == 0){
 
-				$result = $this->model->create($status, $descripcion);
+					$result = $this->model->create($status, $descripcion);
 
-				//Si pudo ser creado
-				if ($result) {
-					//$data = array($status, $descripcion);
-					//Cargar la vista
-					echo json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
+					//Si pudo ser creado
+					if ($result) {
+						//$data = array($status, $descripcion);
+						//Cargar la vista
+						echo $this->json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
+					}else{
+						echo $this->json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					}	
 				}else{
-					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
-				}	
-			}else{
-				//Se cambiará por la misma vista donde se encuentre el formulario de insercción, y se mostrarán los errores en un modal
-				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+					//Se cambiará por la misma vista donde se encuentre el formulario de insercción, y se mostrarán los errores en un modal
+					echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				}
+			else{
+				$this->session['action']='create';
+				$template = $this->twig->loadTemplate('consultaStatusForm.html');
+				echo $template->render(array('session'=>$this->session));
 			}
 		}
 
@@ -85,34 +90,49 @@
 		}
 
 		private function update(){
-			$errors = array();
+			if ($this->api) {
+				$errors = array();
 
-			$idConsultaStatus=$this->validateNumber(isset($_POST['idConsultaStatus'])?$_POST['idConsultaStatus']:NULL);
-			$status		    = $this->validateText(isset($_POST['status'])?$_POST['status']:NULL);
-			$descripcion 	= $this->validateText(isset($_POST['descripcion'])?$_POST['descripcion']:NULL);
+				$idConsultaStatus=$this->validateNumber(isset($_POST['idConsultaStatus'])?$_POST['idConsultaStatus']:NULL);
+				$status		    = $this->validateText(isset($_POST['status'])?$_POST['status']:NULL);
+				$descripcion 	= $this->validateText(isset($_POST['descripcion'])?$_POST['descripcion']:NULL);
 
-			if(strlen($idConsultaStatus)==0)
-				$errors['idConsultaStatus'] = 1;
-			if(strlen($status)==0)
-				$errors['status'] = 1;
-			if(strlen($descripcion)==0)
-				$errors['descripcion'] = 1;
-			
-			if (count($errors) == 0){
+				if(strlen($idConsultaStatus)==0)
+					$errors['idConsultaStatus'] = 1;
+				if(strlen($status)==0)
+					$errors['status'] = 1;
+				if(strlen($descripcion)==0)
+					$errors['descripcion'] = 1;
+				
+				if (count($errors) == 0){
 
-				$result = $this->model->update($idConsultaStatus,$status, $descripcion);
+					$result = $this->model->update($idConsultaStatus,$status, $descripcion);
 
-				//Si pudo ser creado
-				if ($result) {
-					//$data = array($status, $descripcion);
-					//Cargar la vista
-					echo json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
+					//Si pudo ser creado
+					if ($result) {
+						//$data = array($status, $descripcion);
+						//Cargar la vista
+						echo $this->json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
+					}else{
+						echo $this->json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					}	
 				}else{
-					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
-				}	
+					//Se cambiará por la misma vista donde se encuentre el formulario de insercción, y se mostrarán los errores en un modal
+					echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				}
 			}else{
-				//Se cambiará por la misma vista donde se encuentre el formulario de insercción, y se mostrarán los errores en un modal
-				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				//TODO
+				//Cargar en $data desde la base de datos
+				$data = $this->model->get(1);
+				if($data){
+					$this->session['action']='update';
+					$template = $this->twig->loadTemplate('consultaStatusForm.html');
+					echo $template->render(array('session'=>$this->session,'data'=>$data));
+				}else{
+					//TODO
+					//Enviar a listar consultaStatuss con vista de inválido
+					//echo 'Error';
+				}
 			}
 		}
 
@@ -124,17 +144,31 @@
 			if($offset!==''){ 
 				if(($result = $this->model->lists($offset))){
 					if(is_numeric($result)){
-						echo json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+						if ($this->api) {
+							echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+						}else{
+							//CARGAR VISTA VACIO
+						}
 					}else{
-						header('Content-Type: application/json');
-						BaseCtrl::utf8_encode_deep($result);
-						echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
+						if($this->api){
+							echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
+						}else{
+							//CARGAR VISTA OK
+						}
 					}
 				}else{
-					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					if($this->api){
+						echo $this->json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					}else{
+						//CARGAR VISTA ERROR DB
+					}
 				}
 			}else{
-				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				if($this->api){
+					echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				}else{
+					//CARGAR VISTA FORMATO INCORRECTO
+				}
 			}
 		}
 
@@ -146,44 +180,31 @@
 			if($idConsultaStatus!==''){
 				if(($result = $this->model->lists(-1,$idConsultaStatus))){
 					if(is_numeric($result)){
-						echo json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+						if ($this->api) {
+							echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+						}else{
+							//CARGAR VISTA VACIO
+						}
 					}else{
-						header('Content-Type: application/json');
-						BaseCtrl::utf8_encode_deep($result);
-						echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
+						if($this->api){
+							echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
+						}else{
+							//CARGAR VISTA OK
+						}
 					}
 				}else{
-					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					if($this->api){
+						echo $this->json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					}else{
+						//CARGAR VISTA ERROR DB
+					}
 				}
 			}else{
-				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
-			}
-		}
-
-		/**
-		* Llama al formulario para la creación de un estado de consulta
-		*/
-		private function createF(){
-			$this->session['action']='create';
-			$template = $this->twig->loadTemplate('consultaStatusForm.html');
-			echo $template->render(array('session'=>$this->session));
-		}
-
-		/**
-		* Llama al formulario para la actualización de un estado de consulta
-		*/
-		private function updateF(){
-			//TODO
-			//Cargar en $data desde la base de datos
-			$data = $this->model->get(1);
-			if($data){
-				$this->session['action']='update';
-				$template = $this->twig->loadTemplate('consultaStatusForm.html');
-				echo $template->render(array('session'=>$this->session,'data'=>$data));
-			}else{
-				//TODO
-				//Enviar a listar consultaStatuss con vista de inválido
-				//echo 'Error';
+				if($this->api){
+					echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				}else{
+					//CARGAR VISTA FORMATO INCORRECTO
+				}
 			}
 		}
 

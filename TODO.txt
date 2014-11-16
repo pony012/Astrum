@@ -1,4 +1,4 @@
-ajusteEntradaCtrl.php
+ajusteEntradaCtrl.php (Y salida)
 	Update
 		Borrar UpdateF
 	Delete
@@ -6,3 +6,17 @@ ajusteEntradaCtrl.php
 	GetAjusteEntrada
 		Sólo está para API
 	Listss
+
+EmpleadoCtrl.php
+	Read
+ConsultaStatus.php
+	Read
+	Delete
+Consulta
+	read
+	delete
+	update
+Cliente
+	Read
+Cargo
+	The same...

@@ -118,12 +118,12 @@
 					if ($result) {
 						//$data = array($idServicioTipo, $servicio, $precioUnitario, $foto, $descripcion);
 						//Cargar la vista
-						echo json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
+						echo $this->json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 					}else{
-						echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
+						echo $this->json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 					}
 				}else{
-					echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+					echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 				}
 			}else{
 				$this->session['action']='create';
@@ -142,12 +142,12 @@
 		private function delete(){
 			$idServicio	= $this->validateNumber(isset($_POST['idServicio'])?$_POST['idServicio']:NULL);
 			if(strlen($idServicio)==0)
-				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			else{
 				if($result = $this->model->delete($idServicio))
-					echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 				else
-					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
+					echo $this->json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 			}
 		}
 
@@ -157,12 +157,12 @@
 		private function active(){
 			$idServicio	= $this->validateNumber(isset($_POST['idServicio'])?$_POST['idServicio']:NULL);
 			if(strlen($idServicio)==0)
-				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 			else{
 				if($result = $this->model->active($idServicio))
-					echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
+					echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 				else
-					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
+					echo $this->json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 			}
 		}
 
@@ -198,12 +198,12 @@
 					if ($result) {
 						//$data = array($idServicioTipo, $servicio, $precioUnitario, $foto, $descripcion);
 						//Cargar el modal
-						echo json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
+						echo $this->json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
 					}else{
-						echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
+						echo $this->json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 					}
 				}else{
-					echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+					echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 				}
 			}else{
 				//TODO
