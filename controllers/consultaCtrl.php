@@ -16,6 +16,10 @@
 					//Crear 
 					$this->create();
 					break;
+				case 'update':
+					//Crear 
+					$this->update();
+					break;
 				case 'lists':
 					//Listar 
 					$this->lists();
@@ -90,7 +94,61 @@
 		}
 
 		private function update(){
+			if ($this->api) {
+				$errors = array();
 
+				$idConsulta 		= $this->validateNumber(isset($_POST['idConsulta'])?$_POST['idConsulta']:NULL);
+				$idCliente 			= $this->validateNumber(isset($_POST['idCliente'])?$_POST['idCliente']:NULL);
+				$idTerapeuta 		= $this->validateNumber(isset($_POST['idTerapeuta'])?$_POST['idTerapeuta']:NULL);
+				$idHistorialMedico	= $this->validateNumber(isset($_POST['idHistorialMedico'])?$_POST['idHistorialMedico']:NULL);
+				$fechaCita 			= $this->validateDate(isset($_POST['fechaCita'])?$_POST['fechaCita']:NULL);
+				$idConsultaStatus 	= $this->validateNumber(isset($_POST['idConsultaStatus'])?$_POST['idConsultaStatus']:NULL);
+				$observaciones		= $this->validateText(isset($_POST['observaciones'])?$_POST['observaciones']:NULL);
+
+				if(strlen($idConsulta)==0)
+					$errors['idConsulta'] = 1;
+				if(strlen($idCliente)==0)
+					$errors['idCliente'] = 1;
+				if(strlen($idTerapeuta)==0)
+					$errors['idTerapeuta'] = 1;
+				if(strlen($idHistorialMedico)==0)
+					$errors['idHistorialMedico'] = 1;
+				if(strlen($fechaCita)==0)
+					$errors['fechaCita'] = 1;
+				if(strlen($idConsultaStatus)==0)
+					$errors['idConsultaStatus'] = 1;
+				if(strlen($observaciones)==0)
+					$errors['observaciones'] = 1;
+
+				if (count($errors) == 0) {
+
+					$result = $this->model->create($idConsulta,$idCliente, $idTerapeuta, $idHistorialMedico,$fechaCita, $idConsultaStatus, $observaciones);
+
+					//Si pudo ser creado
+					if ($result) {
+						//$data = array($idCliente, $idTerapeuta, $idHistorialMedico,$fechaCita, $idConsultaStatus, $observaciones);
+						echo $this->json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
+					}else{
+						echo $this->json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					}	
+				}else{
+					//Se cambiará por la misma vista donde se encuentre el formulario de insercción, y se mostrarán los errores en un modal
+					echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				}
+			}else{
+				//TODO
+				//Cargar en $data desde la base de datos
+				$data = $this->model->get(1);
+				if($data){
+					$this->session['action']='update';
+					$template = $this->twig->loadTemplate('consultaForm.html');
+					echo $template->render(array('session'=>$this->session,'data'=>$data));
+				}else{
+					//TODO
+					//Enviar a listar clientes con vista de inválido
+					//echo 'Error';
+				}
+			}
 		}
 
 		/**

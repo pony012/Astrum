@@ -32,6 +32,9 @@
 					//Obtener una Remision
 					$this->getRemision();
 					break;
+				case 'getFolio':
+					$this->getFolio();
+					break;
 				default:
 					if ($this->api) {
 						echo $this->json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
@@ -197,6 +200,23 @@
 					echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 				}else{
 					//CARGAR VISTA FORMATO INCORRECTO
+				}
+			}
+		}
+
+		private function getFolio(){
+			$folio = $this->model->getFolio('Remision');
+			if(is_numeric($folio)){
+				if($this->api){
+					echo $this->json_encode(array('error'=>OK,'data'=>array('Folio' => ($folio+1)),'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
+				}else{
+					//CARGAR VISTA OK
+				}
+			}else{
+				if($this->api){
+					echo $this->json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Generar el Folio'));
+				}else{
+					//CARGAR VISTA ERROR DB
 				}
 			}
 		}

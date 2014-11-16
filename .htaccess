@@ -53,3 +53,6 @@ RewriteRule ^([a-zA-z]+)/api/activos/get/ index.php?ctrl=$1&act=get&api=1
 
 RewriteRule ^([a-zA-z]+)/api/eliminados/get index.php?ctrl=$1&act=getDeleter&api=1
 RewriteRule ^([a-zA-z]+)/api/eliminados/get/ index.php?ctrl=$1&act=getDeleter&api=1
+
+RewriteRule ^([a-zA-z]+)/api/getFolio index.php?ctrl=$1&act=getFolio&api=1
+RewriteRule ^([a-zA-z]+)/api/getFolio/ index.php?ctrl=$1&act=getFolio&api=1

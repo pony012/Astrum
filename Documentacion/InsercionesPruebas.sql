@@ -15,10 +15,9 @@ INSERT INTO `spadamaris`.`productoservicio` (`IDProductoServicio`, `IDProductoSe
 INSERT INTO `spadamaris`.`productoservicio` (`IDProductoServicio`, `IDProductoServicioTipo`, `Producto`, `PrecioUnitario`, `Foto`, `Descripcion`, `Activo`) VALUES (NULL, '2', 'Pedicure', '150.99', NULL, NULL, 'N');
 
 /*Movimiento Almacen*/
-INSERT INTO `spadamaris`.`movimientoalmacen` (`IDMovimientoAlmacen`, `IDMovimientoAlmacenTipo`, `MovimientoAlmacenFecha`, `IDEmpleado`) VALUES (NULL, '3', '2014-11-08', '1');
-INSERT INTO `spadamaris`.`movimientoalmacen` (`IDMovimientoAlmacen`, `IDMovimientoAlmacenTipo`, `MovimientoAlmacenFecha`, `IDEmpleado`) VALUES (NULL, '4', '2014-11-14', '1');
-INSERT INTO `spadamaris`.`movimientoalmacen` (`IDMovimientoAlmacen`, `IDMovimientoAlmacenTipo`, `MovimientoAlmacenFecha`, `IDEmpleado`) VALUES (NULL, '1', '2014-11-13', '1');
-INSERT INTO `spadamaris`.`movimientoalmacen` (`IDMovimientoAlmacen`, `IDMovimientoAlmacenTipo`, `MovimientoAlmacenFecha`, `IDEmpleado`) VALUES (NULL, '2', '2014-11-13', '2');
+INSERT INTO `spadamaris`.`movimientoalmacen` (`IDMovimientoAlmacen`, `IDMovimientoAlmacenTipo`, `IDEmpleado`) VALUES (NULL, '3', '1');
+INSERT INTO `spadamaris`.`movimientoalmacen` (`IDMovimientoAlmacen`, `IDMovimientoAlmacenTipo`, `IDEmpleado`) VALUES (NULL, '4', '1');
+INSERT INTO `spadamaris`.`movimientoalmacen` (`IDMovimientoAlmacen`, `IDMovimientoAlmacenTipo`, `IDEmpleado`) VALUES (NULL, '1', '1');
 
 /*Remisión*/
 INSERT INTO `spadamaris`.`remision` (`IDRemision`, `IDMovimientoAlmacen`, `IDCliente`, `Folio`, `FechaRemision`, `Total`) VALUES (NULL, '1', '1', '1', '2014-11-15', '0.00');

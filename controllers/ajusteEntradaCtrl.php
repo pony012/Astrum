@@ -32,6 +32,9 @@
 					//Obtener un AjusteEntrada
 					$this->getAjusteEntrada();
 					break;
+				case 'getFolio':
+					$this->getFolio();
+					break;
 				default:
 					if ($this->api) {
 						echo $this->json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
@@ -198,6 +201,23 @@
 				//TODO
 				//Enviar a listar clientes con vista de inválido
 				//echo 'Error';
+			}
+		}
+
+		private function getFolio(){
+			$folio = $this->model->getFolio('AjusteEntrada');
+			if(is_numeric($folio)){
+				if($this->api){
+					echo $this->json_encode(array('error'=>OK,'data'=>array('Folio' => ($folio+1)),'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
+				}else{
+					//CARGAR VISTA OK
+				}
+			}else{
+				if($this->api){
+					echo $this->json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Generar el Folio'));
+				}else{
+					//CARGAR VISTA ERROR DB
+				}
 			}
 		}
 

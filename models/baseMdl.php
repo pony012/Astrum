@@ -27,6 +27,34 @@
 			return true;
 		}	
 
+		public function getFolio($tabla){
+			$rows = array();
+			$stmt = $this->driver->prepare('SELECT MAX(Folio) as Folio FROM '.$tabla);
+			if($stmt){
+				if(!$stmt->execute())
+					return false;	
+				$mySqliResult = $stmt->get_result();
+
+				if($mySqliResult->field_count > 0){
+					while($result = $mySqliResult->fetch_assoc()){
+						array_push($rows, $result);
+					}
+					$cantidadReg = $this->driver->query('SELECT COUNT(Folio) as Folio FROM '.$tabla);
+					$cantidadReg = (int)$cantidadReg->fetch_row()[0];
+					if($cantidadReg>0){
+						return $rows[0]['Folio'];
+					}else{
+						return 0;
+					}
+				}else
+					return false;
+
+			}else
+				return false;
+				
+			return false;
+		}
+
 		function __construct(){
 			require_once 'config.cf';
 			$this->setDriver(__SERVER_NAME__,__USER_NAME__,__PASS__,__DB_NAME__);

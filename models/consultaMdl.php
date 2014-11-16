@@ -4,7 +4,7 @@ require_once 'models/baseMdl.php';
 	* Clase para el modelo de Consulta
 	*/
 class ConsultaMdl extends BaseMdl{
-	private $idcliente;
+	private $idCliente;
 	private $idTerapeuta;
 	private $idHistorialMedico;
 	private $fechaCita;
@@ -12,7 +12,7 @@ class ConsultaMdl extends BaseMdl{
 	private $observaciones;
 	
 	/**
-	 *@param integer $idcliente
+	 *@param integer $idCliente
 	 *@param integer $idTerapeuta
 	 *@param date $fechaCita
 	 *@param integer $idConsultaStatus
@@ -20,8 +20,8 @@ class ConsultaMdl extends BaseMdl{
 	 *Crea una nueva consulta
 	 *@return true
 	 */
-	function create($idcliente, $idTerapeuta, $idHistorialMedico, $fechaCita, $idConsultaStatus, $observaciones){
-		$this->idcliente 		= $idcliente;
+	function create($idCliente, $idTerapeuta, $idHistorialMedico, $fechaCita, $idConsultaStatus, $observaciones){
+		$this->idCliente 		= $idCliente;
 		$this->idTerapeuta		= $idTerapeuta;
 		$this->idHistorialMedico= $idHistorialMedico;
 		$this->fechaCita		= $fechaCita;
@@ -30,7 +30,7 @@ class ConsultaMdl extends BaseMdl{
 		
 		$stmt = $this->driver->prepare("INSERT INTO Consulta (IDCliente, IDTerapeuta, IDHistorialMedico, FechaCita, IDConsultaStatus, Observaciones)
 										VALUES(?,?,?,?,?,?)");
-		if(!$stmt->bind_param('iiisis',$this->idcliente,$this->idTerapeuta,$this->idHistorialMedico,$this->fechaCita,$this->idConsultaStatus,$this->observaciones)){
+		if(!$stmt->bind_param('iiisis',$this->idCliente,$this->idTerapeuta,$this->idHistorialMedico,$this->fechaCita,$this->idConsultaStatus,$this->observaciones)){
 			return false;
 		}
 		if (!$stmt->execute()) {
