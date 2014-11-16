@@ -306,7 +306,7 @@
 					echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 				}
 			}else{
-				$data = $this->model->lists(-1, $_GET['idEmpleado']);
+				$data = $this->model->lists(-1, $_GET['id']);
 				if($data){
 					$this->session['action']='update';
 					$template = $this->twig->loadTemplate('empleadoForm.html');
@@ -325,7 +325,7 @@
 		private function lists(){
 			$constrain = '';
 			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
-			$idEmpleado = $this->validateNumber(isset($_GET['idEmpleado'])?$_GET['idEmpleado']:NULL);
+			$idEmpleado = $this->validateNumber(isset($_GET['id'])?$_GET['id']:NULL);
 			$constrains = isset($_POST['constrains'])?$_POST['constrains']:'1 = 1';
 			
 			if($constrains === '1 = 1'){

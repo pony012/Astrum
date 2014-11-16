@@ -63,7 +63,7 @@
                         <li>
                             <a class="{{session.controller == 'index' ?'active':''}}" href="{{session.document_root}}/"><i class="fa fa-home"></i> Inicio</a>
                         </li>
-                        {% if session.isAdmin == true %}
+                    {% if session.isAdmin == true %}
                         <li>
                             <a class="{{session.controller == 'empleado' ?'active':''}}" href="#"><i class="fa fa-user"></i> Empleados <span class="fa arrow"></span></a>
                         {% if session.controller == 'empleado' %}
@@ -79,9 +79,21 @@
                                 </li>
                             </ul>
                         </li>
-                        {% endif %}
+                    {% endif %}
                         <li>
-                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Clientes</a>
+                            <a class="{{session.controller == 'cliente' ?'active':''}}" href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Clientes <span class="fa arrow"></span></a>
+                        {% if session.controller == 'cliente' %}
+                            <ul class="nav nav-second-level collapse in" aria-expanded="true">
+                        {% else %}
+                            <ul class="nav nav-second-level">
+                        {% endif %}
+                                <li>
+                                    <a class="fa fa-plus-circle" href="{{session.document_root}}/cliente/create"> Crear</a>
+                                </li>
+                                <li>
+                                    <a class="fa fa-list-ul" href="{{session.document_root}}/cliente/list"> Listar</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-table fa-fw"></i> Proveedores</a>
