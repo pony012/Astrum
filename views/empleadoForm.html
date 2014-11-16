@@ -1,8 +1,8 @@
 {% include 'header.html' with {'jsLib': ['js/empleado.js']}%}
 <section class = "row">
-	<h1 class="page-header text-center col-xs-12">Nuevo Empleado</h1>
+	<h1 class="page-header text-center col-xs-12">{{session.action == 'create'?'Nuevo Empleado':session.action == 'update'?'Modificar Empleado':'Detalles'}}</h1>
     <div class = "col-sm-offset-1 col-sm-10 col-lg-offset-2 col-lg-8">
-        <form role="form" class="" action="?ctrl=cliente&act={{session.action}}" method="POST">
+        <form role="form" class="" action="{{session.document_root}}/empleado/api/{{session.action}}/" method="POST" enctype="multipart/form-data">
             <div class="form-group col-md-12 col-lg-12">
                 <label for="nombre">Nombre:</label>
                 <input class="form-control" type = "text" id = "nombre" name = "nombre" placeholder = "Nombre(s)" value="{{data.Nombre}}" required>
@@ -18,16 +18,16 @@
             </div>
             <div class="form-group  col-md-12 col-lg-12">
                 <label for="usuario">Usuario:</label>
-                <input class="form-control" type = "text" id = "usuario" name = "usuario" placeholder = "Usuario" value="{{data.usuario}}" required>
+                <input class="form-control" type = "text" id = "usuario" name = "usuario" placeholder = "Usuario" value="{{data.Usuario}}" required>
             </div>
             <div class="form-group  col-md-12 col-lg-12">
                 <label for="contrasena">Contraseña:</label>
-                <input class="form-control" type = "password" id = "contrasena" name = "contrasena" placeholder = "Contraseña" value="{{data.contrasena}}" required>
+                <input class="form-control" type = "password" id = "contrasena" name = "contrasena" placeholder = "Contraseña" value="" required>
             </div>
 
             <div class="form-group  col-md-6 col-lg-6">
                 <label for ="idCargo">Cargo:</label>
-                <select class="form-control" name = "idCargo">
+                <select class="form-control" name = "idCargo" required>
                 	<option selected>Selecciona un cargo</option>
             		<option value = "1">Administrador</option>
                 	<option value = "2">Terapeuta</option>
@@ -36,15 +36,15 @@
 
             <div class="form-group col-md-6 col-lg-6">
                 <label for="colonia">Colonia:</label>
-                <input class="form-control" type = "text" id = "colonia" name = "colonia" placeholder = "Colonia" value="{{data.Colonia}}">
+                <input class="form-control" type = "text" id = "colonia" name = "colonia" placeholder = "Colonia" value="{{data.Colonia}}" required>
             </div>
             <div class="form-group col-md-6 col-lg-6">
                 <label for="calle">Calle:</label>
-                <input class="form-control" type = "text" id = "calle" name = "calle" placeholder = "Nombre de la Calle" value="{{data.Calle}}">
+                <input class="form-control" type = "text" id = "calle" name = "calle" placeholder = "Nombre de la Calle" value="{{data.Calle}}" required>
             </div>
             <div class="form-group col-md-6 col-lg-6">
                 <label for="numExterior">Número Exterior:</label>
-                <input class="form-control" type = "text" id = "numExterior" name = "numExterior" placeholder = "Número Exterior" value="{{data.NumExterior}}">
+                <input class="form-control" type = "text" id = "numExterior" name = "numExterior" placeholder = "Número Exterior" value="{{data.NumExterior}}" required>
             </div>
             <div class="form-group col-md-6 col-lg-6">
                 <label for="numInterior">Número Interior:</label>
@@ -52,12 +52,15 @@
             </div>
             <div class="form-group col-md-6 col-lg-6">
                 <label for="codigoPostal">Código Postal:</label>
-                <input class="form-control" type = "text" id = "codigoPostal" name = "codigoPostal" placeholder = "Código Postal" value="{{data.CP}}">
+                <input class="form-control" type = "text" id = "codigoPostal" name = "codigoPostal" placeholder = "Código Postal" value="{{data.CP}}" required>
             </div>
 
             <div class="form-group col-md-6 col-lg-6">
                 <label for="foto">Fotografía:</label>
-                <input type = "file" id = "foto" name = "foto" value="{{data.CP}}">
+            {% if data.Foto %}
+                <img class="img-responsive" src="{{session.document_root}}/uploads/{{data.Foto}}" alt="{{data.Usuario}}" /><br />
+            {% endif %}
+                <input type="file" id="foto" name="foto">
             </div>
 
             <div class="form-group col-md-6 col-lg-6">
@@ -80,4 +83,4 @@
         </form>
     </div>
 </section>
-{% include 'footer.html' %}
+{% include 'footer.html' with {'jsLibs': ['js/empleado.js']} %}

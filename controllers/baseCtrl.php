@@ -260,7 +260,7 @@
 			$mail->addAddress($correo);
 
 			$mail->Subject = 'SpaDamaris: '.$asunto;
-			$lineas = file($body);
+			$lineas = file(getcwd().$body);
 			$mensaje = '';
 			foreach ($lineas as $value) {
 				$mensaje.=strtr($value,$remplazos);

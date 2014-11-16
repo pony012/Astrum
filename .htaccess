@@ -12,7 +12,7 @@ RewriteCond %{SCRIPT_FILENAME} !-f
 #############################
 
 RewriteRule ^([a-zA-z]+)/create index.php?ctrl=$1&act=create&api=0
-RewriteRule ^([a-zA-z]+)/update index.php?ctrl=$1&act=update&api=0
+RewriteRule ^([a-zA-z]+)/update/(\-?[0-9]+) index.php?ctrl=$1&act=update&idEmpleado=$2&api=0
 
 
 #####################

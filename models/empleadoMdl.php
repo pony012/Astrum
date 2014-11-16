@@ -40,7 +40,7 @@ class EmpleadoMdl extends BaseMdl{
 	 *@return true or false
 	 */
 	function create($nombre, $apellidoPat, $apellidoMat, $usuario, $contrasena, $idCargo, $calle, $numExterior, $numInterior, $colonia, $codigoPostal, 
-		$email, $foto = NULL, $telefono = NULL, $celular = NULL){
+		$foto = NULL, $email, $telefono = NULL, $celular = NULL){
 		$this->nombre		= $this->driver->real_escape_string($nombre);
 		$this->apellidoPat	= $this->driver->real_escape_string($apellidoPat);
 		$this->apellidoMat	= $this->driver->real_escape_string($apellidoMat);
@@ -66,6 +66,7 @@ class EmpleadoMdl extends BaseMdl{
 			return false;
 		}
 		if (!$stmt->execute()) {
+			print_r($stmt->error);
 			return false;
 		}
 
@@ -97,7 +98,7 @@ class EmpleadoMdl extends BaseMdl{
 	 *@return true or false
 	 */
 	function update($idEmpleado, $nombre, $apellidoPat, $apellidoMat, $usuario, $contrasena, $idCargo, $calle, $numExterior, $numInterior, $colonia, $codigoPostal, 
-		$email, $foto = NULL, $telefono = NULL, $celular = NULL){
+		$foto = NULL, $email, $telefono = NULL, $celular = NULL){
 		$this->nombre		= $this->driver->real_escape_string($nombre);
 		$this->apellidoPat	= $this->driver->real_escape_string($apellidoPat);
 		$this->apellidoMat	= $this->driver->real_escape_string($apellidoMat);

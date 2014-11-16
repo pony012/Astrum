@@ -72,7 +72,41 @@
 				$numInterior		= $this->validateText(isset($_POST['numInterior'])?$_POST['numInterior']:NULL);
 				$colonia			= $this->validateText(isset($_POST['colonia'])?$_POST['colonia']:NULL);
 				$codigoPostal		= $this->validateNumber(isset($_POST['codigoPostal'])?$_POST['codigoPostal']:NULL);
-				$foto				= $this->validateText(isset($_POST['foto'])?$_POST['foto']:NULL);
+				
+				$uploadOk = 0;
+				if(isset($_FILES["foto"])){
+					$uploadOk = 1;
+					$target_dir = getcwd()."/uploads/";
+					//print_r($_FILES);
+					$target_file = $target_dir.basename($_FILES["foto"]["name"]);
+					$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+					$check = getimagesize($_FILES["foto"]["tmp_name"]);
+	    			if($check !== false) {
+						if (file_exists($target_file)) {
+						    //echo "Sorry, file already exists.";
+						    $uploadOk = 0;
+						}else{
+							if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+								&& $imageFileType != "gif" ) {
+							    //echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+							    $uploadOk = 0;
+							}else{
+								if (is_uploaded_file($_FILES["foto"]["tmp_name"])) {
+									if (move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file)) {
+								        $foto = $_FILES["foto"]["name"];
+								        //echo($foto);
+								    } else {
+								       //echo "Sorry, there was an error uploading your file.";
+								    }
+								}
+							}
+						}
+					}
+				}
+				if(!$uploadOk)
+					$foto = '';
+				
+				//$foto				= $this->validateText(isset($_POST['foto'])?$_POST['foto']:NULL);
 				$email				= $this->validateEmail(isset($_POST['email'])?$_POST['email']:NULL);
 				$telefono			= $this->validatePhone(isset($_POST['telefono'])?$_POST['telefono']:NULL);
 				$celular			= $this->validatePhone(isset($_POST['celular'])?$_POST['celular']:NULL);
@@ -122,7 +156,7 @@
 							'$@Usuario@$' => $usuario,
 							'$@Contrasena@$' => $contrasena
 							);
-							if(!BaseCtrl::enviarCorreo($email,'Bienvenido a SpaDamaris','../views/emails/altaEmpleado.html',$remplazos))
+							if(!BaseCtrl::enviarCorreo($email,'Bienvenido a SpaDamaris','/views/emails/altaEmpleado.html',$remplazos))
 								//CARGAR VISTA ERROR
 								require_once 'views/empleadoInsertedError.html';
 							else{/*
@@ -303,13 +337,11 @@
 					echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 				}
 			}else{
-				//TODO
-				//Cargar en $data desde la base de datos
-				$data = $this->model->get(1);
+				$data = $this->model->lists(-1, $_GET['idEmpleado']);
 				if($data){
 					$this->session['action']='update';
 					$template = $this->twig->loadTemplate('empleadoForm.html');
-					echo $template->render(array('session'=>$this->session,'data'=>$data));
+					echo $template->render(array('session'=>$this->session,'data'=>$data[0]));
 				}else{
 					//TODO
 					//Enviar a listar clientes con vista de inválido
@@ -358,7 +390,9 @@
 						if($this->api){
 							echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
 						}else{
-							//CARGAR VISTA OK
+							$this->session['action']='list';
+							$template = $this->twig->loadTemplate('empleadoList.html');
+							echo $template->render(array('session'=>$this->session,'data'=>$result));
 						}
 					}
 				}else{
