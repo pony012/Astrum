@@ -12,6 +12,7 @@
 		protected $twig;
 		protected $loader;
 		protected $session;
+		protected $api;
 		
 		/**
 		*	Inicia una sesion y retorna true si se inició, false si ya existía una activa
@@ -327,12 +328,12 @@
 			echo $template->render(array('session'=>$session));
 		}
 
-		public static function utf8_encode_deep(&$input) {
+		private function utf8_encode_deep(&$input) {
 		    if (is_string($input)) {
 		        $input = utf8_encode($input);
 		    } else if (is_array($input)) {
 		        foreach ($input as &$value) {
-		            BaseCtrl::utf8_encode_deep($value);
+		            $this->utf8_encode_deep($value);
 		        }
 
 		        unset($value);
@@ -340,9 +341,14 @@
 		        $vars = array_keys(get_object_vars($input));
 
 		        foreach ($vars as $var) {
-		            BaseCtrl::utf8_encode_deep($input->$var);
+		            $this->utf8_encode_deep($input->$var);
 		        }
 		    }
+		}
+
+		public function json_encode($value){
+			$this->utf8_encode($value);
+			return json_encode($value);
 		}
 
 		/**
@@ -373,6 +379,11 @@
 			$this->twig = new Twig_Environment($this->loader, array(
 			    //'cache' => '/cache',
 			));
+			$api = isset($_GET['api'])?$_GET['api']:0;
+
+			if($api){
+				header('Content-Type: application/json');
+			}
 		}
 
 		public static function noPermisos(){

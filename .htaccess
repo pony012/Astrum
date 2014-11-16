@@ -7,17 +7,49 @@ RewriteEngine on
 RewriteCond %{SCRIPT_FILENAME} !-d  
 RewriteCond %{SCRIPT_FILENAME} !-f
 
+#############################
+#	rutas para fomularios	#
+#############################
 
-#rutas para fomularios
-RewriteRule ^([a-zA-z]+)/create index.php?ctrl=$1&act=createF
-RewriteRule ^([a-zA-z]+)/update index.php?ctrl=$1&act=updateF
+RewriteRule ^([a-zA-z]+)/create index.php?ctrl=$1&act=create&api=0
+RewriteRule ^([a-zA-z]+)/update index.php?ctrl=$1&act=update&api=0
 
-#rutas para api
-RewriteRule ^([a-zA-z]+)/api/lists/activos/(\-?[0-9]+) index.php?ctrl=$1&act=lists&offset=$2
-RewriteRule ^([a-zA-z]+)/api/lists/eliminados/(\-?[0-9]+) index.php?ctrl=$1&act=listsDeleters&offset=$2
-RewriteRule ^([a-zA-z]+)/api/create index.php?ctrl=$1&act=create
-RewriteRule ^([a-zA-z]+)/api/update index.php?ctrl=$1&act=update
-RewriteRule ^([a-zA-z]+)/api/delete index.php?ctrl=$1&act=delete
-RewriteRule ^([a-zA-z]+)/api/active index.php?ctrl=$1&act=active
-RewriteRule ^([a-zA-z]+)/api/activos/get index.php?ctrl=$1&act=get
-RewriteRule ^([a-zA-z]+)/api/eliminados/get index.php?ctrl=$1&act=getDeleter
+
+#####################
+#	rutas generales	#
+#####################
+
+RewriteRule ^([a-zA-z]+)/list index.php?ctrl=$1&act=lists&offset=-1&api=0
+RewriteRule ^([a-zA-z]+)/list/ index.php?ctrl=$1&act=lists&offset=-1&api=0
+RewriteRule ^([a-zA-z]+)/list/(\-?[0-9]+) index.php?ctrl=$1&act=lists&offset=$2&api=0
+
+
+#####################
+#	rutas para api	#
+#####################
+
+RewriteRule ^([a-zA-z]+)/api/list/activos/(\-?[0-9]+) index.php?ctrl=$1&act=lists&offset=$2&api=1
+RewriteRule ^([a-zA-z]+)/api/list/activos/ index.php?ctrl=$1&act=lists&offset=-1&api=1
+RewriteRule ^([a-zA-z]+)/api/list/activos index.php?ctrl=$1&act=lists&offset=-1&api=1
+
+RewriteRule ^([a-zA-z]+)/api/list/eliminados/(\-?[0-9]+) index.php?ctrl=$1&act=listsDeleters&offset=$2&api=1
+RewriteRule ^([a-zA-z]+)/api/list/eliminados/ index.php?ctrl=$1&act=listsDeleters&offset=-1&api=1
+RewriteRule ^([a-zA-z]+)/api/list/eliminados index.php?ctrl=$1&act=listsDeleters&offset=-1&api=1
+
+RewriteRule ^([a-zA-z]+)/api/create index.php?ctrl=$1&act=create&api=1
+RewriteRule ^([a-zA-z]+)/api/create/ index.php?ctrl=$1&act=create&api=1
+
+RewriteRule ^([a-zA-z]+)/api/update index.php?ctrl=$1&act=update&api=1
+RewriteRule ^([a-zA-z]+)/api/update/ index.php?ctrl=$1&act=update&api=1
+
+RewriteRule ^([a-zA-z]+)/api/delete index.php?ctrl=$1&act=delete&api=1
+RewriteRule ^([a-zA-z]+)/api/delete/ index.php?ctrl=$1&act=delete&api=1
+
+RewriteRule ^([a-zA-z]+)/api/active index.php?ctrl=$1&act=active&api=1
+RewriteRule ^([a-zA-z]+)/api/active/ index.php?ctrl=$1&act=active&api=1
+
+RewriteRule ^([a-zA-z]+)/api/activos/get index.php?ctrl=$1&act=get&api=1
+RewriteRule ^([a-zA-z]+)/api/activos/get/ index.php?ctrl=$1&act=get&api=1
+
+RewriteRule ^([a-zA-z]+)/api/eliminados/get index.php?ctrl=$1&act=getDeleter&api=1
+RewriteRule ^([a-zA-z]+)/api/eliminados/get/ index.php?ctrl=$1&act=getDeleter&api=1

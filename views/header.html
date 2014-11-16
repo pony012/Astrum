@@ -66,12 +66,16 @@
                         {% if session.isAdmin == true %}
                         <li>
                             <a class="{{session.controller == 'empleado' ?'active':''}}" href="#"><i class="fa fa-user"></i> Empleados <span class="fa arrow"></span></a>
+                        {% if session.controller == 'empleado' %}
+                            <ul class="nav nav-second-level collapse in" aria-expanded="true">
+                        {% else %}
                             <ul class="nav nav-second-level">
+                        {% endif %}
                                 <li>
-                                    <a class="fa fa-plus-circle" href="{{session.document_root}}/empleado/create">Crear</a>
+                                    <a class="fa fa-plus-circle" href="{{session.document_root}}/empleado/create"> Crear</a>
                                 </li>
                                 <li>
-                                    <a class="" href="{{session.document_root}}/empleado/update"><span class="fa fa-refresh fa-spin"></span> Editar</a>
+                                    <a class="fa fa-list-ul" href="{{session.document_root}}/empleado/list"> Listar</a>
                                 </li>
                             </ul>
                         </li>

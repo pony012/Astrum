@@ -1,0 +1,8 @@
+ajusteEntradaCtrl.php
+	Update
+		Borrar UpdateF
+	Delete
+	Read
+	GetAjusteEntrada
+		Sólo está para API
+	Listss
