@@ -28,6 +28,10 @@
 					//Listar 
 					$this->lists();
 					break;
+				case 'listsDetails':
+					//Crear 
+					$this->listsDetails();
+					break;	
 				case 'get':
 					//Obtener un AjusteSalida
 					$this->getAjusteSalida();
@@ -224,30 +228,39 @@
 		}
 
 		/**
-		*Listamos todas los ajustes de salida con sus detalles
+		*listamos los detalles de un ajuste de salida
 		**/
-		private function listss(){
-
-			if($resultRemision = $this->model->lists()){
-
-				$data = array();
-				foreach($resultRemision as $row){
-
-					$details = array();
-
-					if($resultRemisionDetalle = $this->model->listsDetails($row['IDAjusteSalida'])){
-
-						foreach($resultRemisionDetalle as $rowDetails)
-							array_push($details, $rowDetails);
-
+		private function listsDetails(){
+			$idAjusteSalida = $this->validateNumber(isset($_GET['id'])?$_GET['id']:NULL);
+			if($idAjusteSalida!==''){
+				if(($result = $this->model->listsDetails($idAjusteSalida))){
+					if(is_numeric($result)){
+						if ($this->api) {
+							echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+						}else{
+							//CARGAR VISTA VACIO
+						}
+					}else{
+						if($this->api){
+							echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
+						}else{
+							//CARGAR VISTA OK
+						}
 					}
-
-					array_push($data, array($row,$details));
+				}else{
+					if($this->api){
+						echo $this->json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					}else{
+						//CARGAR VISTA ERROR DB
+					}
 				}
-				
-				require_once 'views/ajusteSalidaSelected.php';
-			}else
-				require_once 'views/ajusteSalidaSelectedError.html';
+			}else{
+				if($this->api){
+					echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				}else{
+					//CARGAR VISTA FORMATO INCORRECTO
+				}
+			}
 		}
 
 		function __construct(){

@@ -80,13 +80,13 @@ CREATE VIEW V_RemisionDetalle AS
 SELECT IDRemisionDetalle, IDRemision, remd.IDProducto, ps.Producto, Cantidad, remd.PrecioUnitario, IVA, Descuento
 FROM RemisionDetalle remd
 inner join ProductoServicio ps
-on ps.IDProductoServicioTipo=remd.IDProducto;
+on ps.IDProductoServicio=remd.IDProducto;
 
 CREATE VIEW V_RecepcionDetalle AS
 SELECT IDRecepcionDetalle, IDRecepcion, recd.IDProducto, ps.Producto, Cantidad, recd.PrecioUnitario, IVA, Descuento
 FROM RecepcionDetalle recd
 inner join ProductoServicio ps
-on ps.IDProductoServicioTipo=recd.IDProducto;
+on ps.IDProductoServicio=recd.IDProducto;
 
 CREATE VIEW V_AjusteEntradaDetalle AS
 SELECT IDAjusteEntradaDetalle, IDAjusteEntrada, aed.IDProductoServicio, ps.Producto, Cantidad

@@ -28,6 +28,10 @@
 					//Listar 
 					$this->lists();
 					break;
+				case 'listsDetails':
+					//Crear 
+					$this->listsDetails();
+					break;	
 				case 'get':
 					//Obtener una Recepcion
 					$this->getRecepcion();
@@ -215,6 +219,42 @@
 					echo $this->json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Generar el Folio'));
 				}else{
 					//CARGAR VISTA ERROR DB
+				}
+			}
+		}
+
+		/**
+		*listamos los detalles de una recepcion
+		**/
+		private function listsDetails(){
+			$idRecepcion = $this->validateNumber(isset($_GET['id'])?$_GET['id']:NULL);
+			if($idRecepcion!==''){
+				if(($result = $this->model->listsDetails($idRecepcion))){
+					if(is_numeric($result)){
+						if ($this->api) {
+							echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+						}else{
+							//CARGAR VISTA VACIO
+						}
+					}else{
+						if($this->api){
+							echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
+						}else{
+							//CARGAR VISTA OK
+						}
+					}
+				}else{
+					if($this->api){
+						echo $this->json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					}else{
+						//CARGAR VISTA ERROR DB
+					}
+				}
+			}else{
+				if($this->api){
+					echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				}else{
+					//CARGAR VISTA FORMATO INCORRECTO
 				}
 			}
 		}

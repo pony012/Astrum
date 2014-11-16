@@ -42,7 +42,6 @@ class RemisionMdl extends BaseMdl{
 										MovimientoAlmacen (IDMovimientoAlmacenTipo, IDEmpleado)
 										VALUES(3,?)");
 
-
 		if(!$stmt->bind_param('i',$_SESSION['IDEmpleado'])){
 			$this->driver->rollback();
 			return false;
@@ -71,13 +70,15 @@ class RemisionMdl extends BaseMdl{
 
 		if (!$stmt->execute()) {
 			$this->driver->rollback();
+			
 			return false;
 		}
+
 		if($this->driver->error){
 			$this->driver->rollback();
 			return false;
 		}
-
+		
 		$lastId = $this->driver->insert_id;
 		$idRemision = $lastId;
 
