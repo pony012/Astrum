@@ -17,7 +17,7 @@
 					if(BaseCtrl::isAdmin())
 						$this->create();
 					else{
-						if ($api) {
+						if ($this->api) {
 							echo $this->json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
 						}else{
 							//CARGAR VISTA DE NO PERMITIDO
@@ -33,7 +33,7 @@
 					$this->getAjusteSalida();
 					break;
 				default:
-					if ($api) {
+					if ($this->api) {
 						echo $this->json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
 					}else{
 						//CARGAR VISTA DE SERVICIO INEXISTENTE
@@ -46,7 +46,7 @@
 		* Crea un Ajuste Salida
 		*/
 		private function create(){
-			if($api){
+			if($this->api){
 				$errors = array();
 
 				$idAjusteSalidaTipo 	= $this->validateNumber(isset($_POST['idAjusteSalidaTipo'])?$_POST['idAjusteSalidaTipo']:NULL);
@@ -111,27 +111,27 @@
 			if($offset!==''){ 
 				if(($result = $this->model->lists($offset))){
 					if(is_numeric($result)){
-						if ($api) {
+						if ($this->api) {
 							echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 						}else{
 							//CARGAR VISTA VACIO
 						}
 					}else{
-						if ($api) {
+						if ($this->api) {
 							echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
 						}else{
 							//CARGAR VISTA LISTADO
 						}
 					}
 				}else{
-					if($api){
+					if($this->api){
 						echo $this->json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
 					}else{
 						//CARGAR VISTA ERROR DB
 					}
 				}
 			}else{
-				if($api){
+				if($this->api){
 					echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 				}else{
 					//CARGAR VISTA FORMATO INCORRECTO
