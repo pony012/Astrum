@@ -16,15 +16,13 @@
 					//Crear
 					if(BaseCtrl::isAdmin())
 						$this->create();
-					else
-						echo json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
-					break;	
-				case 'createF':
-					//Crear
-					if(BaseCtrl::isAdmin())
-						$this->createF();
-					else
-						echo json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
+					else{
+						if ($this->api) {
+							echo $this->json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
+						}else{
+							//CARGAR VISTA DE NO PERMITIDO
+						}
+					}
 					break;	
 				case 'lists':
 					//Listar 
@@ -35,7 +33,11 @@
 					$this->getRecepcion();
 					break;
 				default:
-					echo json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
+					if ($this->api) {
+						echo $this->json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
+					}else{
+						//CARGAR VISTA DE SERVICIO INEXISTENTE
+					}
 					break;
 			}
 		}
@@ -43,46 +45,51 @@
 		* Crea una Recepcion
 		*/
 		private function create(){
-			
-			$errors = array();
-			
-			$idProveedor	= $this->validateNumber(isset($_POST['idProveedor'])?$_POST['idProveedor']:NULL);
-			$folio			= $this->validateNumber(isset($_POST['folio'])?$_POST['folio']:NULL);
-			$fechaRecepcion	= $this->validateDate(isset($_POST['fechaRecepcion'])?$_POST['fechaRecepcion']:NULL);
-			$idProductos 	= (isset($_POST['idProductos'])?$_POST['idProductos']:NULL);
-			$cantidades		= (isset($_POST['cantidades'])?$_POST['cantidades']:NULL);
-			$precioUnitario	= (isset($_POST['precioUnitario'])?$_POST['precioUnitario']:NULL);
-			$ivas 			= (isset($_POST['ivas'])?$_POST['ivas']:NULL);
-			$descuentos 	= (isset($_POST['descuentos'])?$_POST['descuentos']:NULL);
-			
-			if(strlen($idProveedor)==0)
-				$errors['idProveedor'] = 1;
-			if(strlen($folio)==0)
-				$errors['folio'] = 1;
-			if(strlen($fechaRecepcion)==0)
-				$errors['fechaRecepcion'] = 1;
-			if(count($this->validateNumericArray($cantidades)) != 0)
-				$errors['cantidades'] = 1;
-			if(count($this->validateNumericArray($ivas)) != 0)
-				$errors['ivas'] = 1;
-			if(count($this->validateNumericArray($descuentos)) != 0)
-				$errors['descuentos'] = 1;
-			
-			if (count($errors) == 0) {
+			if ($this->api) {
+				$errors = array();
 				
-				$result = $this->model->create($idProveedor, $folio, $fechaRecepcion,$idProductos,$cantidades,$precioUnitario,$ivas,$descuentos);
-
-				//Si pudo ser creado
-				if ($result) {
-					//Guardamos los campos en un arreglo
-					//$data = array($idProveedor, $folio, $fechaRecepcion,$idProductos,$cantidades,$precioUnitario,$ivas,$descuentos);
+				$idProveedor	= $this->validateNumber(isset($_POST['idProveedor'])?$_POST['idProveedor']:NULL);
+				$folio			= $this->validateNumber(isset($_POST['folio'])?$_POST['folio']:NULL);
+				$fechaRecepcion	= $this->validateDate(isset($_POST['fechaRecepcion'])?$_POST['fechaRecepcion']:NULL);
+				$idProductos 	= (isset($_POST['idProductos'])?$_POST['idProductos']:NULL);
+				$cantidades		= (isset($_POST['cantidades'])?$_POST['cantidades']:NULL);
+				$precioUnitario	= (isset($_POST['precioUnitario'])?$_POST['precioUnitario']:NULL);
+				$ivas 			= (isset($_POST['ivas'])?$_POST['ivas']:NULL);
+				$descuentos 	= (isset($_POST['descuentos'])?$_POST['descuentos']:NULL);
+				
+				if(strlen($idProveedor)==0)
+					$errors['idProveedor'] = 1;
+				if(strlen($folio)==0)
+					$errors['folio'] = 1;
+				if(strlen($fechaRecepcion)==0)
+					$errors['fechaRecepcion'] = 1;
+				if(count($this->validateNumericArray($cantidades)) != 0)
+					$errors['cantidades'] = 1;
+				if(count($this->validateNumericArray($ivas)) != 0)
+					$errors['ivas'] = 1;
+				if(count($this->validateNumericArray($descuentos)) != 0)
+					$errors['descuentos'] = 1;
+				
+				if (count($errors) == 0) {
 					
-					echo json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
+					$result = $this->model->create($idProveedor, $folio, $fechaRecepcion,$idProductos,$cantidades,$precioUnitario,$ivas,$descuentos);
+
+					//Si pudo ser creado
+					if ($result) {
+						//Guardamos los campos en un arreglo
+						//$data = array($idProveedor, $folio, $fechaRecepcion,$idProductos,$cantidades,$precioUnitario,$ivas,$descuentos);
+						
+						echo json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
+					}else{
+						echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
+					}
 				}else{
-					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
+					echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 				}
 			}else{
-				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				$this->session['action']='create';
+				$template = $this->twig->loadTemplate('recepcionForm.html');
+				echo $template->render(array('session'=>$this->session));
 			}
 		}
 
@@ -106,17 +113,31 @@
 			if($offset!==''){ 
 				if(($result = $this->model->lists($offset))){
 					if(is_numeric($result)){
-						echo json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+						if ($this->api) {
+							echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+						}else{
+							//CARGAR VISTA VACIO
+						}
 					}else{
-						header('Content-Type: application/json');
-						BaseCtrl::utf8_encode_deep($result);
-						echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
+						if($this->api){
+							echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
+						}else{
+							//CARGAR VISTA OK
+						}
 					}
 				}else{
-					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					if($this->api){
+						echo $this->json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					}else{
+						//CARGAR VISTA ERROR DB
+					}
 				}
 			}else{
-				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				if($this->api){
+					echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				}else{
+					//CARGAR VISTA FORMATO INCORRECTO
+				}
 			}
 		}
 
@@ -128,44 +149,31 @@
 			if($idRecepcion!==''){
 				if(($result = $this->model->lists(-1,$idRecepcion))){
 					if(is_numeric($result)){
-						echo json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+						if ($this->api) {
+							echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+						}else{
+							//CARGAR VISTA VACIO
+						}
 					}else{
-						header('Content-Type: application/json');
-						BaseCtrl::utf8_encode_deep($result);
-						echo json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
+						if($this->api){
+							echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
+						}else{
+							//CARGAR VISTA OK
+						}
 					}
 				}else{
-					echo json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					if($this->api){
+						echo $this->json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					}else{
+						//CARGAR VISTA ERROR DB
+					}
 				}
 			}else{
-				echo json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
-			}
-		}
-
-		/**
-		* Llama al formulario para la creación de una Recepcion
-		*/
-		private function createF(){
-			$this->session['action']='create';
-			$template = $this->twig->loadTemplate('recepcionForm.html');
-			echo $template->render(array('session'=>$this->session));
-		}
-
-		/**
-		* Llama al formulario para la actualización de una Recepcion
-		*/
-		private function updateF(){
-			//TODO
-			//Cargar en $data desde la base de datos
-			$data = $this->model->get(1);
-			if($data){
-				$this->session['action']='update';
-				$template = $this->twig->loadTemplate('recepcionForm.html');
-				echo $template->render(array('session'=>$this->session,'data'=>$data));
-			}else{
-				//TODO
-				//Enviar a listar clientes con vista de inválido
-				//echo 'Error';
+				if($this->api){
+					echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				}else{
+					//CARGAR VISTA FORMATO INCORRECTO
+				}
 			}
 		}
 
