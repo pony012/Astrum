@@ -47,10 +47,6 @@
 		*/
 		private function create(){
 			if($api){
-				$this->session['action']='create';
-				$template = $this->twig->loadTemplate('ajusteEntradaForm.html');
-				echo $template->render(array('session'=>$this->session));
-			}else{
 				$errors = array();
 
 				$idAjusteEntradaTipo 	= $this->validateNumber(isset($_POST['idAjusteEntradaTipo'])?$_POST['idAjusteEntradaTipo']:NULL);
@@ -88,6 +84,11 @@
 				}else{
 					echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 				}
+
+			}else{
+				$this->session['action']='create';
+				$template = $this->twig->loadTemplate('ajusteEntradaForm.html');
+				echo $template->render(array('session'=>$this->session));
 			}
 		}
 
