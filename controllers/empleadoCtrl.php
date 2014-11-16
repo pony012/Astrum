@@ -262,7 +262,40 @@
 				$numInterior		= $this->validateText(isset($_POST['numInterior'])?$_POST['numInterior']:NULL);
 				$colonia			= $this->validateText(isset($_POST['colonia'])?$_POST['colonia']:NULL);
 				$codigoPostal		= $this->validateNumber(isset($_POST['codigoPostal'])?$_POST['codigoPostal']:NULL);
-				$foto				= $this->validateText(isset($_POST['foto'])?$_POST['foto']:NULL);
+				
+				$uploadOk = 0;
+				if(isset($_FILES["foto"])){
+					$uploadOk = 1;
+					$target_dir = getcwd()."/uploads/";
+					//print_r($_FILES);
+					$target_file = $target_dir.basename($_FILES["foto"]["name"]);
+					$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
+					$check = getimagesize($_FILES["foto"]["tmp_name"]);
+	    			if($check !== false) {
+						if (file_exists($target_file)) {
+						    //echo "Sorry, file already exists.";
+						    $uploadOk = 0;
+						}else{
+							if($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg"
+								&& $imageFileType != "gif" ) {
+							    //echo "Sorry, only JPG, JPEG, PNG & GIF files are allowed.";
+							    $uploadOk = 0;
+							}else{
+								if (is_uploaded_file($_FILES["foto"]["tmp_name"])) {
+									if (move_uploaded_file($_FILES["foto"]["tmp_name"], $target_file)) {
+								        $foto = $_FILES["foto"]["name"];
+								        //echo($foto);
+								    } else {
+								       //echo "Sorry, there was an error uploading your file.";
+								    }
+								}
+							}
+						}
+					}
+				}
+				if(!$uploadOk)
+					$foto = '';
+				
 				$email				= $this->validateEmail(isset($_POST['email'])?$_POST['email']:NULL);
 				$telefono			= $this->validatePhone(isset($_POST['telefono'])?$_POST['telefono']:NULL);
 				$celular			= $this->validatePhone(isset($_POST['celular'])?$_POST['celular']:NULL);
