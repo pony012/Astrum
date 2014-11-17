@@ -19,16 +19,16 @@ class ProductoMdl extends BaseMdl{
 	 *Crea un nuevo producto
 	 *@return true
 	 */
-	function create($idProductoTipo, $producto, $precioUnitario, $foto = NULL, $descripcion = NULL){
+	function create($producto, $precioUnitario, $foto = NULL, $descripcion = NULL){
 		$this->idProductoTipo 	= $idProductoTipo;
 		$this->producto			= $this->driver->real_escape_string($producto);
 		$this->precioUnitario 	= $precioUnitario;
 		$this->foto				= $this->driver->real_escape_string($foto);
 		$this->descripcion		= $this->driver->real_escape_string($descripcion);
 		
-		$stmt = $this->driver->prepare("INSERT INTO ProductoServicio (IDProductoServicioTipo, Producto, PrecioUnitario, Foto, Descripcion) 
-										VALUES(?,?,?,?,?)");
-		if(!$stmt->bind_param('isdss',$this->idProductoTipo,$this->producto,$this->precioUnitario,$this->foto,$this->descripcion)){
+		$stmt = $this->driver->prepare("INSERT INTO ProductoServicio (Producto, PrecioUnitario, Foto, Descripcion) 
+										VALUES(1,?,?,?,?)");
+		if(!$stmt->bind_param('sdss',$this->producto,$this->precioUnitario,$this->foto,$this->descripcion)){
 			return false;
 		}
 		if (!$stmt->execute()) {

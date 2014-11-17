@@ -19,16 +19,16 @@ class ServicioMdl extends BaseMdl{
 	 *Crea un nuevo servicio
 	 *@return true
 	 */
-	function create($idServicioTipo, $servicio, $precioUnitario, $foto = NULL, $descripcion = NULL){
+	function create($servicio, $precioUnitario, $foto = NULL, $descripcion = NULL){
 		$this->idServicioTipo 	= $idServicioTipo;
 		$this->servicio			= $this->driver->real_escape_string($servicio);
 		$this->precioUnitario	= $precioUnitario;
 		$this->foto				= $this->driver->real_escape_string($foto);
 		$this->descripcion		= $this->driver->real_escape_string($descripcion);
 		
-		$stmt = $this->driver->prepare("INSERT INTO ProductoServicio (IDProductoServicioTipo, Producto, PrecioUnitario, Foto, Descripcion) 
-										VALUES(?,?,?,?,?)");
-		if(!$stmt->bind_param('isdss',$this->idProductoTipo,$this->servicio,$this->precioUnitario,$this->foto,$this->descripcion)){
+		$stmt = $this->driver->prepare("INSERT INTO ProductoServicio (Producto, PrecioUnitario, Foto, Descripcion) 
+										VALUES(2,?,?,?,?)");
+		if(!$stmt->bind_param('sdss'$this->servicio,$this->precioUnitario,$this->foto,$this->descripcion)){
 			return false;
 		}
 		if (!$stmt->execute()) {

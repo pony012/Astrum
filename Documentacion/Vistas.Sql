@@ -197,3 +197,30 @@ on rec.IDRecepcion = recd.IDRecepcion
 inner join MovimientoAlmacen as ma
 on ma.IDMovimientoAlmacen = rec.IDMovimientoAlmacen
 GROUP BY ps.Producto,recd.PrecioUnitario,FechaCompra;
+
+
+CREATE VIEW V_TotalEnAlmacen AS
+SELECT ps.Producto,(SUM(recd.Cantidad) + SUM(aed.Cantidad) - SUM(remd.Cantidad) - SUM(asd.Cantidad)) as TotalEnAlmacen
+FROM ProductoServicio as ps
+inner join RecepcionDetalle as recd
+on recd.IDProducto = ps.IDProductoServicio
+inner join RemisionDetalle as remd
+on remd.IDProducto = ps.IDProductoServicio
+inner join AjusteSalidaDetalle as asd
+on asd.IDProductoServicio = ps.IDProductoServicio
+inner join AjusteEntradaDetalle as aed
+on aed.IDProductoServicio = ps.IDProductoServicio
+GROUP BY ps.Producto;
+
+
+SELECT ps.Producto, SUM(recd.Cantidad) as TotalEnRecepcion
+FROM ProductoServicio as ps
+inner join RecepcionDetalle as recd
+on recd.IDProducto = ps.IDProductoServicio
+GROUP BY ps.Producto;
+
+SELECT ps.Producto, SUM(remd.Cantidad) as TotalEnRemision
+FROM ProductoServicio as ps
+inner join RemisionDetalle as remd
+on remd.IDProducto = ps.IDProductoServicio
+GROUP BY ps.Producto;

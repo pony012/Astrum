@@ -9,8 +9,7 @@
 		/**
 		 * Ejecuta acciones basado en la accion seleccionada por los agrumentos
 		 */
-		public function run()
-		{
+		public function run(
 			switch ($_GET['act']) {
 				case 'create':
 					//Crear 
@@ -93,14 +92,11 @@
 			if ($this->api) {
 				$errors = array();
 
-				$idServicioTipo = $this->validateNumber(isset($_POST['idServicioTipo'])?$_POST['idServicioTipo']:NULL);
 				$servicio 		= $this->validateText(isset($_POST['servicio'])?$_POST['servicio']:NULL);
 				$precioUnitario	= $this->validateNumber(isset($_POST['precioUnitario'])?$_POST['precioUnitario']:NULL);
 				$foto 			= $this->validateText(isset($_POST['foto'])?$_POST['foto']:NULL);
 				$descripcion 	= $this->validateText(isset($_POST['descripcion'])?$_POST['descripcion']:NULL);
 
-				if(strlen($idServicioTipo)==0)
-					$errors['idServicioTipo'] = 1;
 				if(strlen($servicio)==0)
 					$errors['servicio'] = 1;
 				if(strlen($precioUnitario)==0)
@@ -112,7 +108,7 @@
 
 				if (count($errors) == 0) {
 
-					$result = $this->model->create($idServicioTipo, $servicio, $precioUnitario, $foto, $descripcion);
+					$result = $this->model->create($servicio, $precioUnitario, $foto, $descripcion);
 
 					//Si pudo ser creado
 					if ($result) {
