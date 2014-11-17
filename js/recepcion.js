@@ -94,7 +94,7 @@ $(function(){
                     inputCant.on("change keyup",function(){
                         var el = $(this),
                             tr = el.parent().parent();
-                        if(el.val()<1)
+                        if(el.val()<0)
                             el.val(1);
                         tr.find("[name=subtotal]").val("$ "+tr.find(".precio-unitario").val().split("$")[1]*el.val());
                         //Falta agregar iva y quitar descuentos
