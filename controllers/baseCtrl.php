@@ -331,7 +331,7 @@
 
 		private function utf8_encode_deep(&$input) {
 		    if (is_string($input)) {
-		        $input = utf8_encode($input);
+		        $input = utf8_decode(utf8_encode($input));
 		    } else if (is_array($input)) {
 		        foreach ($input as &$value) {
 		            $this->utf8_encode_deep($value);
@@ -384,7 +384,7 @@
 			$this->api = isset($_GET['api'])?$_GET['api']:0;
 
 			if($this->api){
-				header('Content-Type: application/json');
+				header('Content-Type: application/json; charset=utf-8');
 			}
 		}
 

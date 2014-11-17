@@ -129,7 +129,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a class="{{session.controller == 'producto' ?'active':''}}" href="#"><i class="fa fa-briefcase"></i> Productos <span class="fa arrow"></span></a>
+                            <a class="{{session.controller == 'producto' ?'active':''}}" href="#"><i class="fa fa-shopping-cart"></i> Productos <span class="fa arrow"></span></a>
                         {% if session.controller == 'producto' %}
                             <ul class="nav nav-second-level collapse in" aria-expanded="true">
                         {% else %}
@@ -152,10 +152,36 @@
                             <a href="#"><i class="fa fa-stethoscope"></i> Consultas</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-credit-card"></i> Ventas</a>
+                            <a class="{{session.controller == 'remision' ?'active':''}}" href="#"><i class="fa fa-credit-card"></i> Ventas <span class="fa arrow"></span></a>
+                        {% if session.controller == 'remision' %}
+                            <ul class="nav nav-second-level collapse in" aria-expanded="true">
+                        {% else %}
+                            <ul class="nav nav-second-level">
+                        {% endif %}
+                                <li>
+                                    <a class="fa fa-plus-circle" href="{{session.document_root}}/remision/create"> Crear</a>
+                                </li>
+                                <li>
+                                    <a class="fa fa-list-ul" href="{{session.document_root}}/remision/list"> Listar</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-money"></i> Compras</a>
+                            <a class="{{session.controller == 'recepcion' ?'active':''}}" href="#"><i class="fa fa-money"></i> Compras <span class="fa arrow"></span></a>
+                        {% if session.controller == 'recepcion' %}
+                            <ul class="nav nav-second-level collapse in" aria-expanded="true">
+                        {% else %}
+                            <ul class="nav nav-second-level">
+                        {% endif %}
+                            {% if session.isAdmin %}
+                                <li>
+                                    <a class="fa fa-plus-circle" href="{{session.document_root}}/recepcion/create"> Crear</a>
+                                </li>
+                            {% endif %}
+                                <li>
+                                    <a class="fa fa-list-ul" href="{{session.document_root}}/recepcion/list"> Listar</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-cogs"></i> Ajustes<span class="fa arrow"></span></a>
