@@ -14,15 +14,7 @@
 			switch ($_GET['act']) {
 				case 'create':
 					//Crear 
-					if(BaseCtrl::isAdmin())
-						$this->create();
-					else{
-						if ($this->api) {
-							echo $this->json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
-						}else{
-							//CARGAR VISTA DE NO PERMITIDO
-						}
-					}
+					$this->create();
 					break;
 				case 'lists':
 					//Crear 
