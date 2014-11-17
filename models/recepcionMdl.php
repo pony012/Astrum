@@ -193,6 +193,15 @@ class RecepcionMdl extends BaseMdl{
 	**/
 	function listsDetails($idRecepcion){
 		$rows = array();
+		$result = array();
+
+		$main = $this->lists(-1,$idRecepcion);
+		if($main){
+			if(is_numeric($main))
+				return $main;
+		}else{
+			return false;
+		}
 
 		if($stmt = $this->driver->prepare('SELECT * FROM V_RecepcionDetalle WHERE IDRecepcion = ?')){
 
@@ -210,7 +219,10 @@ class RecepcionMdl extends BaseMdl{
 					array_push($rows, $result);
 				if(empty($rows))
 					return VACIO;
-				return $rows;
+				$result = array('recepcion'=>$main,
+								'productos'=>$rows
+								);
+				return $result;
 			}else
 				return VACIO;
 

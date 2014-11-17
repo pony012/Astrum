@@ -169,6 +169,15 @@ class AjusteEntradaMdl extends BaseMdl{
 	**/
 	function listsDetails($idAjusteEntrada){
 		$rows = array();
+		$result = array();
+
+		$main = $this->lists(-1,$idAjusteEntrada);
+		if($main){
+			if(is_numeric($main))
+				return $main;
+		}else{
+			return false;
+		}
 
 		if($stmt = $this->driver->prepare('SELECT * FROM V_AjusteEntradaDetalle WHERE IDAjusteEntrada = ?')){
 
@@ -186,7 +195,10 @@ class AjusteEntradaMdl extends BaseMdl{
 					array_push($rows, $result);
 				if(empty($rows))
 					return VACIO;
-				return $rows;
+				$result = array('ajusteEntrada'=>$main,
+								'productos'=>$rows
+								);
+				return $result;
 			}else
 				return VACIO;
 
