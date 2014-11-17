@@ -20,9 +20,16 @@
 					//Crear 
 					$this->lists();
 					break;	
+				case 'listsDetails':
+					//Crear 
+					$this->listsDetails();
+					break;	
 				case 'get':
 					//Obtener una Remision
 					$this->getRemision();
+					break;
+				case 'getFolio':
+					$this->getFolio();
 					break;
 				default:
 					if ($this->api) {
@@ -193,31 +200,57 @@
 			}
 		}
 
-		/**
-		*listamos todas las remisiones con sus detalles
-		**/
-		private function listss(){
-
-			if($resultRemision = $this->model->lists()){
-
-				$data = array();
-				foreach($resultRemision as $row){
-
-					$details = array();
-
-					if($resultRemisionDetalle = $this->model->listsDetails($row['IDRemision'])){
-
-						foreach($resultRemisionDetalle as $rowDetails)
-							array_push($details, $rowDetails);
-
-					}
-
-					array_push($data, array($row,$details));
+		private function getFolio(){
+			$folio = $this->model->getFolio('Remision');
+			if(is_numeric($folio)){
+				if($this->api){
+					echo $this->json_encode(array('error'=>OK,'data'=>array('Folio' => ($folio+1)),'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
+				}else{
+					//CARGAR VISTA OK
 				}
-				
-				require_once 'views/remisionSelected.php';
-			}else
-				require_once 'views/remisionSelectedError.html';
+			}else{
+				if($this->api){
+					echo $this->json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Generar el Folio'));
+				}else{
+					//CARGAR VISTA ERROR DB
+				}
+			}
+		}
+
+		/**
+		*listamos los detalles de una remision
+		**/
+		private function listsDetails(){
+			$idRemision = $this->validateNumber(isset($_GET['id'])?$_GET['id']:NULL);
+			if($idRemision!==''){
+				if(($result = $this->model->listsDetails($idRemision))){
+					if(is_numeric($result)){
+						if ($this->api) {
+							echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+						}else{
+							//CARGAR VISTA VACIO
+						}
+					}else{
+						if($this->api){
+							echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
+						}else{
+							//CARGAR VISTA OK
+						}
+					}
+				}else{
+					if($this->api){
+						echo $this->json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					}else{
+						//CARGAR VISTA ERROR DB
+					}
+				}
+			}else{
+				if($this->api){
+					echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				}else{
+					//CARGAR VISTA FORMATO INCORRECTO
+				}
+			}
 		}
 
 		function __construct(){
