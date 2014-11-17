@@ -19,7 +19,7 @@ SELECT IDAjusteEntrada, ae.IDMovimientoAlmacen, Folio, aet.Tipo, c.IDCliente, CO
 From AjusteEntrada ae
 inner join AjusteEntradaTipo aet
 on aet.IDAjusteEntradaTipo=ae.IDAjusteEntradaTipo
-inner join Cliente c
+left join Cliente c
 on c.IDCliente=ae.IDCliente AND c.Activo= 'S'
 inner join MovimientoAlmacen ma
 on ma.IDMovimientoAlmacen=ae.IDMovimientoAlmacen
@@ -31,7 +31,7 @@ SELECT IDAjusteSalida, ae.IDMovimientoAlmacen, Folio, aet.Tipo, p.IDProveedor, C
 From AjusteSalida ae
 inner join AjusteSalidaTipo aet
 on aet.IDAjusteSalidaTipo=ae.IDAjusteSalidaTipo
-inner join Proveedor p
+left join Proveedor p
 on p.IDProveedor=ae.IDProveedor and p.Activo='S'
 inner join MovimientoAlmacen ma
 on ma.IDMovimientoAlmacen=ae.IDMovimientoAlmacen
