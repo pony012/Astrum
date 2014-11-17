@@ -1,5 +1,5 @@
 /*Cliente*/
-INSERT INTO `spadamaris`.`cliente` (`IDCliente`, `Nombre`, `ApellidoPaterno`, `ApellidoMaterno`, `Calle`, `NumExterior`, `NumInterior`, `Colonia`, `CodigoPostal`, `Email`, `Telefono`, `Celular`, `Activo`) VALUES ('2', 'Christian', 'Velázquez', 'Pérez', 'Volcán Usulutan', '55', '3', 'Huentitán el Bajo', '44250', 'chris_abimael@hotmail.com', '36516998', '3310180877', 'N');
+INSERT INTO `spadamaris`.`cliente` (`IDCliente`, `Nombre`, `ApellidoPaterno`, `ApellidoMaterno`, `Calle`, `NumExterior`, `NumInterior`, `Colonia`, `CodigoPostal`, `Email`, `Telefono`, `Celular`, `Activo`) VALUES (NULL, 'Christian', 'Velázquez', 'Pérez', 'Volcán Usulutan', '55', '3', 'Huentitán el Bajo', '44250', 'chris_abimael@hotmail.com', '36516998', '3310180877', 'N');
 
 /*Empleado*/
 

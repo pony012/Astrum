@@ -391,7 +391,6 @@
 							$template = $this->twig->loadTemplate('vacio.html'); echo $template->render(array('session'=>$this->session,'data'=>NULL));
 							$template = $this->twig->loadTemplate('clienteList.html');
 							echo $template->render(array('session'=>$this->session,'data'=>$result));
-<
 						}
 					}else{
 						if($this->api){
@@ -430,7 +429,6 @@
 							$template = $this->twig->loadTemplate('vacio.html'); echo $template->render(array('session'=>$this->session,'data'=>NULL));
 							$template = $this->twig->loadTemplate('clienteList.html');
 							echo $template->render(array('session'=>$this->session,'data'=>$result));
-<
 						}
 					}else{
 						if($this->api){
@@ -469,7 +467,6 @@
 							$template = $this->twig->loadTemplate('vacio.html'); echo $template->render(array('session'=>$this->session,'data'=>NULL));
 							$template = $this->twig->loadTemplate('clienteList.html');
 							echo $template->render(array('session'=>$this->session,'data'=>$result));
-<
 						}
 					}else{
 						if($this->api){
