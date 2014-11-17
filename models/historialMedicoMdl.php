@@ -295,6 +295,141 @@ class HistorialMedicoMdl extends BaseMdl{
 	}
 
 	/**
+	* @param Integer $idHistorialMedico
+	* Consulta los detalles de las remisiones registradas
+	* @return array or false
+	**/
+	function listsDetails($idHistorialMedico){
+		$rows = array();
+
+		$historialMedico = $this->lists(-1,$idHistorialMedico);
+		if($historialMedico){
+			if(is_numeric($historialMedico)){
+				return $historialMedico;
+			}else{
+				array_push($rows, $historialMedico);
+			}
+		}else{
+			return false;
+		}
+
+		$aguaAlDia = $this->listsAguaAlDia(-1,$idHistorialMedico);
+		if($aguaAlDia){
+			if(is_numeric($aguaAlDia)){
+				return $aguaAlDia;
+			}else{
+				array_push($rows, $aguaAlDia);
+			}
+		}else{
+			return false;
+		}
+
+		$alimentacion = $this->listsAlimentacion(-1,$idHistorialMedico);
+		if($alimentacion){
+			if(is_numeric($alimentacion)){
+				return $alimentacion;
+			}else{
+				array_push($rows, $alimentacion);
+			}
+		}else{
+			return false;
+		}
+		
+		$exfoliacion = $this->listsExfoliacion(-1,$idHistorialMedico);
+		if($exfoliacion){
+			if(is_numeric($exfoliacion)){
+				return $exfoliacion;
+			}else{
+				array_push($rows, $exfoliacion);
+			}
+		}else{
+			return false;
+		}
+		
+		$exploracionInicial = $this->listsExploracionInicial(-1,$idHistorialMedico);
+		if($exploracionInicial){
+			if(is_numeric($exploracionInicial)){
+				return $exploracionInicial;
+			}else{
+				array_push($rows, $exploracionInicial);
+			}
+		}else{
+			return false;
+		}
+		
+		$exploracionFinal = $this->listsExploracionFinal(-1,$idHistorialMedico);
+		if($exploracionFinal){
+			if(is_numeric($exploracionFinal)){
+				return $exploracionFinal;
+			}else{
+				array_push($rows, $exploracionFinal);
+			}
+		}else{
+			return false;
+		}
+		
+		$fichaClinica = $this->listsFichaClinica(-1,$idHistorialMedico);
+		if($fichaClinica){
+			if(is_numeric($fichaClinica)){
+				return $fichaClinica;
+			}else{
+				array_push($rows, $fichaClinica);
+			}
+		}else{
+			return false;
+		}
+		
+		$habito = $this->listsHabito(-1,$idHistorialMedico);
+		if($habito){
+			if(is_numeric($habito)){
+				return $habito;
+			}else{
+				array_push($rows, $habito);
+			}
+		}else{
+			return false;
+		}
+		
+		$padecimiento = $this->listsPadecimiento(-1,$idHistorialMedico);
+		if($padecimiento){
+			if(is_numeric($padecimiento)){
+				return $padecimiento;
+			}else{
+				array_push($rows, $padecimiento);
+			}
+		}else{
+			return false;
+		}
+		
+		$piel = $this->listsPiel(-1,$idHistorialMedico);
+		if($piel){
+			if(is_numeric($piel)){
+				return $piel;
+			}else{
+				array_push($rows, $piel);
+			}
+		}else{
+			return false;
+		}
+		
+		$tipoCelulitis = $this->listsTipoCelulitis(-1,$idHistorialMedico);
+		if($tipoCelulitis){
+			if(is_numeric($tipoCelulitis)){
+				return $tipoCelulitis;
+			}else{
+				array_push($rows, $tipoCelulitis);
+			}
+		}else{
+			return false;
+		}
+
+		if(empty($rows))
+			return VACIO;
+		return $rows;
+
+	}
+
+	/**
 	 *@param int $idHistorialMedico
 	 *@param string $poca
 	 *@param string $regularAg
