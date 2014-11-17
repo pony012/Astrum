@@ -63,14 +63,14 @@
 				$caderaIni			  = $this->validateNumber(isset($_POST['caderaIni'])?$_POST['caderaIni']:NULL);
 				$musloIni			  = $this->validateNumber(isset($_POST['musloIni'])?$_POST['musloIni']:NULL);
 
-				$pesoIni			  = ($pesoIni === ''?0:$pesoIni);
-				$bustoIni			  = ($bustoIni === ''?0:$bustoIni);
-				$diafragmaIni		  = ($diafragmaIni === ''?0:$diafragmaIni);
-				$brazoIni			  = ($brazoIni === ''?0:$brazoIni);
-				$cinturaIni			  = ($cinturaIni === ''?0:$cinturaIni);
-				$abdomenIni			  = ($abdomenIni === ''?0:$abdomenIni);
-				$caderaIni			  = ($caderaIni === ''?0:$caderaIni);
-				$musloIni			  = ($musloIni === ''?0:$musloIni);
+				$pesoIni			  = ($pesoIni === ''?0:(double)$pesoIni);
+				$bustoIni			  = ($bustoIni === ''?0:(double)$bustoIni);
+				$diafragmaIni		  = ($diafragmaIni === ''?0:(double)$diafragmaIni);
+				$brazoIni			  = ($brazoIni === ''?0:(double)$brazoIni);
+				$cinturaIni			  = ($cinturaIni === ''?0:(double)$cinturaIni);
+				$abdomenIni			  = ($abdomenIni === ''?0:(double)$abdomenIni);
+				$caderaIni			  = ($caderaIni === ''?0:(double)$caderaIni);
+				$musloIni			  = ($musloIni === ''?0:(double)$musloIni);
 				
 				$pesoFin			  = $this->validateNumber(isset($_POST['pesoFin'])?$_POST['pesoFin']:NULL);
 				$bustoFin			  = $this->validateNumber(isset($_POST['bustoFin'])?$_POST['bustoFin']:NULL);
@@ -81,14 +81,14 @@
 				$caderaFin			  = $this->validateNumber(isset($_POST['caderaFin'])?$_POST['caderaFin']:NULL);
 				$musloFin  			  = $this->validateNumber(isset($_POST['musloFin'])?$_POST['musloFin']:NULL);
 
-				$pesoFin			  = ($pesoFin === ''?0:$pesoFin);
-				$bustoFin			  = ($bustoFin === ''?0:$bustoFin);
-				$diafragmaFin		  = ($diafragmaFin === ''?0:$diafragmaFin);
-				$brazoFin			  = ($brazoFin === ''?0:$brazoFin);
-				$cinturaFin			  = ($cinturaFin === ''?0:$cinturaFin);
-				$abdomenFin			  = ($abdomenFin === ''?0:$abdomenFin);
-				$caderaFin			  = ($caderaFin === ''?0:$caderaFin);
-				$musloFin			  = ($musloFin === ''?0:$musloFin);
+				$pesoFin			  = ($pesoFin === ''?0:(double)$pesoFin);
+				$bustoFin			  = ($bustoFin === ''?0:(double)$bustoFin);
+				$diafragmaFin		  = ($diafragmaFin === ''?0:(double)$diafragmaFin);
+				$brazoFin			  = ($brazoFin === ''?0:(double)$brazoFin);
+				$cinturaFin			  = ($cinturaFin === ''?0:(double)$cinturaFin);
+				$abdomenFin			  = ($abdomenFin === ''?0:(double)$abdomenFin);
+				$caderaFin			  = ($caderaFin === ''?0:(double)$caderaFin);
+				$musloFin			  = ($musloFin === ''?0:(double)$musloFin);
 				
 				$motivoConsulta		  = $this->validateText(isset($_POST['motivoConsulta'])?$_POST['motivoConsulta']:NULL);
 				$tiempoProblema		  = $this->validateText(isset($_POST['tiempoProblema'])?$_POST['tiempoProblema']:NULL);
@@ -109,9 +109,16 @@
 				$arregloPadecimiento  = (isset($_POST['arregloPadecimiento'])?$_POST['arregloPadecimiento']:NULL);
 				$arregloPiel		  = (isset($_POST['arregloPiel'])?$_POST['arregloPiel']:NULL);
 				$arregloTipoCelulitis = (isset($_POST['arregloTipoCelulitis'])?$_POST['arregloTipoCelulitis']:NULL);
+
+				//var_dump($arregloExfolacion);
+				//var_dump($arregloHabito);
+				//var_dump($arregloPadecimiento);
+				//var_dump($arregloPiel);
+				//var_dump($arregloTipoCelulitis);
+				//die();
 				
 				//Los siguientes if's para los arreglos se borrarán
-				if(count($arregloExfolacion) <= 1)
+				/*if(count($arregloExfolacion) <= 1)
 					$arregloExfolacion = array($arregloExfolacion);
 				if(count($arregloHabito) <= 1)
 					$arregloHabito =  array($arregloHabito);
@@ -121,7 +128,8 @@
 					$arregloPiel =  array($arregloPiel);
 				if(count($arregloTipoCelulitis) <= 1)
 					$arregloTipoCelulitis =  array($arregloTipoCelulitis);
-					
+				*/
+
 				if(strlen($idCliente)==0)
 					$errors['idCliente'] = 1;
 				if(strlen($idServicio)==0)
@@ -171,7 +179,7 @@
 						default:
 					}
 					
-					$peellingQuim = NULL;
+					$peelingQuim = NULL;
 					$laser = NULL;
 					$dermobrasion = NULL;
 					$retinA = NULL;
@@ -185,10 +193,14 @@
 					$vitaminaA = NULL;
 					$blanqueadorAclarador = NULL;
 					
-					foreach($arregloExfolacion as $value)
+					//var_dump($arregloExfolacion);
+					foreach($arregloExfolacion as $value){
+						//var_dump($value);
 						switch($value){
-							case 'peellingQuim':
-								$peellingQuim ='S';
+							case 'peelingQuim':
+								//echo "string";
+								//die();
+								$peelingQuim ='S';
 								break;
 							case 'laser':
 								$laser = 'S';
@@ -228,6 +240,8 @@
 								break;
 							default:
 						};
+					}
+					//die();
 					
 					$fumar 			= NULL;
 					$ejercicio 	    = NULL;
@@ -431,7 +445,7 @@
 																$pesoFin, $bustoFin, $diafragmaFin, $brazoFin, $cinturaFin, $abdomenFin, $caderaFin, $musloFin,
 																$motivoConsulta, $tiempoProblema, $relacionaCon, $tratamientoAnterior, $metProbados, $resAnteriores,
 																$poca,$regularAg,$mucha,$buena,$regularAl,$mala,
-																$peellingQuim,$laser,$dermobrasion,$retinA,$renova,$racutan,
+																$peelingQuim,$laser,$dermobrasion,$retinA,$renova,$racutan,
 																$adapaleno,$acidoGlicolico,$alfaHidroiacidos,$exfolianteGranuloso,
 																$acidoLactico,$vitaminaA,$blanqueadorAclarador, $fumar, $ejercicio, $usarFaja, $suenio, $tomaSol, $bloqueador, $hidroquinona,
 																$diabetes, $obesisdad, $depresion, $estres, $sobrepeso, $estrenimiento, $colitis,
@@ -450,7 +464,7 @@
 													$pesoFin, $bustoFin, $diafragmaFin, $brazoFin, $cinturaFin, $abdomenFin, $caderaFin, $musloFin,
 													$motivoConsulta, $tiempoProblema, $relacionaCon, $tratamientoAnterior, $metProbados, $resAnteriores,
 													$poca,$regularAg,$mucha,$buena,$regularAl,$mala,
-													$peellingQuim,$laser,$dermobrasion,$retinA,$renova,$racutan,
+													$peelingQuim,$laser,$dermobrasion,$retinA,$renova,$racutan,
 													$adapaleno,$acidoGlicolico,$alfaHidroiacidos,$exfolianteGranuloso,
 													$acidoLactico,$vitaminaA,$blanqueadorAclarador, $fumar, $ejercicio, $usarFaja, $suenio, $tomaSol, $bloqueador, $hidroquinona,
 													$diabetes, $obesisdad, $depresion, $estres, $sobrepeso, $estrenimiento, $colitis,
