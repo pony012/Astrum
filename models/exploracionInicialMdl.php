@@ -1,7 +1,7 @@
 <?php
 require_once 'models/baseMdl.php';
 	/**
-	* Clase para el modelo
+	* Clase para el modelo de Exploración Inicial
 	*/
 class ExploracionInicialMdl extends BaseMdl{
 	private $pesoIni;
@@ -23,21 +23,21 @@ class ExploracionInicialMdl extends BaseMdl{
 	 *@param decimal $caderaIni
 	 *@param decimal $musloIni
 	 *Crea una nueva exploracion con los datos iniciales de un cliente
-	 *@return true
+	 *@return true or false
 	 */
-	function create($lastId, $pesoIni, $bustoIni, $diafragmaIni, $brazoIni, $cinturaIni, $abdomenIni, $caderaIni, $musloIni){
-		$this->pesoIni = $this->driver->real_escape_string($pesoIni);
-		$this->bustoIni = $this->driver->real_escape_string($bustoIni);
+	function create($idHistorialMedico, $pesoIni, $bustoIni, $diafragmaIni, $brazoIni, $cinturaIni, $abdomenIni, $caderaIni, $musloIni){
+		$this->pesoIni 		= $this->driver->real_escape_string($pesoIni);
+		$this->bustoIni 	= $this->driver->real_escape_string($bustoIni);
 		$this->diafragmaIni = $this->driver->real_escape_string($diafragmaIni);
-		$this->brazoIni = $this->driver->real_escape_string($brazoIni);
-		$this->cinturaIni = $this->driver->real_escape_string($cinturaIni);
-		$this->abdomenIni = $this->driver->real_escape_string($abdomenIni);
-		$this->caderaIni = $this->driver->real_escape_string($caderaIni);
-		$this->musloIni = $this->driver->real_escape_string($musloIni);
+		$this->brazoIni 	= $this->driver->real_escape_string($brazoIni);
+		$this->cinturaIni 	= $this->driver->real_escape_string($cinturaIni);
+		$this->abdomenIni 	= $this->driver->real_escape_string($abdomenIni);
+		$this->caderaIni 	= $this->driver->real_escape_string($caderaIni);
+		$this->musloIni 	= $this->driver->real_escape_string($musloIni);
 
 		$stmt = $this->driver->prepare("INSERT INTO ExploracionInicial (IDHistorialMedico,PesoInicial,BustoInicial,DiafragmaInicial,BrazoInicial,CinturaInicial,
 										AbdomenInicial,CaderaInicial,MusloInicial) VALUES (?,?,?,?,?,?,?,?,?)");
-		if(!$stmt->bind_param('idddddddd',$lastId, $this->pesoIni,$this->bustoIni,$this->diafragmaIni,$this->brazoIni,$this->cinturaIni,$this->abdomenIni,
+		if(!$stmt->bind_param('idddddddd',$idHistorialMedico, $this->pesoIni,$this->bustoIni,$this->diafragmaIni,$this->brazoIni,$this->cinturaIni,$this->abdomenIni,
 			$this->caderaIni,$this->musloIni))
 			return false;
 		if (!$stmt->execute()) 
@@ -46,6 +46,108 @@ class ExploracionInicialMdl extends BaseMdl{
 			return false;
 		
 		return true;
+	}
+
+	/**
+	*Actualiza la información de la Exploración Inicial
+	*@param decimal $pesoIni
+	 *@param decimal $bustoIni
+	 *@param decimal $diafragmaIni
+	 *@param decimal $brazoIni
+	 *@param decimal $cinturaIni
+	 *@param decimal $abdomenIni
+	 *@param decimal $caderaIni
+	 *@param decimal $musloIni
+	*@return true or false
+	**/
+	function update($idExploracionInicial,$idHistorialMedico, $pesoIni, $bustoIni, $diafragmaIni, $brazoIni, $cinturaIni, $abdomenIni, $caderaIni, $musloIni){
+		if($stmt = $this->driver->prepare('SELECT IDExploracionInicial FROM ExploracionInicial WHERE IDExploracionInicial=?')){
+		
+			if(!$stmt->bind_param('i',$idExploracionInicial))
+				return false;
+			
+			if(!$stmt->execute())
+				return false;
+				
+			$mySqliResult = $stmt->get_result();
+
+			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['IDExploracionInicial']!=''){
+				$this->pesoIni 		= $this->driver->real_escape_string($pesoIni);
+				$this->bustoIni 	= $this->driver->real_escape_string($bustoIni);
+				$this->diafragmaIni = $this->driver->real_escape_string($diafragmaIni);
+				$this->brazoIni 	= $this->driver->real_escape_string($brazoIni);
+				$this->cinturaIni 	= $this->driver->real_escape_string($cinturaIni);
+				$this->abdomenIni 	= $this->driver->real_escape_string($abdomenIni);
+				$this->caderaIni 	= $this->driver->real_escape_string($caderaIni);
+				$this->musloIni 	= $this->driver->real_escape_string($musloIni);
+				
+				$stmt = $this->driver->prepare("UPDATE IDHistorialMedico=?,PesoInicial=?,BustoInicial=?,DiafragmaInicial=?,BrazoInicial=?,CinturaInicial=?,
+										AbdomenInicial=?,CaderaInicial=?,MusloInicial=? WHERE IDExploracionInicial=?");
+
+				if(!$stmt->bind_param('idddddddd',$idHistorialMedico, $this->pesoIni,$this->bustoIni,$this->diafragmaIni,$this->brazoIni,$this->cinturaIni,$this->abdomenIni,
+													$this->caderaIni,$this->musloIni,$idExploracionInicial)){
+					return false;
+				}
+				if (!$stmt->execute()) {
+					return false;
+				}
+
+				if($this->driver->error){
+					return false;
+				}
+				return true;
+			}
+		}
+		else
+			return false;
+	}
+
+	/**
+	* Consulta las Exploraciones Iniciales registrados en el sistema
+	*@param int $offset
+	*@param int $idExploracionInicial
+	* @return array or false
+	**/
+	function lists($offset = -1,$idExploracionInicial = -1, $constrain = '1 = 1'){
+		$rows = array();
+		if($offset>-1){
+			$stmt = $this->driver->prepare('SELECT * FROM ExploracionInicial WHERE '.$constrain.' LIMIT ?,?');
+		}else{
+			if($idExploracionInicial>-1){
+				$stmt = $this->driver->prepare('SELECT * FROM ExploracionInicial WHERE IDExploracionInicial=?');
+			}else{
+				$stmt = $this->driver->prepare('SELECT * FROM ExploracionInicial WHERE '.$constrain);
+			}
+		}
+		if($stmt){
+			if($offset>-1){
+				$amountRows = 10;
+				$offset*=10;
+				if(!$stmt->bind_param('ii',$offset,$amountRows))
+					return false;
+			}else if($idExploracionInicial>-1){
+				if(!$stmt->bind_param('i',$idExploracionInicial))
+					return false;
+			}
+			if(!$stmt->execute())
+				return false;
+
+			$mySqliResult = $stmt->get_result();
+
+			if($mySqliResult->field_count > 0){
+
+				while($result = $mySqliResult->fetch_assoc())
+					array_push($rows, $result);
+				if(empty($rows))
+					return VACIO;
+				return $rows;
+			}else
+				return VACIO;
+
+		}else
+			return false;
+			
+		return false;
 	}
 }
 ?>
