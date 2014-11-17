@@ -54,6 +54,7 @@
 		private function create(){
 			if ($this->api) {
 				$errors = array();
+				
 				$idProveedor	= $this->validateNumber(isset($_POST['idProveedor'])?$_POST['idProveedor']:NULL);
 				$folio			= $this->model->getFolio('Recepcion');//$this->validateNumber(isset($_POST['folio'])?$_POST['folio']:NULL);
 				$fechaRecepcion	= $this->validateDate(isset($_POST['fechaRecepcion'])?$_POST['fechaRecepcion']:NULL);
@@ -77,7 +78,7 @@
 					$errors['ivas'] = 1;
 				if(count($this->validateNumericArray($descuentos)) != 0)
 					$errors['descuentos'] = 1;
-				
+
 				if (count($errors) == 0) {
 					
 					$result = $this->model->create($idProveedor, $folio, $fechaRecepcion,$idProductos,$cantidades,$precioUnitario,$ivas,$descuentos);
