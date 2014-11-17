@@ -331,7 +331,7 @@
 
 		private function utf8_encode_deep(&$input) {
 		    if (is_string($input)) {
-		        $input = utf8_decode(utf8_encode($input));
+		        $input = utf8_encode($input);
 		    } else if (is_array($input)) {
 		        foreach ($input as &$value) {
 		            $this->utf8_encode_deep($value);

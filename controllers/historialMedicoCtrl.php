@@ -977,13 +977,14 @@
 						if ($this->api) {
 							echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 						}else{
-							//CARGAR VISTA VACIO
+							$template = $this->twig->loadTemplate('vacio.html'); echo $template->render(array('session'=>$this->session,'data'=>NULL));
 						}
 					}else{
 						if($this->api){
 							echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
 						}else{
-							//CARGAR VISTA OK
+							$template = $this->twig->loadTemplate('historialMedicoList.html');
+							echo $template->render(array('session'=>$this->session,'data'=>$result));
 						}
 					}
 				}else{
@@ -1013,13 +1014,14 @@
 						if ($this->api) {
 							echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 						}else{
-							//CARGAR VISTA VACIO
+							$template = $this->twig->loadTemplate('vacio.html'); echo $template->render(array('session'=>$this->session,'data'=>NULL));
 						}
 					}else{
 						if($this->api){
 							echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
 						}else{
-							//CARGAR VISTA OK
+							$template = $this->twig->loadTemplate('historialMedicoList.html');
+							echo $template->render(array('session'=>$this->session,'data'=>$result));
 						}
 					}
 				}else{
@@ -1049,13 +1051,14 @@
 						if ($this->api) {
 							echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 						}else{
-							//CARGAR VISTA VACIO
+							$template = $this->twig->loadTemplate('vacio.html'); echo $template->render(array('session'=>$this->session,'data'=>NULL));
 						}
 					}else{
 						if($this->api){
 							echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
 						}else{
-							//CARGAR VISTA OK
+							$template = $this->twig->loadTemplate('historialMedicoList.html');
+							echo $template->render(array('session'=>$this->session,'data'=>$result));
 						}
 					}
 				}else{
