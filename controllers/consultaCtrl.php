@@ -121,8 +121,7 @@
 					$errors['observaciones'] = 1;
 
 				if (count($errors) == 0) {
-
-					$result = $this->model->create($idConsulta,$idCliente, $idTerapeuta, $idHistorialMedico,$fechaCita, $idConsultaStatus, $observaciones);
+					$result = $this->model->update($idConsulta,$idCliente, $idTerapeuta, $idHistorialMedico,$fechaCita, $idConsultaStatus, $observaciones);
 
 					//Si pudo ser creado
 					if ($result) {
@@ -155,6 +154,7 @@
 		*Listamos todas las Consultas registrados
 		**/
 		private function lists(){
+
 			$constrain = '';
 			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
 			$constrains = isset($_POST['constrains'])?$_POST['constrains']:'1 = 1';
@@ -179,8 +179,10 @@
 					}
 				}
 			}
+
 			if($offset!==''){ 
 				if(($result = $this->model->lists($offset,-1,$constrain))){
+					
 					if(is_numeric($result)){
 						if ($this->api) {
 							echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
@@ -188,6 +190,7 @@
 							//CARGAR VISTA VACIO
 						}
 					}else{
+
 						if($this->api){
 							echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
 						}else{

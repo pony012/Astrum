@@ -199,6 +199,8 @@ on ma.IDMovimientoAlmacen = rec.IDMovimientoAlmacen
 GROUP BY ps.Producto,recd.PrecioUnitario,FechaCompra;
 
 
+/*
+
 CREATE VIEW V_TotalEnAlmacen AS
 SELECT ps.Producto,(SUM(recd.Cantidad) + SUM(aed.Cantidad) - SUM(remd.Cantidad) - SUM(asd.Cantidad)) as TotalEnAlmacen
 FROM ProductoServicio as ps
@@ -224,3 +226,5 @@ FROM ProductoServicio as ps
 inner join RemisionDetalle as remd
 on remd.IDProducto = ps.IDProductoServicio
 GROUP BY ps.Producto;
+
+*/

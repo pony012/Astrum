@@ -43,6 +43,39 @@ class ConsultaMdl extends BaseMdl{
 
 		return true;
 	}
+
+	/**
+	 *@param integer $idConsulta
+	 *@param integer $idCliente
+	 *@param integer $idTerapeuta
+	 *@param date $fechaCita
+	 *@param integer $idConsultaStatus
+	 *@param string $observaciones
+	 *Crea una nueva consulta
+	 *@return true
+	 */
+	function update($idConsulta,$idCliente, $idTerapeuta, $idHistorialMedico, $fechaCita, $idConsultaStatus, $observaciones){
+		$this->idCliente 		= $idCliente;
+		$this->idTerapeuta		= $idTerapeuta;
+		$this->idHistorialMedico= $idHistorialMedico;
+		$this->fechaCita		= $fechaCita;
+		$this->idConsultaStatus	= $idConsultaStatus;
+		$this->observaciones	= $this->driver->real_escape_string($observaciones);
+		
+		$stmt = $this->driver->prepare("UPDATE Consulta SET IDCliente=?, IDTerapeuta=?, IDHistorialMedico=?, FechaCita=?, IDConsultaStatus=?, Observaciones=? WHERE IDConsulta=?");
+		if(!$stmt->bind_param('iiisisi',$this->idCliente,$this->idTerapeuta,$this->idHistorialMedico,$this->fechaCita,$this->idConsultaStatus,$this->observaciones,$idConsulta)){
+			return false;
+		}
+		if (!$stmt->execute()) {
+			return false;
+		}
+
+		if($this->driver->error){
+			return false;
+		}
+
+		return true;
+	}
 	
 	/**
 	* Busca a las Consultas registradas
