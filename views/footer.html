@@ -12,7 +12,11 @@
     <!-- Custom Theme JavaScript -->
     <script src="{{session.document_root}}/js/sb-admin-2.js"></script>
 
-    <script src="{{session.document_root}}/js/plugins/webforms2-0.5.4/webforms2-p.js"></script>
+    <script src="{{session.document_root}}/js/js-webshim/minified/polyfiller.js"></script>
+
+    <script type="text/javascript">
+        webshims.polyfill('forms forms-ext');
+    </script>
 
     {% if jsLibs is defined%}
         {% for jsLib in jsLibs%}
