@@ -31,24 +31,24 @@ class RecepcionMdl extends BaseMdl{
 		$total = 0;
 
 		$this->driver->autocommit(false);
-		$this->query->begin_transaction();
+		$this->driver->begin_transaction();
 
 		$stmt = $this->driver->prepare("INSERT INTO 
 										MovimientoAlmacen (IDMovimientoAlmacenTipo, IDEmpleado)
 										VALUES(4,?)");
 		if(!$stmt->bind_param('i', $_SESSION['IDEmpleado'])){
-			$this->query->rollback();
+			$this->driver->rollback();
 			return false;
 		}
 		if (!$stmt->execute()) {
-			$this->query->rollback();
+			$this->driver->rollback();
 			return false;
 		}
 
 		$lastId = $this->driver->insert_id;
 
 		if($this->driver->error){
-			$this->query->rollback();
+			$this->driver->rollback();
 			return false;
 		}
 
@@ -56,16 +56,17 @@ class RecepcionMdl extends BaseMdl{
 										Recepcion (IDMovimientoAlmacen, IDProveedor, Folio, FechaRecepcion)
 										VALUES(?,?,?,?)");
 		if(!$stmt->bind_param('iiis', $lastId, $this->idProveedor,$this->folio,$this->fechaRecepcion)){
-			$this->query->rollback();
+			$this->driver->rollback();
 			return false;
 		}
+
 		if (!$stmt->execute()) {
-			$this->query->rollback();
+			$this->driver->rollback();
 			return false;
 		}
 
 		if($this->driver->error){
-			$this->query->rollback();
+			$this->driver->rollback();
 			return false;
 		}
 
@@ -74,7 +75,7 @@ class RecepcionMdl extends BaseMdl{
 
 		for($i = 0;$i < count($idProductos);$i++){
 			if(!$this->createDetails($lastId,$idProductos[$i],$cantidades[$i],$precioUnitario[$i],$ivas[$i],$descuentos[$i])){
-				$this->query->rollback();
+				$this->driver->rollback();
 				return false;
 			}
 			$total += $cantidades[$i]*$precioUnitario[$i];
@@ -85,19 +86,19 @@ class RecepcionMdl extends BaseMdl{
 										Recepcion SET Total = ?
 										WHERE IDRecepcion = ?");
 		if(!$stmt->bind_param('di',$this->total, $idRecepcion)){
-			$this->query->rollback();
+			$this->driver->rollback();
 		}
 		if (!$stmt->execute()) {
-			$this->query->rollback();
+			$this->driver->rollback();
 			return false;
 		}
 
 		if($this->driver->error){
-			$this->query->rollback();
+			$this->driver->rollback();
 			return false;
 		}
 
-		$this->query->commit();
+		$this->driver->commit();
 		$this->driver->autocommit(true);
 		return true;
 	}

@@ -75,7 +75,6 @@
 				if(strlen($observaciones)==0)
 					$errors['observaciones'] = 1;
 				*/
-
 				if (count($errors) == 0) {
 
 					$result = $this->model->create($idAjusteSalidaTipo, $idProveedor, $folio, $observaciones, $idProductoServicios, $cantidades);

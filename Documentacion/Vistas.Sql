@@ -175,3 +175,25 @@ Calle, NumExterior,
 NumInterior, Colonia, CodigoPostal as CP, Email, Telefono, Celular 
 From Cliente c
 WHERE c.Activo='N'; 
+
+CREATE VIEW V_TotalVendido AS
+SELECT ps.Producto,remd.PrecioUnitario,SUM(remd.Cantidad) as CantidadTotalVendida, DATE_FORMAT(ma.MovimientoAlmacenFecha,'%Y-%m-%d') as FechaVenta
+from ProductoServicio as ps
+inner join RemisionDetalle as remd
+on remd.IDProducto = ps.IDProductoServicio
+inner join Remision as rem
+on rem.IDRemision = remd.IDRemision
+inner join MovimientoAlmacen as ma
+on ma.IDMovimientoAlmacen = rem.IDMovimientoAlmacen
+GROUP BY ps.Producto,remd.PrecioUnitario,FechaVenta;
+
+CREATE VIEW V_TotalComprado AS
+SELECT ps.Producto,recd.PrecioUnitario,SUM(recd.Cantidad) as CantidadTotalComprada, DATE_FORMAT(ma.MovimientoAlmacenFecha,'%Y-%m-%d') as FechaCompra
+from ProductoServicio as ps
+inner join RecepcionDetalle as recd
+on recd.IDProducto = ps.IDProductoServicio
+inner join Recepcion as rec
+on rec.IDRecepcion = recd.IDRecepcion
+inner join MovimientoAlmacen as ma
+on ma.IDMovimientoAlmacen = rec.IDMovimientoAlmacen
+GROUP BY ps.Producto,recd.PrecioUnitario,FechaCompra;

@@ -33,24 +33,24 @@ class AjusteEntradaMdl extends BaseMdl{
 		$this->observaciones		= $this->driver->real_escape_string($observaciones);
 
 		$this->driver->autocommit(false);
-		$this->query->begin_transaction();
+		$this->driver->begin_transaction();
 
 		$stmt = $this->driver->prepare("INSERT INTO 
 										MovimientoAlmacen (IDMovimientoAlmacenTipo, IDEmpleado)
 										VALUES(1,?)");
 		if(!$stmt->bind_param('i',$_SESSION['IDEmpleado'])){
-			$this->query->rollback();
+			$this->driver->rollback();
 			return false;
 		}
 		if (!$stmt->execute()) {
-			$this->query->rollback();
+			$this->driver->rollback();
 			return false;
 		}
 
 		$lastId = $this->driver->insert_id;
 
 		if($this->driver->error){
-			$this->query->rollback();
+			$this->driver->rollback();
 			return false;
 		}
 
@@ -58,16 +58,16 @@ class AjusteEntradaMdl extends BaseMdl{
 										AjusteEntrada (IDMovimientoAlmacen, IDAjusteEntradaTipo, IDCliente, Folio, Observaciones)
 										VALUES(?,?,?,?,?)");
 		if(!$stmt->bind_param('iiiis',$lastId,$this->idAjusteEntradaTipo,$this->idCliente,$this->folio,$this->observaciones)){
-			$this->query->rollback();
+			$this->driver->rollback();
 			return false;
 		}
 		if (!$stmt->execute()) {
-			$this->query->rollback();
+			$this->driver->rollback();
 			return false;
 		}
 
 		if($this->driver->error){
-			$this->query->rollback();
+			$this->driver->rollback();
 			return false;
 		}
 
@@ -75,12 +75,12 @@ class AjusteEntradaMdl extends BaseMdl{
 
 		for($i = 0;$i < count($idProductos);$i++){
 			if(!$this->createDetails($lastId,$idProductos[$i],$cantidades[$i])){
-				$this->query->rollback();
+				$this->driver->rollback();
 				return false;
 			}
 		}
 
-		$this->query->commit();
+		$this->driver->commit();
 		$this->driver->autocommit(true);
 
 		return true;
