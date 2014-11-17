@@ -44,17 +44,19 @@ $(function(){
         });
     });
 
-    $("#fileUpload").fileupload({
-        url: $(this).data("url"),
-        dataType: 'json',
-        done: function(e, data){
-            if(data.result.length>0){
-                $("#foto").val(data.result[0]);
-            }
-        },
-        progressall: function(e, data){
-            var progress = parseInt(data.loaded / data.total *100, 10);
-            console.log(progress);
-        },
-    });
+    if($("#fileUpload").length){
+        $("#fileUpload").fileupload({
+            url: $(this).data("url"),
+            dataType: 'json',
+            done: function(e, data){
+                if(data.result.length>0){
+                    $("#foto").val(data.result[0]);
+                }
+            },
+            progressall: function(e, data){
+                var progress = parseInt(data.loaded / data.total *100, 10);
+                console.log(progress);
+            },
+        });
+    }
 });

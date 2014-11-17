@@ -129,7 +129,21 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-shopping-cart"></i> Productos</a>
+                            <a class="{{session.controller == 'producto' ?'active':''}}" href="#"><i class="fa fa-briefcase"></i> Productos <span class="fa arrow"></span></a>
+                        {% if session.controller == 'producto' %}
+                            <ul class="nav nav-second-level collapse in" aria-expanded="true">
+                        {% else %}
+                            <ul class="nav nav-second-level">
+                        {% endif %}
+                            {% if session.isAdmin %}
+                                <li>
+                                    <a class="fa fa-plus-circle" href="{{session.document_root}}/producto/create"> Crear</a>
+                                </li>
+                            {% endif %}
+                                <li>
+                                    <a class="fa fa-list-ul" href="{{session.document_root}}/producto/list"> Listar</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-h-square"></i> Historiales Médicos</a>

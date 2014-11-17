@@ -12,7 +12,7 @@ $(function(){
         if(id>=0){
             $.ajax({
                 type: 'POST',
-                data:{ idServicio: id },
+                data:{ idProducto: id },
                 url: el.attr("href"),
                 dataType: 'json'
             }).done(function(response){

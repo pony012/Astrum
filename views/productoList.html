@@ -1,13 +1,13 @@
 {% include 'header.html' %}
 <section class = "row">
-	<h1 class="page-header text-center col-xs-12">Listar Servicios</h1>
+	<h1 class="page-header text-center col-xs-12">Listar Productos</h1>
     <div class = "col-sm-offset-1 col-sm-10 col-lg-offset-2 col-lg-8">
         <div class="table-responsive">
             <table class="table table-striped table-bordered table-hover">
                 <thead>
                     <tr>
                         <th>#ID</th>
-                        <th>Servicio</th>
+                        <th>Producto</th>
                         <th>Precio Unitario</th>
                         <th>Descripcion</th>
                         <th>Detalles</th>
@@ -18,16 +18,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% for servicio in data %}
+                {% for producto in data %}
                     <tr>
-                        <td>{{servicio.IDProductoServicio}}</td>
-                        <td>{{servicio.Producto}}</td>
-                        <td>{{servicio.PrecioUnitario}}</td>
-                        <td>{{servicio.Descripcion}}</td>
-                        <td><a href="{{session.document_root}}/servicio/list/id/{{servicio.IDProductoServicio}}"><span class="fa fa-list-ul fa-2x"></span></a></td>
+                        <td>{{producto.IDProductoServicio}}</td>
+                        <td>{{producto.Producto}}</td>
+                        <td>{{producto.PrecioUnitario}}</td>
+                        <td>{{producto.Descripcion}}</td>
+                        <td><a href="{{session.document_root}}/producto/list/id/{{producto.IDProductoServicio}}"><span class="fa fa-list-ul fa-2x"></span></a></td>
                     {% if session.isAdmin %}
-                        <td><a href="{{session.document_root}}/servicio/update/{{servicio.IDProductoServicio}}"><span class="fa fa-edit fa-2x"></span></a></td>
-                        <td><a href="#" data-id="{{servicio.IDProductoServicio}}" data-toggle="modal" data-target="#myModal"><span class="fa fa-close fa-2x"></span></a></td>
+                        <td><a href="{{session.document_root}}/producto/update/{{producto.IDProductoServicio}}"><span class="fa fa-edit fa-2x"></span></a></td>
+                        <td><a href="#" data-id="{{producto.IDProductoServicio}}" data-toggle="modal" data-target="#myModal"><span class="fa fa-close fa-2x"></span></a></td>
                     {% endif %}
                     </tr>
                 {% endfor %}
@@ -43,14 +43,14 @@
                     <h4 class="modal-title" id="myModalLabel">Confirmar</h4>
                 </div>
                 <div class="modal-body">
-                    ¿Estás seguro de que quieres eliminar a ese servicio?
+                    ¿Estás seguro de que quieres eliminar a ese producto?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <a type="button" data-idelimiar="-1" id="botonSeguro" class="btn btn-primary" href="{{session.document_root}}/servicio/api/delete/">Sí</a>
+                    <a type="button" data-idelimiar="-1" id="botonSeguro" class="btn btn-primary" href="{{session.document_root}}/producto/api/delete/">Sí</a>
                 </div>
             </div>
         </div>
     </div>
 </section>
-{% include 'footer.html' with {'jsLibs': ['js/servicio.js']} %}
+{% include 'footer.html' with {'jsLibs': ['js/producto.js']} %}

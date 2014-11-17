@@ -20,13 +20,12 @@ class ProductoMdl extends BaseMdl{
 	 *@return true
 	 */
 	function create($producto, $precioUnitario, $foto = NULL, $descripcion = NULL){
-		$this->idProductoTipo 	= $idProductoTipo;
 		$this->producto			= $this->driver->real_escape_string($producto);
 		$this->precioUnitario 	= $precioUnitario;
 		$this->foto				= $this->driver->real_escape_string($foto);
 		$this->descripcion		= $this->driver->real_escape_string($descripcion);
 		
-		$stmt = $this->driver->prepare("INSERT INTO ProductoServicio (Producto, PrecioUnitario, Foto, Descripcion) 
+		$stmt = $this->driver->prepare("INSERT INTO ProductoServicio (IDProductoServicioTipo, Producto, PrecioUnitario, Foto, Descripcion) 
 										VALUES(1,?,?,?,?)");
 		if(!$stmt->bind_param('sdss',$this->producto,$this->precioUnitario,$this->foto,$this->descripcion)){
 			return false;
@@ -158,6 +157,7 @@ class ProductoMdl extends BaseMdl{
 			
 				//if($stmt = $this->driver->prepare('CALL desactivarProductoServicio(?)')){
 				if($stmt = $this->driver->prepare('UPDATE ProductoServicio SET Activo="N" WHERE IDProductoServicio=? AND Activo = "S"')){
+					
 					if(!$stmt->bind_param('i',$idProducto))
 						return false;
 					
@@ -191,6 +191,7 @@ class ProductoMdl extends BaseMdl{
 			
 				//if($stmt = $this->driver->prepare('CALL activarProductoServicio(?)')){
 				if($stmt = $this->driver->prepare('UPDATE ProductoServicio SET Activo="S" WHERE IDProductoServicio=? AND Activo = "N"')){
+					
 					if(!$stmt->bind_param('i',$idProducto))
 						return false;
 					
@@ -209,7 +210,7 @@ class ProductoMdl extends BaseMdl{
 	*Actualiza la información de un producto
 	*@return true or false
 	**/
-	function update($idProducto,$idProductoTipo, $producto, $precioUnitario, $foto = NULL, $descripcion = NULL){
+	function update($idProducto, $producto, $precioUnitario, $foto = NULL, $descripcion = NULL){
 		if($stmt = $this->driver->prepare('SELECT IDProductoServicio FROM ProductoServicio WHERE IDProductoServicio=?')){
 		
 			if(!$stmt->bind_param('i',$idProducto))
@@ -221,15 +222,14 @@ class ProductoMdl extends BaseMdl{
 			$mySqliResult = $stmt->get_result();
 
 			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['IDProductoServicio']!=''){
-				$this->idProductoTipo 	= $idProductoTipo;
 				$this->producto			= $this->driver->real_escape_string($producto);
 				$this->precioUnitario 	= $precioUnitario;
 				$this->foto				= $this->driver->real_escape_string($foto);
 				$this->descripcion		= $this->driver->real_escape_string($descripcion);
 				
-				$stmt = $this->driver->prepare("UPDATE ProductoServicio SET IDProductoServicioTipo=?, Producto=?, PrecioUnitario=?, Foto=?, Descripcion=? 
+				$stmt = $this->driver->prepare("UPDATE ProductoServicio SET IDProductoServicioTipo=1, Producto=?, PrecioUnitario=?, Foto=?, Descripcion=? 
 												WHERE IDProductoServicio=?");
-				if(!$stmt->bind_param('isdssi',$this->idProductoTipo,$this->producto,$this->precioUnitario,$this->foto,$this->descripcion,$idProducto)){
+				if(!$stmt->bind_param('sdssi',$this->producto,$this->precioUnitario,$this->foto,$this->descripcion,$idProducto)){
 					return false;
 				}
 				if (!$stmt->execute()) {
@@ -239,7 +239,6 @@ class ProductoMdl extends BaseMdl{
 				if($this->driver->error){
 					return false;
 				}
-
 				return true;
 			}
 		}

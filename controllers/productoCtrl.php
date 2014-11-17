@@ -85,6 +85,7 @@
 					break;
 			}
 		}
+
 		/**
 		* Crea un Producto
 		*/
@@ -101,11 +102,10 @@
 					$errors['producto'] = 1;
 				if(strlen($precioUnitario)==0)
 					$errors['precioUnitario'] = 1;
-				if(strlen($foto)==0)
-					$errors['foto'] = 1;
+				//if(strlen($foto)==0)
+				//	$errors['foto'] = 1;
 				if(strlen($descripcion)==0)
 					$errors['descripcion'] = 1;
-
 				if (count($errors) == 0) {
 
 					$result = $this->model->create($producto, $precioUnitario, $foto, $descripcion);
@@ -167,7 +167,6 @@
 				$errors = array();
 
 				$idProducto 	= $this->validateNumber(isset($_POST['idProducto'])?$_POST['idProducto']:NULL);
-				$idProductoTipo = $this->validateNumber(isset($_POST['idProductoTipo'])?$_POST['idProductoTipo']:NULL);
 				$producto 		= $this->validateText(isset($_POST['producto'])?$_POST['producto']:NULL);
 				$precioUnitario	= $this->validateNumber(isset($_POST['precioUnitario'])?$_POST['precioUnitario']:NULL);
 				$foto 			= $this->validateText(isset($_POST['foto'])?$_POST['foto']:NULL);
@@ -175,8 +174,6 @@
 
 				if(strlen($idProducto)==0)
 					$errors['idProducto'] = 1;
-				if(strlen($idProductoTipo)==0)
-					$errors['idProductoTipo'] = 1;
 				if(strlen($producto)==0)
 					$errors['producto'] = 1;
 				if(strlen($precioUnitario)==0)
@@ -188,7 +185,7 @@
 
 				if (count($errors) == 0) {
 
-					$result = $this->model->update($idProducto,$idProductoTipo, $producto, $precioUnitario, $foto, $descripcion);
+					$result = $this->model->update($idProducto, $producto, $precioUnitario, $foto, $descripcion);
 
 					//Si pudo ser creado
 					if ($result) {
@@ -204,11 +201,11 @@
 			}else{
 				//TODO
 				//Cargar en $data desde la base de datos
-				$data = $this->model->get(1);
+				$data = $this->model->lists(-1, $_GET['id']);
 				if($data){
 					$this->session['action']='update';
 					$template = $this->twig->loadTemplate('productoForm.html');
-					echo $template->render(array('session'=>$this->session,'data'=>$data));
+					echo $template->render(array('session'=>$this->session,'data'=>$data[0]));
 				}else{
 					//TODO
 					//Enviar a listar clientes con vista de inválido
@@ -223,6 +220,7 @@
 		private function lists(){
 			$constrain = '';
 			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
+			$idProducto = $this->validateNumber(isset($_GET['id'])?$_GET['id']:NULL);
 			$constrains = isset($_POST['constrains'])?$_POST['constrains']:'1 = 1';
 			
 			if($constrains === '1 = 1'){
@@ -246,18 +244,46 @@
 				}
 			}
 			if($offset!==''){ 
-				if(($result = $this->model->lists($offset,-1,$constrain))){
+				if ($idProducto!=='') {
+					if(($result = $this->model->lists($offset,$idProducto,$constrain))){
+						if(is_numeric($result)){
+							if ($this->api) {
+								echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+							}else{
+								$template = $this->twig->loadTemplate('vacio.html');
+								echo $template->render(array('session'=>$this->session,'data'=>NULL));
+							}
+						}else{
+							if($this->api){
+								echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
+							}else{
+								$this->session['action']='list';
+								$template = $this->twig->loadTemplate('productoForm.html');
+								echo $template->render(array('session'=>$this->session,'data'=>$result[0]));
+							}
+						}
+					}else{
+						if($this->api){
+							echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+						}else{
+							//CARGAR VISTA FORMATO INCORRECTO
+						}
+					}
+				}else if(($result = $this->model->lists($offset,-1,$constrain))){
 					if(is_numeric($result)){
 						if ($this->api) {
 							echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 						}else{
-							//CARGAR VISTA VACIO
+							$template = $this->twig->loadTemplate('vacio.html');
+							echo $template->render(array('session'=>$this->session,'data'=>NULL));
 						}
 					}else{
 						if($this->api){
 							echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
 						}else{
-							//CARGAR VISTA OK
+							$this->session['action']='list';
+							$template = $this->twig->loadTemplate('productoList.html');
+							echo $template->render(array('session'=>$this->session,'data'=>$result));
 						}
 					}
 				}else{
