@@ -13,9 +13,21 @@
     <script src="{{session.document_root}}/js/sb-admin-2.js"></script>
 
     <script src="{{session.document_root}}/js/js-webshim/minified/polyfiller.js"></script>
+    <script src="{{session.document_root}}/js/datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="{{session.document_root}}/js/datepicker/js/locales/bootstrap-datepicker.es.js" charset="UTF-8"></script>
 
     <script type="text/javascript">
-        webshims.polyfill('forms forms-ext');
+        $(function(){
+            webshims.polyfill('forms forms-ext');
+            $("input[data-type=date]").datepicker({
+                format: "yyyy/mm/dd",
+                todayBtn: "linked",
+                language: "es",
+                autoclose: true,
+                todayHighlight: true,
+                orientation: "top left",
+            });
+        });
     </script>
 
     {% if jsLibs is defined%}
