@@ -51,7 +51,6 @@
 		* Crea un Historial Clinico
 		*/
 		private function create(){
-			echo 'Hola1';
 			if ($this->api) {
 				$errors = array();
 				
@@ -63,6 +62,15 @@
 				$abdomenIni			  = $this->validateNumber(isset($_POST['abdomenIni'])?$_POST['abdomenIni']:NULL);
 				$caderaIni			  = $this->validateNumber(isset($_POST['caderaIni'])?$_POST['caderaIni']:NULL);
 				$musloIni			  = $this->validateNumber(isset($_POST['musloIni'])?$_POST['musloIni']:NULL);
+
+				$pesoIni			  = ($pesoIni === ''?0:$pesoIni);
+				$bustoIni			  = ($bustoIni === ''?0:$bustoIni);
+				$diafragmaIni		  = ($diafragmaIni === ''?0:$diafragmaIni);
+				$brazoIni			  = ($brazoIni === ''?0:$brazoIni);
+				$cinturaIni			  = ($cinturaIni === ''?0:$cinturaIni);
+				$abdomenIni			  = ($abdomenIni === ''?0:$abdomenIni);
+				$caderaIni			  = ($caderaIni === ''?0:$caderaIni);
+				$musloIni			  = ($musloIni === ''?0:$musloIni);
 				
 				$pesoFin			  = $this->validateNumber(isset($_POST['pesoFin'])?$_POST['pesoFin']:NULL);
 				$bustoFin			  = $this->validateNumber(isset($_POST['bustoFin'])?$_POST['bustoFin']:NULL);
@@ -72,6 +80,15 @@
 				$abdomenFin			  = $this->validateNumber(isset($_POST['abdomenFin'])?$_POST['abdomenFin']:NULL);
 				$caderaFin			  = $this->validateNumber(isset($_POST['caderaFin'])?$_POST['caderaFin']:NULL);
 				$musloFin  			  = $this->validateNumber(isset($_POST['musloFin'])?$_POST['musloFin']:NULL);
+
+				$pesoFin			  = ($pesoFin === ''?0:$pesoFin);
+				$bustoFin			  = ($bustoFin === ''?0:$bustoFin);
+				$diafragmaFin		  = ($diafragmaFin === ''?0:$diafragmaFin);
+				$brazoFin			  = ($brazoFin === ''?0:$brazoFin);
+				$cinturaFin			  = ($cinturaFin === ''?0:$cinturaFin);
+				$abdomenFin			  = ($abdomenFin === ''?0:$abdomenFin);
+				$caderaFin			  = ($caderaFin === ''?0:$caderaFin);
+				$musloFin			  = ($musloFin === ''?0:$musloFin);
 				
 				$motivoConsulta		  = $this->validateText(isset($_POST['motivoConsulta'])?$_POST['motivoConsulta']:NULL);
 				$tiempoProblema		  = $this->validateText(isset($_POST['tiempoProblema'])?$_POST['tiempoProblema']:NULL);
@@ -532,8 +549,6 @@
 			parent::__construct();
 			require_once 'models/historialMedicoMdl.php';
 			$this->model = new HistorialMedicoMdl();
-			var_dump(json_encode($this->model));
-			die();
 		}
 	}
 ?>
