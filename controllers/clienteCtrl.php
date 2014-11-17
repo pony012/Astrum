@@ -11,69 +11,76 @@
 		 */
 		public function run()
 		{	
-			switch ($_GET['act']) {
-				case 'create':
-					//Crear un Cliente
-					$this->create();
-					break;
-				case 'lists':
-					//Listar
-					$this->lists();
-					break;
-				case 'get':
-					$this->getCliente();
-					break;
-				case 'listsDeleters':
-					//Listar
-					$this->listsDeleters();
-					break;
-				case 'getDeleter':
-					$this->getClienteDeleter();
-					break;
-				case 'delete':
-					//Baja
-					if(BaseCtrl::isAdmin())
-						$this->delete();
-					else{
-						if ($this->api) {
-							echo $this->json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
-						}else{
-							//CARGAR VISTA DE NO PERMITIDO
+			if(BaseCtrl::isLoged())
+				switch ($_GET['act']) {
+					case 'create':
+						//Crear un Cliente
+						$this->create();
+						break;
+					case 'lists':
+						//Listar
+						$this->lists();
+						break;
+					case 'get':
+						$this->getCliente();
+						break;
+					case 'listsDeleters':
+						//Listar
+						$this->listsDeleters();
+						break;
+					case 'getDeleter':
+						$this->getClienteDeleter();
+						break;
+					case 'delete':
+						//Baja
+						if(BaseCtrl::isAdmin())
+							$this->delete();
+						else{
+							if ($this->api) {
+								echo $this->json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
+							}else{
+								//CARGAR VISTA DE NO PERMITIDO
+							}
 						}
-					}
-					break;
-				case 'update':
-					//Actualizar
-					if(BaseCtrl::isAdmin())
-						$this->update();
-					else{
-						if ($this->api) {
-							echo $this->json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
-						}else{
-							//CARGAR VISTA DE NO PERMITIDO
+						break;
+					case 'update':
+						//Actualizar
+						if(BaseCtrl::isAdmin())
+							$this->update();
+						else{
+							if ($this->api) {
+								echo $this->json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
+							}else{
+								//CARGAR VISTA DE NO PERMITIDO
+							}
 						}
-					}
-					break;
-				case 'active':
-					//Baja
-					if(BaseCtrl::isAdmin())
-						$this->active();
-					else{
-						if ($this->api) {
-							echo $this->json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
-						}else{
-							//CARGAR VISTA DE NO PERMITIDO
+						break;
+					case 'active':
+						//Baja
+						if(BaseCtrl::isAdmin())
+							$this->active();
+						else{
+							if ($this->api) {
+								echo $this->json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
+							}else{
+								//CARGAR VISTA DE NO PERMITIDO
+							}
 						}
-					}
-					break;
-				default:
-					if ($this->api) {
-						echo $this->json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
-					}else{
-						//CARGAR VISTA DE SERVICIO INEXISTENTE
-					}
-					break;
-			}
+						break;
+					default:
+						if ($this->api) {
+							echo $this->json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
+						}else{
+							//CARGAR VISTA DE SERVICIO INEXISTENTE
+						}
+						break;
+				}
+			else
+				if ($this->api) {
+					echo $this->json_encode(array('error'=>NO_PERMITIDO,'data'=>NULL,'mensaje'=>'No tienes permisos suficientes'));
+				}else{
+					//CARGAR VISTA DE NO PERMITIDO
+				}
 		}
 
 		/**

@@ -20,15 +20,14 @@ class ServicioMdl extends BaseMdl{
 	 *@return true
 	 */
 	function create($servicio, $precioUnitario, $foto = NULL, $descripcion = NULL){
-		$this->idServicioTipo 	= $idServicioTipo;
 		$this->servicio			= $this->driver->real_escape_string($servicio);
 		$this->precioUnitario	= $precioUnitario;
 		$this->foto				= $this->driver->real_escape_string($foto);
 		$this->descripcion		= $this->driver->real_escape_string($descripcion);
 		
-		$stmt = $this->driver->prepare("INSERT INTO ProductoServicio (Producto, PrecioUnitario, Foto, Descripcion) 
-										VALUES(2,?,?,?,?)");
-		if(!$stmt->bind_param('sdss'$this->servicio,$this->precioUnitario,$this->foto,$this->descripcion)){
+		$stmt = $this->driver->prepare("INSERT INTO ProductoServicio (IDProductoServicioTipo, Producto, PrecioUnitario, Foto, Descripcion) 
+										VALUES(2,?,?,?,?)");		
+		if(!$stmt->bind_param('sdss',$this->servicio,$this->precioUnitario,$this->foto,$this->descripcion)){
 			return false;
 		}
 		if (!$stmt->execute()) {
@@ -211,7 +210,7 @@ class ServicioMdl extends BaseMdl{
 	*Actualiza la información de un servicio
 	*@return true or false
 	**/
-	function update($idServicio,$idProductoTipo, $producto, $precioUnitario, $foto = NULL, $descripcion = NULL){
+	function update($idServicio, $producto, $precioUnitario, $foto = NULL, $descripcion = NULL){
 		if($stmt = $this->driver->prepare('SELECT IDProductoServicio FROM ProductoServicio WHERE IDProductoServicio=?')){
 		
 			if(!$stmt->bind_param('i',$idServicio))
@@ -222,16 +221,15 @@ class ServicioMdl extends BaseMdl{
 				
 			$mySqliResult = $stmt->get_result();
 
-			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['IDProductoServicio']!=''){
-				$this->idProductoTipo 	= $idProductoTipo;
+			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['IDProductoServicio']!=''){				
 				$this->producto			= $this->driver->real_escape_string($producto);
 				$this->precioUnitario 	= $precioUnitario;
 				$this->foto				= $this->driver->real_escape_string($foto);
 				$this->descripcion		= $this->driver->real_escape_string($descripcion);
 				
-				$stmt = $this->driver->prepare("UPDATE ProductoServicio SET IDProductoServicioTipo=?, Producto=?, PrecioUnitario=?, Foto=?, Descripcion=? 
+				$stmt = $this->driver->prepare("UPDATE ProductoServicio SET IDProductoServicioTipo=2, Producto=?, PrecioUnitario=?, Foto=?, Descripcion=? 
 												WHERE IDProductoServicio=?");
-				if(!$stmt->bind_param('isdssi',$this->idProductoTipo,$this->producto,$this->precioUnitario,$this->foto,$this->descripcion,$idServicio)){
+				if(!$stmt->bind_param('sdssi',$this->producto,$this->precioUnitario,$this->foto,$this->descripcion,$idServicio)){
 					return false;
 				}
 				if (!$stmt->execute()) {

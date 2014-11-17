@@ -9,7 +9,7 @@
 		/**
 		 * Ejecuta acciones basado en la accion seleccionada por los agrumentos
 		 */
-		public function run(
+		public function run(){
 			switch ($_GET['act']) {
 				case 'create':
 					//Crear 
@@ -101,8 +101,8 @@
 					$errors['servicio'] = 1;
 				if(strlen($precioUnitario)==0)
 					$errors['precioUnitario'] = 1;
-				if(strlen($foto)==0)
-					$errors['foto'] = 1;
+				//if(strlen($foto)==0)
+				//	$errors['foto'] = 1;
 				if(strlen($descripcion)==0)
 					$errors['descripcion'] = 1;
 
@@ -167,7 +167,6 @@
 				$errors = array();
 
 				$idServicio 	= $this->validateNumber(isset($_POST['idServicio'])?$_POST['idServicio']:NULL);
-				$idServicioTipo = $this->validateNumber(isset($_POST['idServicioTipo'])?$_POST['idServicioTipo']:NULL);
 				$servicio 		= $this->validateText(isset($_POST['servicio'])?$_POST['servicio']:NULL);
 				$precioUnitario	= $this->validateNumber(isset($_POST['precioUnitario'])?$_POST['precioUnitario']:NULL);
 				$foto 			= $this->validateText(isset($_POST['foto'])?$_POST['foto']:NULL);
@@ -175,8 +174,6 @@
 
 				if(strlen($idServicio)==0)
 					$errors['idServicio'] = 1;
-				if(strlen($idServicioTipo)==0)
-					$errors['idServicioTipo'] = 1;
 				if(strlen($servicio)==0)
 					$errors['servicio'] = 1;
 				if(strlen($precioUnitario)==0)
@@ -188,7 +185,7 @@
 
 				if (count($errors) == 0) {
 
-					$result = $this->model->update($idServicio,$idServicioTipo, $servicio, $precioUnitario, $foto, $descripcion);
+					$result = $this->model->update($idServicio, $servicio, $precioUnitario, $foto, $descripcion);
 
 					//Si pudo ser creado
 					if ($result) {
@@ -204,11 +201,11 @@
 			}else{
 				//TODO
 				//Cargar en $data desde la base de datos
-				$data = $this->model->get(1);
+				$data = $this->model->lists(-1, $_GET['id']);
 				if($data){
 					$this->session['action']='update';
 					$template = $this->twig->loadTemplate('servicioForm.html');
-					echo $template->render(array('session'=>$this->session,'data'=>$data));
+					echo $template->render(array('session'=>$this->session,'data'=>$data[0]));
 				}else{
 					//TODO
 					//Enviar a listar clientes con vista de inválido
@@ -223,6 +220,7 @@
 		private function lists(){
 			$constrain = '';
 			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
+			$idServicio = $this->validateNumber(isset($_GET['id'])?$_GET['id']:NULL);
 			$constrains = isset($_POST['constrains'])?$_POST['constrains']:'1 = 1';
 			
 			if($constrains === '1 = 1'){
@@ -246,18 +244,46 @@
 				}
 			}
 			if($offset!==''){ 
-				if(($result = $this->model->lists($offset,-1,$constrain))){
+				if ($idServicio!=='') {
+					if(($result = $this->model->lists($offset,$idServicio,$constrain))){
+						if(is_numeric($result)){
+							if ($this->api) {
+								echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+							}else{
+								$template = $this->twig->loadTemplate('vacio.html');
+								echo $template->render(array('session'=>$this->session,'data'=>NULL));
+							}
+						}else{
+							if($this->api){
+								echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
+							}else{
+								$this->session['action']='list';
+								$template = $this->twig->loadTemplate('servicioForm.html');
+								echo $template->render(array('session'=>$this->session,'data'=>$result[0]));
+							}
+						}
+					}else{
+						if($this->api){
+							echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+						}else{
+							//CARGAR VISTA FORMATO INCORRECTO
+						}
+					}
+				}else if(($result = $this->model->lists($offset,-1,$constrain))){
 					if(is_numeric($result)){
 						if ($this->api) {
 							echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 						}else{
-							//CARGAR VISTA VACIO
+							$template = $this->twig->loadTemplate('vacio.html');
+							echo $template->render(array('session'=>$this->session,'data'=>NULL));
 						}
 					}else{
 						if($this->api){
 							echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
 						}else{
-							//CARGAR VISTA OK
+							$this->session['action']='list';
+							$template = $this->twig->loadTemplate('servicioList.html');
+							echo $template->render(array('session'=>$this->session,'data'=>$result));
 						}
 					}
 				}else{

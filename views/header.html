@@ -112,7 +112,21 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-briefcase"></i> Servicios</a>
+                            <a class="{{session.controller == 'servicio' ?'active':''}}" href="#"><i class="fa fa-briefcase"></i> Servicios <span class="fa arrow"></span></a>
+                        {% if session.controller == 'servicio' %}
+                            <ul class="nav nav-second-level collapse in" aria-expanded="true">
+                        {% else %}
+                            <ul class="nav nav-second-level">
+                        {% endif %}
+                            {% if session.isAdmin %}
+                                <li>
+                                    <a class="fa fa-plus-circle" href="{{session.document_root}}/servicio/create"> Crear</a>
+                                </li>
+                            {% endif %}
+                                <li>
+                                    <a class="fa fa-list-ul" href="{{session.document_root}}/servicio/list"> Listar</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-shopping-cart"></i> Productos</a>
