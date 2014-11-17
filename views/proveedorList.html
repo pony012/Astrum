@@ -1,34 +1,32 @@
 {% include 'header.html' %}
 <section class = "row">
-	<h1 class="page-header text-center col-xs-12">Listar Clientes</h1>
+	<h1 class="page-header text-center col-xs-12">Listar Proveedores</h1>
     <div class = "col-sm-offset-1 col-sm-10 col-lg-offset-2 col-lg-8">
         <div class="table-responsive">
             <table class="table table-striped table-bordered table-hover">
                 <thead>
                     <tr>
                         <th>#ID</th>
+                        <th>RFC</th>
                         <th>Nombre</th>
                         <th>Apellido Paterno</th>
                         <th>Apellido Materno</th>
                         <th>Detalles</th>
-                    {% if session.isAdmin %}
                         <th>Editar</th>
                         <th>Eliminar</th>
-                    {% endif %}
                     </tr>
                 </thead>
                 <tbody>
-                {% for cliente in data %}
+                {% for proveedor in data %}
                     <tr>
-                        <td>{{cliente.IDCliente}}</td>
-                        <td>{{cliente.Nombre}}</td>
-                        <td>{{cliente.ApellidoPaterno}}</td>
-                        <td>{{cliente.ApellidoMaterno}}</td>
-                        <td><a href="{{session.document_root}}/cliente/list/id/{{cliente.IDCliente}}"><span class="fa fa-list-ul fa-2x"></span></a></td>
-                    {% if session.isAdmin %}
-                        <td><a href="{{session.document_root}}/cliente/update/{{cliente.IDCliente}}"><span class="fa fa-edit fa-2x"></span></a></td>
-                        <td><a href="#" data-id="{{cliente.IDCliente}}" data-toggle="modal" data-target="#myModal"><span class="fa fa-close fa-2x"></span></a></td>
-                    {% endif %}
+                        <td>{{proveedor.IDProveedor}}</td>
+                        <td>{{proveedor.RFC}}</td>
+                        <td>{{proveedor.Nombre}}</td>
+                        <td>{{proveedor.ApellidoPaterno}}</td>
+                        <td>{{proveedor.ApellidoMaterno}}</td>
+                        <td><a href="{{session.document_root}}/proveedor/list/id/{{proveedor.IDProveedor}}"><span class="fa fa-list-ul fa-2x"></span></a></td>
+                        <td><a href="{{session.document_root}}/proveedor/update/{{proveedor.IDProveedor}}"><span class="fa fa-edit fa-2x"></span></a></td>
+                        <td><a href="#" data-id="{{proveedor.IDProveedor}}" data-toggle="modal" data-target="#myModal"><span class="fa fa-close fa-2x"></span></a></td>
                     </tr>
                 {% endfor %}
                 </tbody>
@@ -43,14 +41,14 @@
                     <h4 class="modal-title" id="myModalLabel">Confirmar</h4>
                 </div>
                 <div class="modal-body">
-                    ¿Estás seguro de que quieres eliminar a ese cliente?
+                    ¿Estás seguro de que quieres eliminar a ese proveedor?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <a type="button" data-idelimiar="-1" id="botonSeguro" class="btn btn-primary" href="{{session.document_root}}/cliente/api/delete/">Sí</a>
+                    <a type="button" data-idelimiar="-1" id="botonSeguro" class="btn btn-primary" href="{{session.document_root}}/proveedor/api/delete/">Sí</a>
                 </div>
             </div>
         </div>
     </div>
 </section>
-{% include 'footer.html' with {'jsLibs': ['js/cliente.js']} %}
+{% include 'footer.html' with {'jsLibs': ['js/proveedor.js']} %}

@@ -11,6 +11,7 @@
                         <th>Nombre</th>
                         <th>Apellido Paterno</th>
                         <th>Apellido Materno</th>
+                        <th>Cargo</th>
                         <th>Detalles</th>
                         <th>Editar</th>
                         <th>Eliminar</th>
@@ -24,6 +25,7 @@
                         <td>{{empleado.Nombre}}</td>
                         <td>{{empleado.ApellidoPaterno}}</td>
                         <td>{{empleado.ApellidoMaterno}}</td>
+                        <td>{{empleado.Cargo}}</td>
                         <td><a href="{{session.document_root}}/empleado/list/id/{{empleado.IDEmpleado}}"><span class="fa fa-list-ul fa-2x"></span></a></td>
                         <td><a href="{{session.document_root}}/empleado/update/{{empleado.IDEmpleado}}"><span class="fa fa-edit fa-2x"></span></a></td>
                         <td><a href="#" data-id="{{empleado.IDEmpleado}}" data-toggle="modal" data-target="#myModal"><span class="fa fa-close fa-2x"></span></a></td>

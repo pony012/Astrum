@@ -63,6 +63,7 @@
                         <li>
                             <a class="{{session.controller == 'index' ?'active':''}}" href="{{session.document_root}}/"><i class="fa fa-home"></i> Inicio</a>
                         </li>
+                {% if session.isLoged == true %}
                     {% if session.isAdmin == true %}
                         <li>
                             <a class="{{session.controller == 'empleado' ?'active':''}}" href="#"><i class="fa fa-user"></i> Empleados <span class="fa arrow"></span></a>
@@ -96,7 +97,19 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-table fa-fw"></i> Proveedores</a>
+                            <a class="{{session.controller == 'proveedor' ?'active':''}}" href="#"><i class="fa fa-table fa-fw"></i> Proveedores <span class="fa arrow"></span></a>
+                        {% if session.controller == 'proveedor' %}
+                            <ul class="nav nav-second-level collapse in" aria-expanded="true">
+                        {% else %}
+                            <ul class="nav nav-second-level">
+                        {% endif %}
+                                <li>
+                                    <a class="fa fa-plus-circle" href="{{session.document_root}}/proveedor/create"> Crear</a>
+                                </li>
+                                <li>
+                                    <a class="fa fa-list-ul" href="{{session.document_root}}/proveedor/list"> Listar</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-briefcase"></i> Servicios</a>
@@ -129,6 +142,7 @@
                             <!-- /.nav-second-level -->
                         </li>
                     </ul>
+                {% endif %}
                 </div>
                 <!-- /.sidebar-collapse -->
             </div>
