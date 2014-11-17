@@ -388,7 +388,10 @@
 						if ($this->api) {
 							echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 						}else{
-							//CARGAR VISTA VACIO
+							$template = $this->twig->loadTemplate('vacio.html'); echo $template->render(array('session'=>$this->session,'data'=>NULL));
+							$template = $this->twig->loadTemplate('clienteList.html');
+							echo $template->render(array('session'=>$this->session,'data'=>$result));
+<
 						}
 					}else{
 						if($this->api){
@@ -424,7 +427,10 @@
 						if ($this->api) {
 							echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 						}else{
-							//CARGAR VISTA VACIO
+							$template = $this->twig->loadTemplate('vacio.html'); echo $template->render(array('session'=>$this->session,'data'=>NULL));
+							$template = $this->twig->loadTemplate('clienteList.html');
+							echo $template->render(array('session'=>$this->session,'data'=>$result));
+<
 						}
 					}else{
 						if($this->api){
@@ -460,7 +466,10 @@
 						if ($this->api) {
 							echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
 						}else{
-							//CARGAR VISTA VACIO
+							$template = $this->twig->loadTemplate('vacio.html'); echo $template->render(array('session'=>$this->session,'data'=>NULL));
+							$template = $this->twig->loadTemplate('clienteList.html');
+							echo $template->render(array('session'=>$this->session,'data'=>$result));
+<
 						}
 					}else{
 						if($this->api){

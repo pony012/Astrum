@@ -20,12 +20,43 @@
             <div class="form-group col-md-6">
                 <label for="proveedor">Proveedor:</label>
                 <select data-url="{{session.document_root}}/proveedor/api/list/activos" class="form-control" id = "proveedor" name = "proveedor" placeholder = "Proveedor" value="{{data.IDProveedor}}" data-selected="{{data.IDProveedor}}" required {{session.action == 'list'?'disabled':''}}>
-                	<option {{ data.IDProveedor ? '' : 'selected'}}>Selecciona un proveedor</option>
+                	<option>Selecciona un proveedor</option>
                 </select>
             </div>
             <div class="form-group col-md-6">
                 <label for="fechaRecepcion">Fecha de Compra:</label>
                 <input class="form-control" type="text" data-type="date" name="fechaRecepcion" id="fechaRecepcion" placeholder="Fecha de Compra" value="{{data.FechaRecepcion}}" required {{session.action == 'list'?'disabled':''}}>
+            </div>
+            <div class="form-group col-md-3">
+            	<label for="listaProductos">Productos:</label>
+            	<select size="6" data-url="{{session.document_root}}/producto/api/list/activos" class="form-control" multiple id="listaProductos" name="listaProductos" placeholder="Productos" {{session.action == 'list'?'disabled':''}}>
+            	</select>
+            </div>
+            <div class="form-group col-md-9">
+            	<label>Productos Seleccionados:</label>
+            	<div class="table-responsive">
+            		<table class="table table-hover">
+            			<thead>
+            				<tr>
+            					<th></th>
+            					<th>Id</th>
+            					<th>Nombre</th>
+            					<th>P. Unitario</th>
+            					<th>Cantidad</th>
+            					<th>Sub Total</th>
+            				</tr>
+            			</thead>
+            			<tbody id="productosContainer">
+            				
+            			</tbody>
+            			<tfoot>
+            				<tr>
+            					<th colspan="5" class="text-right">Total:</th>
+            					<th id="totalProductos"></th>
+            				</tr>
+            			</tfoot>
+            		</table>
+            	</div>
             </div>
         {% if session.action != 'list' %}
             <div class = "col-xs-12 col-sm-12 col-md-12 col-lg-12">
