@@ -15,7 +15,6 @@ class AguaAlDiaMdl extends BaseMdl{
 	 *Crea un nuevo registro del consumo de agua diaria
 	 *@return true
 	 */
-	$idHistorialMedico,$poca,$regular,$mucha
 	function create($idHistorialMedico, $poca,$regular,$mucha){
 		$this->poca 	 	= $this->driver->real_escape_string($poca);
 		$this->regular		= $this->driver->real_escape_string($regular);

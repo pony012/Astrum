@@ -51,6 +51,7 @@
 		* Crea un Historial Clinico
 		*/
 		private function create(){
+			echo 'Hola1';
 			if ($this->api) {
 				$errors = array();
 				
@@ -83,8 +84,8 @@
 				$idServicio			  = $this->validateNumber(isset($_POST['idServicio'])?$_POST['idServicio']:NULL);
 				$observaciones		  = $this->validateText(isset($_POST['observaciones'])?$_POST['observaciones']:NULL);
 				
-				$estadoAguaAlDia	  = $this->validateText(isset($_POST['estadoAguaAlDia'])?$_POST['estadoAguaAlDia']:NULL);
-				$estadoAlimentacion	  = $this->validateText(isset($_POST['estadoAguaAlDia'])?$_POST['estadoAguaAlDia']:NULL);
+				$aguaAlDia	  		  = $this->validateText(isset($_POST['aguaAlDia'])?$_POST['aguaAlDia']:NULL);
+				$alimentacion	  	  = $this->validateText(isset($_POST['alimentacion'])?$_POST['alimentacion']:NULL);
 				
 				$arregloExfolacion    = (isset($_POST['arregloExfolacion'])?$_POST['arregloExfolacion']:NULL);
 				$arregloHabito		  = (isset($_POST['arregloHabito'])?$_POST['arregloHabito']:NULL);
@@ -531,7 +532,8 @@
 			parent::__construct();
 			require_once 'models/historialMedicoMdl.php';
 			$this->model = new HistorialMedicoMdl();
-			
+			var_dump(json_encode($this->model));
+			die();
 		}
 	}
 ?>

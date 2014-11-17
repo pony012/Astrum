@@ -30,6 +30,8 @@ class HistorialMedicoMdl extends BaseMdl{
 					$brilloFacial,$pielAsfixiada,$despigmentacion, $fibrosa, $edematosa, $flacida, $dura, $mixta, $dolorosa){
 		$this->idCliente 		= $idCliente;
 		$this->idServicio		= $idServicio;
+
+		
 		$this->observaciones	= $this->driver->real_escape_string($observaciones);
 
 		$this->driver->autocommit(false);
