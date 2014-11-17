@@ -32,14 +32,14 @@ class HistorialMedicoMdl extends BaseMdl{
 		$this->idServicio		= $idServicio;
 
 		
-		$this->observaciones	= $this->driver->real_escape_string($observaciones);
+		$this->observaciones	= $observaciones;
 
 		$this->driver->autocommit(false);
 		$this->driver->begin_transaction();
 		
 		$stmt = $this->driver->prepare("INSERT INTO HistorialMedico (IDCliente, IDServicio, Observaciones) 
-										VALUES(?,?,?,?)");
-		if(!$stmt->bind_param('isis',$this->idCliente,$this->idServicio,$this->observaciones)){
+										VALUES(?,?,?)");
+		if(!$stmt->bind_param('iis',$this->idCliente,$this->idServicio,$this->observaciones)){
 			$this->driver->rollback();
 			return false;
 		}
@@ -54,7 +54,7 @@ class HistorialMedicoMdl extends BaseMdl{
 		}
 
 		$lastId = $this->driver->insert_id;
-
+		
 		if(!$this->exploracionInicialMdl->create($lastId, $pesoIni, $bustoIni, $diafragmaIni, $brazoIni, $cinturaIni, $abdomenIni, $caderaIni, $musloIni))
 			$this->driver->rollback();		
 		if(!$this->exploracionFinalMdl->create($lastId, $pesoFin, $bustoFin, $diafragmaFin, $brazoFin, $cinturaFin, $abdomenFin, $caderaFin, $musloFin))
@@ -135,6 +135,7 @@ class HistorialMedicoMdl extends BaseMdl{
 	}
 
 	function __construct(){
+		parent::__construct();
 		require_once 'models/exploracionInicialMdl.php';
 		require_once 'models/exploracionFinalMdl.php';
 		require_once 'models/fichaClinicaMdl.php';

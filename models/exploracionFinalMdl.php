@@ -26,14 +26,14 @@ class ExploracionFinalMdl extends BaseMdl{
 	 *@return true
 	**/
 	function create($lastId, $pesoFin, $bustoFin, $diafragmaFin, $brazoFin, $cinturaFin, $abdomenFin, $caderaFin, $musloFin){
-		$this->pesoFin 		= $this->driver->real_escape_string($pesoFin);
-		$this->bustoFin 	= $this->driver->real_escape_string($bustoFin);
-		$this->diafragmaFin = $this->driver->real_escape_string($diafragmaFin);
-		$this->brazoFin 	= $this->driver->real_escape_string($brazoFin);
-		$this->cinturaFin 	= $this->driver->real_escape_string($cinturaFin);
-		$this->abdomenFin 	= $this->driver->real_escape_string($abdomenFin);
-		$this->caderaFin 	= $this->driver->real_escape_string($caderaFin);
-		$this->musloFin 	= $this->driver->real_escape_string($musloFin);
+		$this->pesoFin 		= $pesoFin;
+		$this->bustoFin 	= $bustoFin;
+		$this->diafragmaFin = $diafragmaFin;
+		$this->brazoFin 	= $brazoFin;
+		$this->cinturaFin 	= $cinturaFin;
+		$this->abdomenFin 	= $abdomenFin;
+		$this->caderaFin 	= $caderaFin;
+		$this->musloFin 	= $musloFin;
 
 		$stmt = $this->driver->prepare("INSERT INTO ExploracionFinal (IDHistorialMedico,PesoFinal,BustoFinal,DiafragmaFinal,BrazoFinal,CinturaFinal,
 										AbdomenFinal,CaderaFinal,MusloFinal) VALUES (?,?,?,?,?,?,?,?,?)");
@@ -72,14 +72,14 @@ class ExploracionFinalMdl extends BaseMdl{
 			$mySqliResult = $stmt->get_result();
 
 			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['IDExploracionFinal']!=''){
-				$this->pesoFin 		= $this->driver->real_escape_string($pesoFin);
-				$this->bustoFin 	= $this->driver->real_escape_string($bustoFin);
-				$this->diafragmaFin = $this->driver->real_escape_string($diafragmaFin);
-				$this->brazoFin 	= $this->driver->real_escape_string($brazoFin);
-				$this->cinturaFin 	= $this->driver->real_escape_string($cinturaFin);
-				$this->abdomenFin 	= $this->driver->real_escape_string($abdomenFin);
-				$this->caderaFin 	= $this->driver->real_escape_string($caderaFin);
-				$this->musloFin 	= $this->driver->real_escape_string($musloFin);
+				$this->pesoFin 		= $pesoFin;
+				$this->bustoFin 	= $bustoFin;
+				$this->diafragmaFin = $diafragmaFin;
+				$this->brazoFin 	= $brazoFin;
+				$this->cinturaFin 	= $cinturaFin;
+				$this->abdomenFin 	= $abdomenFin;
+				$this->caderaFin 	= $caderaFin;
+				$this->musloFin 	= $musloFin;
 				
 				$stmt = $this->driver->prepare("UPDATE IDHistorialMedico=?,PesoFinal=?,BustoFinal=?,DiafragmaFinal=?,BrazoFinal=?,CinturaFinal=?,
 										AbdomenFinal=?,CaderaFinal=?,MusloFinal=? WHERE IDExploracionFinal=?");
