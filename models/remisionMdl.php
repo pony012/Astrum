@@ -203,6 +203,11 @@ class RemisionMdl extends BaseMdl{
 	**/
 	function listsDetails($idRemision){
 		$rows = array();
+		//falta validar el main y hacerlo en los otros movimientos de almacen(retornar false o VACIO en las validaciones al main
+		//(regresar lo que esta en main si no es el conjunto de datos))
+		$main = $this->lists(-1,$idRemision);
+		array_push($rows, $main);
+		////////////////////////////////
 
 		if($stmt = $this->driver->prepare('SELECT * FROM V_RemisionDetalle WHERE IDRemision = ?')){
 

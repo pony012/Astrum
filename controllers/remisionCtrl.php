@@ -168,7 +168,7 @@
 		*obtenemos los datos de una Remision activo
 		**/
 		private function getRemision(){
-			$idRemision = $this->validateNumber(isset($_POST['idRemision'])?$_POST['idRemision']:NULL);
+			$idRemision = $this->validateNumber(isset($_GET['idRemision'])?$_GET['idRemision']:NULL);
 			if($idRemision!==''){
 				if(($result = $this->model->lists(-1,$idRemision))){
 					if(is_numeric($result)){

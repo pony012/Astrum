@@ -174,7 +174,7 @@
 		*obtenemos los datos de un AjusteEntrada activo
 		**/
 		private function getAjusteEntrada(){
-			$idAjusteEntrada = $this->validateNumber(isset($_POST['idAjusteEntrada'])?$_POST['idAjusteEntrada']:NULL);
+			$idAjusteEntrada = $this->validateNumber(isset($_GET['idAjusteEntrada'])?$_GET['idAjusteEntrada']:NULL);
 			if($idAjusteEntrada!==''){
 				if(($result = $this->model->lists(-1,$idAjusteEntrada))){
 					if(is_numeric($result)){

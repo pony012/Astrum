@@ -176,7 +176,7 @@
 		*obtenemos los datos de una Recepcion activo
 		**/
 		private function getRecepcion(){
-			$idRecepcion = $this->validateNumber(isset($_POST['idRecepcion'])?$_POST['idRecepcion']:NULL);
+			$idRecepcion = $this->validateNumber(isset($_GET['idRecepcion'])?$_GET['idRecepcion']:NULL);
 			if($idRecepcion!==''){
 				if(($result = $this->model->lists(-1,$idRecepcion))){
 					if(is_numeric($result)){
