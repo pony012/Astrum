@@ -344,7 +344,7 @@ class HistorialMedicoMdl extends BaseMdl{
 				
 				$stmt = $this->driver->prepare("UPDATE AguaAlDia SET Poca=?,Regular=?,Mucha=? WHERE IDHistorialMedico=?");
 
-				if(!$stmt->bind_param('sssi'$this->poca,$this->regularAg,$this->mucha,$idHistorialMedico)){
+				if(!$stmt->bind_param('sssi',$this->poca,$this->regularAg,$this->mucha,$idHistorialMedico)){
 					return false;
 				}
 				if (!$stmt->execute()) {
@@ -444,10 +444,10 @@ class HistorialMedicoMdl extends BaseMdl{
 	*@param string $mala
 	*@return true or false
 	**/
-	function updateAlimentacion($idAlimentacion,$idHistorialMedico,$buena,$regularAl,$mala){
-		if($stmt = $this->driver->prepare('SELECT IDAlimentacion FROM Alimentacion WHERE IDAlimentacion=?')){
+	function updateAlimentacion($idHistorialMedico,$buena,$regularAl,$mala){
+		if($stmt = $this->driver->prepare('SELECT IDHistorialMedico FROM Alimentacion WHERE IDHistorialMedico=?')){
 		
-			if(!$stmt->bind_param('i',$idAlimentacion))
+			if(!$stmt->bind_param('i',$idHistorialMedico))
 				return false;
 			
 			if(!$stmt->execute())
@@ -455,14 +455,14 @@ class HistorialMedicoMdl extends BaseMdl{
 				
 			$mySqliResult = $stmt->get_result();
 
-			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['IDAlimentacion']!=''){
+			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['IDHistorialMedico']!=''){
 				$this->buena 	 = $this->driver->real_escape_string($buena);
 				$this->regularAl 	 = $this->driver->real_escape_string($regularAl);
 				$this->mala 	 = $this->driver->real_escape_string($mala);
 				
-				$stmt = $this->driver->prepare("UPDATE Alimentacion SET IDHistorialMedico=?,Poca=?,Regular=?,Mucha=? WHERE IDAlimentacion=?");
+				$stmt = $this->driver->prepare("UPDATE Alimentacion SET Buena=?,Regular=?,Mala=? WHERE IDHistorialMedico=?");
 
-				if(!$stmt->bind_param('isssi',$idHistorialMedico, $this->buena,$this->regularAl,$this->mala,$idAlimentacion)){
+				if(!$stmt->bind_param('sssi',$this->buena,$this->regularAl,$this->mala,$idHistorialMedico)){
 					return false;
 				}
 				if (!$stmt->execute()) {
@@ -482,16 +482,16 @@ class HistorialMedicoMdl extends BaseMdl{
 	/**
 	* Consulta las alimentaciones registrados en el sistema
 	*@param int $offset
-	*@param int $idAlimentacion
+	*@param int $idHistorialMedico
 	* @return array or false
 	**/
-	function listsAlimentacion($offset = -1,$idAlimentacion = -1, $constrain = '1 = 1'){
+	function listsAlimentacion($offset = -1,$idHistorialMedico = -1, $constrain = '1 = 1'){
 		$rows = array();
 		if($offset>-1){
 			$stmt = $this->driver->prepare('SELECT * FROM Alimentacion WHERE '.$constrain.' LIMIT ?,?');
 		}else{
-			if($idAlimentacion>-1){
-				$stmt = $this->driver->prepare('SELECT * FROM Alimentacion WHERE IDAlimentacion=?');
+			if($idHistorialMedico>-1){
+				$stmt = $this->driver->prepare('SELECT * FROM Alimentacion WHERE IDHistorialMedico=?');
 			}else{
 				$stmt = $this->driver->prepare('SELECT * FROM Alimentacion WHERE '.$constrain);
 			}
@@ -502,8 +502,8 @@ class HistorialMedicoMdl extends BaseMdl{
 				$offset*=10;
 				if(!$stmt->bind_param('ii',$offset,$amountRows))
 					return false;
-			}else if($idAlimentacion>-1){
-				if(!$stmt->bind_param('i',$idAlimentacion))
+			}else if($idHistorialMedico>-1){
+				if(!$stmt->bind_param('i',$idHistorialMedico))
 					return false;
 			}
 			if(!$stmt->execute())
@@ -597,12 +597,12 @@ class HistorialMedicoMdl extends BaseMdl{
 	*@param string $blanqueadorAclarador
 	*@return true or false
 	**/
-	function updateExfoliacion($idExfoliacion,$idHistorialMedico, $peelingQuim,$laser,$dermobrasion,$retinA,$renova,$racutan,
+	function updateExfoliacion($idHistorialMedico, $peelingQuim,$laser,$dermobrasion,$retinA,$renova,$racutan,
 					$adapaleno,$acidoGlicolico,$alfaHidroiacidos,$exfolianteGranuloso,
 					$acidoLactico,$vitaminaA,$blanqueadorAclarador){
-		if($stmt = $this->driver->prepare('SELECT IDExfoliacion FROM Exfoliacion WHERE IDExfoliacion=?')){
+		if($stmt = $this->driver->prepare('SELECT IDHistorialMedico FROM Exfoliacion WHERE IDHistorialMedico=?')){
 		
-			if(!$stmt->bind_param('i',$idExfoliacion))
+			if(!$stmt->bind_param('i',$idHistorialMedico))
 				return false;
 			
 			if(!$stmt->execute())
@@ -610,7 +610,7 @@ class HistorialMedicoMdl extends BaseMdl{
 				
 			$mySqliResult = $stmt->get_result();
 
-			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['IDExfoliacion']!=''){
+			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['IDHistorialMedico']!=''){
 				$this->peelingQuim			= $this->driver->real_escape_string($peelingQuim);
 				$this->laser				= $this->driver->real_escape_string($laser);
 				$this->dermobrasion			= $this->driver->real_escape_string($dermobrasion);
@@ -625,13 +625,13 @@ class HistorialMedicoMdl extends BaseMdl{
 				$this->vitaminaA			= $this->driver->real_escape_string($vitaminaA);
 				$this->blanqueadorAclarador	= $this->driver->real_escape_string($blanqueadorAclarador);
 				
-				$stmt = $this->driver->prepare("UPDATE Exfoliacion SET IDHistorialMedico=?,PeelingQuimico=?, Laser=?, Dermoabrasion=?, RetinA=?, Renova=?, Racutan=?, 
+				$stmt = $this->driver->prepare("UPDATE Exfoliacion SET PeelingQuimico=?, Laser=?, Dermoabrasion=?, RetinA=?, Renova=?, Racutan=?, 
 																Adapaleno=?, AcidoGlicolico=?, AlfaHidroxiacidos=?, ExfolianteGranuloso=?,
-																AcidoLactico=?, VitaminaA=?, BlanqueadorOAclarador=? WHERE IDExfoliacion=?");
+																AcidoLactico=?, VitaminaA=?, BlanqueadorOAclarador=? WHERE IDHistorialMedico=?");
 
-				if(!$stmt->bind_param('isssssssssssssi',$idHistorialMedico, $this->peelingQuim, $this->laser, $this->dermobrasion, $this->retinA, $this->renova, 
+				if(!$stmt->bind_param('sssssssssssssi',$this->peelingQuim, $this->laser, $this->dermobrasion, $this->retinA, $this->renova, 
 												$this->racutan, $this->adapaleno, $this->acidoGlicolico, $this->alfaHidroiacidos, 
-												$this->exfolianteGranuloso, $this->acidoLactico, $this->vitaminaA, $this->blanqueadorAclarador,$idExfoliacion)){
+												$this->exfolianteGranuloso, $this->acidoLactico, $this->vitaminaA, $this->blanqueadorAclarador,$idHistorialMedico)){
 					return false;
 				}
 				if (!$stmt->execute()) {
@@ -651,16 +651,16 @@ class HistorialMedicoMdl extends BaseMdl{
 	/**
 	* Consulta las alimentaciones registrados en el sistema
 	*@param int $offset
-	*@param int $idExfoliacion
-	* @return array or false
+	*@param int $idHistorialMedico
+	*@return array or false
 	**/
-	function listsExfoliacion($offset = -1,$idExfoliacion = -1, $constrain = '1 = 1'){
+	function listsExfoliacion($offset = -1,$idHistorialMedico = -1, $constrain = '1 = 1'){
 		$rows = array();
 		if($offset>-1){
 			$stmt = $this->driver->prepare('SELECT * FROM Exfoliacion WHERE '.$constrain.' LIMIT ?,?');
 		}else{
-			if($idExfoliacion>-1){
-				$stmt = $this->driver->prepare('SELECT * FROM Exfoliacion WHERE IDExfoliacion=?');
+			if($idHistorialMedico>-1){
+				$stmt = $this->driver->prepare('SELECT * FROM Exfoliacion WHERE IDHistorialMedico=?');
 			}else{
 				$stmt = $this->driver->prepare('SELECT * FROM Exfoliacion WHERE '.$constrain);
 			}
@@ -671,8 +671,8 @@ class HistorialMedicoMdl extends BaseMdl{
 				$offset*=10;
 				if(!$stmt->bind_param('ii',$offset,$amountRows))
 					return false;
-			}else if($idExfoliacion>-1){
-				if(!$stmt->bind_param('i',$idExfoliacion))
+			}else if($idHistorialMedico>-1){
+				if(!$stmt->bind_param('i',$idHistorialMedico))
 					return false;
 			}
 			if(!$stmt->execute())
@@ -743,7 +743,7 @@ class HistorialMedicoMdl extends BaseMdl{
 	*@return true or false
 	**/
 	function updateExploracionInicial($idHistorialMedico, $pesoIni, $bustoIni, $diafragmaIni, $brazoIni, $cinturaIni, $abdomenIni, $caderaIni, $musloIni){
-		if($stmt = $this->driver->prepare('SELECT IDExploracionInicial FROM ExploracionInicial WHERE IDHistorialMedico=?')){
+		if($stmt = $this->driver->prepare('SELECT IDHistorialMedico FROM ExploracionInicial WHERE IDHistorialMedico=?')){
 		
 			if(!$stmt->bind_param('i',$idHistorialMedico))
 				return false;
@@ -766,7 +766,7 @@ class HistorialMedicoMdl extends BaseMdl{
 				$stmt = $this->driver->prepare("UPDATE ExploracionInicial SET PesoInicial=?,BustoInicial=?,DiafragmaInicial=?,BrazoInicial=?,CinturaInicial=?,
 										AbdomenInicial=?,CaderaInicial=?,MusloInicial=? WHERE IDHistorialMedico=?");
 
-				if(!$stmt->bind_param('ddddddddi', $this->pesoIni,$this->bustoIni,$this->diafragmaIni,$this->brazoIni,$this->cinturaIni,$this->abdomenIni,
+				if(!$stmt->bind_param('ddddddddi',$this->pesoIni,$this->bustoIni,$this->diafragmaIni,$this->brazoIni,$this->cinturaIni,$this->abdomenIni,
 													$this->caderaIni,$this->musloIni,$idHistorialMedico)){
 					return false;
 				}
@@ -879,8 +879,8 @@ class HistorialMedicoMdl extends BaseMdl{
 	 *@param decimal $musloFin
 	*@return true or false
 	**/
-	function updateExploracionFinal($idHistorialMedico,$idHistorialMedico, $pesoFin, $bustoFin, $diafragmaFin, $brazoFin, $cinturaFin, $abdomenFin, $caderaFin, $musloFin){
-		if($stmt = $this->driver->prepare('SELECT IDExploracionFinal FROM ExploracionFinal WHERE IDHistorialMedico=?')){
+	function updateExploracionFinal($idHistorialMedico, $pesoFin, $bustoFin, $diafragmaFin, $brazoFin, $cinturaFin, $abdomenFin, $caderaFin, $musloFin){
+		if($stmt = $this->driver->prepare('SELECT IDHistorialMedico FROM ExploracionFinal WHERE IDHistorialMedico=?')){
 		
 			if(!$stmt->bind_param('i',$idHistorialMedico))
 				return false;
@@ -1019,7 +1019,7 @@ class HistorialMedicoMdl extends BaseMdl{
 	*@return true or false
 	**/
 	function updateFichaClinica($idHistorialMedico, $motivoConsulta, $tiempoProblema, $relacionaCon, $tratamientoAnterior, $metProbados, $resAnteriores){
-		if($stmt = $this->driver->prepare('SELECT IDFichaClinica FROM FichaClinica WHERE IDFichaClinica=?')){
+		if($stmt = $this->driver->prepare('SELECT IDHistorialMedico FROM FichaClinica WHERE IDHistorialMedico=?')){
 		
 			if(!$stmt->bind_param('i',$idHistorialMedico))
 				return false;
@@ -1029,7 +1029,7 @@ class HistorialMedicoMdl extends BaseMdl{
 				
 			$mySqliResult = $stmt->get_result();
 
-			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['IDFichaClinica']!=''){
+			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['IDHistorialMedico']!=''){
 				$this->motivoConsulta		= $this->driver->real_escape_string($motivoConsulta);
 				$this->tiempoProblema		= $this->driver->real_escape_string($tiempoProblema);
 				$this->relacionaCon 		= $this->driver->real_escape_string($relacionaCon);
@@ -1037,10 +1037,10 @@ class HistorialMedicoMdl extends BaseMdl{
 				$this->metProbados 			= $this->driver->real_escape_string($metProbados);
 				$this->resAnteriores 		= $this->driver->real_escape_string($resAnteriores);
 				
-				$stmt = $this->driver->prepare("UPDATE FichaClinica SET IDHistorialMedico=?,MotivoConsulta=?, TiempoProblema=?, RelacionaCon=?, TratamientoAnterior=?, 
-																	MetodosProbados=?, ResultadosAnteriores=? WHERE IDFichaClinica=?");
+				$stmt = $this->driver->prepare("UPDATE FichaClinica SET MotivoConsulta=?, TiempoProblema=?, RelacionaCon=?, TratamientoAnterior=?, 
+																	MetodosProbados=?, ResultadosAnteriores=? WHERE IDHistorialMedico=?");
 
-				if(!$stmt->bind_param('issssssi',$idHistorialMedico, $this->motivoConsulta, $this->tiempoProblema, $this->relacionaCon, $this->tratamientoAnterior, 
+				if(!$stmt->bind_param('ssssssi',$this->motivoConsulta, $this->tiempoProblema, $this->relacionaCon, $this->tratamientoAnterior, 
 										$this->metProbados, $this->resAnteriores,$idHistorialMedico)){
 					return false;
 				}
@@ -1070,7 +1070,7 @@ class HistorialMedicoMdl extends BaseMdl{
 			$stmt = $this->driver->prepare('SELECT * FROM FichaClinica WHERE '.$constrain.' LIMIT ?,?');
 		}else{
 			if($idHistorialMedico>-1){
-				$stmt = $this->driver->prepare('SELECT * FROM FichaClinica WHERE IDFichaClinica=?');
+				$stmt = $this->driver->prepare('SELECT * FROM FichaClinica WHERE IDHistorialMedico=?');
 			}else{
 				$stmt = $this->driver->prepare('SELECT * FROM FichaClinica WHERE '.$constrain);
 			}
@@ -1147,7 +1147,6 @@ class HistorialMedicoMdl extends BaseMdl{
 
 	/**
 	*Actualiza la información de Habito
-	*@param int $idHabito
 	*@param int $idHistorialMedico
 	*@param string $fumar
 	 *@param string $ejercicio
@@ -1158,10 +1157,10 @@ class HistorialMedicoMdl extends BaseMdl{
 	 *@param string $hidroquinona
 	*@return true or false
 	**/
-	function updateHabito($idHabito,$idHistorialMedico, $fumar, $ejercicio, $usarFaja, $suenio, $tomaSol, $bloqueador, $hidroquinona){
-		if($stmt = $this->driver->prepare('SELECT IDHabito FROM Habito WHERE IDHabito=?')){
+	function updateHabito($idHistorialMedico, $fumar, $ejercicio, $usarFaja, $suenio, $tomaSol, $bloqueador, $hidroquinona){
+		if($stmt = $this->driver->prepare('SELECT IDHistorialMedico FROM Habito WHERE IDHistorialMedico=?')){
 		
-			if(!$stmt->bind_param('i',$idHabito))
+			if(!$stmt->bind_param('i',$idHistorialMedico))
 				return false;
 			
 			if(!$stmt->execute())
@@ -1169,18 +1168,19 @@ class HistorialMedicoMdl extends BaseMdl{
 				
 			$mySqliResult = $stmt->get_result();
 
-			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['IDHabito']!=''){
-				$this->motivoConsulta		= $this->driver->real_escape_string($motivoConsulta);
-				$this->tiempoProblema		= $this->driver->real_escape_string($tiempoProblema);
-				$this->relacionaCon 		= $this->driver->real_escape_string($relacionaCon);
-				$this->tratamientoAnterior 	= $this->driver->real_escape_string($tratamientoAnterior);
-				$this->metProbados 			= $this->driver->real_escape_string($metProbados);
-				$this->resAnteriores 		= $this->driver->real_escape_string($resAnteriores);
+			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['IDHistorialMedico']!=''){
+				$this->fumar 		= $this->driver->real_escape_string($fumar);
+				$this->ejercicio 	= $this->driver->real_escape_string($ejercicio);
+				$this->usarFaja 	= $this->driver->real_escape_string($usarFaja);
+				$this->suenio 		= $this->driver->real_escape_string($suenio);
+				$this->tomaSol 		= $this->driver->real_escape_string($tomaSol);
+				$this->bloqueador 	= $this->driver->real_escape_string($bloqueador);
+				$this->hidroquinona = $this->driver->real_escape_string($hidroquinona);
 				
-				$stmt = $this->driver->prepare("UPDATE Habito SET IDHistorialMedico=?, Fumar=?, Ejercicio=?, UsarFaja=?, Suenio=?, TomaSol=?, Bloqueador=?, 
-												Hidroquinona=? WHERE IDHabito=?");
+				$stmt = $this->driver->prepare("UPDATE Habito SET Fumar=?, Ejercicio=?, UsarFaja=?, Suenio=?, TomaSol=?, Bloqueador=?, 
+												Hidroquinona=? WHERE IDHistorialMedico=?");
 
-				if(!$stmt->bind_param('isssssssi',$idHistorialMedico, $this->fumar, $this->ejercicio, $this->usarFaja, $this->suenio, $this->tomaSol, $this->bloqueador, $this->hidroquinona,$idHabito)){
+				if(!$stmt->bind_param('sssssssi',$this->fumar, $this->ejercicio, $this->usarFaja, $this->suenio, $this->tomaSol, $this->bloqueador, $this->hidroquinona,$idHistorialMedico)){
 					return false;
 				}
 				if (!$stmt->execute()) {
@@ -1200,16 +1200,16 @@ class HistorialMedicoMdl extends BaseMdl{
 	/**
 	* Consulta los Habitos registrados en el sistema
 	*@param int $offset
-	*@param int $idHabito
+	*@param int $idHistorialMedico
 	* @return array or false
 	**/
-	function listsHabito($offset = -1,$idHabito = -1, $constrain = '1 = 1'){
+	function listsHabito($offset = -1,$idHistorialMedico = -1, $constrain = '1 = 1'){
 		$rows = array();
 		if($offset>-1){
 			$stmt = $this->driver->prepare('SELECT * FROM Habito WHERE '.$constrain.' LIMIT ?,?');
 		}else{
-			if($idHabito>-1){
-				$stmt = $this->driver->prepare('SELECT * FROM Habito WHERE IDHabito=?');
+			if($idHistorialMedico>-1){
+				$stmt = $this->driver->prepare('SELECT * FROM Habito WHERE IDHistorialMedico=?');
 			}else{
 				$stmt = $this->driver->prepare('SELECT * FROM Habito WHERE '.$constrain);
 			}
@@ -1220,8 +1220,8 @@ class HistorialMedicoMdl extends BaseMdl{
 				$offset*=10;
 				if(!$stmt->bind_param('ii',$offset,$amountRows))
 					return false;
-			}else if($idHabito>-1){
-				if(!$stmt->bind_param('i',$idHabito))
+			}else if($idHistorialMedico>-1){
+				if(!$stmt->bind_param('i',$idHistorialMedico))
 					return false;
 			}
 			if(!$stmt->execute())
@@ -1298,7 +1298,6 @@ class HistorialMedicoMdl extends BaseMdl{
 
 	/**
 	*Actualiza la información de Padecimiento
-	*@param int $idPadecimiento
 	*@param int $idHistorialMedico
 	*@param string $diabetes
 	*@param string $obesisdad
@@ -1313,11 +1312,11 @@ class HistorialMedicoMdl extends BaseMdl{
 	*@param string $embarazo
 	*@return true or false
 	**/
-	function updatePadecimiento($idPadecimiento,$idHistorialMedico, $diabetes, $obesisdad, $depresion, $estres, $sobrepeso, $estrenimiento, $colitis,
+	function updatePadecimiento($idHistorialMedico, $diabetes, $obesisdad, $depresion, $estres, $sobrepeso, $estrenimiento, $colitis,
 					$retencionLiquidos, $transtornoMes, $cuidadoCorporal, $embarazo){
-		if($stmt = $this->driver->prepare('SELECT IDPadecimiento FROM Padecimiento WHERE IDPadecimiento=?')){
+		if($stmt = $this->driver->prepare('SELECT IDHistorialMedico FROM Padecimiento WHERE IDHistorialMedico=?')){
 		
-			if(!$stmt->bind_param('i',$idPadecimiento))
+			if(!$stmt->bind_param('i',$idHistorialMedico))
 				return false;
 			
 			if(!$stmt->execute())
@@ -1325,7 +1324,7 @@ class HistorialMedicoMdl extends BaseMdl{
 				
 			$mySqliResult = $stmt->get_result();
 
-			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['IDPadecimiento']!=''){
+			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['IDHistorialMedico']!=''){
 				$this->diabetes 		 = $this->driver->real_escape_string($diabetes);
 				$this->obesisdad  		 = $this->driver->real_escape_string($obesisdad);
 				$this->depresion 		 = $this->driver->real_escape_string($depresion);
@@ -1338,11 +1337,11 @@ class HistorialMedicoMdl extends BaseMdl{
 				$this->cuidadoCorporal   = $this->driver->real_escape_string($cuidadoCorporal);
 				$this->embarazo   		 = $embarazo;
 				
-				$stmt = $this->driver->prepare("UPDATE Padecimiento SET IDHistorialMedico=?,Diabetes=?, Obesisdad=?, Depresion=?, Estres=?, Sobrepeso=?, Estrenimiento=?,
-																Colitis=?, RetencionLiquidos=?, TranstornosMenstruales=?, CuidadosCorporales=?, Embarazo=? WHERE IDPadecimiento=?");
+				$stmt = $this->driver->prepare("UPDATE Padecimiento SET Diabetes=?, Obesisdad=?, Depresion=?, Estres=?, Sobrepeso=?, Estrenimiento=?,
+																Colitis=?, RetencionLiquidos=?, TranstornosMenstruales=?, CuidadosCorporales=?, Embarazo=? WHERE IDHistorialMedico=?");
 
-				if(!$stmt->bind_param('issssssssssii',$idHistorialMedico, $this->diabetes,$this->obesisdad,$this->depresion,$this->estres,$this->sobrepeso,$this->estrenimiento,
-											$this->colitis,$this->retencionLiquidos,$this->transtornoMes,$this->cuidadoCorporal,$this->embarazo,$idPadecimiento)){
+				if(!$stmt->bind_param('ssssssssssdi',$this->diabetes,$this->obesisdad,$this->depresion,$this->estres,$this->sobrepeso,$this->estrenimiento,
+											$this->colitis,$this->retencionLiquidos,$this->transtornoMes,$this->cuidadoCorporal,$this->embarazo,$idHistorialMedico)){
 					return false;
 				}
 				if (!$stmt->execute()) {
@@ -1362,16 +1361,16 @@ class HistorialMedicoMdl extends BaseMdl{
 	/**
 	* Consulta los Padecimientos registrados en el sistema
 	*@param int $offset
-	*@param int $idPadecimiento
+	*@param int $idHistorialMedico
 	* @return array or false
 	**/
-	function listsPadecimiento($offset = -1,$idPadecimiento = -1, $constrain = '1 = 1'){
+	function listsPadecimiento($offset = -1,$idHistorialMedico = -1, $constrain = '1 = 1'){
 		$rows = array();
 		if($offset>-1){
 			$stmt = $this->driver->prepare('SELECT * FROM Padecimiento WHERE '.$constrain.' LIMIT ?,?');
 		}else{
-			if($idPadecimiento>-1){
-				$stmt = $this->driver->prepare('SELECT * FROM Padecimiento WHERE IDPadecimiento=?');
+			if($idHistorialMedico>-1){
+				$stmt = $this->driver->prepare('SELECT * FROM Padecimiento WHERE IDHistorialMedico=?');
 			}else{
 				$stmt = $this->driver->prepare('SELECT * FROM Padecimiento WHERE '.$constrain);
 			}
@@ -1382,8 +1381,8 @@ class HistorialMedicoMdl extends BaseMdl{
 				$offset*=10;
 				if(!$stmt->bind_param('ii',$offset,$amountRows))
 					return false;
-			}else if($idPadecimiento>-1){
-				if(!$stmt->bind_param('i',$idPadecimiento))
+			}else if($idHistorialMedico>-1){
+				if(!$stmt->bind_param('i',$idHistorialMedico))
 					return false;
 			}
 			if(!$stmt->execute())
@@ -1479,7 +1478,6 @@ class HistorialMedicoMdl extends BaseMdl{
 
 	/**
 	*Actualiza la información de Piel
-	*@param int $idPiel
 	*@param int $idHistorialMedico
 	*@param string $fina
 	*@param string $gruesa
@@ -1503,12 +1501,12 @@ class HistorialMedicoMdl extends BaseMdl{
 	*@param string $despigmentacion
 	*@return true or false
 	**/
-	function updatePiel($idPiel,$idHistorialMedico, $fina,$gruesa,$deshidratada,$flacida,$seca,$mixta,$grasa,$acneica,$manchas,
+	function updatePiel($idHistorialMedico, $fina,$gruesa,$deshidratada,$flacida,$seca,$mixta,$grasa,$acneica,$manchas,
 					$cicatrices,$poroAbierto,$ojeras,$lunares,$pecas,$puntosNegros,$verrugas,$arrugas,
 					$brilloFacial,$pielAsfixiada,$despigmentacion){
-		if($stmt = $this->driver->prepare('SELECT IDPiel FROM Piel WHERE IDPiel=?')){
+		if($stmt = $this->driver->prepare('SELECT IDHistorialMedico FROM Piel WHERE IDHistorialMedico=?')){
 		
-			if(!$stmt->bind_param('i',$idPiel))
+			if(!$stmt->bind_param('i',$idHistorialMedico))
 				return false;
 			
 			if(!$stmt->execute())
@@ -1516,11 +1514,12 @@ class HistorialMedicoMdl extends BaseMdl{
 				
 			$mySqliResult = $stmt->get_result();
 
-			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['IDPiel']!=''){
+			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['IDHistorialMedico']!=''){
 				$this->fina 			= $this->driver->real_escape_string($fina);
 				$this->gruesa 			= $this->driver->real_escape_string($gruesa);
 				$this->deshidratada 	= $this->driver->real_escape_string($deshidratada);
 				$this->flacida 			= $this->driver->real_escape_string($flacida);
+				$this->seca 			= $this->driver->real_escape_string($seca);
 				$this->mixta 			= $this->driver->real_escape_string($mixta);
 				$this->grasa 			= $this->driver->real_escape_string($grasa);
 				$this->acneica 			= $this->driver->real_escape_string($acneica);
@@ -1537,13 +1536,13 @@ class HistorialMedicoMdl extends BaseMdl{
 				$this->pielAsfixiada 	= $this->driver->real_escape_string($pielAsfixiada);
 				$this->despigmentacion 	= $this->driver->real_escape_string($despigmentacion);
 				
-				$stmt = $this->driver->prepare("UPDATE Piel SET IDHistorialMedico=?,Fina=?,Gruesa=?,Deshidratada=?,Flacida=?,Mixta=?,Grasa=?,Acneica=?,Manchas=?,Cicatrices=?,PoroAbierto=?,
-														Ojeras=?,Lunares=?,Pecas=?,PuntosNegros=?,Verrugas=?,Arrugas=?,BrilloFacial=?,PielAsfixiada=?,Despigmentacion=? WHERE IDPiel=?");
+				$stmt = $this->driver->prepare("UPDATE Piel SET Fina=?,Gruesa=?,Deshidratada=?,Flacida=?,Seca=?,Mixta=?,Grasa=?,Acneica=?,Manchas=?,Cicatrices=?,PoroAbierto=?,
+														Ojeras=?,Lunares=?,Pecas=?,PuntosNegros=?,Verrugas=?,Arrugas=?,BrilloFacial=?,PielAsfixiada=?,Despigmentacion=? WHERE IDHistorialMedico=?");
 
-				if(!$stmt->bind_param('isssssssssssssssssssi',$idHistorialMedico, $this->fina,$this->gruesa,$this->deshidratada,$this->flacida,$this->mixta,$this->grasa,
+				if(!$stmt->bind_param('ssssssssssssssssssssi',$this->fina,$this->gruesa,$this->deshidratada,$this->flacida,$this->seca,$this->mixta,$this->grasa,
 													$this->acneica,$this->manchas,$this->cicatrices,$this->poroAbierto,$this->ojeras,$this->lunares,
 													$this->pecas,$this->puntosNegros,$this->verrugas,$this->verrugas,$this->brilloFacial,
-													$this->pielAsfixiada,$this->despigmentacion,$idPiel)){
+													$this->pielAsfixiada,$this->despigmentacion,$idHistorialMedico)){
 					return false;
 				}
 				if (!$stmt->execute()) {
@@ -1563,16 +1562,16 @@ class HistorialMedicoMdl extends BaseMdl{
 	/**
 	* Consulta los Piels registrados en el sistema
 	*@param int $offset
-	*@param int $idPiel
+	*@param int $idHistorialMedico
 	* @return array or false
 	**/
-	function listsPiel($offset = -1,$idPiel = -1, $constrain = '1 = 1'){
+	function listsPiel($offset = -1,$idHistorialMedico = -1, $constrain = '1 = 1'){
 		$rows = array();
 		if($offset>-1){
 			$stmt = $this->driver->prepare('SELECT * FROM Piel WHERE '.$constrain.' LIMIT ?,?');
 		}else{
-			if($idPiel>-1){
-				$stmt = $this->driver->prepare('SELECT * FROM Piel WHERE IDPiel=?');
+			if($idHistorialMedico>-1){
+				$stmt = $this->driver->prepare('SELECT * FROM Piel WHERE IDHistorialMedico=?');
 			}else{
 				$stmt = $this->driver->prepare('SELECT * FROM Piel WHERE '.$constrain);
 			}
@@ -1583,8 +1582,8 @@ class HistorialMedicoMdl extends BaseMdl{
 				$offset*=10;
 				if(!$stmt->bind_param('ii',$offset,$amountRows))
 					return false;
-			}else if($idPiel>-1){
-				if(!$stmt->bind_param('i',$idPiel))
+			}else if($idHistorialMedico>-1){
+				if(!$stmt->bind_param('i',$idHistorialMedico))
 					return false;
 			}
 			if(!$stmt->execute())
@@ -1646,7 +1645,6 @@ class HistorialMedicoMdl extends BaseMdl{
 
 	/**
 	*Actualiza la información de TipoCelulitis
-	*@param int $idTipoCelulitis
 	*@param int $idHistorialMedico
 	*@param string $fibrosa
 	*@param string $edematosa
@@ -1656,10 +1654,10 @@ class HistorialMedicoMdl extends BaseMdl{
 	*@param string $dolorosa
 	*@return true or false
 	**/
-	function updateTipoCelulitis($idTipoCelulitis,$idHistorialMedico, $fibrosa, $edematosa, $flacida, $dura, $mixta, $dolorosa){
-		if($stmt = $this->driver->prepare('SELECT IDTipoCelulitis FROM TipoCelulitis WHERE IDTipoCelulitis=?')){
+	function updateTipoCelulitis($idHistorialMedico, $fibrosa, $edematosa, $flacida, $dura, $mixta, $dolorosa){
+		if($stmt = $this->driver->prepare('SELECT IDHistorialMedico FROM TipoCelulitis WHERE IDHistorialMedico=?')){
 		
-			if(!$stmt->bind_param('i',$idTipoCelulitis))
+			if(!$stmt->bind_param('i',$idHistorialMedico))
 				return false;
 			
 			if(!$stmt->execute())
@@ -1667,7 +1665,7 @@ class HistorialMedicoMdl extends BaseMdl{
 				
 			$mySqliResult = $stmt->get_result();
 
-			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['IDTipoCelulitis']!=''){
+			if($mySqliResult->field_count > 0 && $mySqliResult->fetch_assoc()['IDHistorialMedico']!=''){
 				$this->fibrosa 	 = $this->driver->real_escape_string($fibrosa);
 				$this->edematosa = $this->driver->real_escape_string($edematosa);
 				$this->flacida   = $this->driver->real_escape_string($flacida);
@@ -1675,9 +1673,9 @@ class HistorialMedicoMdl extends BaseMdl{
 				$this->mixta 	 = $this->driver->real_escape_string($mixta);
 				$this->dolorosa  = $this->driver->real_escape_string($dolorosa);
 				
-				$stmt = $this->driver->prepare("UPDATE TipoCelulitis SET IDHistorialMedico=?,Fibrosa=?, Edematosa=?, Flacida=?, Dura=?, Mixta=?, Dolorosa=? WHERE IDTipoCelulitis=?");
+				$stmt = $this->driver->prepare("UPDATE TipoCelulitis SET Fibrosa=?, Edematosa=?, Flacida=?, Dura=?, Mixta=?, Dolorosa=? WHERE IDHistorialMedico=?");
 
-				if(!$stmt->bind_param('issssssi',$idHistorialMedico, $this->fibrosa, $this->edematosa, $this->flacida, $this->dura, $this->mixta, $this->dolorosa,$idTipoCelulitis)){
+				if(!$stmt->bind_param('ssssssi',$this->fibrosa, $this->edematosa, $this->flacida, $this->dura, $this->mixta, $this->dolorosa,$idHistorialMedico)){
 					return false;
 				}
 				if (!$stmt->execute()) {
@@ -1697,16 +1695,16 @@ class HistorialMedicoMdl extends BaseMdl{
 	/**
 	* Consulta los TipoCelulitis registrados en el sistema
 	*@param int $offset
-	*@param int $idTipoCelulitis
+	*@param int $idHistorialMedico
 	* @return array or false
 	**/
-	function listsTipoCelulitis($offset = -1,$idTipoCelulitis = -1, $constrain = '1 = 1'){
+	function listsTipoCelulitis($offset = -1,$idHistorialMedico = -1, $constrain = '1 = 1'){
 		$rows = array();
 		if($offset>-1){
 			$stmt = $this->driver->prepare('SELECT * FROM TipoCelulitis WHERE '.$constrain.' LIMIT ?,?');
 		}else{
-			if($idTipoCelulitis>-1){
-				$stmt = $this->driver->prepare('SELECT * FROM TipoCelulitis WHERE IDTipoCelulitis=?');
+			if($idHistorialMedico>-1){
+				$stmt = $this->driver->prepare('SELECT * FROM TipoCelulitis WHERE IDHistorialMedico=?');
 			}else{
 				$stmt = $this->driver->prepare('SELECT * FROM TipoCelulitis WHERE '.$constrain);
 			}
@@ -1717,8 +1715,8 @@ class HistorialMedicoMdl extends BaseMdl{
 				$offset*=10;
 				if(!$stmt->bind_param('ii',$offset,$amountRows))
 					return false;
-			}else if($idTipoCelulitis>-1){
-				if(!$stmt->bind_param('i',$idTipoCelulitis))
+			}else if($idHistorialMedico>-1){
+				if(!$stmt->bind_param('i',$idHistorialMedico))
 					return false;
 			}
 			if(!$stmt->execute())
