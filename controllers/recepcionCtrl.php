@@ -66,8 +66,6 @@
 				
 				if(strlen($idProveedor)==0)
 					$errors['idProveedor'] = 1;
-				if(strlen($folio)==0)
-					$errors['folio'] = 1;
 				if(strlen($fechaRecepcion)==0)
 					$errors['fechaRecepcion'] = 1;
 				if(count($this->validateNumericArray($idProductos)) != 0)

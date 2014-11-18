@@ -88,6 +88,7 @@
 		*/
 		private function create(){
 			if($this->api){
+				die("hola");
 				$errors = array();
 
 				$nombre 			= $this->validateName(isset($_POST['nombre'])?$_POST['nombre']:NULL);

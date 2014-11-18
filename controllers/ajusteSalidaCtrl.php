@@ -58,7 +58,7 @@
 
 				$idAjusteSalidaTipo 	= $this->validateNumber(isset($_POST['idAjusteSalidaTipo'])?$_POST['idAjusteSalidaTipo']:NULL);
 				$idProveedor 			= $this->validateNumber(isset($_POST['idProveedor'])?$_POST['idProveedor']:NULL);
-				$folio					= $this->validateNumber(isset($_POST['folio'])?$_POST['folio']:NULL);
+				$folio					= $this->model->getFolio('AjusteSalida'); //$this->validateNumber(isset($_POST['folio'])?$_POST['folio']:NULL);
 				$observaciones			= $this->validateText(isset($_POST['observaciones'])?$_POST['observaciones']:NULL);
 				$idProductoServicios 	= (isset($_POST['idProductoServicios'])?$_POST['idProductoServicios']:NULL);
 				$cantidades				= (isset($_POST['cantidades'])?$_POST['cantidades']:NULL);
@@ -67,8 +67,6 @@
 					$errors['idAjusteSalidaTipo'] = 1;
 				if(strlen($idProveedor)==0)
 					$errors['idProveedor'] = 1;
-				if(strlen($folio)==0)
-					$errors['folio'] = 1;
 				if(count($this->validateNumericArray($cantidades)) != 0)
 					$errors['cantidades'] = 1;
 				/*

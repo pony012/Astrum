@@ -49,7 +49,7 @@
 				$errors = array();
 				
 				$idCliente	= $this->validateNumber(isset($_POST['idCliente'])?$_POST['idCliente']:NULL);
-				$folio			= $this->validateNumber(isset($_POST['folio'])?$_POST['folio']:NULL);
+				$folio			= $this->model->getFolio('Remision');// $this->validateNumber(isset($_POST['folio'])?$_POST['folio']:NULL);
 				$fechaRemision	= $this->validateDate(isset($_POST['fechaRemision'])?$_POST['fechaRemision']:NULL);
 				$idProductos 	= (isset($_POST['idProductos'])?$_POST['idProductos']:NULL);
 				$cantidades		= (isset($_POST['cantidades'])?$_POST['cantidades']:NULL);
@@ -59,8 +59,6 @@
 				
 				if(strlen($idCliente)==0)
 					$errors['idCliente'] = 1;
-				if(strlen($folio)==0)
-					$errors['folio'] = 1;
 				if(strlen($fechaRemision)==0)
 					$errors['fechaRemision'] = 1;
 				if(count($this->validateNumericArray($cantidades)) != 0)

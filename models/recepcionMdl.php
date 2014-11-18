@@ -36,6 +36,7 @@ class RecepcionMdl extends BaseMdl{
 		$stmt = $this->driver->prepare("INSERT INTO 
 										MovimientoAlmacen (IDMovimientoAlmacenTipo, IDEmpleado)
 										VALUES(4,?)");
+
 		if(!$stmt->bind_param('i', $_SESSION['IDEmpleado'])){
 			$this->driver->rollback();
 			return false;

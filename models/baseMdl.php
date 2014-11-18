@@ -42,7 +42,7 @@
 					$cantidadReg = $this->driver->query('SELECT COUNT(Folio) as Folio FROM '.$tabla);
 					$cantidadReg = (int)$cantidadReg->fetch_row()[0];
 					if($cantidadReg>0){
-						return $rows[0]['Folio'];
+						return $rows[0]['Folio']+1;
 					}else{
 						return 0;
 					}
