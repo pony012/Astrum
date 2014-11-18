@@ -1,21 +1,21 @@
 $(function(){
-    var selectProveedor = $("#idProveedor");
+    var selectCliente = $("#idCliente");
     $.ajax({
-        url: selectProveedor.data("url"),
+        url: selectCliente.data("url"),
         type: "POST",
         dataType: "json",
         contentType: "application/json; charset=utf-8"
     }).done(function(response){
-        $.each(response.data, function(i, proveedor){
-            selectProveedor.append($('<option>',{
-                text: proveedor.Nombre+" "+proveedor.ApellidoPaterno+" "+proveedor.ApellidoMaterno,
-                value: proveedor.IDProveedor
+        $.each(response.data, function(i, cliente){
+            selectCliente.append($('<option>',{
+                text: cliente.Nombre+" "+cliente.ApellidoPaterno+" "+cliente.ApellidoMaterno,
+                value: cliente.IDCliente
             }));
         });
-        var selected = selectProveedor.data("#listaProductos selected");
+        var selected = selectCliente.data("#listaProductos selected");
         if(selected){
-            selectProveedor.find("option:selected").removeAttr("selected");
-            selectProveedor.find("[value="+selected+"]").attr("selected","selected");
+            selectCliente.find("option:selected").removeAttr("selected");
+            selectCliente.find("[value="+selected+"]").attr("selected","selected");
         }
     });
 

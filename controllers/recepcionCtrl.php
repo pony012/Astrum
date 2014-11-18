@@ -41,7 +41,7 @@
 					break;
 				default:
 					if ($this->api) {
-						echo $this->json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
+						echo $this->json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este recepcion no está disponible'));
 					}else{
 						//CARGAR VISTA DE SERVICIO INEXISTENTE
 					}
@@ -118,6 +118,7 @@
 		private function lists(){
 			$constrain = '';
 			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
+			$idRecepcion = $this->validateNumber(isset($_GET['id'])?$_GET['id']:NULL);
 			$constrains = isset($_POST['constrains'])?$_POST['constrains']:'1 = 1';
 			
 			if($constrains === '1 = 1'){
@@ -141,7 +142,33 @@
 				}
 			}
 			if($offset!==''){ 
-				if(($result = $this->model->lists($offset,-1,$constrain))){
+				if ($idRecepcion!=='') {
+					if(($result = $this->model->lists($offset,$idRecepcion,$constrain))){
+						if(is_numeric($result)){
+							if ($this->api) {
+								echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+							}else{
+								$template = $this->twig->loadTemplate('vacio.html');
+								echo $template->render(array('session'=>$this->session,'data'=>NULL));
+							}
+						}else{
+							if($this->api){
+								echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
+							}else{
+								print_r($result);
+								$this->session['action']='list';
+								$template = $this->twig->loadTemplate('recepcionForm.html');
+								echo $template->render(array('session'=>$this->session,'data'=>$result[0]));
+							}
+						}
+					}else{
+						if($this->api){
+							echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+						}else{
+							//CARGAR VISTA FORMATO INCORRECTO
+						}
+					}
+				}else if(($result = $this->model->lists($offset,-1,$constrain))){
 					if(is_numeric($result)){
 						if ($this->api) {
 							echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
@@ -176,7 +203,7 @@
 		*obtenemos los datos de una Recepcion activo
 		**/
 		private function getRecepcion(){
-			$idRecepcion = $this->validateNumber(isset($_GET['idRecepcion'])?$_GET['idRecepcion']:NULL);
+			$idRecepcion = $this->validateNumber(isset($_REQUEST['idRecepcion'])?$_REQUEST['idRecepcion']:NULL);
 			if($idRecepcion!==''){
 				if(($result = $this->model->lists(-1,$idRecepcion))){
 					if(is_numeric($result)){

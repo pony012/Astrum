@@ -1,59 +1,70 @@
 {% include 'header.html' %}
 <section class = "row">
-	<h1 class="page-header text-center col-xs-12">{{session.action == 'create'?'Nueva Venta':session.action == 'update'?'Modificar Venta':'Detalles'}}</h1>
+    <h1 class="page-header text-center col-xs-12">{{session.action == 'create'?'Nueva Venta':session.action == 'update'?'Modificar Venta':'Detalles'}}</h1>
     <div class = "col-sm-offset-1 col-sm-10 col-lg-offset-2 col-lg-8">
     {% if session.action != 'list' %}
         <form id="formulario" role="form" class="" action="{{session.document_root}}/remision/api/{{session.action}}/" {%if session.action == "update" %}data-tolocation="{{session.document_root}}/remision/list/id/{{data.IDRemision}}"{% else %} data-tolocation="{{session.document_root}}/remision/list/" {% endif %} method="POST">
     {% endif %}
-            <div class="form-group {{session.action != 'create'?'col-md-6':'col-md-12'}}">
-                <label for="nombre">Nombre:</label>
-                <input class="form-control" type = "text" id = "nombre" name = "nombre" placeholder = "Nombre(s)" value="{{data.Nombre}}" required {{session.action == 'list'?'disabled':''}}>
-            </div>
         {% if session.action != 'create' %}
             <div class="form-group col-md-6">
                 <label for="idRemision">Id Venta:</label>
                 <input class="form-control" type="text" id="idRemision" name="idRemision" value="{{data.IDRemision}}" readonly>
             </div>
         {% endif %}
-            <div class="form-group  col-md-12 col-lg-12">
-                <label for="apellidoPaterno">Apellido Paterno:</label>
-                <input class="form-control" type = "text" id = "apellidoPaterno" name = "apellidoPaterno" placeholder = "Apellido Paterno" value="{{data.ApellidoPaterno}}" required {{session.action == 'list'?'disabled':''}}>
+        {% if session.action == 'list' %}
+            <div class="form-group col-md-6">
+                <label for="folio">Folio:</label>
+                <input class="form-control" type="text" id="folio" name="folio" value="{{data.Folio}}" readonly>
             </div>
-            <div class="form-group  col-md-12 col-lg-12">
-                <label for="apellidoMaterno">Apellido Materno:</label>
-                <input class="form-control" type = "text" id = "apellidoMaterno" name = "apellidoMaterno" placeholder = "Apellido Materno" value="{{data.ApellidoMaterno}}" required {{session.action == 'list'?'disabled':''}}>
+        {% endif %}
+            <div class="form-group col-md-6">
+                <label for="idCliente">Cliente:</label>
+                <select data-url="{{session.document_root}}/cliente/api/list/activos" class="form-control" id = "idCliente" name = "idCliente" placeholder = "Cliente" value="{{data.IDCliente}}" data-selected="{{data.IDCliente}}" required {{session.action == 'list'?'disabled':''}}>
+                    <option>Selecciona un cliente</option>
+                </select>
             </div>
-            <div class="form-group col-md-6 col-lg-6">
-                <label for="colonia">Colonia:</label>
-                <input class="form-control" type = "text" id = "colonia" name = "colonia" placeholder = "Colonia" value="{{data.Colonia}}" required {{session.action == 'list'?'disabled':''}}>
+            <div class="form-group col-md-6">
+                <label for="fechaRemision">Fecha de Venta:</label>
+                <input class="form-control" type="text" data-type="date" name="fechaRemision" id="fechaRemision" placeholder="Fecha de Venta" value="{{data.FechaRemision}}" required {{session.action == 'list'?'disabled':''}}>
             </div>
-            <div class="form-group col-md-6 col-lg-6">
-                <label for="calle">Calle:</label>
-                <input class="form-control" type = "text" id = "calle" name = "calle" placeholder = "Nombre de la Calle" value="{{data.Calle}}" required {{session.action == 'list'?'disabled':''}}>
+            <div class="col-xs-3">
+                <div class="form-group col-md-12">
+                    <label for="listaProductos">Productos:</label>
+                    <select size="6" data-url="{{session.document_root}}/producto/api/list/activos" class="form-control" multiple id="listaProductos" name="listaProductos" placeholder="Productos" {{session.action == 'list'?'disabled':''}}>
+                    </select>
+                </div>
+                <div class="form-group col-xs-12">
+                    <label for="iva">Iva (%):</label>
+                    <input class="form-control" type="number" step="any" min="0" max="100" name="iva" id="iva" value="16" {{session.action == 'list'?'disabled':''}}>
+                </div>
             </div>
-            <div class="form-group col-md-6 col-lg-6">
-                <label for="numExterior">Número Exterior:</label>
-                <input class="form-control" type = "text" id = "numExterior" name = "numExterior" placeholder = "Número Exterior" value="{{data.NumExterior}}" required {{session.action == 'list'?'disabled':''}}>
-            </div>
-            <div class="form-group col-md-6 col-lg-6">
-                <label for="numInterior">Número Interior:</label>
-                <input class="form-control" type = "text" id = "numInterior" name = "numInterior" placeholder = "Número Interior" value="{{data.NumInterior}}" {{session.action == 'list'?'disabled':''}}>
-            </div>
-            <div class="form-group col-md-6 col-lg-6">
-                <label for="codigoPostal">Código Postal:</label>
-                <input class="form-control" type = "text" id = "codigoPostal" name = "codigoPostal" placeholder = "Código Postal" value="{{data.CP}}" required {{session.action == 'list'?'disabled':''}}>
-            </div>
-            <div class="form-group col-md-6 col-lg-6">
-                <label for="email">Email:</label>
-                <input class="form-control" type = "email" id = "email" name = "email" placeholder = "Email" value="{{data.Email}}" {{session.action == 'list'?'disabled':''}}>
-            </div>
-            <div class="form-group col-md-6 col-lg-6">
-                <label for="telefono">Teléfono:</label>
-                <input class="form-control" type = "tel" id = "telefono" name = "telefono" placeholder = "Teléfono" value="{{data.Telefono}}" {{session.action == 'list'?'disabled':''}}>
-            </div>
-            <div class="form-group col-md-6 col-lg-6">
-                <label for="celular">Celular:</label>
-                <input class="form-control" type = "tel" id = "celular" name = "celular" placeholder = "Celular" value="{{data.Celular}}" {{session.action == 'list'?'disabled':''}}>
+            <div class="form-group col-md-9">
+                <label>Productos Seleccionados:</label>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Id</th>
+                                <th>Nombre</th>
+                                <th>P. Unitario ($)</th>
+                                <th>Cantidad</th>
+                                <th>Descuento (%)</th>
+                                <th>IVA (%)</th>
+                                <th>Sub Total ($)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productosContainer">
+                            
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="7" class="text-right">Total:</th>
+                                <th id="totalProductos"></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
             </div>
         {% if session.action != 'list' %}
             <div class = "col-xs-12 col-sm-12 col-md-12 col-lg-12">
