@@ -143,7 +143,7 @@
 			}
 			if($offset!==''){ 
 				if ($idRecepcion!=='') {
-					if(($result = $this->model->lists($offset,$idRecepcion,$constrain))){
+					if(($result = $this->model->listsDetails($idRecepcion))){
 						if(is_numeric($result)){
 							if ($this->api) {
 								echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
@@ -155,10 +155,9 @@
 							if($this->api){
 								echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
 							}else{
-								print_r($result);
 								$this->session['action']='list';
 								$template = $this->twig->loadTemplate('recepcionForm.html');
-								echo $template->render(array('session'=>$this->session,'data'=>$result[0]));
+								echo $template->render(array('session'=>$this->session,'data'=>$result));
 							}
 						}
 					}else{

@@ -1,47 +1,47 @@
-{% include 'header.html' %}
+{% include 'header.html' with {'cssLibs': ['css/detallesMov.css']} %}
 <section class = "row">
     <h1 class="page-header text-center col-xs-12">{{session.action == 'create'?'Nueva Venta':session.action == 'update'?'Modificar Venta':'Detalles'}}</h1>
     <div class = "col-sm-offset-1 col-sm-10 col-lg-offset-2 col-lg-8">
     {% if session.action != 'list' %}
-        <form id="formulario" role="form" class="" action="{{session.document_root}}/remision/api/{{session.action}}/" {%if session.action == "update" %}data-tolocation="{{session.document_root}}/remision/list/id/{{data.IDRemision}}"{% else %} data-tolocation="{{session.document_root}}/remision/list/" {% endif %} method="POST">
+        <form id="formulario" role="form" class="" action="{{session.document_root}}/remision/api/{{session.action}}/" {%if session.action == "update" %}data-tolocation="{{session.document_root}}/remision/list/id/{{data.remision[0].IDRemision}}"{% else %} data-tolocation="{{session.document_root}}/remision/list/" {% endif %} method="POST">
     {% endif %}
         {% if session.action != 'create' %}
             <div class="form-group col-md-6">
                 <label for="idRemision">Id Venta:</label>
-                <input class="form-control" type="text" id="idRemision" name="idRemision" value="{{data.IDRemision}}" readonly>
+                <input class="form-control" type="text" id="idRemision" name="idRemision" value="{{data.remision[0].IDRemision}}" readonly>
             </div>
         {% endif %}
         {% if session.action == 'list' %}
             <div class="form-group col-md-6">
                 <label for="folio">Folio:</label>
-                <input class="form-control" type="text" id="folio" name="folio" value="{{data.Folio}}" readonly>
+                <input class="form-control" type="text" id="folio" name="folio" value="{{data.remision[0].Folio}}" readonly>
             </div>
         {% endif %}
             <div class="form-group col-md-6">
                 <label for="idCliente">Cliente:</label>
-                <select data-url="{{session.document_root}}/cliente/api/list/activos" class="form-control" id = "idCliente" name = "idCliente" placeholder = "Cliente" value="{{data.IDCliente}}" data-selected="{{data.IDCliente}}" required {{session.action == 'list'?'disabled':''}}>
+                <select data-url="{{session.document_root}}/cliente/api/list/activos" class="form-control" id = "idCliente" name = "idCliente" placeholder = "Cliente" value="{{data.remision[0].IDCliente}}" data-selected="{{data.remision[0].IDCliente}}" required {{session.action == 'list'?'disabled':''}}>
                     <option>Selecciona un cliente</option>
                 </select>
             </div>
             <div class="form-group col-md-6">
                 <label for="fechaRemision">Fecha de Venta:</label>
-                <input class="form-control" type="text" data-type="date" name="fechaRemision" id="fechaRemision" placeholder="Fecha de Venta" value="{{data.FechaRemision}}" required {{session.action == 'list'?'disabled':''}}>
+                <input class="form-control" type="text" data-type="date" name="fechaRemision" id="fechaRemision" placeholder="Fecha de Venta" value="{{data.remision[0].FechaRemision}}" required {{session.action == 'list'?'disabled':''}}>
             </div>
-            <div class="col-xs-3">
-                <div class="form-group col-md-12">
-                    <label for="listaProductos">Productos:</label>
-                    <select size="6" data-url="{{session.document_root}}/producto/api/list/activos" class="form-control" multiple id="listaProductos" name="listaProductos" placeholder="Productos" {{session.action == 'list'?'disabled':''}}>
-                    </select>
-                </div>
-                <div class="form-group col-xs-12">
-                    <label for="iva">Iva (%):</label>
-                    <input class="form-control" type="number" step="any" min="0" max="100" name="iva" id="iva" value="16" {{session.action == 'list'?'disabled':''}}>
-                </div>
+        {% if session.action != 'list' %}
+            <div class="form-group col-xs-12 col-sm-6 col-md-12">
+                <label for="listaProductos">Productos:</label>
+                <select size="6" data-url="{{session.document_root}}/producto/api/list/activos" class="form-control" multiple id="listaProductos" name="listaProductos" placeholder="Productos" {{session.action == 'list'?'disabled':''}}>
+                </select>
             </div>
-            <div class="form-group col-md-9">
-                <label>Productos Seleccionados:</label>
+            <div class="form-group col-xs-12 col-sm-6 col-md-12">
+                <label for="iva">Iva (%):</label>
+                <input class="form-control" type="number" step="any" min="0" max="100" name="iva" id="iva" value="16" {{session.action == 'list'?'disabled':''}}>
+            </div>
+        {%endif%}
+            <div class="form-group col-xs-12">
+                <label>Productos Seleccionados: </label>
                 <div class="table-responsive">
-                    <table class="table table-hover">
+                    <table class="table table-hover tabla-grande">
                         <thead>
                             <tr>
                                 <th></th>
@@ -55,11 +55,21 @@
                             </tr>
                         </thead>
                         <tbody id="productosContainer">
-                            
+                        {% for producto in data.productos %}
+                            <tr>
+                                <td colspan="2">{{producto.IDProducto}}</td>
+                                <td>{{producto.Producto}}</td>
+                                <td>{{producto.PrecioUnitario}}</td>
+                                <td>{{producto.Cantidad}}</td>
+                                <td>{{producto.Descuento}}</td>
+                                <td>{{producto.IVA}}</td>
+                                <td>{{((producto.Cantidad*producto.PrecioUnitario)-(producto.Cantidad*producto.PrecioUnitario*producto.Descuento*0.01))+(((producto.Cantidad*producto.PrecioUnitario)-(producto.Cantidad*producto.PrecioUnitario*producto.Descuento*0.01))*producto.IVA*0.01)}}</td>
+                            </tr>
+                        {% endfor %}
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th colspan="7" class="text-right">Total:</th>
+                                <th colspan="7" class="text-right">Total: {{data.remision[0].Total}}</th>
                                 <th id="totalProductos"></th>
                             </tr>
                         </tfoot>

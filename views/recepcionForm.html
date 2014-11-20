@@ -1,47 +1,47 @@
-{% include 'header.html' %}
+{% include 'header.html' with {'cssLibs': ['css/detallesMov.css']} %}
 <section class = "row">
 	<h1 class="page-header text-center col-xs-12">{{session.action == 'create'?'Nueva Compra':session.action == 'update'?'Modificar Compra':'Detalles'}}</h1>
     <div class = "col-sm-offset-1 col-sm-10 col-lg-offset-2 col-lg-8">
     {% if session.action != 'list' %}
-        <form id="formulario" role="form" class="" action="{{session.document_root}}/recepcion/api/{{session.action}}/" {%if session.action == "update" %}data-tolocation="{{session.document_root}}/recepcion/list/id/{{data.IDRecepcion}}"{% else %} data-tolocation="{{session.document_root}}/recepcion/list/" {% endif %} method="POST">
+        <form id="formulario" role="form" class="" action="{{session.document_root}}/recepcion/api/{{session.action}}/" {%if session.action == "update" %}data-tolocation="{{session.document_root}}/recepcion/list/id/{{data.recepcion[0].IDRecepcion}}"{% else %} data-tolocation="{{session.document_root}}/recepcion/list/" {% endif %} method="POST">
     {% endif %}
     	{% if session.action != 'create' %}
             <div class="form-group col-md-6">
                 <label for="idRecepcion">Id Compra:</label>
-                <input class="form-control" type="text" id="idRecepcion" name="idRecepcion" value="{{data.IDRecepcion}}" readonly>
+                <input class="form-control" type="text" id="idRecepcion" name="idRecepcion" value="{{data.recepcion[0].IDRecepcion}}" readonly>
             </div>
         {% endif %}
         {% if session.action == 'list' %}
         	<div class="form-group col-md-6">
                 <label for="folio">Folio:</label>
-                <input class="form-control" type="text" id="folio" name="folio" value="{{data.Folio}}" readonly>
+                <input class="form-control" type="text" id="folio" name="folio" value="{{data.recepcion[0].Folio}}" readonly>
             </div>
         {% endif %}
             <div class="form-group col-md-6">
                 <label for="idProveedor">Proveedor:</label>
-                <select data-url="{{session.document_root}}/proveedor/api/list/activos" class="form-control" id = "idProveedor" name = "idProveedor" placeholder = "Proveedor" value="{{data.IDProveedor}}" data-selected="{{data.IDProveedor}}" required {{session.action == 'list'?'disabled':''}}>
+                <select data-url="{{session.document_root}}/proveedor/api/list/activos" class="form-control" id = "idProveedor" name = "idProveedor" placeholder = "Proveedor" value="{{data.recepcion[0].IDProveedor}}" data-selected="{{data.recepcion[0].IDProveedor}}" required {{session.action == 'list'?'disabled':''}}>
                 	<option>Selecciona un proveedor</option>
                 </select>
             </div>
             <div class="form-group col-md-6">
                 <label for="fechaRecepcion">Fecha de Compra:</label>
-                <input class="form-control" type="text" data-type="date" name="fechaRecepcion" id="fechaRecepcion" placeholder="Fecha de Compra" value="{{data.FechaRecepcion}}" required {{session.action == 'list'?'disabled':''}}>
+                <input class="form-control" type="text" data-type="date" name="fechaRecepcion" id="fechaRecepcion" placeholder="Fecha de Compra" value="{{data.recepcion[0].FechaRecepcion}}" required {{session.action == 'list'?'disabled':''}}>
             </div>
-            <div class="col-xs-3">
-	            <div class="form-group col-md-12">
-	            	<label for="listaProductos">Productos:</label>
-	            	<select size="6" data-url="{{session.document_root}}/producto/api/list/activos" class="form-control" multiple id="listaProductos" name="listaProductos" placeholder="Productos" {{session.action == 'list'?'disabled':''}}>
-	            	</select>
-	            </div>
-	            <div class="form-group col-xs-12">
-	            	<label for="iva">Iva (%):</label>
-	            	<input class="form-control" type="number" step="any" min="0" max="100" name="iva" id="iva" value="16" {{session.action == 'list'?'disabled':''}}>
-	            </div>
-	        </div>
-            <div class="form-group col-md-9">
+        {% if session.action != 'list' %}
+            <div class="form-group col-xs-12 col-sm-6 col-md-12">
+            	<label for="listaProductos">Productos:</label>
+            	<select size="6" data-url="{{session.document_root}}/producto/api/list/activos" class="form-control" multiple id="listaProductos" name="listaProductos" placeholder="Productos" {{session.action == 'list'?'disabled':''}}>
+            	</select>
+            </div>
+            <div class="form-group col-xs-12 col-sm-6 col-md-12">
+            	<label for="iva">Iva (%):</label>
+            	<input class="form-control" type="number" step="any" min="0" max="100" name="iva" id="iva" value="16" {{session.action == 'list'?'disabled':''}}>
+            </div>
+        {%endif%}
+            <div class="form-group col-xs-12">
             	<label>Productos Seleccionados:</label>
             	<div class="table-responsive">
-            		<table class="table table-hover">
+            		<table class="table table-hover tabla-grande">
             			<thead>
             				<tr>
             					<th></th>
@@ -55,11 +55,21 @@
             				</tr>
             			</thead>
             			<tbody id="productosContainer">
-            				
+            			{% for producto in data.productos %}
+                            <tr>
+                                <td colspan="2">{{producto.IDProducto}}</td>
+                                <td>{{producto.Producto}}</td>
+                                <td>{{producto.PrecioUnitario}}</td>
+                                <td>{{producto.Cantidad}}</td>
+                                <td>{{producto.Descuento}}</td>
+                                <td>{{producto.IVA}}</td>
+                                <td>{{((producto.Cantidad*producto.PrecioUnitario)-(producto.Cantidad*producto.PrecioUnitario*producto.Descuento*0.01))+(((producto.Cantidad*producto.PrecioUnitario)-(producto.Cantidad*producto.PrecioUnitario*producto.Descuento*0.01))*producto.IVA*0.01)}}</td>
+                            </tr>
+                        {% endfor %}
             			</tbody>
             			<tfoot>
             				<tr>
-            					<th colspan="7" class="text-right">Total:</th>
+            					<th colspan="7" class="text-right">Total: {{data.recepcion[0].Total}}</th>
             					<th id="totalProductos"></th>
             				</tr>
             			</tfoot>

@@ -12,7 +12,7 @@ $(function(){
                 value: cliente.IDCliente
             }));
         });
-        var selected = selectCliente.data("#listaProductos selected");
+        var selected = selectCliente.data("selected");
         if(selected){
             selectCliente.find("option:selected").removeAttr("selected");
             selectCliente.find("[value="+selected+"]").attr("selected","selected");
