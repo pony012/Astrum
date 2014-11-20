@@ -110,7 +110,7 @@ class RemisionMdl extends BaseMdl{
 		$this->driver->commit();
 		$this->driver->autocommit(true);
 
-		return true;
+		return $idRemision;
 	}
 	
 	/**

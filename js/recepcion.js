@@ -218,7 +218,7 @@ $(function(){
             dataType: 'json'
         }).done(function(response){
             if(response.error == 0){
-                document.location = $("#formulario").data("tolocation");
+                document.location = $("#formulario").data("tolocation")+"id/"+response.data;
             }
         });
     });

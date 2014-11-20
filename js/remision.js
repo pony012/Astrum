@@ -218,7 +218,8 @@ $(function(){
             dataType: 'json'
         }).done(function(response){
             if(response.error == 0){
-                document.location = $("#formulario").data("tolocation");
+                //console.log(response);
+                document.location = $("#formulario").data("tolocation")+"id/"+response.data;
             }
         });
     });

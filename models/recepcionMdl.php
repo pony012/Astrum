@@ -102,7 +102,7 @@ class RecepcionMdl extends BaseMdl{
 
 		$this->driver->commit();
 		$this->driver->autocommit(true);
-		return true;
+		return $idRecepcion;
 	}
 	
 	/**
