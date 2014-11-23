@@ -41,7 +41,7 @@ on ma.IDEmpleado=e.IDEmpleado and e.Activo='S';
 CREATE VIEW V_Consulta AS
 SELECT IDConsulta, con.IDCliente, CONCAT_WS(' ',c.Nombre,c.ApellidoPaterno,c.ApellidoMaterno) as Cliente, 
 IDTerapeuta, CONCAT_WS(' ',e.Nombre,e.ApellidoPaterno,e.ApellidoMaterno) as Terapeuta, ps.IDProductoServicio, ps.Producto, FechaCita,
-con.IDHistorialMedico, cs.Status, con.Observaciones
+con.IDHistorialMedico, cs.IDConsultaStatus, cs.Status, con.Observaciones
 FROM Consulta con
 inner join ConsultaStatus cs
 on cs.IDConsultaStatus=con.IDConsultaStatus
