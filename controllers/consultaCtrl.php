@@ -100,7 +100,7 @@
 				$idCliente 			= $this->validateNumber(isset($_POST['idCliente'])?$_POST['idCliente']:NULL);
 				$idTerapeuta 		= $this->validateNumber(isset($_POST['idTerapeuta'])?$_POST['idTerapeuta']:NULL);
 				$idServicio 		= $this->validateNumber(isset($_POST['idServicio'])?$_POST['idServicio']:NULL);
-				$fechaCita 			= $this->validateDate(isset($_POST['fechaCita'])?$_POST['fechaCita']:NULL);
+				$fechaCita 			= $this->validateDateHour(isset($_POST['fechaCita'])?$_POST['fechaCita']:NULL);
 				$idHistorialMedico	= $this->validateNumber(isset($_POST['idHistorialMedico'])?$_POST['idHistorialMedico']:NULL);
 				$idConsultaStatus 	= $this->validateNumber(isset($_POST['idConsultaStatus'])?$_POST['idConsultaStatus']:NULL);
 				$observaciones		= $this->validateText(isset($_POST['observaciones'])?$_POST['observaciones']:NULL);
