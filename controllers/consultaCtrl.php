@@ -54,8 +54,6 @@
 					$errors['idCliente'] = 1;
 				if(strlen($idTerapeuta)==0)
 					$errors['idTerapeuta'] = 1;
-				if(strlen($idHistorialMedico)==0)
-					$errors['idHistorialMedico'] = 1;
 				if(strlen($fechaCita)==0)
 					$errors['fechaCita'] = 1;
 				if(strlen($idConsultaStatus)==0)

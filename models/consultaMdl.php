@@ -20,22 +20,28 @@ class ConsultaMdl extends BaseMdl{
 	 *Crea una nueva consulta
 	 *@return true
 	 */
-	function create($idCliente, $idTerapeuta, $idHistorialMedico, $fechaCita, $idConsultaStatus, $observaciones){
+	function create($idCliente, $idTerapeuta, $idHistorialMedico = NULL, $fechaCita, $idConsultaStatus, $observaciones){
 		$this->idCliente 		= $idCliente;
 		$this->idTerapeuta		= $idTerapeuta;
 		$this->idHistorialMedico= $idHistorialMedico;
+
 		$this->fechaCita		= $fechaCita;
 		$this->idConsultaStatus	= $idConsultaStatus;
 		$this->observaciones	= $this->driver->real_escape_string($observaciones);
 		
 		$stmt = $this->driver->prepare("INSERT INTO Consulta (IDCliente, IDTerapeuta, IDHistorialMedico, FechaCita, IDConsultaStatus, Observaciones)
 										VALUES(?,?,?,?,?,?)");
+
 		if(!$stmt->bind_param('iiisis',$this->idCliente,$this->idTerapeuta,$this->idHistorialMedico,$this->fechaCita,$this->idConsultaStatus,$this->observaciones)){
+
 			return false;
 		}
+
 		if (!$stmt->execute()) {
+			die($stmt->error);
 			return false;
 		}
+
 
 		if($this->driver->error){
 			return false;

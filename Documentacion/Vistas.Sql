@@ -49,10 +49,8 @@ inner join Cliente c
 on c.IDCliente=con.IDCliente and c.Activo='S'
 inner join Empleado e
 on e.IDEmpleado=con.IDTerapeuta and e.Activo='S'
-inner join HistorialMedico hm
-on hm.IDHistorialMedico=con.IDHistorialMedico
 inner join ProductoServicio ps
-on ps.IDProductoServicio=hm.IDServicio;
+on ps.IDProductoServicio=con.IDServicio;
 
 CREATE VIEW V_Recepcion AS
 SELECT IDRecepcion, rec.IDMovimientoAlmacen, Folio, p.IDProveedor, CONCAT_WS(' ',p.Nombre,p.ApellidoPaterno,p.ApellidoMaterno) as Proveedor,

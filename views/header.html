@@ -150,7 +150,21 @@
                             <a href="#"><i class="fa fa-h-square"></i> Historiales Médicos</a>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-stethoscope"></i> Consultas</a>
+                            <a class="{{session.controller == 'consulta' ?'active':''}}" href="#"><i class="fa fa-stethoscope"></i> Consultas <span class="fa arrow"></span></a>
+                        {% if session.controller == 'recepcion' %}
+                            <ul class="nav nav-second-level collapse in" aria-expanded="true">
+                        {% else %}
+                            <ul class="nav nav-second-level">
+                        {% endif %}
+                            {% if session.isAdmin %}
+                                <li>
+                                    <a class="fa fa-plus-circle" href="{{session.document_root}}/consulta/create"> Crear</a>
+                                </li>
+                            {% endif %}
+                                <li>
+                                    <a class="fa fa-list-ul" href="{{session.document_root}}/consulta/list"> Listar</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <a class="{{session.controller == 'remision' ?'active':''}}" href="#"><i class="fa fa-credit-card"></i> Ventas <span class="fa arrow"></span></a>

@@ -33,8 +33,8 @@ RewriteRule ^([a-zA-z]+)/list/(\-?[0-9]+)/ index.php?ctrl=$1&act=lists&offset=$2
 #####################
 
 RewriteRule ^([a-zA-z]+)/api/list/activos/(\-?[0-9]+) index.php?ctrl=$1&act=lists&offset=$2&api=1
-RewriteRule ^([a-zA-z]+)/api/list/activos/ index.php?ctrl=$1&act=lists&offset=0&api=1
-RewriteRule ^([a-zA-z]+)/api/list/activos index.php?ctrl=$1&act=lists&offset=0&api=1
+RewriteRule ^([a-zA-z]+)/api/list/activos/ index.php?ctrl=$1&act=lists&offset=-1&api=1
+RewriteRule ^([a-zA-z]+)/api/list/activos index.php?ctrl=$1&act=lists&offset=-1&api=1
 
 RewriteRule ^([a-zA-z]+)/api/list/eliminados/(\-?[0-9]+) index.php?ctrl=$1&act=listsDeleters&offset=$2&api=1
 RewriteRule ^([a-zA-z]+)/api/list/eliminados/ index.php?ctrl=$1&act=listsDeleters&offset=0&api=1

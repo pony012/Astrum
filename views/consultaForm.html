@@ -9,9 +9,11 @@
                 <label for="fechaCita">Fecha Cita:</label>
                 <input class="form-control" type = "text" id = "fechaCita" name = "fechaCita" placeholder = "Fecha Cita" value="{{data.FechaCita}}" required {{session.action == 'list'?'disabled':''}}>
             </div>
-            <div class="form-group  col-md-6 col-lg-6">
-                <label for="status">Estado de la Consulta:</label>
-                <input class="form-control" type = "text" id = "status" name = "status" placeholder = "Estado de la Consulta" value="{{data.Status}}" required {{session.action == 'list'?'disabled':''}}>
+            <div class="form-group col-md-6">
+                <label for="idConsultaStatus">Estado de la Consulta:</label>
+                <select data-url="{{session.document_root}}/consultaStatus/api/list/activos" class="form-control" id = "idConsultaStatus" name = "idConsultaStatus" placeholder = "Estado de la Consulta" value="{{data.consulta[0].IDConsultaStatus}}" data-selected="{{data.consulta[0].IDConsultaStatus}}" required {{session.action == 'list'?'disabled':''}}>
+                    <option>Selecciona un estado</option>
+                </select>
             </div>
             <div class="form-group col-md-6">
                 <label for="idCliente">Cliente:</label>
@@ -20,14 +22,22 @@
                 </select>
             </div>
             <div class="form-group col-md-6">
-                <label for="idEmpleado">Terapeuta:</label>
-                <select data-url="{{session.document_root}}/empleado/api/list/activos" class="form-control" id = "idTerapeuta" name = "idTerapeuta" placeholder = "Terapeuta" value="{{data.consulta[0].IDEmpleado}}" data-selected="{{data.consulta[0].IDEmpleado}}" required {{session.action == 'list'?'disabled':''}}>
+                <label for="idTerapeuta">Terapeuta:</label>
+                <select data-url="{{session.document_root}}/empleado/api/list/activos" class="form-control" id = "idTerapeuta" name = "idTerapeuta" placeholder = "Terapeuta" value="{{data.consulta[0].IDTerapeuta}}" data-selected="{{data.consulta[0].IDTerapeuta}}" required {{session.action == 'list'?'disabled':''}}>
                     <option>Selecciona un terapeuta</option>
                 </select>
             </div>
-            <div class="form-group  col-md-12 col-lg-12">
-                <label for="servicio">Servicio:</label>
-                <input class="form-control" type = "text" id = "servicio" name = "servicio" placeholder = "Servicio" value="{{data.Producto}}" required {{session.action == 'list'?'disabled':''}}>
+            <div class="form-group col-md-6">
+                <label for="idServicio">Servicio:</label>
+                <select data-url="{{session.document_root}}/servicio/api/list/activos" class="form-control" id = "idServicio" name = "idServicio" placeholder = "Servicio" value="{{data.consulta[0].IDProductoServicio}}" data-selected="{{data.consulta[0].IDProductoServicio}}" required {{session.action == 'list'?'disabled':''}}>
+                    <option>Selecciona un servicio</option>
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="idHitorialMedico">Historial Medico:</label>
+                <select data-url="{{session.document_root}}/historialMedico/api/list/activos" class="form-control" id = "idHitorialMedico" name = "idHitorialMedico" placeholder = "Servicio" value="{{data.consulta[0].IDHistorialMedico}}" data-selected="{{data.consulta[0].IDHistorialMedico}}" required {{session.action == 'list'?'disabled':''}}>
+                    <option>Selecciona un historial medico</option>
+                </select>
             </div>
             <div class="form-group  col-md-12 col-lg-12">
                 <a href="#">Click aquí para ver Historial Medico del Cliente</a>
