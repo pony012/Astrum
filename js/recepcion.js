@@ -12,7 +12,7 @@ $(function(){
                 value: proveedor.IDProveedor
             }));
         });
-        var selected = selectProveedor.data("#listaProductos selected");
+        var selected = selectProveedor.data("selected");
         if(selected){
             selectProveedor.find("option:selected").removeAttr("selected");
             selectProveedor.find("[value="+selected+"]").attr("selected","selected");
@@ -33,7 +33,9 @@ $(function(){
             });
             option.click(function(){
                 var el = $(this);
-
+                if(typeof(el.attr("disabled"))!="undefined"){
+                    return ;
+                }
                 var parentContainer = $("#productosContainer");
                 var container = $('<tr>');
                 
