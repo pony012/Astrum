@@ -45,9 +45,11 @@
                     <option>Selecciona un historial medico</option>
                 </select>
             </div>
+            {% if data.IDHistorialMedico != '' %}
             <div class="form-group  col-md-12 col-lg-12">
                 <a href="#">Click aquí para ver Historial Medico del Cliente</a>
             </div>
+            {% endif %}
             <div class="form-group col-md-12">
                 <label for="observaciones">Observaciones:</label>
                 <textarea class="form-control" id = "observaciones" name = "observaciones" placeholder = "Observaciones" {{session.action == 'list'?'disabled':''}} required >{{data.Observaciones}}</textarea>
