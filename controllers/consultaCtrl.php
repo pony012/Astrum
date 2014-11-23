@@ -48,6 +48,7 @@
 				$idHistorialMedico	= $this->validateNumber(isset($_POST['idHistorialMedico'])?$_POST['idHistorialMedico']:NULL);
 				$fechaCita 			= $this->validateDate(isset($_POST['fechaCita'])?$_POST['fechaCita']:NULL);
 				$idConsultaStatus 	= $this->validateNumber(isset($_POST['idConsultaStatus'])?$_POST['idConsultaStatus']:NULL);
+				$idServicio 		= $this->validateNumber(isset($_POST['idServicio'])?$_POST['idServicio']:NULL);
 				$observaciones		= $this->validateText(isset($_POST['observaciones'])?$_POST['observaciones']:NULL);
 
 				if(strlen($idCliente)==0)
@@ -58,12 +59,13 @@
 					$errors['fechaCita'] = 1;
 				if(strlen($idConsultaStatus)==0)
 					$errors['idConsultaStatus'] = 1;
+				if(strlen($idServicio)==0)
+					$errors['idServicio'] = 1;
 				if(strlen($observaciones)==0)
 					$errors['observaciones'] = 1;
-
 				if (count($errors) == 0) {
 
-					$result = $this->model->create($idCliente, $idTerapeuta, $idHistorialMedico,$fechaCita, $idConsultaStatus, $observaciones);
+					$result = $this->model->create($idCliente, $idTerapeuta, $idHistorialMedico,$fechaCita, $idConsultaStatus, $idServicio,$observaciones);
 
 					//Si pudo ser creado
 					if ($result) {
@@ -94,12 +96,12 @@
 		private function update(){
 			if ($this->api) {
 				$errors = array();
-
 				$idConsulta 		= $this->validateNumber(isset($_POST['idConsulta'])?$_POST['idConsulta']:NULL);
 				$idCliente 			= $this->validateNumber(isset($_POST['idCliente'])?$_POST['idCliente']:NULL);
 				$idTerapeuta 		= $this->validateNumber(isset($_POST['idTerapeuta'])?$_POST['idTerapeuta']:NULL);
-				$idHistorialMedico	= $this->validateNumber(isset($_POST['idHistorialMedico'])?$_POST['idHistorialMedico']:NULL);
+				$idServicio 		= $this->validateNumber(isset($_POST['idServicio'])?$_POST['idServicio']:NULL);
 				$fechaCita 			= $this->validateDate(isset($_POST['fechaCita'])?$_POST['fechaCita']:NULL);
+				$idHistorialMedico	= $this->validateNumber(isset($_POST['idHistorialMedico'])?$_POST['idHistorialMedico']:NULL);
 				$idConsultaStatus 	= $this->validateNumber(isset($_POST['idConsultaStatus'])?$_POST['idConsultaStatus']:NULL);
 				$observaciones		= $this->validateText(isset($_POST['observaciones'])?$_POST['observaciones']:NULL);
 
@@ -109,17 +111,16 @@
 					$errors['idCliente'] = 1;
 				if(strlen($idTerapeuta)==0)
 					$errors['idTerapeuta'] = 1;
-				if(strlen($idHistorialMedico)==0)
-					$errors['idHistorialMedico'] = 1;
+				if(strlen($idServicio)==0)
+					$errors['idServicio'] = 1;
 				if(strlen($fechaCita)==0)
 					$errors['fechaCita'] = 1;
 				if(strlen($idConsultaStatus)==0)
 					$errors['idConsultaStatus'] = 1;
 				if(strlen($observaciones)==0)
 					$errors['observaciones'] = 1;
-
 				if (count($errors) == 0) {
-					$result = $this->model->update($idConsulta,$idCliente, $idTerapeuta, $idHistorialMedico,$fechaCita, $idConsultaStatus, $observaciones);
+					$result = $this->model->update($idConsulta,$idCliente, $idTerapeuta, $idHistorialMedico,$fechaCita, $idConsultaStatus, $idServicio, $observaciones);
 
 					//Si pudo ser creado
 					if ($result) {
@@ -198,6 +199,7 @@
 								$template = $this->twig->loadTemplate('vacio.html'); echo $template->render(array('session'=>$this->session,'data'=>NULL));
 							}
 						}else{
+
 							if($this->api){
 								echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
 							}else{

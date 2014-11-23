@@ -214,8 +214,8 @@
 		*/
 		public static function validateDate($data){
 			$data = trim($data);
-			$d = DateTime::createFromFormat('Y-m-d', $data);
-    		return ($d && $d->format('Y-m-d') == $data)?$data:"";
+			$d = DateTime::createFromFormat('Y-m-d H:i:s', $data);
+    		return ($d && $d->format('Y-m-d H:i:s') == $data)?$data:"";
 		}
 		
 		/**
