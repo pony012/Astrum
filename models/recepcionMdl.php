@@ -80,7 +80,9 @@ class RecepcionMdl extends BaseMdl{
 				$this->driver->rollback();
 				return false;
 			}
-			$total += $cantidades[$i]*$precioUnitario[$i];
+			$subTotal 			=  $cantidades[$i]*$precioUnitario[$i];
+			$descuentoAplicado  =  $subTotal - ($subTotal*$descuentos[$i]/100);
+			$total 				+= $descuentoAplicado + ($descuentoAplicado*$ivas[$i]/100);
 		}
 		$this->total = $total;
 
