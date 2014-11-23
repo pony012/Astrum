@@ -1,3 +1,131 @@
-{% include 'header.html' %}
+{% include 'header.html' with {'jsLib': ['js/consulta.js']}%}
+<section class = "row">
+	<h1 class="page-header text-center col-xs-12">{{session.action == 'create'?'Nueva Consulta':session.action == 'update'?'Modificar Empleado':'Detalles'}}</h1>
+    <div class = "col-sm-offset-1 col-sm-10 col-lg-offset-2 col-lg-8">
+    {% if session.action != 'list' %}
+        <form id="formulario" role="form" class="" action="{{session.document_root}}/consulta/api/{{session.action}}/" {%if session.action == "update" %}data-tolocation="{{session.document_root}}/consulta/list/id/{{data.IDEmpleado}}"{% else %} data-tolocation="{{session.document_root}}/consulta/list/" {% endif %} method="POST" enctype="multipart/form-data">
+    {% endif %}
+    		<div class="form-group  col-md-6 col-lg-6">
+                <label for="fechaCita">Fecha Cita:</label>
+                <input class="form-control" type = "text" id = "fechaCita" name = "fechaCita" placeholder = "Fecha Cita" value="{{data.FechaCita}}" required {{session.action == 'list'?'disabled':''}}>
+            </div>
+            <div class="form-group  col-md-6 col-lg-6">
+                <label for="status">Estado de la Consulta:</label>
+                <input class="form-control" type = "text" id = "status" name = "status" placeholder = "Estado de la Consulta" value="{{data.Status}}" required {{session.action == 'list'?'disabled':''}}>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="idCliente">Cliente:</label>
+                <select data-url="{{session.document_root}}/cliente/api/list/activos" class="form-control" id = "idCliente" name = "idCliente" placeholder = "Cliente" value="{{data.consulta[0].IDCliente}}" data-selected="{{data.consulta[0].IDCliente}}" required {{session.action == 'list'?'disabled':''}}>
+                    <option>Selecciona un cliente</option>
+                </select>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="idEmpleado">Terapeuta:</label>
+                <select data-url="{{session.document_root}}/empleado/api/list/activos" class="form-control" id = "idTerapeuta" name = "idTerapeuta" placeholder = "Terapeuta" value="{{data.consulta[0].IDEmpleado}}" data-selected="{{data.consulta[0].IDEmpleado}}" required {{session.action == 'list'?'disabled':''}}>
+                    <option>Selecciona un terapeuta</option>
+                </select>
+            </div>
+            <div class="form-group  col-md-12 col-lg-12">
+                <label for="servicio">Servicio:</label>
+                <input class="form-control" type = "text" id = "servicio" name = "servicio" placeholder = "Servicio" value="{{data.Producto}}" required {{session.action == 'list'?'disabled':''}}>
+            </div>
+            <div class="form-group  col-md-12 col-lg-12">
+                <a href="#">Click aquí para ver Historial Medico del Cliente</a>
+            </div>
+            <div class="form-group col-md-12">
+                <label for="observaciones">Observaciones:</label>
+                <textarea class="form-control" id = "observaciones" name = "observaciones" placeholder = "Observaciones" {{session.action == 'list'?'disabled':''}} required >{{data.Observaciones}}</textarea>
+            </div>
+            <!--
+            <div class="form-group  {{session.action != 'create'?'col-md-6':'col-md-12'}}">
+                <label for="usuario">Usuario:</label>
+                <input class="form-control" type = "text" id = "usuario" name = "usuario" placeholder = "Usuario" value="{{data.Usuario}}" required {{session.action != 'create'?'readonly':''}}>
+            </div>
+            {% if session.action != 'create' %}
+            <div class="form-group col-md-6">
+                <label for="idEmpleado">Id Empleado:</label>
+                <input class="form-control" type="text" id="idEmpleado" name="idEmpleado" value="{{data.IDEmpleado}}" readonly>
+            </div>
+            <div class="form-group  col-md-12 col-lg-12">
+                <label for="contrasena">Contraseña:</label>
+                <input class="form-control" type = "password" id = "contrasena" name = "contrasena" placeholder = "Contraseña" value="" required {{session.action == 'list'?'disabled':''}}>
+            </div>
+            {% endif %}
+            <div class="form-group  col-md-6 col-lg-6">
+                <label for ="idCargo">Cargo:</label>
+                <select class="form-control" name = "idCargo" required {{session.action == 'list'?'disabled':''}}>
+                	<option {{ data.Cargo ? '' : 'selected'}}>Selecciona un cargo</option>
+            		<option value = "1" {{ data.Cargo == 'Administrador' ? 'selected' : ''}}>Administrador</option>
+                	<option value = "2" {{ data.Cargo == 'Terapeuta' ? 'selected' : ''}}>Terapeuta</option>
+                    <option value = "3" {{ data.Cargo == 'Empleado' ? 'selected' : ''}}>Empleado</option>
+                </select>
+            </div>
 
-{% include 'footer.html' %}
+            <div class="form-group col-md-6 col-lg-6">
+                <label for="colonia">Colonia:</label>
+                <input class="form-control" type = "text" id = "colonia" name = "colonia" placeholder = "Colonia" value="{{data.Colonia}}" required {{session.action == 'list'?'disabled':''}}>
+            </div>
+            <div class="form-group col-md-6 col-lg-6">
+                <label for="calle">Calle:</label>
+                <input class="form-control" type = "text" id = "calle" name = "calle" placeholder = "Nombre de la Calle" value="{{data.Calle}}" required {{session.action == 'list'?'disabled':''}}>
+            </div>
+            <div class="form-group col-md-6 col-lg-6">
+                <label for="numExterior">Número Exterior:</label>
+                <input class="form-control" type = "text" id = "numExterior" name = "numExterior" placeholder = "Número Exterior" value="{{data.NumExterior}}" required {{session.action == 'list'?'disabled':''}}>
+            </div>
+            <div class="form-group col-md-6 col-lg-6">
+                <label for="numInterior">Número Interior:</label>
+                <input class="form-control" type = "text" id = "numInterior" name = "numInterior" placeholder = "Número Interior" value="{{data.NumInterior}}" {{session.action == 'list'?'disabled':''}}>
+            </div>
+            <div class="form-group col-md-6 col-lg-6">
+                <label for="codigoPostal">Código Postal:</label>
+                <input class="form-control" type = "text" id = "codigoPostal" name = "codigoPostal" placeholder = "Código Postal" value="{{data.CP}}" required {{session.action == 'list'?'disabled':''}}>
+            </div>
+
+            <div class="form-group col-md-6 col-lg-6">
+                <label for="foto">Fotografía:</label>
+            {% if data.Foto %}
+                <img class="img-responsive" id="imagePrev" src="{{session.document_root}}/uploads/{{data.Foto}}" alt="{{data.Usuario}}" /><br />
+            {% endif %}
+            {% if session.action != 'list' %}
+                <input type="file" id="fileUpload" name="fileUpload" data-url="{{session.document_root}}/uploadPhoto">
+                <input class="form-control" type="text" id="foto" name="foto" value="{{data.Foto}}" readonly>
+            {% endif %}
+            </div>
+
+            <div class="form-group col-md-6 col-lg-6">
+                <label for="email">Email:</label>
+                <input class="form-control" type = "email" id = "email" name = "email" placeholder = "Email" value="{{data.Email}}" {{session.action == 'list'?'disabled':''}} required>
+            </div>
+            <div class="form-group col-md-6 col-lg-6">
+                <label for="telefono">Teléfono:</label>
+                <input class="form-control" type = "tel" id = "telefono" name = "telefono" placeholder = "Teléfono" value="{{data.Telefono}}" {{session.action == 'list'?'disabled':''}}>
+            </div>
+            <div class="form-group col-md-6 col-lg-6">
+                <label for="celular">Celular:</label>
+                <input class="form-control" type = "tel" id = "celular" name = "celular" placeholder = "Celular" value="{{data.Celular}}" {{session.action == 'list'?'disabled':''}}>
+            </div>
+        	-->
+        {% if session.action != 'list' %}
+            <div class = "col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <button type="submit" class="btn btn-default pull-left">Enviar</button>
+                <button type="reset" class="btn btn-default pull-right">Limpiar Campos</button>
+            </div>
+        </form>
+        <div class="modal fade" id="modalCargar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title text-center" id="myModalLabel">Cargando</h4>
+                    </div>
+                    <div class="modal-body text-center">
+                        <span class="fa fa-spinner fa-spin fa-5x"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% include 'footer.html' with {'jsLibs': ['js/plugins/jquery.ui.widget.js','js/plugins/jquery.fileupload.js','js/consulta.js']} %}

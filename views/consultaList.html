@@ -1,0 +1,54 @@
+{% include 'header.html' %}
+<section class = "row">
+	<h1 class="page-header text-center col-xs-12">Listar Consultas</h1>
+    <div class = "col-sm-offset-1 col-sm-10 col-lg-offset-2 col-lg-8">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered table-hover">
+                <thead>
+                    <tr>
+                        <th>#ID</th>
+                        <th>Cliente</th>
+                        <th>IDTerapeuta</th>
+                        <th>Terapeuta</th>
+                        <th>Fecha Cita</th>
+                        <th>Detalles</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
+                        </tr>
+                </thead>
+                <tbody>
+                {% for consulta in data %}
+                    <tr>
+                        <td>{{consulta.IDConsulta}}</td>
+                        <td>{{consulta.Cliente}}</td>
+                        <td>{{consulta.IDTerapeuta}}</td>
+                        <td>{{consulta.Terapeuta}}</td>
+                        <td>{{consulta.FechaCita}}</td>
+                        <td><a href="{{session.document_root}}/consulta/list/id/{{consulta.IDConsulta}}"><span class="fa fa-list-ul fa-2x"></span></a></td>
+                        <td><a href="{{session.document_root}}/consulta/update/{{consulta.IDConsulta}}"><span class="fa fa-edit fa-2x"></span></a></td>
+                        <td><a href="#" data-id="{{consulta.IDConsulta}}" data-toggle="modal" data-target="#myModal"><span class="fa fa-close fa-2x"></span></a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myModalLabel">Confirmar</h4>
+                </div>
+                <div class="modal-body">
+                    ¿Estás seguro de que quieres eliminar a ese usuario?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    <a type="button" data-idelimiar="-1" id="botonSeguro" class="btn btn-primary" href="{{session.document_root}}/consulta/api/delete/">Sí</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% include 'footer.html' with {'jsLibs': ['js/consulta.js']} %}
