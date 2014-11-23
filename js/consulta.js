@@ -53,6 +53,21 @@ $(function(){
         } 
     });
 
+    var selectServicio = $("#idServicio");
+    $.post(selectServicio.data("url"), function(response){
+        $.each(response.data, function(i, servicio){
+            selectServicio.append($('<option>',{
+                text: servicio.Producto,
+                value: servicio.IDProductoServicio
+            }));
+        });
+        var selected = selectServicio.data("selected");
+        if(selected){
+            selectServicio.find("option:selected").removeAttr("selected");
+            selectServicio.find("[value="+selected+"]").attr("selected","selected");
+        } 
+    });
+
     var selectHistorialMedico = $("#idHitorialMedico");
     $.post(selectHistorialMedico.data("url"), function(response){
         $.each(response.data, function(i, historialMedico){
