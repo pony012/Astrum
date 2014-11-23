@@ -17,31 +17,31 @@
             </div>
             <div class="form-group col-md-6">
                 <label for="idConsultaStatus">Estado de la Consulta:</label>
-                <select data-url="{{session.document_root}}/consultaStatus/api/list/activos" class="form-control" id = "idConsultaStatus" name = "idConsultaStatus" placeholder = "Estado de la Consulta" value="{{data.consulta[0].IDConsultaStatus}}" data-selected="{{data.consulta[0].IDConsultaStatus}}" required {{session.action == 'list'?'disabled':''}}>
+                <select data-url="{{session.document_root}}/consultaStatus/api/list/activos" class="form-control" id = "idConsultaStatus" name = "idConsultaStatus" placeholder = "Estado de la Consulta" value="{{data.IDConsultaStatus}}" data-selected="{{data.IDConsultaStatus}}" required {{session.action == 'list'?'disabled':''}}>
                     <option>Selecciona un estado</option>
                 </select>
             </div>
             <div class="form-group col-md-6">
                 <label for="idCliente">Cliente:</label>
-                <select data-url="{{session.document_root}}/cliente/api/list/activos" class="form-control" id = "idCliente" name = "idCliente" placeholder = "Cliente" value="{{data.consulta[0].IDCliente}}" data-selected="{{data.consulta[0].IDCliente}}" required {{session.action == 'list'?'disabled':''}}>
+                <select data-url="{{session.document_root}}/cliente/api/list/activos" class="form-control" id = "idCliente" name = "idCliente" placeholder = "Cliente" value="{{data.IDCliente}}" data-selected="{{data.IDCliente}}" required {{session.action == 'list'?'disabled':''}}>
                     <option>Selecciona un cliente</option>
                 </select>
             </div>
             <div class="form-group col-md-6">
                 <label for="idTerapeuta">Terapeuta:</label>
-                <select data-url="{{session.document_root}}/empleado/api/list/activos" class="form-control" id = "idTerapeuta" name = "idTerapeuta" placeholder = "Terapeuta" value="{{data.consulta[0].IDTerapeuta}}" data-selected="{{data.consulta[0].IDTerapeuta}}" required {{session.action == 'list'?'disabled':''}}>
+                <select data-url="{{session.document_root}}/empleado/api/list/activos" class="form-control" id = "idTerapeuta" name = "idTerapeuta" placeholder = "Terapeuta" value="{{data.IDTerapeuta}}" data-selected="{{data.IDTerapeuta}}" required {{session.action == 'list'?'disabled':''}}>
                     <option>Selecciona un terapeuta</option>
                 </select>
             </div>
             <div class="form-group col-md-6">
                 <label for="idServicio">Servicio:</label>
-                <select data-url="{{session.document_root}}/servicio/api/list/activos" class="form-control" id = "idServicio" name = "idServicio" placeholder = "Servicio" value="{{data.consulta[0].IDProductoServicio}}" data-selected="{{data.consulta[0].IDProductoServicio}}" required {{session.action == 'list'?'disabled':''}}>
+                <select data-url="{{session.document_root}}/servicio/api/list/activos" class="form-control" id = "idServicio" name = "idServicio" placeholder = "Servicio" value="{{data.IDProductoServicio}}" data-selected="{{data.IDProductoServicio}}" required {{session.action == 'list'?'disabled':''}}>
                     <option>Selecciona un servicio</option>
                 </select>
             </div>
             <div class="form-group col-md-6">
                 <label for="idHistorialMedico">Historial Medico:</label>
-                <select data-url="{{session.document_root}}/historialMedico/api/list/activos" class="form-control" id = "idHistorialMedico" name = "idHistorialMedico" placeholder = "Servicio" value="{{data.consulta[0].IDHistorialMedico}}" data-selected="{{data.consulta[0].IDHistorialMedico}}" required {{session.action == 'list'?'disabled':''}}>
+                <select data-url="{{session.document_root}}/historialMedico/api/list/activos" class="form-control" id = "idHistorialMedico" name = "idHistorialMedico" placeholder = "Servicio" value="{{data.IDHistorialMedico}}" data-selected="{{data.IDHistorialMedico}}" required {{session.action == 'list'?'disabled':''}}>
                     <option>Selecciona un historial medico</option>
                 </select>
             </div>
