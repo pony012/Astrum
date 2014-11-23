@@ -1,40 +1,46 @@
 	</div>
-    <!-- /#wrapper -->
-    <!-- jQuery -->
-    <script src="{{session.document_root}}/js/jquery.js"></script>
+	<!-- /#wrapper -->
+	<!-- jQuery -->
+	<script src="{{session.document_root}}/js/jquery.js"></script>
 
-    <!-- Bootstrap Core JavaScript -->
-    <script src="{{session.document_root}}/js/bootstrap.min.js"></script>
+	<!-- Bootstrap Core JavaScript -->
+	<script src="{{session.document_root}}/js/bootstrap.min.js"></script>
 
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="{{session.document_root}}/js/plugins/metisMenu/metisMenu.min.js"></script>
+	<!-- Metis Menu Plugin JavaScript -->
+	<script src="{{session.document_root}}/js/plugins/metisMenu/metisMenu.min.js"></script>
 
-    <!-- Custom Theme JavaScript -->
-    <script src="{{session.document_root}}/js/sb-admin-2.js"></script>
+	<!-- Custom Theme JavaScript -->
+	<script src="{{session.document_root}}/js/sb-admin-2.js"></script>
 
-    <script src="{{session.document_root}}/js/js-webshim/minified/polyfiller.js"></script>
-    <script src="{{session.document_root}}/js/datepicker/js/bootstrap-datepicker.js"></script>
-    <script src="{{session.document_root}}/js/datepicker/js/locales/bootstrap-datepicker.es.js" charset="UTF-8"></script>
+	<script src="{{session.document_root}}/js/js-webshim/minified/polyfiller.js"></script>
+	<script src="{{session.document_root}}/js/moment.js"></script>
+	<script src="{{session.document_root}}/js/datepicker/js/bootstrap-datepicker.js"></script>
+	<script src="{{session.document_root}}/js/datepicker/js/locales/es.js" charset="UTF-8"></script>
 
-    <script type="text/javascript">
-        $(function(){
-            webshims.polyfill('forms forms-ext');
-            $("input[data-type=date]").datepicker({
-                format: "yyyy-mm-dd",
-                todayBtn: "linked",
-                language: "es",
-                autoclose: true,
-                todayHighlight: true,
-                orientation: "top left",
-            });
-        });
-    </script>
+	<script type="text/javascript">
+		$(function(){
+			webshims.polyfill('forms forms-ext');
+			$("input[data-type=date]").datetimepicker({
+				format: "YYYY-MM-DD",
+				pickTime: false,
+				language: 'es'
+			});
+			$("input[data-type=datetime]").each(function(k,v){
+				var el = $(this);
+				el.datetimepicker({
+					format: "YYYY-MM-DD HH:mm:ss",
+					language: 'es',
+					useSeconds: true,
+				});  
+			});
+		});
+	</script>
 
-    {% if jsLibs is defined%}
-        {% for jsLib in jsLibs%}
-            <script src="{{session.document_root}}/{{jsLib}}"></script>
-        {% endfor %}
-    {% endif %}
+	{% if jsLibs is defined%}
+		{% for jsLib in jsLibs%}
+			<script src="{{session.document_root}}/{{jsLib}}"></script>
+		{% endfor %}
+	{% endif %}
 
 </body>
 

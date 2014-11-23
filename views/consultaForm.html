@@ -7,7 +7,7 @@
     {% endif %}
     		<div class="form-group  col-md-6 col-lg-6">
                 <label for="fechaCita">Fecha Cita:</label>
-                <input class="form-control" type = "text" id = "fechaCita" name = "fechaCita" placeholder = "Fecha Cita" value="{{data.FechaCita}}" required {{session.action == 'list'?'disabled':''}}>
+                <input class="form-control" type = "text" id = "fechaCita" data-type="datetime" name = "fechaCita" placeholder = "Fecha Cita" value="{{data.FechaCita}}" required {{session.action == 'list'?'disabled':''}}>
             </div>
             <div class="form-group col-md-6">
                 <label for="idConsultaStatus">Estado de la Consulta:</label>
@@ -34,8 +34,8 @@
                 </select>
             </div>
             <div class="form-group col-md-6">
-                <label for="idHitorialMedico">Historial Medico:</label>
-                <select data-url="{{session.document_root}}/historialMedico/api/list/activos" class="form-control" id = "idHitorialMedico" name = "idHitorialMedico" placeholder = "Servicio" value="{{data.consulta[0].IDHistorialMedico}}" data-selected="{{data.consulta[0].IDHistorialMedico}}" required {{session.action == 'list'?'disabled':''}}>
+                <label for="idHistorialMedico">Historial Medico:</label>
+                <select data-url="{{session.document_root}}/historialMedico/api/list/activos" class="form-control" id = "idHistorialMedico" name = "idHistorialMedico" placeholder = "Servicio" value="{{data.consulta[0].IDHistorialMedico}}" data-selected="{{data.consulta[0].IDHistorialMedico}}" required {{session.action == 'list'?'disabled':''}}>
                     <option>Selecciona un historial medico</option>
                 </select>
             </div>

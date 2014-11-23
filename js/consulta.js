@@ -68,7 +68,7 @@ $(function(){
         } 
     });
 
-    var selectHistorialMedico = $("#idHitorialMedico");
+    var selectHistorialMedico = $("#idHistorialMedico");
     $.post(selectHistorialMedico.data("url"), function(response){
         $.each(response.data, function(i, historialMedico){
             selectHistorialMedico.append($('<option>',{
