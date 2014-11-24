@@ -182,21 +182,22 @@ class AjusteEntradaMdl extends BaseMdl{
 		}else{
 			return false;
 		}
-
 		if($stmt = $this->driver->prepare('SELECT * FROM V_AjusteEntradaDetalle WHERE IDAjusteEntrada = ?')){
 
 			if(!$stmt->bind_param('i',$idAjusteEntrada))
 				return false;
 
-			if(!$stmt->execute())
+			if(!$stmt->execute()){
 				return false;
+			}
 
 			$mySqliResult = $stmt->get_result();
 
 			if($mySqliResult->field_count > 0){
-
-				while($result = $mySqliResult->fetch_assoc())
+				$rows = array();
+				while($result = $mySqliResult->fetch_assoc()){
 					array_push($rows, $result);
+				}
 				if(empty($rows))
 					return VACIO;
 				$result = array('ajusteEntrada'=>$main,

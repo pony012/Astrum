@@ -194,7 +194,7 @@ class AjusteSalidaMdl extends BaseMdl{
 			$mySqliResult = $stmt->get_result();
 
 			if($mySqliResult->field_count > 0){
-
+				$rows = array();
 				while($result = $mySqliResult->fetch_assoc())
 					array_push($rows, $result);
 				if(empty($rows))

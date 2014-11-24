@@ -60,7 +60,7 @@
 				$idCliente 				= $this->validateNumber(isset($_POST['idCliente'])?$_POST['idCliente']:NULL);
 				$folio					= $this->model->getFolio('AjusteEntrada'); //$this->validateNumber(isset($_POST['folio'])?$_POST['folio']:NULL);
 				$observaciones			= $this->validateText(isset($_POST['observaciones'])?$_POST['observaciones']:NULL);
-				$idProductoServicios 	= (isset($_POST['idProductoServicios'])?$_POST['idProductoServicios']:NULL);
+				$idProductoServicios 	= (isset($_POST['idProductos'])?$_POST['idProductos']:NULL);
 				$cantidades				= (isset($_POST['cantidades'])?$_POST['cantidades']:NULL);
 
 				if(strlen($idAjusteEntradaTipo)==0)
@@ -69,10 +69,9 @@
 					$errors['idCliente'] = 1;
 				if(count($this->validateNumericArray($cantidades)) != 0)
 					$errors['cantidades'] = 1;
-				/*
 				if(strlen($observaciones)==0)
 					$errors['observaciones'] = 1;
-				*/
+
 				if (count($errors) == 0) {
 
 					$result = $this->model->create($idAjusteEntradaTipo, $idCliente, $folio, $observaciones, $idProductoServicios, $cantidades);
@@ -150,7 +149,6 @@
 							if($this->api){
 								echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
 							}else{
-								print_r($result);
 								$this->session['action']='list';
 								$template = $this->twig->loadTemplate('ajusteEntradaForm.html');
 								echo $template->render(array('session'=>$this->session,'data'=>$result));
