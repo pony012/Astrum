@@ -2,7 +2,7 @@
 	require_once 'controllers/baseCtrl.php';
 	
 	/**
-	* Controlador de Empleado
+	* Controlador de Historial Medico
 	*/
 	class HistorialMedicoCtrl extends BaseCtrl
 	{
@@ -937,9 +937,25 @@
 					echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 				}
 			}else{
+				$data = $this->model->listsDetails($_GET['id']);
+				if($data){
+					/*
+					var_dump($data);
+					die();
+					*/
+					$this->session['action']='update';
+					$template = $this->twig->loadTemplate('historialMedicoForm.html');
+					echo $template->render(array('session'=>$this->session,'data'=>$data));
+				}else{
+					//TODO
+					//Enviar a listar empleados con vista de inválido
+					//echo 'Error';
+				}
+				/*
 				$this->session['action']='update';
 				$template = $this->twig->loadTemplate('historialMedicoForm.html');
 				echo $template->render(array('session'=>$this->session));
+				*/
 			}
 		}
 
@@ -949,6 +965,7 @@
 		private function lists(){
 			$constrain = '';
 			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
+			$idHistorialMedico = $this->validateNumber(isset($_GET['id'])?$_GET['id']:NULL);
 			$constrains = isset($_POST['constrains'])?$_POST['constrains']:'1 = 1';
 			
 			if($constrains === '1 = 1'){
@@ -972,7 +989,32 @@
 				}
 			}
 			if($offset!==''){ 
-				if(($result = $this->model->lists($offset,-1,$constrain))){
+				if ($idHistorialMedico!=='') {
+					if(($result = $this->model->listsDetails($idHistorialMedico))){
+						if(is_numeric($result)){
+							if ($this->api) {
+								echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+							}else{
+								$template = $this->twig->loadTemplate('vacio.html');
+								echo $template->render(array('session'=>$this->session,'data'=>NULL));
+							}
+						}else{
+							if($this->api){
+								echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
+							}else{
+								$this->session['action']='list';
+								$template = $this->twig->loadTemplate('historialMedicoForm.html');
+								echo $template->render(array('session'=>$this->session,'data'=>$result));
+							}
+						}
+					}else{
+						if($this->api){
+							echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+						}else{
+							//CARGAR VISTA FORMATO INCORRECTO
+						}
+					}
+				}else if(($result = $this->model->lists($offset,-1,$constrain))){
 					if(is_numeric($result)){
 						if ($this->api) {
 							echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
@@ -1001,10 +1043,90 @@
 					//CARGAR VISTA FORMATO INCORRECTO
 				}
 			}
+			/*
+			$constrain = '';
+			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
+			$idHistorialMedico = $this->validateNumber(isset($_GET['id'])?$_GET['id']:NULL);
+			$constrains = isset($_POST['constrains'])?$_POST['constrains']:'1 = 1';
+			if($constrains === '1 = 1'){
+				$constrain = $constrains;
+			}else{
+				$tam = count($constrains);
+				foreach ($constrains as $campo => $valor) {
+					if(--$tam){
+						if(is_numeric((int)$valor)){
+							$constrain.=$campo.' = '.$valor.' AND ';
+						}else{
+							$constrain.=$campo.' LIKE "%'.$valor.'%" AND ';
+						}
+					}else{
+						if(is_numeric((int)$valor)){
+							$constrain.=$campo.' = '.$valor;
+						}else{
+							$constrain.=$campo.' LIKE "%'.$valor.'%"';
+						}
+					}
+				}
+			}
+			if($offset!==''){
+				if ($idHistorialMedico!=='') {
+					if(($result = $this->model->lists($offset,$idHistorialMedico,$constrain))){
+						if(is_numeric($result)){
+							if ($this->api) {
+								echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+							}else{
+								$template = $this->twig->loadTemplate('vacio.html'); echo $template->render(array('session'=>$this->session,'data'=>NULL));
+							}
+						}else{
+							if($this->api){
+								echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
+							}else{
+								$this->session['action']='list';
+								$template = $this->twig->loadTemplate('historialMedicoForm.html');
+								echo $template->render(array('session'=>$this->session,'data'=>$result[0]));
+							}
+						}
+					}else{
+						if($this->api){
+							echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+						}else{
+							//CARGAR VISTA FORMATO INCORRECTO
+						}
+					}
+				}else if(($result = $this->model->lists($offset,-1,$constrain))){
+					if(is_numeric($result)){
+						if ($this->api) {
+							echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+						}else{
+							$template = $this->twig->loadTemplate('vacio.html'); echo $template->render(array('session'=>$this->session,'data'=>NULL));
+						}
+					}else{
+						if($this->api){
+							echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
+						}else{
+							$this->session['action']='list';
+							$template = $this->twig->loadTemplate('historialMedicoList.html');
+							echo $template->render(array('session'=>$this->session,'data'=>$result));
+						}
+					}
+				}else{
+					if($this->api){
+						echo $this->json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Realizar la Consulta'));
+					}else{
+						//CARGAR VISTA ERROR DB
+					}
+				}
+			}else{
+				if($this->api){
+					echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+				}else{
+					//CARGAR VISTA FORMATO INCORRECTO
+				}
+			}*/
 		}
 
 		/**
-		*listamos los detalles de una remision
+		*listamos los detalles de una historialMedico
 		**/
 		private function listsDetails(){
 			$idHistorialMedico = $this->validateNumber(isset($_GET['id'])?$_GET['id']:NULL);
