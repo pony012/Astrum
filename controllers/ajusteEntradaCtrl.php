@@ -53,6 +53,7 @@
 		* Crea un Ajuste Entrada
 		*/
 		private function create(){
+
 			if($this->api){
 				$errors = array();
 
@@ -62,7 +63,7 @@
 				$observaciones			= $this->validateText(isset($_POST['observaciones'])?$_POST['observaciones']:NULL);
 				$idProductoServicios 	= (isset($_POST['idProductos'])?$_POST['idProductos']:NULL);
 				$cantidades				= (isset($_POST['cantidades'])?$_POST['cantidades']:NULL);
-
+				$precioUnitario	= (isset($_POST['precioUnitario'])?$_POST['precioUnitario']:NULL);
 				if(strlen($idAjusteEntradaTipo)==0)
 					$errors['idAjusteEntradaTipo'] = 1;
 				if(strlen($idCliente)==0)
@@ -74,7 +75,7 @@
 
 				if (count($errors) == 0) {
 
-					$result = $this->model->create($idAjusteEntradaTipo, $idCliente, $folio, $observaciones, $idProductoServicios, $cantidades);
+					$result = $this->model->create($idAjusteEntradaTipo, $idCliente, $folio, $observaciones, $idProductoServicios, $cantidades,$precioUnitario);
 
 					//Si pudo ser creado
 					if ($result != false) {

@@ -87,13 +87,13 @@ inner join ProductoServicio ps
 on ps.IDProductoServicio=recd.IDProducto;
 
 CREATE VIEW V_AjusteEntradaDetalle AS
-SELECT IDAjusteEntradaDetalle, IDAjusteEntrada, aed.IDProductoServicio, ps.Producto, Cantidad
+SELECT IDAjusteEntradaDetalle, IDAjusteEntrada, aed.IDProductoServicio, ps.Producto, Cantidad, aed.PrecioUnitario
 FROM AjusteEntradaDetalle aed
 inner join ProductoServicio ps
 on ps.IDProductoServicio=aed.IDProductoServicio;
 
 CREATE VIEW V_AjusteSalidaDetalle AS
-SELECT IDAjusteSalidaDetalle, IDAjusteSalida, asd.IDProductoServicio, ps.Producto, Cantidad
+SELECT IDAjusteSalidaDetalle, IDAjusteSalida, asd.IDProductoServicio, ps.Producto, Cantidad, asd.PrecioUnitario
 FROM AjusteSalidaDetalle asd
 inner join ProductoServicio ps
 on ps.IDProductoServicio=asd.IDProductoServicio;

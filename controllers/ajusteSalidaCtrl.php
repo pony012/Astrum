@@ -62,6 +62,7 @@
 				$observaciones			= $this->validateText(isset($_POST['observaciones'])?$_POST['observaciones']:NULL);
 				$idProductoServicios 	= (isset($_POST['idProductos'])?$_POST['idProductos']:NULL);
 				$cantidades				= (isset($_POST['cantidades'])?$_POST['cantidades']:NULL);
+				$precioUnitario	= (isset($_POST['precioUnitario'])?$_POST['precioUnitario']:NULL);
 				if(strlen($idAjusteSalidaTipo)==0)
 					$errors['idAjusteSalidaTipo'] = 1;
 				if(strlen($idProveedor)==0)
@@ -72,7 +73,7 @@
 					$errors['observaciones'] = 1;
 				if (count($errors) == 0) {
 
-					$result = $this->model->create($idAjusteSalidaTipo, $idProveedor, $folio, $observaciones, $idProductoServicios, $cantidades);
+					$result = $this->model->create($idAjusteSalidaTipo, $idProveedor, $folio, $observaciones, $idProductoServicios, $cantidades,$precioUnitario);
 
 					//Si pudo ser creado
 					if ($result != false) {

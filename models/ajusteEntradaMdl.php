@@ -13,6 +13,7 @@ class AjusteEntradaMdl extends BaseMdl{
 	private $idAjusteEntrada;
 	private $idProductoServicio;
 	private $cantidad;
+	private $precioUnitario;
 	
 	/**
 	 *@param integer $idMovimientoAlmacen
@@ -26,7 +27,7 @@ class AjusteEntradaMdl extends BaseMdl{
 	 *Crea un nuevo ajuste de entrada
 	 *@return true
 	 */
-	function create( $idAjusteEntradaTipo, $idCliente = NULL, $folio, $observaciones,$idProductos,$cantidades){
+	function create( $idAjusteEntradaTipo, $idCliente = NULL, $folio, $observaciones,$idProductos,$cantidades,$precioUnitario){
 		$this->idAjusteEntradaTipo 	= $idAjusteEntradaTipo;
 		$this->idCliente			= $idCliente;
 		$this->folio				= $folio;
@@ -74,7 +75,7 @@ class AjusteEntradaMdl extends BaseMdl{
 		$lastId = $this->driver->insert_id;
 
 		for($i = 0;$i < count($idProductos);$i++){
-			if(!$this->createDetails($lastId,$idProductos[$i],$cantidades[$i])){
+			if(!$this->createDetails($lastId,$idProductos[$i],$cantidades[$i],$precioUnitario[$i])){
 				$this->driver->rollback();
 				return false;
 			}
@@ -93,15 +94,16 @@ class AjusteEntradaMdl extends BaseMdl{
 	 *Crea un nuevo detalle de un ajuste de entrada
 	 *@return true
 	 */
-	function createDetails($idAjusteEntrada, $idProductoServicio, $cantidad){
+	function createDetails($idAjusteEntrada, $idProductoServicio, $cantidad, $precioUnitario){
 		$this->idAjusteEntrada 		= $idAjusteEntrada;
 		$this->idProductoServicio 	= $idProductoServicio;
 		$this->cantidad				= $cantidad;
+		$this->$precioUnitario 		= $precioUnitario;
 		
 		$stmt = $this->driver->prepare("INSERT INTO 
-										AjusteEntradaDetalle (IDAjusteEntrada,IDProductoServicio,Cantidad)
-										VALUES(?,?,?)");
-		if(!$stmt->bind_param('iid',$this->idAjusteEntrada, $this->idProductoServicio, $this->cantidad)){
+										AjusteEntradaDetalle (IDAjusteEntrada,IDProductoServicio,Cantidad,PrecioUnitario)
+										VALUES(?,?,?,?)");
+		if(!$stmt->bind_param('iidd',$this->idAjusteEntrada, $this->idProductoServicio, $this->cantidad,$this->$precioUnitario)){
 			return false;
 		}
 		if (!$stmt->execute()) {
