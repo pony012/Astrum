@@ -141,7 +141,6 @@
 			if($offset!==''){ 
 				if ($idAjusteEntrada!=='') {
 					if(($result = $this->model->listsDetails($idAjusteEntrada))){
-						print_r($result);
 						if(is_numeric($result)){
 							if ($this->api) {
 								echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
@@ -153,7 +152,6 @@
 							if($this->api){
 								echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
 							}else{
-								print_r($result);
 								$this->session['action']='list';
 								$template = $this->twig->loadTemplate('ajusteEntradaForm.html');
 								echo $template->render(array('session'=>$this->session,'data'=>$result));

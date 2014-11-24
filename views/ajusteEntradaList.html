@@ -21,18 +21,18 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% for recepcion in data %}
+                {% for ajusteEntrada in data %}
                     <tr>
-                        <td>{{recepcion.IDAjusteEntrada}}</td>
-                        <td>{{recepcion.Folio}}</td>
-                        <td>{{recepcion.Empleado}}</td>
-                        <td>{{recepcion.Cliente}}</td>
-                        <td>{{recepcion.FechaAjusteEntrada}}</td>
-                        <td><a href="{{session.document_root}}/recepcion/list/id/{{recepcion.IDAjusteEntrada}}"><span class="fa fa-list-ul fa-2x"></span></a></td>
+                        <td>{{ajusteEntrada.IDAjusteEntrada}}</td>
+                        <td>{{ajusteEntrada.Folio}}</td>
+                        <td>{{ajusteEntrada.Empleado}}</td>
+                        <td>{{ajusteEntrada.Cliente}}</td>
+                        <td>{{ajusteEntrada.FechaAjusteEntrada}}</td>
+                        <td><a href="{{session.document_root}}/ajusteEntrada/list/id/{{ajusteEntrada.IDAjusteEntrada}}"><span class="fa fa-list-ul fa-2x"></span></a></td>
                     <!--
                     {% if session.isAdmin %}
-                        <td><a href="{{session.document_root}}/recepcion/update/{{recepcion.IDAjusteEntrada}}"><span class="fa fa-edit fa-2x"></span></a></td>
-                        <td><a href="#" data-id="{{recepcion.IDAjusteEntrada}}" data-toggle="modal" data-target="#myModal"><span class="fa fa-close fa-2x"></span></a></td>
+                        <td><a href="{{session.document_root}}/ajusteEntrada/update/{{ajusteEntrada.IDAjusteEntrada}}"><span class="fa fa-edit fa-2x"></span></a></td>
+                        <td><a href="#" data-id="{{ajusteEntrada.IDAjusteEntrada}}" data-toggle="modal" data-target="#myModal"><span class="fa fa-close fa-2x"></span></a></td>
                     {% endif %}
                     -->
                     </tr>
@@ -49,14 +49,14 @@
                     <h4 class="modal-title" id="myModalLabel">Confirmar</h4>
                 </div>
                 <div class="modal-body">
-                    ¿Estás seguro de que quieres eliminar a ese recepcion?
+                    ¿Estás seguro de que quieres eliminar a ese ajusteEntrada?
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                    <a type="button" data-idelimiar="-1" id="botonSeguro" class="btn btn-primary" href="{{session.document_root}}/recepcion/api/delete/">Sí</a>
+                    <a type="button" data-idelimiar="-1" id="botonSeguro" class="btn btn-primary" href="{{session.document_root}}/ajusteEntrada/api/delete/">Sí</a>
                 </div>
             </div>
         </div>
     </div>
 </section>
-{% include 'footer.html' with {'jsLibs': ['js/recepcion.js']} %}
+{% include 'footer.html' with {'jsLibs': ['js/ajusteEntrada.js']} %}
