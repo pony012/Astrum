@@ -9,7 +9,7 @@
 		$tmp_name = explode('/', $value["tmp_name"]);
 		$tmp_name = explode('.', $tmp_name[count($tmp_name)-1]);
 		$tmp_name = $tmp_name[0];
-		$target_file = $target_dir.$tmp_name.basename($value["name"]);
+		$target_file = $target_dir.explode('\\', $tmp_name.basename($value["name"]))[3];
 		$imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
 		$check = getimagesize($value["tmp_name"]);
 		if($check !== false) {
