@@ -1389,14 +1389,14 @@ class HistorialMedicoMdl extends BaseMdl{
 		$this->retencionLiquidos = $this->driver->real_escape_string($retencionLiquidos);
 		$this->transtornoMes 	 = $this->driver->real_escape_string($transtornoMes);
 		$this->cuidadoCorporal   = $this->driver->real_escape_string($cuidadoCorporal);
-		$this->embarazo   		 = $embarazo;
+		$this->embarazo   		 = $this->driver->real_escape_string($embarazo);
 		
 		$stmt = $this->driver->prepare("INSERT INTO Padecimiento (IDHistorialMedico,Diabetes, Obesisdad, Depresion, Estres, Sobrepeso, Estrenimiento,
 																Colitis, RetencionLiquidos, TranstornosMenstruales, CuidadosCorporales, Embarazo) 
 										VALUES(?,?,?,?,?,?,?,?,?,?,?,?)");
 		//echo $this->driver->error;
 		//die();
-		if(!$stmt->bind_param('issssssssssi',$idHistorialMedico, $this->diabetes,$this->obesisdad,$this->depresion,$this->estres,$this->sobrepeso,$this->estrenimiento,
+		if(!$stmt->bind_param('isssssssssss',$idHistorialMedico, $this->diabetes,$this->obesisdad,$this->depresion,$this->estres,$this->sobrepeso,$this->estrenimiento,
 											$this->colitis,$this->retencionLiquidos,$this->transtornoMes,$this->cuidadoCorporal,$this->embarazo)){
 			return false;
 		}
@@ -1450,12 +1450,12 @@ class HistorialMedicoMdl extends BaseMdl{
 				$this->retencionLiquidos = $this->driver->real_escape_string($retencionLiquidos);
 				$this->transtornoMes 	 = $this->driver->real_escape_string($transtornoMes);
 				$this->cuidadoCorporal   = $this->driver->real_escape_string($cuidadoCorporal);
-				$this->embarazo   		 = $embarazo;
+				$this->embarazo   		 = $this->driver->real_escape_string($embarazo);
 				
 				$stmt = $this->driver->prepare("UPDATE Padecimiento SET Diabetes=?, Obesisdad=?, Depresion=?, Estres=?, Sobrepeso=?, Estrenimiento=?,
 																Colitis=?, RetencionLiquidos=?, TranstornosMenstruales=?, CuidadosCorporales=?, Embarazo=? WHERE IDHistorialMedico=?");
 
-				if(!$stmt->bind_param('ssssssssssdi',$this->diabetes,$this->obesisdad,$this->depresion,$this->estres,$this->sobrepeso,$this->estrenimiento,
+				if(!$stmt->bind_param('sssssssssssi',$this->diabetes,$this->obesisdad,$this->depresion,$this->estres,$this->sobrepeso,$this->estrenimiento,
 											$this->colitis,$this->retencionLiquidos,$this->transtornoMes,$this->cuidadoCorporal,$this->embarazo,$idHistorialMedico)){
 					return false;
 				}

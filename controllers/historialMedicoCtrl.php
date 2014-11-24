@@ -123,6 +123,7 @@
 				$arregloPiel		  = (isset($_POST['arregloPiel'])?$_POST['arregloPiel']:NULL);
 				$arregloTipoCelulitis = (isset($_POST['arregloTipoCelulitis'])?$_POST['arregloTipoCelulitis']:NULL);
 
+
 				//var_dump($arregloExfolacion);
 				//var_dump($arregloHabito);
 				//var_dump($arregloPadecimiento);
@@ -291,7 +292,7 @@
 						};
 					
 					$diabetes			= NULL;
-					$obesisdad			= NULL;
+					$obesidad			= NULL;
 					$depresion			= NULL;
 					$estres				= NULL;
 					$sobrepeso			= NULL;
@@ -301,14 +302,14 @@
 					$transtornoMes		= NULL;
 					$cuidadoCorporal	= NULL;
 					$embarazo			= NULL;
-					
+
 					foreach($arregloPadecimiento as $value)
 						switch($value){
 							case 'diabetes':
 								$diabetes ='S';
 								break;
-							case 'obesisdad':
-								$obesisdad = 'S';
+							case 'obesidad':
+								$obesidad = 'S';
 								break;
 							case 'depresion':
 								$depresion = 'S';
@@ -393,6 +394,9 @@
 							case 'cicatrices':
 								$cicatrices = 'S';
 								break;
+							case 'poroAbierto':
+								$poroAbierto = 'S';
+								break;
 							case 'ojeras':
 								$ojeras = 'S';
 								break;
@@ -461,7 +465,7 @@
 																$peelingQuim,$laser,$dermobrasion,$retinA,$renova,$racutan,
 																$adapaleno,$acidoGlicolico,$alfaHidroiacidos,$exfolianteGranuloso,
 																$acidoLactico,$vitaminaA,$blanqueadorAclarador, $fumar, $ejercicio, $usarFaja, $suenio, $tomaSol, $bloqueador, $hidroquinona,
-																$diabetes, $obesisdad, $depresion, $estres, $sobrepeso, $estrenimiento, $colitis,
+																$diabetes, $obesidad, $depresion, $estres, $sobrepeso, $estrenimiento, $colitis,
 															    $retencionLiquidos, $transtornoMes, $cuidadoCorporal, $embarazo,
 																$fina,$gruesa,$deshidratada,$flacida,$seca,$mixta,$grasa,$acneica,$manchas,
 																$cicatrices,$poroAbierto,$ojeras,$lunares,$pecas,$puntosNegros,$verrugas,$arrugas,
@@ -733,7 +737,7 @@
 						};
 					
 					$diabetes			= NULL;
-					$obesisdad			= NULL;
+					$obesidad			= NULL;
 					$depresion			= NULL;
 					$estres				= NULL;
 					$sobrepeso			= NULL;
@@ -743,14 +747,15 @@
 					$transtornoMes		= NULL;
 					$cuidadoCorporal	= NULL;
 					$embarazo			= NULL;
+
 					
 					foreach($arregloPadecimiento as $value)
 						switch($value){
 							case 'diabetes':
 								$diabetes ='S';
 								break;
-							case 'obesisdad':
-								$obesisdad = 'S';
+							case 'obesidad':
+								$obesidad = 'S';
 								break;
 							case 'depresion':
 								$depresion = 'S';
@@ -781,7 +786,7 @@
 								break;
 							default:
 						};
-						
+
 					$fina = NULL;
 					$gruesa = NULL;
 					$deshidratada = NULL;
@@ -834,6 +839,9 @@
 								break;
 							case 'cicatrices':
 								$cicatrices = 'S';
+								break;
+							case 'poroAbierto':
+								$poroAbierto = 'S';
 								break;
 							case 'ojeras':
 								$ojeras = 'S';
@@ -903,14 +911,12 @@
 																$peelingQuim,$laser,$dermobrasion,$retinA,$renova,$racutan,
 																$adapaleno,$acidoGlicolico,$alfaHidroiacidos,$exfolianteGranuloso,
 																$acidoLactico,$vitaminaA,$blanqueadorAclarador, $fumar, $ejercicio, $usarFaja, $suenio, $tomaSol, $bloqueador, $hidroquinona,
-																$diabetes, $obesisdad, $depresion, $estres, $sobrepeso, $estrenimiento, $colitis,
+																$diabetes, $obesidad, $depresion, $estres, $sobrepeso, $estrenimiento, $colitis,
 															    $retencionLiquidos, $transtornoMes, $cuidadoCorporal, $embarazo,
 																$fina,$gruesa,$deshidratada,$flacida,$seca,$mixta,$grasa,$acneica,$manchas,
 																$cicatrices,$poroAbierto,$ojeras,$lunares,$pecas,$puntosNegros,$verrugas,$arrugas,
 																$brilloFacial,$pielAsfixiada,$despigmentacion, $fibrosa, $edematosa, $flacida, $dura, $mixta, $dolorosa);
 
-					if (!$result)
-						echo 'Historial Medico';
 					
 					//Si pudo ser creado
 					if ($result ){

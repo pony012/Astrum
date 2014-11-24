@@ -147,7 +147,21 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-h-square"></i> Historiales Médicos</a>
+                            <a class="{{session.controller == 'historialMedico' ?'active':''}}" href="#"><i class="fa fa-h-square"></i> Historiales Médicos <span class="fa arrow"></span></a>
+                        {% if session.controller == 'historialMedico' %}
+                            <ul class="nav nav-second-level collapse in" aria-expanded="true">
+                        {% else %}
+                            <ul class="nav nav-second-level">
+                        {% endif %}
+                            {% if session.isAdmin %}
+                                <li>
+                                    <a class="fa fa-plus-circle" href="{{session.document_root}}/historialMedico/create"> Crear</a>
+                                </li>
+                            {% endif %}
+                                <li>
+                                    <a class="fa fa-list-ul" href="{{session.document_root}}/historialMedico/list"> Listar</a>
+                                </li>
+                            </ul>
                         </li>
                         <li>
                             <a class="{{session.controller == 'consulta' ?'active':''}}" href="#"><i class="fa fa-stethoscope"></i> Consultas <span class="fa arrow"></span></a>

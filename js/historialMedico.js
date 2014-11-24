@@ -19,40 +19,6 @@ $(function(){
         }
     });
 
-     var selectEmpleado = $("#idTerapeuta");
-    $.post(selectEmpleado.data("url"), {
-        constrains: {
-            IDCargo: 2
-        }
-    }, function(response){
-        $.each(response.data, function(i, empleado){
-            selectEmpleado.append($('<option>',{
-                text: empleado.Nombre+" "+empleado.ApellidoPaterno+" "+empleado.ApellidoMaterno,
-                value: empleado.IDEmpleado
-            }));
-        });
-        var selected = selectEmpleado.data("selected");
-        if(selected){
-            selectEmpleado.find("option:selected").removeAttr("selected");
-            selectEmpleado.find("[value="+selected+"]").attr("selected","selected");
-        } 
-    });
-
-    var selectConsultaStatus = $("#idConsultaStatus");
-    $.post(selectConsultaStatus.data("url"), function(response){
-        $.each(response.data, function(i, consultaStatus){
-            selectConsultaStatus.append($('<option>',{
-                text: consultaStatus.Status,
-                value: consultaStatus.IDConsultaStatus
-            }));
-        });
-        var selected = selectConsultaStatus.data("selected");
-        if(selected){
-            selectConsultaStatus.find("option:selected").removeAttr("selected");
-            selectConsultaStatus.find("[value="+selected+"]").attr("selected","selected");
-        } 
-    });
-
     var selectServicio = $("#idServicio");
     $.post(selectServicio.data("url"), function(response){
         $.each(response.data, function(i, servicio){
@@ -65,21 +31,6 @@ $(function(){
         if(selected){
             selectServicio.find("option:selected").removeAttr("selected");
             selectServicio.find("[value="+selected+"]").attr("selected","selected");
-        } 
-    });
-
-    var selectHistorialMedico = $("#idHitorialMedico");
-    $.post(selectHistorialMedico.data("url"), function(response){
-        $.each(response.data, function(i, historialMedico){
-            selectHistorialMedico.append($('<option>',{
-                text: historialMedico.Producto + " " + historialMedico.FechaRegistro,
-                value: historialMedico.IDHistorialMedico
-            }));
-        });
-        var selected = selectHistorialMedico.data("selected");
-        if(selected){
-            selectHistorialMedico.find("option:selected").removeAttr("selected");
-            selectHistorialMedico.find("[value="+selected+"]").attr("selected","selected");
         } 
     });
 
