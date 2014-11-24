@@ -83,7 +83,7 @@ class AjusteSalidaMdl extends BaseMdl{
 		$this->driver->commit();
 		$this->driver->autocommit(true);
 
-		return true;
+		return $lastId;
 	}
 	
 	/**

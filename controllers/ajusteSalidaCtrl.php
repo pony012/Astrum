@@ -78,10 +78,10 @@
 					$result = $this->model->create($idAjusteSalidaTipo, $idProveedor, $folio, $observaciones, $idProductoServicios, $cantidades);
 
 					//Si pudo ser creado
-					if ($result) {
+					if ($result != false) {
 						//$data = array($idAjusteSalidaTipo, $idProveedor, $folio, $observaciones, $idProductoServicios, $cantidades);
 						
-						echo $this->json_encode(array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto'));
+						echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 					}else{
 						echo $this->json_encode(array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error en la Base de Datos'));
 					}
@@ -113,6 +113,7 @@
 		private function lists(){
 			$constrain = '';
 			$offset = $this->validateNumber(isset($_GET['offset'])?$_GET['offset']:NULL);
+			$idAjusteSalida = $this->validateNumber(isset($_GET['id'])?$_GET['id']:NULL);
 			$constrains = isset($_POST['constrains'])?$_POST['constrains']:'1 = 1';
 			
 			if($constrains === '1 = 1'){
@@ -136,7 +137,32 @@
 				}
 			}
 			if($offset!==''){ 
-				if(($result = $this->model->lists($offset,-1,$constrain))){
+				if ($idAjusteSalida!=='') {
+					if(($result = $this->model->listsDetails($idAjusteSalida))){
+						if(is_numeric($result)){
+							if ($this->api) {
+								echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));
+							}else{
+								$template = $this->twig->loadTemplate('vacio.html');
+								echo $template->render(array('session'=>$this->session,'data'=>NULL));
+							}
+						}else{
+							if($this->api){
+								echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
+							}else{
+								$this->session['action']='list';
+								$template = $this->twig->loadTemplate('ajusteSalidaForm.html');
+								echo $template->render(array('session'=>$this->session,'data'=>$result));
+							}
+						}
+					}else{
+						if($this->api){
+							echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
+						}else{
+							//CARGAR VISTA FORMATO INCORRECTO
+						}
+					}
+				}else if(($result = $this->model->lists($offset,-1,$constrain))){
 					if(is_numeric($result)){
 						if ($this->api) {
 							echo $this->json_encode(array('error'=>VACIO,'data'=>NULL,'mensaje'=>'No se encontro Registro alguno'));

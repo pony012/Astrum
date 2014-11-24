@@ -199,13 +199,41 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#"><i class="fa fa-cogs"></i> Ajustes<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
+                            <a class="{{(session.controller == 'ajusteEntrada' or session.controller == 'ajusteSalida') ?'active':''}}" href="#"><i class="fa fa-cogs"></i> Ajustes<span class="fa arrow"></span></a>
+                            {% if session.controller == 'ajusteEntrada' or session.controller == 'ajusteSalida' %}
+                            <ul class="nav nav-second-level collapse in" aria-expanded="true">
+                            {% else %}
+                                <ul class="nav nav-second-level">
+                            {% endif %}
                                 <li>
-                                    <a class="fa fa-share" href="#">Ajustes de Entrada</a>
+                                    <a class="fa fa-share {{session.controller == 'ajusteEntrada' ?'active':''}}" href="#">Ajustes de Entrada <span class="fa arrow"></span></a>
+                                {% if session.controller == 'ajusteEntrada' %}
+                                    <ul class="nav nav-third-level collapse in" aria-expanded="true">
+                                {% else %}
+                                    <ul class="nav nav-third-level">
+                                {% endif %}
+                                        <li>
+                                            <a class="fa fa-plus-circle" href="{{session.document_root}}/ajusteEntrada/create"> Crear</a>
+                                        </li>
+                                        <li>
+                                            <a class="fa fa-list-ul" href="{{session.document_root}}/ajusteEntrada/list"> Listar</a>
+                                        </li>
+                                    </ul>
                                 </li>
                                 <li>
-                                    <a class="fa fa-reply" href="#">Ajustes de Salida</a>
+                                    <a class="fa fa-reply {{session.controller == 'ajusteSalida' ?'active':''}}" href="#">Ajustes de Salida <span class="fa arrow"></span></a>
+                                {% if session.controller == 'ajusteSalida' %}
+                                    <ul class="nav nav-third-level collapse in" aria-expanded="true">
+                                {% else %}
+                                    <ul class="nav nav-third-level">
+                                {% endif %}
+                                        <li>
+                                            <a class="fa fa-plus-circle" href="{{session.document_root}}/ajusteSalida/create"> Crear</a>
+                                        </li>
+                                        <li>
+                                            <a class="fa fa-list-ul" href="{{session.document_root}}/ajusteSalida/list"> Listar</a>
+                                        </li>
+                                    </ul>
                                 </li>
                             </ul>
                             <!-- /.nav-second-level -->
