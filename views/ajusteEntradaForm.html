@@ -19,7 +19,7 @@
         {% endif %}
         	<div class="form-group col-md-6">
                 <label for="idAjusteEntradaTipo">Tipo:</label>
-                <select data-url="{{session.document_root}}/ajusteEntradaTipo/api/list/activos" class="form-control" id = "idAjusteEntradaTipo" name = "idAjusteEntradaTipo" placeholder = "Tipo" value="{{data.ajusteEntrada[0].IDAjusteEntradaTipo}}" data-selected="{{data.ajusteEntrada[0].IDAjusteEntrada}}" required {{session.action == 'list'?'disabled':''}}>
+                <select data-url="{{session.document_root}}/ajusteEntradaTipo/api/list/activos" class="form-control" id = "idAjusteEntradaTipo" name = "idAjusteEntradaTipo" placeholder = "Tipo" value="{{data.ajusteEntrada[0].IDAjusteEntradaTipo}}" data-selected="{{data.ajusteEntrada[0].IDAjusteEntradaTipo}}" required {{session.action == 'list'?'disabled':''}}>
                     <option>Selecciona un Tipo</option>
                 </select>
             </div>

@@ -73,7 +73,6 @@
 				if(strlen($observaciones)==0)
 					$errors['observaciones'] = 1;
 				*/
-
 				if (count($errors) == 0) {
 
 					$result = $this->model->create($idAjusteEntradaTipo, $idCliente, $folio, $observaciones, $idProductoServicios, $cantidades);
@@ -89,7 +88,6 @@
 				}else{
 					echo $this->json_encode(array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto'));
 				}
-
 			}else{
 				$this->session['action']='create';
 				$template = $this->twig->loadTemplate('ajusteEntradaForm.html');
@@ -152,6 +150,7 @@
 							if($this->api){
 								echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'),JSON_UNESCAPED_UNICODE);
 							}else{
+								print_r($result);
 								$this->session['action']='list';
 								$template = $this->twig->loadTemplate('ajusteEntradaForm.html');
 								echo $template->render(array('session'=>$this->session,'data'=>$result));

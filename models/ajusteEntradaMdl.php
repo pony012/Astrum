@@ -173,8 +173,12 @@ class AjusteEntradaMdl extends BaseMdl{
 
 		$main = $this->lists(-1,$idAjusteEntrada);
 		if($main){
-			if(is_numeric($main))
+			if(is_numeric($main)){
 				return $main;
+			}
+			else{
+				array_push($rows, $main);
+			}
 		}else{
 			return false;
 		}
