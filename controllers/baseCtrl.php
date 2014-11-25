@@ -366,6 +366,7 @@
 		function __construct(){
 			require_once 'config.cf';
 			require_once 'systemStatus.php';
+			require_once 'PHPExcel_1.8.0_doc/Classes/PHPExcel.php';
 			//require_once 'views/header.php';
 			$this->session = array(
 				'isLoged'=>BaseCtrl::isLoged(),

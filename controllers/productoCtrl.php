@@ -76,6 +76,9 @@
 					//Obtener un Producto
 					$this->getProductoDeleter();
 					break;
+				/*case 'xls':
+					$this->cargaXlsCsv();
+					break;*/
 				default:
 					if ($this->api) {
 						echo $this->json_encode(array('error'=>SERVICIO_INEXISTENTE,'data'=>NULL,'mensaje'=>'Este servicio no está disponible'));
@@ -106,6 +109,15 @@
 				//	$errors['foto'] = 1;
 				if(strlen($descripcion)==0)
 					$errors['descripcion'] = 1;
+
+				//die($_FILES['archivo']['name']);
+				if(isset($_FILES['archivo'])){
+					$respuesta = $this->cargaXlsCsv();
+					if($respuesta['error'] !== 0){
+						echo $this->json_encode($respuesta);
+						die();
+					}
+				}
 				if (count($errors) == 0) {
 
 					$result = $this->model->create($producto, $precioUnitario, $foto, $descripcion);
@@ -178,10 +190,19 @@
 					$errors['producto'] = 1;
 				if(strlen($precioUnitario)==0)
 					$errors['precioUnitario'] = 1;
-				if(strlen($foto)==0)
-					$errors['foto'] = 1;
+				//if(strlen($foto)==0)
+					//$errors['foto'] = 1;
 				if(strlen($descripcion)==0)
 					$errors['descripcion'] = 1;
+
+				//die($_FILES['archivo']['name']);
+				if(isset($_FILES['archivo'])){
+					$respuesta = $this->cargaXlsCsv();
+					if($respuesta['error'] !== 0){
+						echo $this->json_encode($respuesta);
+						die();
+					}
+				}
 
 				if (count($errors) == 0) {
 
@@ -410,6 +431,76 @@
 				}else{
 					//CARGAR VISTA FORMATO INCORRECTO
 				}
+			}
+		}
+
+		/**
+		*cargamos un archivo xls o csv
+		**/
+		public function cargaXlsCsv(){
+			//declaramos una variable con el archivo
+			$archivo=$_FILES['archivo'];
+
+			if(is_uploaded_file($archivo['tmp_name'])){
+				$path = getcwd().'/uploads/'.$archivo['name'];
+				if(!move_uploaded_file($archivo['tmp_name'],$path)){
+					return array('error'=>ERROR_SERVIDOR,'data'=>NULL,'mensaje'=>'Extención Invalida');
+				}else{
+					$info=pathinfo($path);
+					if($info['extension']==='xls' or $info['extension']==='csv' or $info['extension']==='xlsx'){
+						$objPHPExcel  = PHPExcel_IOFactory::load($path);
+		                $objWorkSheet = $objPHPExcel->getActiveSheet();
+		                $flag = 1;
+		                $rows = array();
+		                foreach($objWorkSheet->getRowIterator() as $row){
+	                  		$cellIterator = $row->getCellIterator();
+	                    	$cellIterator->setIterateOnlyExistingCells(false);
+	                    	if(!$flag){
+		                    	$aux = array();
+		                    	$errors = array();
+		                    	foreach($cellIterator as $cell){
+		                            $aux[]=$cell->getValue();
+		                        }
+		                        $producto 		= $this->validateText(isset($aux[0])?$aux[0]:NULL);
+								$precioUnitario	= $this->validateNumber(isset($aux[1])?$aux[1]:NULL);
+								$descripcion 	= $this->validateText(isset($aux[2])?$aux[2]:NULL);
+
+								if(strlen($producto)==0)
+									$errors['producto'] = 1;
+								if(strlen($precioUnitario)==0)
+									$errors['precioUnitario'] = 1;
+								if(strlen($descripcion)==0)
+									$errors['descripcion'] = 1;
+
+								if (count($errors) == 0) {
+
+									$result = $this->model->create($producto, $precioUnitario,  $descripcion);
+
+									if ($result) {
+										$rows[] = array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto');
+									}else{
+										$rows[] = array('error'=>ERROR_DB,'data'=>NULL,'mensaje'=>'Error al Tratar de Insertar el Producto '.$aux[0]);
+									}
+								}else{
+									$rows[] = array('error'=>FORMATO_INCORRECTO,'data'=>NULL,'mensaje'=>'Formato Incorrecto en el Producto '.$aux[0]);
+								}
+	                    	}else{
+	                    		$flag = 0;
+	                    	}
+	                    }
+						unlink($path);
+						foreach ($rows as  $value) {
+	                    	if($value['error'] !== OK){
+	                    		return $value;	                 
+	                    	}
+	                    }
+	                    return array('error'=>OK,'data'=>NULL,'mensaje'=>'Correcto');	               
+					}else{
+						return array('error'=>ARCHIVO_INVALIDO,'data'=>NULL,'mensaje'=>'Extención Invalida');	
+					}
+				}
+			}else{
+				return array('error'=>VACIO,'data'=>NULL,'mensaje'=>'Extención Invalida');
 			}
 		}
 

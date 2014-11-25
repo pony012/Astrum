@@ -62,3 +62,5 @@ RewriteRule ^([a-zA-z]+)/api/getFolio index.php?ctrl=$1&act=getFolio&api=1
 RewriteRule ^([a-zA-z]+)/api/getFolio/ index.php?ctrl=$1&act=getFolio&api=1
 
 RewriteRule ^([a-zA-z]+)/api/listDetails/activos/(\-?[0-9]+) index.php?ctrl=$1&act=listsDetails&id=$2&api=1
+
+RewriteRule ^([a-zA-z]+)/api/excel index.php?ctrl=producto&act=xls&api=1

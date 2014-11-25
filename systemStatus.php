@@ -9,4 +9,5 @@
 	define('ARCHIVO_INVALIDO',7);
 	define('AUTENTIFICACION',8);
 	define('SESION_INICIADA', 9);
+	define('ERROR_SERVIDOR', 10);
 ?>
