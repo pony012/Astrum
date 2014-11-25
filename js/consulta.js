@@ -1,4 +1,20 @@
 $(function(){
+    var selectHistorialMedico = $("#idHistorialMedico");
+    if(selectHistorialMedico.data("action")=="list"){
+        $.post(selectHistorialMedico.data("url"), function(response){
+            $.each(response.data, function(i, historialMedico){
+                selectHistorialMedico.append($('<option>',{
+                    text: historialMedico.Producto + " " + historialMedico.FechaRegistro,
+                    value: historialMedico.IDHistorialMedico
+                }));
+            });
+            var selected = selectHistorialMedico.data("selected");
+            if(selected){
+                selectHistorialMedico.find("option:selected").removeAttr("selected");
+                selectHistorialMedico.find("[value="+selected+"]").attr("selected","selected");
+            } 
+        });
+    }
     var selectCliente = $("#idCliente");
     $.ajax({
         url: selectCliente.data("url"),
@@ -17,6 +33,34 @@ $(function(){
             selectCliente.find("option:selected").removeAttr("selected");
             selectCliente.find("[value="+selected+"]").attr("selected","selected");
         }
+        selectCliente.on("change",function(){
+            var val = this.value;
+            selectHistorialMedico.find("option:gt(0)").remove();
+            if (parseInt(val)!==NaN) {
+                $.post(selectHistorialMedico.data("url"),
+                {
+                    constrains:
+                    {
+                        IDCliente: val
+                    }
+                }
+                , function(response){
+                    if (response.error==0){
+                        $.each(response.data, function(i, historialMedico){
+                        selectHistorialMedico.append($('<option>',{
+                            text: historialMedico.Producto + " " + historialMedico.FechaRegistro,
+                            value: historialMedico.IDHistorialMedico
+                            }));
+                        });
+                        var selected = selectHistorialMedico.data("selected");
+                        if(selected){
+                            selectHistorialMedico.find("option:selected").removeAttr("selected");
+                            selectHistorialMedico.find("[value="+selected+"]").attr("selected","selected");
+                        } 
+                    }
+                });
+            }
+        });
     });
 
      var selectEmpleado = $("#idTerapeuta");
@@ -65,21 +109,6 @@ $(function(){
         if(selected){
             selectServicio.find("option:selected").removeAttr("selected");
             selectServicio.find("[value="+selected+"]").attr("selected","selected");
-        } 
-    });
-
-    var selectHistorialMedico = $("#idHistorialMedico");
-    $.post(selectHistorialMedico.data("url"), function(response){
-        $.each(response.data, function(i, historialMedico){
-            selectHistorialMedico.append($('<option>',{
-                text: historialMedico.Producto + " " + historialMedico.FechaRegistro,
-                value: historialMedico.IDHistorialMedico
-            }));
-        });
-        var selected = selectHistorialMedico.data("selected");
-        if(selected){
-            selectHistorialMedico.find("option:selected").removeAttr("selected");
-            selectHistorialMedico.find("[value="+selected+"]").attr("selected","selected");
         } 
     });
 
