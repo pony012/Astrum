@@ -74,7 +74,7 @@ class RecepcionMdl extends BaseMdl{
 		$lastId = $this->driver->insert_id;
 		$idRecepcion = $lastId;
 
-
+		
 		for($i = 0;$i < count($idProductos);$i++){
 			if(!$this->createDetails($lastId,$idProductos[$i],$cantidades[$i],$precioUnitario[$i],$ivas[$i],$descuentos[$i])){
 				$this->driver->rollback();

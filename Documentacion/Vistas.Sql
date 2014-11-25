@@ -15,7 +15,7 @@ inner join Cargo c
 on c.IDCargo=e.IDCargo and e.Activo='S';
 
 CREATE VIEW V_AjusteEntrada AS
-SELECT IDAjusteEntrada, ae.IDMovimientoAlmacen, Folio, aet.Tipo, c.IDCliente, CONCAT_WS(' ',c.Nombre,c.ApellidoPaterno,c.ApellidoMaterno) as Cliente, e.IDEmpleado, CONCAT_WS(' ',e.Nombre,e.ApellidoPaterno,e.ApellidoMaterno) as Empleado, Observaciones
+SELECT IDAjusteEntrada, ae.IDMovimientoAlmacen, Folio, ae.IDAjusteEntradaTipo,aet.Tipo, c.IDCliente, CONCAT_WS(' ',c.Nombre,c.ApellidoPaterno,c.ApellidoMaterno) as Cliente, e.IDEmpleado, CONCAT_WS(' ',e.Nombre,e.ApellidoPaterno,e.ApellidoMaterno) as Empleado, Total, Observaciones
 From AjusteEntrada ae
 inner join AjusteEntradaTipo aet
 on aet.IDAjusteEntradaTipo=ae.IDAjusteEntradaTipo
@@ -27,14 +27,14 @@ inner join Empleado e
 on ma.IDEmpleado=e.IDEmpleado and e.Activo='S';
 
 CREATE VIEW V_AjusteSalida AS
-SELECT IDAjusteSalida, ae.IDMovimientoAlmacen, Folio, aet.Tipo, p.IDProveedor, CONCAT_WS(' ',p.Nombre,p.ApellidoPaterno,p.ApellidoMaterno) as Proveedor, e.IDEmpleado, CONCAT_WS(' ',e.Nombre,e.ApellidoPaterno,e.ApellidoMaterno) as Empleado, Observaciones
-From AjusteSalida ae
-inner join AjusteSalidaTipo aet
-on aet.IDAjusteSalidaTipo=ae.IDAjusteSalidaTipo
+SELECT IDAjusteSalida, asa.IDMovimientoAlmacen, Folio, asa.IDAjusteSalidaTipo,asat.Tipo, p.IDProveedor, CONCAT_WS(' ',p.Nombre,p.ApellidoPaterno,p.ApellidoMaterno) as Proveedor, e.IDEmpleado, CONCAT_WS(' ',e.Nombre,e.ApellidoPaterno,e.ApellidoMaterno) as Empleado, Total, Observaciones
+From AjusteSalida asa
+inner join AjusteSalidaTipo asat
+on asat.IDAjusteSalidaTipo=asa.IDAjusteSalidaTipo
 left join Proveedor p
-on p.IDProveedor=ae.IDProveedor and p.Activo='S'
+on p.IDProveedor=asa.IDProveedor and p.Activo='S'
 inner join MovimientoAlmacen ma
-on ma.IDMovimientoAlmacen=ae.IDMovimientoAlmacen
+on ma.IDMovimientoAlmacen=asa.IDMovimientoAlmacen
 inner join Empleado e
 on ma.IDEmpleado=e.IDEmpleado and e.Activo='S';
 

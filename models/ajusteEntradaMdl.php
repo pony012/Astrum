@@ -8,6 +8,7 @@ class AjusteEntradaMdl extends BaseMdl{
 	private $idAjusteEntradaTipo;
 	private $idCliente;
 	private $folio;
+	private $total;
 	private $observaciones;
 	
 	private $idAjusteEntrada;
@@ -32,7 +33,7 @@ class AjusteEntradaMdl extends BaseMdl{
 		$this->idCliente			= $idCliente;
 		$this->folio				= $folio;
 		$this->observaciones		= $this->driver->real_escape_string($observaciones);
-
+		$total = 0;
 		$this->driver->autocommit(false);
 		$this->driver->begin_transaction();
 
@@ -73,12 +74,31 @@ class AjusteEntradaMdl extends BaseMdl{
 		}
 
 		$lastId = $this->driver->insert_id;
-
+		$idAjusteEntrada = $lastId;
 		for($i = 0;$i < count($idProductos);$i++){
 			if(!$this->createDetails($lastId,$idProductos[$i],$cantidades[$i],$precioUnitario[$i])){
 				$this->driver->rollback();
 				return false;
 			}
+			$total += $cantidades[$i] * $precioUnitario[$i];
+		}
+
+		$this->total = $total;
+
+		$stmt = $this->driver->prepare("UPDATE 
+										AjusteEntrada SET Total = ?
+										WHERE IDAjusteEntrada = ?");
+		if(!$stmt->bind_param('di',$this->total, $idAjusteEntrada)){
+			$this->driver->rollback();
+		}
+		if (!$stmt->execute()) {
+			$this->driver->rollback();
+			return false;
+		}
+
+		if($this->driver->error){
+			$this->driver->rollback();
+			return false;
 		}
 
 		$this->driver->commit();
