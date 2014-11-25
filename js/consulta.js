@@ -1,6 +1,6 @@
 $(function(){
     var selectHistorialMedico = $("#idHistorialMedico");
-    if(selectHistorialMedico.data("action")=="list"){
+    if(selectHistorialMedico.data("action")=="list" || selectHistorialMedico.data("action")=="update"){
         $.post(selectHistorialMedico.data("url"), function(response){
             $.each(response.data, function(i, historialMedico){
                 selectHistorialMedico.append($('<option>',{
