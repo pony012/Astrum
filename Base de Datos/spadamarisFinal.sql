@@ -1,7 +1,7 @@
 -- phpMyAdmin SQL Dump
 -- version 4.2.7.1
 -- http://www.phpmyadmin.net
---
+-- 
 -- Servidor: 127.0.0.1
 -- Tiempo de generación: 25-11-2014 a las 04:22:44
 -- Versión del servidor: 5.6.20
@@ -78,20 +78,7 @@ CREATE TABLE IF NOT EXISTS `AguaAlDia` (
   `Poca` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
   `Regular` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
   `Mucha` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=6 ;
-
---
--- Volcado de datos para la tabla `AguaAlDia`
---
-
-INSERT INTO `AguaAlDia` (`IDAguaAlDia`, `IDHistorialMedico`, `Poca`, `Regular`, `Mucha`) VALUES
-(1, 1, 'S', '', ''),
-(2, 2, 'S', '', ''),
-(3, 3, 'S', '', ''),
-(4, 4, 'S', '', ''),
-(5, 5, '', '', 'S');
-
--- --------------------------------------------------------
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 --
 -- Estructura de tabla para la tabla `AjusteEntrada`
@@ -105,21 +92,7 @@ CREATE TABLE IF NOT EXISTS `AjusteEntrada` (
   `Folio` int(10) NOT NULL,
   `Total` decimal(10,2) unsigned NOT NULL DEFAULT '0.00',
   `Observaciones` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=8 ;
-
---
--- Volcado de datos para la tabla `AjusteEntrada`
---
-
-INSERT INTO `AjusteEntrada` (`IDAjusteEntrada`, `IDMovimientoAlmacen`, `IDAjusteEntradaTipo`, `IDCliente`, `Folio`, `Total`, `Observaciones`) VALUES
-(1, 11, 1, NULL, 1, '0.00', NULL),
-(2, 23, 1, 1, 2, '0.00', 'fadsfas'),
-(3, 25, 1, 1, 3, '0.00', 'fadfsd'),
-(4, 28, 1, 1, 4, '0.00', 'fasdfs'),
-(5, 29, 1, 1, 5, '0.00', 'fadfasd'),
-(7, 31, 1, 1, 6, '0.00', 'fdasdf');
-
--- --------------------------------------------------------
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
 
 --
 -- Estructura de tabla para la tabla `AjusteEntradaDetalle`
@@ -131,22 +104,7 @@ CREATE TABLE IF NOT EXISTS `AjusteEntradaDetalle` (
   `IDProductoServicio` int(10) NOT NULL,
   `Cantidad` decimal(10,2) NOT NULL,
   `PrecioUnitario` decimal(10,2) unsigned NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=8 ;
-
---
--- Volcado de datos para la tabla `AjusteEntradaDetalle`
---
-
-INSERT INTO `AjusteEntradaDetalle` (`IDAjusteEntradaDetalle`, `IDAjusteEntrada`, `IDProductoServicio`, `Cantidad`, `PrecioUnitario`) VALUES
-(1, 1, 1, '5.00', '0.00'),
-(2, 1, 2, '10.00', '0.00'),
-(3, 4, 1, '3.00', '0.00'),
-(4, 4, 2, '6.00', '0.00'),
-(5, 5, 1, '1.00', '0.00'),
-(6, 5, 2, '1.00', '0.00'),
-(7, 7, 1, '1.00', '15.50');
-
--- --------------------------------------------------------
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=1 ;
 
 --
 -- Estructura de tabla para la tabla `AjusteEntradaTipo`
@@ -180,19 +138,7 @@ CREATE TABLE IF NOT EXISTS `AjusteSalida` (
   `Folio` int(10) NOT NULL,
   `Total` decimal(10,2) unsigned NOT NULL DEFAULT '0.00',
   `Observaciones` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=5 ;
-
---
--- Volcado de datos para la tabla `AjusteSalida`
---
-
-INSERT INTO `AjusteSalida` (`IDAjusteSalida`, `IDMovimientoAlmacen`, `IDAjusteSalidaTipo`, `IDProveedor`, `Folio`, `Total`, `Observaciones`) VALUES
-(1, 24, 1, 1, 0, '0.00', 'puto'),
-(2, 26, 1, 1, 1, '0.00', 'fasdfasd'),
-(3, 27, 1, 1, 2, '0.00', 'fasdfasdf'),
-(4, 32, 1, 1, 3, '0.00', 'fasdfs');
-
--- --------------------------------------------------------
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=1 ;
 
 --
 -- Estructura de tabla para la tabla `AjusteSalidaDetalle`
@@ -204,19 +150,7 @@ CREATE TABLE IF NOT EXISTS `AjusteSalidaDetalle` (
   `IDProductoServicio` int(10) NOT NULL,
   `Cantidad` decimal(10,2) NOT NULL,
   `PrecioUnitario` decimal(10,2) unsigned NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=5 ;
-
---
--- Volcado de datos para la tabla `AjusteSalidaDetalle`
---
-
-INSERT INTO `AjusteSalidaDetalle` (`IDAjusteSalidaDetalle`, `IDAjusteSalida`, `IDProductoServicio`, `Cantidad`, `PrecioUnitario`) VALUES
-(1, 1, 1, '10.00', '0.00'),
-(2, 3, 1, '4.00', '0.00'),
-(3, 3, 2, '1.00', '0.00'),
-(4, 4, 1, '3.00', '15.50');
-
--- --------------------------------------------------------
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=1 ;
 
 --
 -- Estructura de tabla para la tabla `AjusteSalidaTipo`
@@ -248,20 +182,7 @@ CREATE TABLE IF NOT EXISTS `Alimentacion` (
   `Buena` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
   `Regular` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
   `Mala` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=6 ;
-
---
--- Volcado de datos para la tabla `Alimentacion`
---
-
-INSERT INTO `Alimentacion` (`IDAlimentacion`, `IDHistorialMedico`, `Buena`, `Regular`, `Mala`) VALUES
-(1, 1, '', 'S', ''),
-(2, 2, '', 'S', ''),
-(3, 3, '', '', 'S'),
-(4, 4, '', '', 'S'),
-(5, 5, 'S', '', '');
-
--- --------------------------------------------------------
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=1 ;
 
 --
 -- Estructura de tabla para la tabla `Cargo`
@@ -280,7 +201,7 @@ CREATE TABLE IF NOT EXISTS `Cargo` (
 INSERT INTO `Cargo` (`IDCargo`, `Cargo`, `Descripcion`) VALUES
 (1, 'Administrador', 'Encargado de las Operaciones Del Sistema'),
 (2, 'Terapeuta', 'Encargado de Atender a Los Pacientes en Las Consultas y Autorizado para Vender Producto'),
-(3, 'Empleado', 'es el encargado de atender a los cliente y proveedores en las compras y ventas');
+(3, 'Empleado', 'es el encargado de atender a los Cliente y Proveedores en las compras y ventas');
 
 -- --------------------------------------------------------
 
@@ -302,16 +223,7 @@ CREATE TABLE IF NOT EXISTS `Cliente` (
   `Telefono` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
   `Celular` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
   `Activo` varchar(1) COLLATE utf8_unicode_ci DEFAULT 'S'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=2 ;
-
---
--- Volcado de datos para la tabla `Cliente`
---
-
-INSERT INTO `Cliente` (`IDCliente`, `Nombre`, `ApellidoPaterno`, `ApellidoMaterno`, `Calle`, `NumExterior`, `NumInterior`, `Colonia`, `CodigoPostal`, `Email`, `Telefono`, `Celular`, `Activo`) VALUES
-(1, 'Christian', 'Velázquez', 'Pérez', 'Volcán Usulutan', '55', '3', 'Huentitán el Bajo', '44250', 'chris_abimael@hotmail.com', '36516998', '3310180877', 'S');
-
--- --------------------------------------------------------
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=1 ;
 
 --
 -- Estructura de tabla para la tabla `Consulta`
@@ -326,20 +238,7 @@ CREATE TABLE IF NOT EXISTS `Consulta` (
   `FechaCita` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `IDConsultaStatus` int(10) NOT NULL,
   `observaciones` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=10 ;
-
---
--- Volcado de datos para la tabla `Consulta`
---
-
-INSERT INTO `Consulta` (`IDConsulta`, `IDCliente`, `IDTerapeuta`, `IDHistorialMedico`, `IDServicio`, `FechaCita`, `IDConsultaStatus`, `observaciones`) VALUES
-(5, 1, 2, 0, 3, '2014-11-03 06:00:00', 2, 'hola esta es una consulta'),
-(6, 1, 2, 0, 0, '2014-11-23 20:26:36', 2, 'se termino'),
-(7, 1, 2, 0, 0, '2014-10-30 20:45:31', 1, 'fasdfasd'),
-(8, 1, 2, NULL, 3, '2014-10-28 20:50:05', 1, 'fasdfasdf puto'),
-(9, 1, 2, 0, 3, '2014-12-25 19:00:00', 1, 'mi consulta');
-
--- --------------------------------------------------------
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=1 ;
 
 --
 -- Estructura de tabla para la tabla `ConsultaStatus`
@@ -383,17 +282,7 @@ CREATE TABLE IF NOT EXISTS `Empleado` (
   `Telefono` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
   `Celular` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
   `Activo` varchar(1) COLLATE utf8_unicode_ci DEFAULT 'S'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=3 ;
-
---
--- Volcado de datos para la tabla `Empleado`
---
-
-INSERT INTO `Empleado` (`IDEmpleado`, `Nombre`, `ApellidoPaterno`, `ApellidoMaterno`, `Usuario`, `Contrasena`, `IDCargo`, `Calle`, `NumExterior`, `NumInterior`, `Colonia`, `CodigoPostal`, `Foto`, `Email`, `Telefono`, `Celular`, `Activo`) VALUES
-(1, 'ramon', 'lozano', 'franco', 'rmn528', '1234', 1, 'obolo', '3973', NULL, 'lago de oriente', '44790', NULL, '', NULL, NULL, 'S'),
-(2, 'paco', 'lalala', 'alalal', 'paco', '1234', 2, 'fsdfasd', '22222', NULL, 'fasdfas', '44790', NULL, '', NULL, NULL, 'S');
-
--- --------------------------------------------------------
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=1 ;
 
 --
 -- Estructura de tabla para la tabla `EmpleadoSueldo`
@@ -428,18 +317,7 @@ CREATE TABLE IF NOT EXISTS `Exfoliacion` (
   `AcidoLactico` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
   `VitaminaA` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
   `BlanqueadorOAclarador` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=6 ;
-
---
--- Volcado de datos para la tabla `Exfoliacion`
---
-
-INSERT INTO `Exfoliacion` (`IDExfoliacion`, `IDHistorialMedico`, `PeelingQuimico`, `Laser`, `Dermoabrasion`, `RetinA`, `Renova`, `Racutan`, `Adapaleno`, `AcidoGlicolico`, `AlfaHidroxiacidos`, `ExfolianteGranuloso`, `AcidoLactico`, `VitaminaA`, `BlanqueadorOAclarador`) VALUES
-(1, 1, '', '', '', '', '', '', '', '', '', '', '', '', ''),
-(2, 2, '', '', '', '', '', '', '', '', '', '', '', '', ''),
-(3, 3, '', '', '', '', '', '', '', '', '', '', '', '', ''),
-(4, 4, 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S'),
-(5, 5, 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -472,18 +350,7 @@ CREATE TABLE IF NOT EXISTS `ExploracionFinal` (
   `AbdomenFinal` decimal(10,3) DEFAULT NULL,
   `CaderaFinal` decimal(10,3) DEFAULT NULL,
   `MusloFinal` decimal(10,3) DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=6 ;
-
---
--- Volcado de datos para la tabla `ExploracionFinal`
---
-
-INSERT INTO `ExploracionFinal` (`IDExploracionFinal`, `IDHistorialMedico`, `PesoFinal`, `BustoFinal`, `DiafragmaFinal`, `BrazoFinal`, `CinturaFinal`, `AbdomenFinal`, `CaderaFinal`, `MusloFinal`) VALUES
-(1, 1, '10.000', '10.000', '10.000', '10.000', '10.000', '10.000', '101.000', '10.000'),
-(2, 2, '10.000', '10.000', '10.000', '10.000', '10.000', '10.000', '101.000', '10.000'),
-(3, 3, '10.000', '101.000', '10.000', '10.000', '10.000', '10.000', '10.000', '10.000'),
-(4, 4, '10.000', '101.000', '10.000', '10.000', '10.000', '10.000', '10.000', '10.000'),
-(5, 5, '11.000', '11.000', '11.000', '11.000', '11.000', '1.000', '111.000', '11.000');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -502,18 +369,7 @@ CREATE TABLE IF NOT EXISTS `ExploracionInicial` (
   `AbdomenInicial` decimal(10,3) DEFAULT NULL,
   `CaderaInicial` decimal(10,3) DEFAULT NULL,
   `MusloInicial` decimal(10,3) DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=6 ;
-
---
--- Volcado de datos para la tabla `ExploracionInicial`
---
-
-INSERT INTO `ExploracionInicial` (`IDExploracionInicial`, `IDHistorialMedico`, `PesoInicial`, `BustoInicial`, `DiafragmaInicial`, `BrazoInicial`, `CinturaInicial`, `AbdomenInicial`, `CaderaInicial`, `MusloInicial`) VALUES
-(1, 1, '100.000', '10.000', '10.000', '10.000', '10.000', '10.000', '11.000', '10.000'),
-(2, 2, '100.000', '10.000', '10.000', '10.000', '10.000', '10.000', '10.000', '10.000'),
-(3, 3, '10.000', '10.000', '10.000', '10.000', '10.000', '10.000', '10.000', '10.000'),
-(4, 4, '10.000', '10.000', '10.000', '10.000', '10.000', '10.000', '10.000', '10.000'),
-(5, 5, '11.000', '11.000', '11.000', '11.000', '11.000', '11.000', '1.000', '11.000');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -530,18 +386,7 @@ CREATE TABLE IF NOT EXISTS `FichaClinica` (
   `TratamientoAnterior` varchar(1) COLLATE utf8_unicode_ci NOT NULL,
   `MetodosProbados` varchar(150) COLLATE utf8_unicode_ci NOT NULL,
   `ResultadosAnteriores` varchar(150) COLLATE utf8_unicode_ci NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=6 ;
-
---
--- Volcado de datos para la tabla `FichaClinica`
---
-
-INSERT INTO `FichaClinica` (`IDFichaClinica`, `IDHistorialMedico`, `MotivoConsulta`, `TiempoProblema`, `RelacionaCon`, `TratamientoAnterior`, `MetodosProbados`, `ResultadosAnteriores`) VALUES
-(1, 1, 'fadfasdfasdfasdf', '', '', '', '', ''),
-(2, 2, '', '', '', '', '', ''),
-(3, 3, 'fasdfsdf', 'fasdf', 'fasdf', 'f', 'fasdf', 'afsdfas'),
-(4, 4, 'fasdfsdf', 'fasdf', 'fasdf', 'f', 'fasdf', 'afsdfas'),
-(5, 5, 'gdfasd', 'fasdfsad', 'fasdfsfd', 'f', 'fadfasd', 'fasdfasd');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -559,18 +404,7 @@ CREATE TABLE IF NOT EXISTS `Habito` (
   `TomaSol` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
   `Bloqueador` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
   `Hidroquinona` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=6 ;
-
---
--- Volcado de datos para la tabla `Habito`
---
-
-INSERT INTO `Habito` (`IDHabito`, `IDHistorialMedico`, `Fumar`, `Ejercicio`, `UsarFaja`, `Suenio`, `TomaSol`, `Bloqueador`, `Hidroquinona`) VALUES
-(1, 1, '', '', '', '', '', '', ''),
-(2, 2, '', '', '', '', '', '', ''),
-(3, 3, '', '', '', '', '', '', ''),
-(4, 4, '', '', '', '', '', '', ''),
-(5, 5, 'S', 'S', 'S', 'S', 'S', 'S', 'S');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -584,18 +418,7 @@ CREATE TABLE IF NOT EXISTS `HistorialMedico` (
   `FechaRegistro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `IDServicio` int(10) NOT NULL,
   `observaciones` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=6 ;
-
---
--- Volcado de datos para la tabla `HistorialMedico`
---
-
-INSERT INTO `HistorialMedico` (`IDHistorialMedico`, `IDCliente`, `FechaRegistro`, `IDServicio`, `observaciones`) VALUES
-(1, 1, '2014-11-24 04:51:30', 3, 'fasdfads'),
-(2, 1, '2014-11-24 04:51:36', 3, 'fasdfads'),
-(3, 1, '2014-11-24 05:21:36', 4, 'dfasdfa'),
-(4, 1, '2014-11-24 05:21:43', 4, 'dfasdfa'),
-(5, 1, '2014-11-24 05:38:49', 4, 'fasdfas');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -608,30 +431,7 @@ CREATE TABLE IF NOT EXISTS `MovimientoAlmacen` (
   `IDMovimientoAlmacenTipo` int(10) NOT NULL,
   `MovimientoAlmacenFecha` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `IDEmpleado` int(10) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=33 ;
-
---
--- Volcado de datos para la tabla `MovimientoAlmacen`
---
-
-INSERT INTO `MovimientoAlmacen` (`IDMovimientoAlmacen`, `IDMovimientoAlmacenTipo`, `MovimientoAlmacenFecha`, `IDEmpleado`) VALUES
-(9, 3, '2014-11-17 20:16:05', 1),
-(10, 4, '2014-11-17 20:16:05', 1),
-(11, 1, '2014-11-17 20:16:05', 1),
-(18, 4, '2014-11-18 00:01:14', 1),
-(19, 4, '2014-11-18 00:11:05', 1),
-(20, 4, '2014-11-18 00:11:26', 1),
-(21, 4, '2014-11-18 00:13:30', 1),
-(22, 3, '2014-11-24 00:57:15', 1),
-(23, 1, '2014-11-24 04:28:37', 1),
-(24, 2, '2014-11-24 04:29:44', 1),
-(25, 1, '2014-11-24 04:30:54', 1),
-(26, 2, '2014-11-24 16:28:57', 1),
-(27, 2, '2014-11-24 16:32:09', 1),
-(28, 1, '2014-11-24 16:33:52', 1),
-(29, 1, '2014-11-24 16:40:30', 1),
-(31, 1, '2014-11-24 16:55:27', 1),
-(32, 2, '2014-11-24 16:59:34', 1);
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -676,18 +476,7 @@ CREATE TABLE IF NOT EXISTS `Padecimiento` (
   `TranstornosMenstruales` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
   `CuidadosCorporales` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
   `Embarazo` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=6 ;
-
---
--- Volcado de datos para la tabla `Padecimiento`
---
-
-INSERT INTO `Padecimiento` (`IDPadecimiento`, `IDHistorialMedico`, `Diabetes`, `Obesisdad`, `Depresion`, `Estres`, `Sobrepeso`, `Estrenimiento`, `Colitis`, `RetencionLiquidos`, `TranstornosMenstruales`, `CuidadosCorporales`, `Embarazo`) VALUES
-(1, 1, '', '', '', '', '', '', '', '', '', '', NULL),
-(2, 2, '', '', '', '', '', '', '', '', '', '', NULL),
-(3, 3, '', '', '', '', '', '', '', '', '', '', NULL),
-(4, 4, '', '', '', '', '', '', '', '', '', '', NULL),
-(5, 5, 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -718,18 +507,7 @@ CREATE TABLE IF NOT EXISTS `Piel` (
   `BrilloFacial` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
   `PielAsfixiada` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
   `Despigmentacion` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=6 ;
-
---
--- Volcado de datos para la tabla `Piel`
---
-
-INSERT INTO `Piel` (`IDPiel`, `IDHistorialMedico`, `Fina`, `Gruesa`, `Deshidratada`, `Flacida`, `Seca`, `Mixta`, `Grasa`, `Acneica`, `Manchas`, `Cicatrices`, `PoroAbierto`, `Ojeras`, `Lunares`, `Pecas`, `PuntosNegros`, `Verrugas`, `Arrugas`, `BrilloFacial`, `PielAsfixiada`, `Despigmentacion`) VALUES
-(1, 1, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
-(2, 2, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
-(3, 3, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
-(4, 4, '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', ''),
-(5, 5, 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S', 'S');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -745,18 +523,7 @@ CREATE TABLE IF NOT EXISTS `ProductoServicio` (
   `Foto` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   `Descripcion` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
   `Activo` varchar(1) COLLATE utf8_unicode_ci DEFAULT 'S'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=6 ;
-
---
--- Volcado de datos para la tabla `ProductoServicio`
---
-
-INSERT INTO `ProductoServicio` (`IDProductoServicio`, `IDProductoServicioTipo`, `Producto`, `PrecioUnitario`, `Foto`, `Descripcion`, `Activo`) VALUES
-(1, 1, 'Crema', '15.50', NULL, NULL, 'S'),
-(2, 1, 'Toalla', '50.00', NULL, NULL, 'S'),
-(3, 2, 'Baño de Juva', '200.00', NULL, NULL, 'S'),
-(4, 2, 'Pedicure', '150.99', NULL, NULL, 'S'),
-(5, 2, 'masaje', '3.00', 'JarvanIV_0.jpg', 'jarva IV', 'S');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -775,7 +542,7 @@ CREATE TABLE IF NOT EXISTS `ProductoServicioTipo` (
 --
 
 INSERT INTO `ProductoServicioTipo` (`IDProductoServicioTipo`, `ProductoServicioTipo`, `Descripcion`) VALUES
-(1, 'Producto', 'Mercancía que ofrecemos al cliente'),
+(1, 'Producto', 'Mercancía que ofrecemos al Cliente'),
 (2, 'Servicio', 'Todo aquel trabajo realizado, por ejemplo: las terapias');
 
 -- --------------------------------------------------------
@@ -799,14 +566,7 @@ CREATE TABLE IF NOT EXISTS `Proveedor` (
   `Telefono` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
   `Celular` varchar(30) COLLATE utf8_unicode_ci DEFAULT NULL,
   `Activo` varchar(1) COLLATE utf8_unicode_ci DEFAULT 'S'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=2 ;
-
---
--- Volcado de datos para la tabla `Proveedor`
---
-
-INSERT INTO `Proveedor` (`IDProveedor`, `Nombre`, `ApellidoPaterno`, `ApellidoMaterno`, `RFC`, `Calle`, `NumExterior`, `NumInterior`, `Colonia`, `CodigoPostal`, `Email`, `Telefono`, `Celular`, `Activo`) VALUES
-(1, 'Paco', 'Matrinez', 'Jiménez', NULL, 'Periférico Norte', '2341', '2', 'San Ignacio', '44550', NULL, NULL, NULL, 'S');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -821,18 +581,7 @@ CREATE TABLE IF NOT EXISTS `Recepcion` (
   `Folio` int(10) NOT NULL,
   `FechaRecepcion` date NOT NULL,
   `Total` decimal(10,2) NOT NULL DEFAULT '0.00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=11 ;
-
---
--- Volcado de datos para la tabla `Recepcion`
---
-
-INSERT INTO `Recepcion` (`IDRecepcion`, `IDMovimientoAlmacen`, `IDProveedor`, `Folio`, `FechaRecepcion`, `Total`) VALUES
-(1, 10, 1, 2, '2014-11-14', '0.00'),
-(7, 18, 1, 3, '2014-11-18', '150.00'),
-(8, 19, 1, 4, '2014-11-17', '0.00'),
-(9, 20, 1, 5, '2014-11-17', '0.00'),
-(10, 21, 1, 6, '2014-11-17', '0.00');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -848,20 +597,7 @@ CREATE TABLE IF NOT EXISTS `RecepcionDetalle` (
   `PrecioUnitario` decimal(10,2) NOT NULL,
   `IVA` decimal(10,2) NOT NULL,
   `Descuento` decimal(10,2) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=8 ;
-
---
--- Volcado de datos para la tabla `RecepcionDetalle`
---
-
-INSERT INTO `RecepcionDetalle` (`IDRecepcionDetalle`, `IDRecepcion`, `IDProducto`, `Cantidad`, `PrecioUnitario`, `IVA`, `Descuento`) VALUES
-(1, 7, 1, '3.00', '50.00', '16.00', '10.00'),
-(2, 8, 1, '2.00', '0.00', '16.00', '0.00'),
-(3, 8, 2, '1.00', '0.00', '16.00', '0.00'),
-(4, 9, 1, '2.00', '0.00', '16.00', '0.00'),
-(5, 9, 2, '1.00', '0.00', '16.00', '0.00'),
-(6, 10, 1, '6.00', '0.00', '16.00', '0.00'),
-(7, 10, 2, '2.00', '0.00', '16.00', '0.00');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -876,15 +612,7 @@ CREATE TABLE IF NOT EXISTS `Remision` (
   `Folio` int(10) NOT NULL,
   `FechaRemision` date NOT NULL,
   `Total` decimal(10,2) NOT NULL DEFAULT '0.00'
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=13 ;
-
---
--- Volcado de datos para la tabla `Remision`
---
-
-INSERT INTO `Remision` (`IDRemision`, `IDMovimientoAlmacen`, `IDCliente`, `Folio`, `FechaRemision`, `Total`) VALUES
-(11, 9, 1, 1, '2014-11-15', '0.00'),
-(12, 22, 1, 2, '2014-11-19', '285.94');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -900,16 +628,7 @@ CREATE TABLE IF NOT EXISTS `RemisionDetalle` (
   `PrecioUnitario` decimal(10,2) NOT NULL,
   `IVA` decimal(10,2) NOT NULL,
   `Descuento` decimal(10,2) NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=4 ;
-
---
--- Volcado de datos para la tabla `RemisionDetalle`
---
-
-INSERT INTO `RemisionDetalle` (`IDRemisionDetalle`, `IDRemision`, `IDProducto`, `Cantidad`, `PrecioUnitario`, `IVA`, `Descuento`) VALUES
-(1, 11, 1, '5.00', '50.00', '0.00', '0.00'),
-(2, 12, 1, '3.00', '15.50', '16.00', '0.00'),
-(3, 12, 2, '4.00', '50.00', '16.00', '0.00');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -926,25 +645,14 @@ CREATE TABLE IF NOT EXISTS `TipoCelulitis` (
   `Dura` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
   `Mixta` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL,
   `Dolorosa` varchar(1) COLLATE utf8_unicode_ci DEFAULT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=6 ;
-
---
--- Volcado de datos para la tabla `TipoCelulitis`
---
-
-INSERT INTO `TipoCelulitis` (`IDTipoCelulitis`, `IDHistorialMedico`, `Fibrosa`, `Edematosa`, `Flacida`, `Dura`, `Mixta`, `Dolorosa`) VALUES
-(1, 1, '', '', '', '', '', ''),
-(2, 2, '', '', '', '', '', ''),
-(3, 3, '', '', '', '', '', ''),
-(4, 4, '', '', '', '', '', ''),
-(5, 5, 'S', 'S', 'S', 'S', 'S', 'S');
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `v_ajusteentrada`
+-- Estructura Stand-in para la vista `V_AjusteEntrada`
 --
-CREATE TABLE IF NOT EXISTS `v_ajusteentrada` (
+CREATE TABLE IF NOT EXISTS `V_AjusteEntrada` (
 `IDAjusteEntrada` int(10)
 ,`IDMovimientoAlmacen` int(10)
 ,`Folio` int(10)
@@ -960,9 +668,9 @@ CREATE TABLE IF NOT EXISTS `v_ajusteentrada` (
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `v_ajusteentradadetalle`
+-- Estructura Stand-in para la vista `V_AjusteEntradaDetalle`
 --
-CREATE TABLE IF NOT EXISTS `v_ajusteentradadetalle` (
+CREATE TABLE IF NOT EXISTS `V_AjusteEntradaDetalle` (
 `IDAjusteEntradaDetalle` int(10)
 ,`IDAjusteEntrada` int(10)
 ,`IDProductoServicio` int(10)
@@ -973,9 +681,9 @@ CREATE TABLE IF NOT EXISTS `v_ajusteentradadetalle` (
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `v_ajustesalida`
+-- Estructura Stand-in para la vista `V_AjusteSalida`
 --
-CREATE TABLE IF NOT EXISTS `v_ajustesalida` (
+CREATE TABLE IF NOT EXISTS `V_AjusteSalida` (
 `IDAjusteSalida` int(10)
 ,`IDMovimientoAlmacen` int(10)
 ,`Folio` int(10)
@@ -991,9 +699,9 @@ CREATE TABLE IF NOT EXISTS `v_ajustesalida` (
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `v_ajustesalidadetalle`
+-- Estructura Stand-in para la vista `V_AjusteSalidaDetalle`
 --
-CREATE TABLE IF NOT EXISTS `v_ajustesalidadetalle` (
+CREATE TABLE IF NOT EXISTS `V_AjusteSalidaDetalle` (
 `IDAjusteSalidaDetalle` int(10)
 ,`IDAjusteSalida` int(10)
 ,`IDProductoServicio` int(10)
@@ -1004,9 +712,9 @@ CREATE TABLE IF NOT EXISTS `v_ajustesalidadetalle` (
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `v_cliente`
+-- Estructura Stand-in para la vista `V_Cliente`
 --
-CREATE TABLE IF NOT EXISTS `v_cliente` (
+CREATE TABLE IF NOT EXISTS `V_Cliente` (
 `IDCliente` int(10)
 ,`Nombre` varchar(30)
 ,`ApellidoPaterno` varchar(30)
@@ -1023,9 +731,9 @@ CREATE TABLE IF NOT EXISTS `v_cliente` (
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `v_cliente_deleter`
+-- Estructura Stand-in para la vista `V_Cliente_Deleter`
 --
-CREATE TABLE IF NOT EXISTS `v_cliente_deleter` (
+CREATE TABLE IF NOT EXISTS `V_Cliente_Deleter` (
 `IDCliente` int(10)
 ,`Nombre` varchar(30)
 ,`ApellidoPaterno` varchar(30)
@@ -1042,9 +750,9 @@ CREATE TABLE IF NOT EXISTS `v_cliente_deleter` (
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `v_consulta`
+-- Estructura Stand-in para la vista `V_Consulta`
 --
-CREATE TABLE IF NOT EXISTS `v_consulta` (
+CREATE TABLE IF NOT EXISTS `V_Consulta` (
 `IDConsulta` int(10)
 ,`IDCliente` int(10)
 ,`Cliente` varchar(92)
@@ -1061,9 +769,9 @@ CREATE TABLE IF NOT EXISTS `v_consulta` (
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `v_empleado`
+-- Estructura Stand-in para la vista `V_Empleado`
 --
-CREATE TABLE IF NOT EXISTS `v_empleado` (
+CREATE TABLE IF NOT EXISTS `V_Empleado` (
 `IDEmpleado` int(10)
 ,`Nombre` varchar(30)
 ,`ApellidoPaterno` varchar(30)
@@ -1085,9 +793,9 @@ CREATE TABLE IF NOT EXISTS `v_empleado` (
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `v_empleado_deleter`
+-- Estructura Stand-in para la vista `V_Empleado_Deleter`
 --
-CREATE TABLE IF NOT EXISTS `v_empleado_deleter` (
+CREATE TABLE IF NOT EXISTS `V_Empleado_Deleter` (
 `IDEmpleado` int(10)
 ,`Nombre` varchar(30)
 ,`ApellidoPaterno` varchar(30)
@@ -1109,9 +817,9 @@ CREATE TABLE IF NOT EXISTS `v_empleado_deleter` (
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `v_existencia`
+-- Estructura Stand-in para la vista `V_Existencia`
 --
-CREATE TABLE IF NOT EXISTS `v_existencia` (
+CREATE TABLE IF NOT EXISTS `V_Existencia` (
 `IDExistencia` int(10)
 ,`FechaReferencia` timestamp
 ,`IDProductoServicio` int(10)
@@ -1123,9 +831,9 @@ CREATE TABLE IF NOT EXISTS `v_existencia` (
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `v_historialmedico`
+-- Estructura Stand-in para la vista `V_HistorialMedico`
 --
-CREATE TABLE IF NOT EXISTS `v_historialmedico` (
+CREATE TABLE IF NOT EXISTS `V_HistorialMedico` (
 `IDHistorialMedico` int(10)
 ,`IDCliente` int(10)
 ,`Cliente` varchar(92)
@@ -1137,9 +845,9 @@ CREATE TABLE IF NOT EXISTS `v_historialmedico` (
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `v_producto`
+-- Estructura Stand-in para la vista `V_Producto`
 --
-CREATE TABLE IF NOT EXISTS `v_producto` (
+CREATE TABLE IF NOT EXISTS `V_Producto` (
 `IDProductoServicio` int(10)
 ,`IDProductoServicioTipo` int(10)
 ,`ProductoServicioTipo` varchar(60)
@@ -1151,9 +859,9 @@ CREATE TABLE IF NOT EXISTS `v_producto` (
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `v_producto_deleter`
+-- Estructura Stand-in para la vista `V_Producto_Deleter`
 --
-CREATE TABLE IF NOT EXISTS `v_producto_deleter` (
+CREATE TABLE IF NOT EXISTS `V_Producto_Deleter` (
 `IDProductoServicio` int(10)
 ,`IDProductoServicioTipo` int(10)
 ,`ProductoServicioTipo` varchar(60)
@@ -1165,9 +873,9 @@ CREATE TABLE IF NOT EXISTS `v_producto_deleter` (
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `v_proveedor`
+-- Estructura Stand-in para la vista `V_Proveedor`
 --
-CREATE TABLE IF NOT EXISTS `v_proveedor` (
+CREATE TABLE IF NOT EXISTS `V_Proveedor` (
 `IDProveedor` int(10)
 ,`Nombre` varchar(30)
 ,`ApellidoPaterno` varchar(30)
@@ -1185,9 +893,9 @@ CREATE TABLE IF NOT EXISTS `v_proveedor` (
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `v_proveedor_deleter`
+-- Estructura Stand-in para la vista `V_Proveedor_Deleter`
 --
-CREATE TABLE IF NOT EXISTS `v_proveedor_deleter` (
+CREATE TABLE IF NOT EXISTS `V_Proveedor_Deleter` (
 `IDProveedor` int(10)
 ,`Nombre` varchar(30)
 ,`ApellidoPaterno` varchar(30)
@@ -1205,9 +913,9 @@ CREATE TABLE IF NOT EXISTS `v_proveedor_deleter` (
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `v_recepcion`
+-- Estructura Stand-in para la vista `V_Recepcion`
 --
-CREATE TABLE IF NOT EXISTS `v_recepcion` (
+CREATE TABLE IF NOT EXISTS `V_Recepcion` (
 `IDRecepcion` int(10)
 ,`IDMovimientoAlmacen` int(10)
 ,`Folio` int(10)
@@ -1221,9 +929,9 @@ CREATE TABLE IF NOT EXISTS `v_recepcion` (
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `v_recepciondetalle`
+-- Estructura Stand-in para la vista `V_RecepcionDetalle`
 --
-CREATE TABLE IF NOT EXISTS `v_recepciondetalle` (
+CREATE TABLE IF NOT EXISTS `V_RecepcionDetalle` (
 `IDRecepcionDetalle` int(10)
 ,`IDRecepcion` int(10)
 ,`IDProducto` int(10)
@@ -1236,9 +944,9 @@ CREATE TABLE IF NOT EXISTS `v_recepciondetalle` (
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `v_remision`
+-- Estructura Stand-in para la vista `V_Remision`
 --
-CREATE TABLE IF NOT EXISTS `v_remision` (
+CREATE TABLE IF NOT EXISTS `V_Remision` (
 `IDRemision` int(10)
 ,`IDMovimientoAlmacen` int(10)
 ,`Folio` int(10)
@@ -1252,9 +960,9 @@ CREATE TABLE IF NOT EXISTS `v_remision` (
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `v_remisiondetalle`
+-- Estructura Stand-in para la vista `V_RemisionDetalle`
 --
-CREATE TABLE IF NOT EXISTS `v_remisiondetalle` (
+CREATE TABLE IF NOT EXISTS `V_RemisionDetalle` (
 `IDRemisionDetalle` int(10)
 ,`IDRemision` int(10)
 ,`IDProducto` int(10)
@@ -1267,9 +975,9 @@ CREATE TABLE IF NOT EXISTS `v_remisiondetalle` (
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `v_servicio`
+-- Estructura Stand-in para la vista `V_Servicio`
 --
-CREATE TABLE IF NOT EXISTS `v_servicio` (
+CREATE TABLE IF NOT EXISTS `V_Servicio` (
 `IDProductoServicio` int(10)
 ,`IDProductoServicioTipo` int(10)
 ,`ProductoServicioTipo` varchar(60)
@@ -1281,9 +989,9 @@ CREATE TABLE IF NOT EXISTS `v_servicio` (
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `v_servicio_deleter`
+-- Estructura Stand-in para la vista `V_Servicio_Deleter`
 --
-CREATE TABLE IF NOT EXISTS `v_servicio_deleter` (
+CREATE TABLE IF NOT EXISTS `V_Servicio_Deleter` (
 `IDProductoServicio` int(10)
 ,`IDProductoServicioTipo` int(10)
 ,`ProductoServicioTipo` varchar(60)
@@ -1295,9 +1003,9 @@ CREATE TABLE IF NOT EXISTS `v_servicio_deleter` (
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `v_totalcomprado`
+-- Estructura Stand-in para la vista `V_TotalComprado`
 --
-CREATE TABLE IF NOT EXISTS `v_totalcomprado` (
+CREATE TABLE IF NOT EXISTS `V_TotalComprado` (
 `Producto` varchar(30)
 ,`PrecioUnitario` decimal(10,2)
 ,`CantidadTotalComprada` decimal(32,2)
@@ -1306,9 +1014,9 @@ CREATE TABLE IF NOT EXISTS `v_totalcomprado` (
 -- --------------------------------------------------------
 
 --
--- Estructura Stand-in para la vista `v_totalvendido`
+-- Estructura Stand-in para la vista `V_TotalVendido`
 --
-CREATE TABLE IF NOT EXISTS `v_totalvendido` (
+CREATE TABLE IF NOT EXISTS `V_TotalVendido` (
 `Producto` varchar(30)
 ,`PrecioUnitario` decimal(10,2)
 ,`CantidadTotalVendida` decimal(32,2)
@@ -1317,209 +1025,209 @@ CREATE TABLE IF NOT EXISTS `v_totalvendido` (
 -- --------------------------------------------------------
 
 --
--- Estructura para la vista `v_ajusteentrada`
+-- Estructura para la vista `V_AjusteEntrada`
 --
-DROP TABLE IF EXISTS `v_ajusteentrada`;
+DROP TABLE IF EXISTS `V_AjusteEntrada`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_ajusteentrada` AS select `ae`.`IDAjusteEntrada` AS `IDAjusteEntrada`,`ae`.`IDMovimientoAlmacen` AS `IDMovimientoAlmacen`,`ae`.`Folio` AS `Folio`,`ae`.`IDAjusteEntradaTipo` AS `IDAjusteEntradaTipo`,`aet`.`Tipo` AS `Tipo`,`c`.`IDCliente` AS `IDCliente`,concat_ws(' ',`c`.`Nombre`,`c`.`ApellidoPaterno`,`c`.`ApellidoMaterno`) AS `Cliente`,`e`.`IDEmpleado` AS `IDEmpleado`,concat_ws(' ',`e`.`Nombre`,`e`.`ApellidoPaterno`,`e`.`ApellidoMaterno`) AS `Empleado`,`ae`.`Total` AS `Total`,`ae`.`Observaciones` AS `Observaciones` from ((((`ajusteentrada` `ae` join `ajusteentradatipo` `aet` on((`aet`.`IDAjusteEntradaTipo` = `ae`.`IDAjusteEntradaTipo`))) left join `cliente` `c` on(((`c`.`IDCliente` = `ae`.`IDCliente`) and (`c`.`Activo` = 'S')))) join `movimientoalmacen` `ma` on((`ma`.`IDMovimientoAlmacen` = `ae`.`IDMovimientoAlmacen`))) join `empleado` `e` on(((`ma`.`IDEmpleado` = `e`.`IDEmpleado`) and (`e`.`Activo` = 'S'))));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `V_AjusteEntrada` AS select `ae`.`IDAjusteEntrada` AS `IDAjusteEntrada`,`ae`.`IDMovimientoAlmacen` AS `IDMovimientoAlmacen`,`ae`.`Folio` AS `Folio`,`ae`.`IDAjusteEntradaTipo` AS `IDAjusteEntradaTipo`,`aet`.`Tipo` AS `Tipo`,`c`.`IDCliente` AS `IDCliente`,concat_ws(' ',`c`.`Nombre`,`c`.`ApellidoPaterno`,`c`.`ApellidoMaterno`) AS `Cliente`,`e`.`IDEmpleado` AS `IDEmpleado`,concat_ws(' ',`e`.`Nombre`,`e`.`ApellidoPaterno`,`e`.`ApellidoMaterno`) AS `Empleado`,`ae`.`Total` AS `Total`,`ae`.`Observaciones` AS `Observaciones` from ((((`AjusteEntrada` `ae` join `AjusteEntradaTipo` `aet` on((`aet`.`IDAjusteEntradaTipo` = `ae`.`IDAjusteEntradaTipo`))) left join `Cliente` `c` on(((`c`.`IDCliente` = `ae`.`IDCliente`) and (`c`.`Activo` = 'S')))) join `MovimientoAlmacen` `ma` on((`ma`.`IDMovimientoAlmacen` = `ae`.`IDMovimientoAlmacen`))) join `Empleado` `e` on(((`ma`.`IDEmpleado` = `e`.`IDEmpleado`) and (`e`.`Activo` = 'S'))));
 
 -- --------------------------------------------------------
 
 --
--- Estructura para la vista `v_ajusteentradadetalle`
+-- Estructura para la vista `V_AjusteEntradaDetalle`
 --
-DROP TABLE IF EXISTS `v_ajusteentradadetalle`;
+DROP TABLE IF EXISTS `V_AjusteEntradaDetalle`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_ajusteentradadetalle` AS select `aed`.`IDAjusteEntradaDetalle` AS `IDAjusteEntradaDetalle`,`aed`.`IDAjusteEntrada` AS `IDAjusteEntrada`,`aed`.`IDProductoServicio` AS `IDProductoServicio`,`ps`.`Producto` AS `Producto`,`aed`.`Cantidad` AS `Cantidad`,`aed`.`PrecioUnitario` AS `PrecioUnitario` from (`ajusteentradadetalle` `aed` join `productoservicio` `ps` on((`ps`.`IDProductoServicio` = `aed`.`IDProductoServicio`)));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `V_AjusteEntradaDetalle` AS select `aed`.`IDAjusteEntradaDetalle` AS `IDAjusteEntradaDetalle`,`aed`.`IDAjusteEntrada` AS `IDAjusteEntrada`,`aed`.`IDProductoServicio` AS `IDProductoServicio`,`ps`.`Producto` AS `Producto`,`aed`.`Cantidad` AS `Cantidad`,`aed`.`PrecioUnitario` AS `PrecioUnitario` from (`AjusteEntradaDetalle` `aed` join `ProductoServicio` `ps` on((`ps`.`IDProductoServicio` = `aed`.`IDProductoServicio`)));
 
 -- --------------------------------------------------------
 
 --
--- Estructura para la vista `v_ajustesalida`
+-- Estructura para la vista `V_AjusteSalida`
 --
-DROP TABLE IF EXISTS `v_ajustesalida`;
+DROP TABLE IF EXISTS `V_AjusteSalida`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_ajustesalida` AS select `asa`.`IDAjusteSalida` AS `IDAjusteSalida`,`asa`.`IDMovimientoAlmacen` AS `IDMovimientoAlmacen`,`asa`.`Folio` AS `Folio`,`asa`.`IDAjusteSalidaTipo` AS `IDAjusteSalidaTipo`,`asat`.`Tipo` AS `Tipo`,`p`.`IDProveedor` AS `IDProveedor`,concat_ws(' ',`p`.`Nombre`,`p`.`ApellidoPaterno`,`p`.`ApellidoMaterno`) AS `Proveedor`,`e`.`IDEmpleado` AS `IDEmpleado`,concat_ws(' ',`e`.`Nombre`,`e`.`ApellidoPaterno`,`e`.`ApellidoMaterno`) AS `Empleado`,`asa`.`Total` AS `Total`,`asa`.`Observaciones` AS `Observaciones` from ((((`ajustesalida` `asa` join `ajustesalidatipo` `asat` on((`asat`.`IDAjusteSalidaTipo` = `asa`.`IDAjusteSalidaTipo`))) left join `proveedor` `p` on(((`p`.`IDProveedor` = `asa`.`IDProveedor`) and (`p`.`Activo` = 'S')))) join `movimientoalmacen` `ma` on((`ma`.`IDMovimientoAlmacen` = `asa`.`IDMovimientoAlmacen`))) join `empleado` `e` on(((`ma`.`IDEmpleado` = `e`.`IDEmpleado`) and (`e`.`Activo` = 'S'))));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `V_AjusteSalida` AS select `asa`.`IDAjusteSalida` AS `IDAjusteSalida`,`asa`.`IDMovimientoAlmacen` AS `IDMovimientoAlmacen`,`asa`.`Folio` AS `Folio`,`asa`.`IDAjusteSalidaTipo` AS `IDAjusteSalidaTipo`,`asat`.`Tipo` AS `Tipo`,`p`.`IDProveedor` AS `IDProveedor`,concat_ws(' ',`p`.`Nombre`,`p`.`ApellidoPaterno`,`p`.`ApellidoMaterno`) AS `Proveedor`,`e`.`IDEmpleado` AS `IDEmpleado`,concat_ws(' ',`e`.`Nombre`,`e`.`ApellidoPaterno`,`e`.`ApellidoMaterno`) AS `Empleado`,`asa`.`Total` AS `Total`,`asa`.`Observaciones` AS `Observaciones` from ((((`AjusteSalida` `asa` join `AjusteSalidaTipo` `asat` on((`asat`.`IDAjusteSalidaTipo` = `asa`.`IDAjusteSalidaTipo`))) left join `Proveedor` `p` on(((`p`.`IDProveedor` = `asa`.`IDProveedor`) and (`p`.`Activo` = 'S')))) join `MovimientoAlmacen` `ma` on((`ma`.`IDMovimientoAlmacen` = `asa`.`IDMovimientoAlmacen`))) join `Empleado` `e` on(((`ma`.`IDEmpleado` = `e`.`IDEmpleado`) and (`e`.`Activo` = 'S'))));
 
 -- --------------------------------------------------------
 
 --
--- Estructura para la vista `v_ajustesalidadetalle`
+-- Estructura para la vista `V_AjusteSalidaDetalle`
 --
-DROP TABLE IF EXISTS `v_ajustesalidadetalle`;
+DROP TABLE IF EXISTS `V_AjusteSalidaDetalle`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_ajustesalidadetalle` AS select `asd`.`IDAjusteSalidaDetalle` AS `IDAjusteSalidaDetalle`,`asd`.`IDAjusteSalida` AS `IDAjusteSalida`,`asd`.`IDProductoServicio` AS `IDProductoServicio`,`ps`.`Producto` AS `Producto`,`asd`.`Cantidad` AS `Cantidad`,`asd`.`PrecioUnitario` AS `PrecioUnitario` from (`ajustesalidadetalle` `asd` join `productoservicio` `ps` on((`ps`.`IDProductoServicio` = `asd`.`IDProductoServicio`)));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `V_AjusteSalidaDetalle` AS select `asd`.`IDAjusteSalidaDetalle` AS `IDAjusteSalidaDetalle`,`asd`.`IDAjusteSalida` AS `IDAjusteSalida`,`asd`.`IDProductoServicio` AS `IDProductoServicio`,`ps`.`Producto` AS `Producto`,`asd`.`Cantidad` AS `Cantidad`,`asd`.`PrecioUnitario` AS `PrecioUnitario` from (`AjusteSalidaDetalle` `asd` join `ProductoServicio` `ps` on((`ps`.`IDProductoServicio` = `asd`.`IDProductoServicio`)));
 
 -- --------------------------------------------------------
 
 --
--- Estructura para la vista `v_cliente`
+-- Estructura para la vista `V_Cliente`
 --
-DROP TABLE IF EXISTS `v_cliente`;
+DROP TABLE IF EXISTS `V_Cliente`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_cliente` AS select `c`.`IDCliente` AS `IDCliente`,`c`.`Nombre` AS `Nombre`,`c`.`ApellidoPaterno` AS `ApellidoPaterno`,`c`.`ApellidoMaterno` AS `ApellidoMaterno`,`c`.`Calle` AS `Calle`,`c`.`NumExterior` AS `NumExterior`,`c`.`NumInterior` AS `NumInterior`,`c`.`Colonia` AS `Colonia`,`c`.`CodigoPostal` AS `CP`,`c`.`Email` AS `Email`,`c`.`Telefono` AS `Telefono`,`c`.`Celular` AS `Celular` from `cliente` `c` where (`c`.`Activo` = 'S');
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `V_Cliente` AS select `c`.`IDCliente` AS `IDCliente`,`c`.`Nombre` AS `Nombre`,`c`.`ApellidoPaterno` AS `ApellidoPaterno`,`c`.`ApellidoMaterno` AS `ApellidoMaterno`,`c`.`Calle` AS `Calle`,`c`.`NumExterior` AS `NumExterior`,`c`.`NumInterior` AS `NumInterior`,`c`.`Colonia` AS `Colonia`,`c`.`CodigoPostal` AS `CP`,`c`.`Email` AS `Email`,`c`.`Telefono` AS `Telefono`,`c`.`Celular` AS `Celular` from `Cliente` `c` where (`c`.`Activo` = 'S');
 
 -- --------------------------------------------------------
 
 --
--- Estructura para la vista `v_cliente_deleter`
+-- Estructura para la vista `V_Cliente_Deleter`
 --
-DROP TABLE IF EXISTS `v_cliente_deleter`;
+DROP TABLE IF EXISTS `V_Cliente_Deleter`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_cliente_deleter` AS select `c`.`IDCliente` AS `IDCliente`,`c`.`Nombre` AS `Nombre`,`c`.`ApellidoPaterno` AS `ApellidoPaterno`,`c`.`ApellidoMaterno` AS `ApellidoMaterno`,`c`.`Calle` AS `Calle`,`c`.`NumExterior` AS `NumExterior`,`c`.`NumInterior` AS `NumInterior`,`c`.`Colonia` AS `Colonia`,`c`.`CodigoPostal` AS `CP`,`c`.`Email` AS `Email`,`c`.`Telefono` AS `Telefono`,`c`.`Celular` AS `Celular` from `cliente` `c` where (`c`.`Activo` = 'N');
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `V_Cliente_Deleter` AS select `c`.`IDCliente` AS `IDCliente`,`c`.`Nombre` AS `Nombre`,`c`.`ApellidoPaterno` AS `ApellidoPaterno`,`c`.`ApellidoMaterno` AS `ApellidoMaterno`,`c`.`Calle` AS `Calle`,`c`.`NumExterior` AS `NumExterior`,`c`.`NumInterior` AS `NumInterior`,`c`.`Colonia` AS `Colonia`,`c`.`CodigoPostal` AS `CP`,`c`.`Email` AS `Email`,`c`.`Telefono` AS `Telefono`,`c`.`Celular` AS `Celular` from `Cliente` `c` where (`c`.`Activo` = 'N');
 
 -- --------------------------------------------------------
 
 --
--- Estructura para la vista `v_consulta`
+-- Estructura para la vista `V_Consulta`
 --
-DROP TABLE IF EXISTS `v_consulta`;
+DROP TABLE IF EXISTS `V_Consulta`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_consulta` AS select `con`.`IDConsulta` AS `IDConsulta`,`con`.`IDCliente` AS `IDCliente`,concat_ws(' ',`c`.`Nombre`,`c`.`ApellidoPaterno`,`c`.`ApellidoMaterno`) AS `Cliente`,`con`.`IDTerapeuta` AS `IDTerapeuta`,concat_ws(' ',`e`.`Nombre`,`e`.`ApellidoPaterno`,`e`.`ApellidoMaterno`) AS `Terapeuta`,`ps`.`IDProductoServicio` AS `IDProductoServicio`,`ps`.`Producto` AS `Producto`,`con`.`FechaCita` AS `FechaCita`,`con`.`IDHistorialMedico` AS `IDHistorialMedico`,`cs`.`IDConsultaStatus` AS `IDConsultaStatus`,`cs`.`Status` AS `Status`,`con`.`observaciones` AS `Observaciones` from ((((`consulta` `con` join `consultastatus` `cs` on((`cs`.`IDConsultaStatus` = `con`.`IDConsultaStatus`))) join `cliente` `c` on(((`c`.`IDCliente` = `con`.`IDCliente`) and (`c`.`Activo` = 'S')))) join `empleado` `e` on(((`e`.`IDEmpleado` = `con`.`IDTerapeuta`) and (`e`.`Activo` = 'S')))) join `productoservicio` `ps` on((`ps`.`IDProductoServicio` = `con`.`IDServicio`)));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `V_Consulta` AS select `con`.`IDConsulta` AS `IDConsulta`,`con`.`IDCliente` AS `IDCliente`,concat_ws(' ',`c`.`Nombre`,`c`.`ApellidoPaterno`,`c`.`ApellidoMaterno`) AS `Cliente`,`con`.`IDTerapeuta` AS `IDTerapeuta`,concat_ws(' ',`e`.`Nombre`,`e`.`ApellidoPaterno`,`e`.`ApellidoMaterno`) AS `Terapeuta`,`ps`.`IDProductoServicio` AS `IDProductoServicio`,`ps`.`Producto` AS `Producto`,`con`.`FechaCita` AS `FechaCita`,`con`.`IDHistorialMedico` AS `IDHistorialMedico`,`cs`.`IDConsultaStatus` AS `IDConsultaStatus`,`cs`.`Status` AS `Status`,`con`.`observaciones` AS `Observaciones` from ((((`Consulta` `con` join `ConsultaStatus` `cs` on((`cs`.`IDConsultaStatus` = `con`.`IDConsultaStatus`))) join `Cliente` `c` on(((`c`.`IDCliente` = `con`.`IDCliente`) and (`c`.`Activo` = 'S')))) join `Empleado` `e` on(((`e`.`IDEmpleado` = `con`.`IDTerapeuta`) and (`e`.`Activo` = 'S')))) join `ProductoServicio` `ps` on((`ps`.`IDProductoServicio` = `con`.`IDServicio`)));
 
 -- --------------------------------------------------------
 
 --
--- Estructura para la vista `v_empleado`
+-- Estructura para la vista `V_Empleado`
 --
-DROP TABLE IF EXISTS `v_empleado`;
+DROP TABLE IF EXISTS `V_Empleado`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_empleado` AS select `e`.`IDEmpleado` AS `IDEmpleado`,`e`.`Nombre` AS `Nombre`,`e`.`ApellidoPaterno` AS `ApellidoPaterno`,`e`.`ApellidoMaterno` AS `ApellidoMaterno`,`e`.`Usuario` AS `Usuario`,`e`.`Contrasena` AS `Contrasena`,`e`.`IDCargo` AS `IDCargo`,`c`.`Cargo` AS `Cargo`,`e`.`Calle` AS `Calle`,`e`.`NumExterior` AS `NumExterior`,`e`.`NumInterior` AS `NumInterior`,`e`.`Colonia` AS `Colonia`,`e`.`CodigoPostal` AS `CP`,`e`.`Foto` AS `Foto`,`e`.`Email` AS `Email`,`e`.`Telefono` AS `Telefono`,`e`.`Celular` AS `Celular` from (`empleado` `e` join `cargo` `c` on(((`c`.`IDCargo` = `e`.`IDCargo`) and (`e`.`Activo` = 'S'))));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `V_Empleado` AS select `e`.`IDEmpleado` AS `IDEmpleado`,`e`.`Nombre` AS `Nombre`,`e`.`ApellidoPaterno` AS `ApellidoPaterno`,`e`.`ApellidoMaterno` AS `ApellidoMaterno`,`e`.`Usuario` AS `Usuario`,`e`.`Contrasena` AS `Contrasena`,`e`.`IDCargo` AS `IDCargo`,`c`.`Cargo` AS `Cargo`,`e`.`Calle` AS `Calle`,`e`.`NumExterior` AS `NumExterior`,`e`.`NumInterior` AS `NumInterior`,`e`.`Colonia` AS `Colonia`,`e`.`CodigoPostal` AS `CP`,`e`.`Foto` AS `Foto`,`e`.`Email` AS `Email`,`e`.`Telefono` AS `Telefono`,`e`.`Celular` AS `Celular` from (`Empleado` `e` join `Cargo` `c` on(((`c`.`IDCargo` = `e`.`IDCargo`) and (`e`.`Activo` = 'S'))));
 
 -- --------------------------------------------------------
 
 --
--- Estructura para la vista `v_empleado_deleter`
+-- Estructura para la vista `V_Empleado_Deleter`
 --
-DROP TABLE IF EXISTS `v_empleado_deleter`;
+DROP TABLE IF EXISTS `V_Empleado_Deleter`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_empleado_deleter` AS select `e`.`IDEmpleado` AS `IDEmpleado`,`e`.`Nombre` AS `Nombre`,`e`.`ApellidoPaterno` AS `ApellidoPaterno`,`e`.`ApellidoMaterno` AS `ApellidoMaterno`,`e`.`Usuario` AS `Usuario`,`e`.`Contrasena` AS `Contrasena`,`e`.`IDCargo` AS `IDCargo`,`c`.`Cargo` AS `Cargo`,`e`.`Calle` AS `Calle`,`e`.`NumExterior` AS `NumExterior`,`e`.`NumInterior` AS `NumInterior`,`e`.`Colonia` AS `Colonia`,`e`.`CodigoPostal` AS `CP`,`e`.`Foto` AS `Foto`,`e`.`Email` AS `Email`,`e`.`Telefono` AS `Telefono`,`e`.`Celular` AS `Celular` from (`empleado` `e` join `cargo` `c` on(((`c`.`IDCargo` = `e`.`IDCargo`) and (`e`.`Activo` = 'N'))));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `V_Empleado_Deleter` AS select `e`.`IDEmpleado` AS `IDEmpleado`,`e`.`Nombre` AS `Nombre`,`e`.`ApellidoPaterno` AS `ApellidoPaterno`,`e`.`ApellidoMaterno` AS `ApellidoMaterno`,`e`.`Usuario` AS `Usuario`,`e`.`Contrasena` AS `Contrasena`,`e`.`IDCargo` AS `IDCargo`,`c`.`Cargo` AS `Cargo`,`e`.`Calle` AS `Calle`,`e`.`NumExterior` AS `NumExterior`,`e`.`NumInterior` AS `NumInterior`,`e`.`Colonia` AS `Colonia`,`e`.`CodigoPostal` AS `CP`,`e`.`Foto` AS `Foto`,`e`.`Email` AS `Email`,`e`.`Telefono` AS `Telefono`,`e`.`Celular` AS `Celular` from (`Empleado` `e` join `Cargo` `c` on(((`c`.`IDCargo` = `e`.`IDCargo`) and (`e`.`Activo` = 'N'))));
 
 -- --------------------------------------------------------
 
 --
--- Estructura para la vista `v_existencia`
+-- Estructura para la vista `V_Existencia`
 --
-DROP TABLE IF EXISTS `v_existencia`;
+DROP TABLE IF EXISTS `V_Existencia`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_existencia` AS select `ex`.`IDExistencia` AS `IDExistencia`,`ex`.`FechaReferencia` AS `FechaReferencia`,`ex`.`IDProductoServicio` AS `IDProductoServicio`,`ps`.`Producto` AS `Producto`,`ex`.`PrecioUnitario` AS `PrecioUnitario`,`ex`.`Cantidad` AS `Cantidad`,`ps`.`Activo` AS `Activo` from (`existencia` `ex` join `productoservicio` `ps` on((`ps`.`IDProductoServicio` = `ex`.`IDProductoServicio`)));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `V_Existencia` AS select `ex`.`IDExistencia` AS `IDExistencia`,`ex`.`FechaReferencia` AS `FechaReferencia`,`ex`.`IDProductoServicio` AS `IDProductoServicio`,`ps`.`Producto` AS `Producto`,`ex`.`PrecioUnitario` AS `PrecioUnitario`,`ex`.`Cantidad` AS `Cantidad`,`ps`.`Activo` AS `Activo` from (`Existencia` `ex` join `ProductoServicio` `ps` on((`ps`.`IDProductoServicio` = `ex`.`IDProductoServicio`)));
 
 -- --------------------------------------------------------
 
 --
--- Estructura para la vista `v_historialmedico`
+-- Estructura para la vista `V_HistorialMedico`
 --
-DROP TABLE IF EXISTS `v_historialmedico`;
+DROP TABLE IF EXISTS `V_HistorialMedico`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_historialmedico` AS select `hm`.`IDHistorialMedico` AS `IDHistorialMedico`,`hm`.`IDCliente` AS `IDCliente`,concat_ws(' ',`c`.`Nombre`,`c`.`ApellidoPaterno`,`c`.`ApellidoMaterno`) AS `Cliente`,`hm`.`FechaRegistro` AS `FechaRegistro`,`hm`.`IDServicio` AS `IDServicio`,`ps`.`Producto` AS `Producto`,`hm`.`observaciones` AS `Observaciones` from ((`historialmedico` `hm` join `cliente` `c` on(((`c`.`IDCliente` = `hm`.`IDCliente`) and (`c`.`Activo` = 'S')))) join `productoservicio` `ps` on((`ps`.`IDProductoServicio` = `hm`.`IDServicio`)));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `V_HistorialMedico` AS select `hm`.`IDHistorialMedico` AS `IDHistorialMedico`,`hm`.`IDCliente` AS `IDCliente`,concat_ws(' ',`c`.`Nombre`,`c`.`ApellidoPaterno`,`c`.`ApellidoMaterno`) AS `Cliente`,`hm`.`FechaRegistro` AS `FechaRegistro`,`hm`.`IDServicio` AS `IDServicio`,`ps`.`Producto` AS `Producto`,`hm`.`observaciones` AS `Observaciones` from ((`HistorialMedico` `hm` join `Cliente` `c` on(((`c`.`IDCliente` = `hm`.`IDCliente`) and (`c`.`Activo` = 'S')))) join `ProductoServicio` `ps` on((`ps`.`IDProductoServicio` = `hm`.`IDServicio`)));
 
 -- --------------------------------------------------------
 
 --
--- Estructura para la vista `v_producto`
+-- Estructura para la vista `V_Producto`
 --
-DROP TABLE IF EXISTS `v_producto`;
+DROP TABLE IF EXISTS `V_Producto`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_producto` AS select `ps`.`IDProductoServicio` AS `IDProductoServicio`,`ps`.`IDProductoServicioTipo` AS `IDProductoServicioTipo`,`pst`.`ProductoServicioTipo` AS `ProductoServicioTipo`,`ps`.`Producto` AS `Producto`,`ps`.`PrecioUnitario` AS `PrecioUnitario`,`ps`.`Foto` AS `Foto`,`ps`.`Descripcion` AS `Descripcion` from (`productoservicio` `ps` join `productoserviciotipo` `pst` on((`pst`.`IDProductoServicioTipo` = `ps`.`IDProductoServicioTipo`))) where ((`ps`.`IDProductoServicioTipo` = 1) and (`ps`.`Activo` = 'S'));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `V_Producto` AS select `ps`.`IDProductoServicio` AS `IDProductoServicio`,`ps`.`IDProductoServicioTipo` AS `IDProductoServicioTipo`,`pst`.`ProductoServicioTipo` AS `ProductoServicioTipo`,`ps`.`Producto` AS `Producto`,`ps`.`PrecioUnitario` AS `PrecioUnitario`,`ps`.`Foto` AS `Foto`,`ps`.`Descripcion` AS `Descripcion` from (`ProductoServicio` `ps` join `ProductoServicioTipo` `pst` on((`pst`.`IDProductoServicioTipo` = `ps`.`IDProductoServicioTipo`))) where ((`ps`.`IDProductoServicioTipo` = 1) and (`ps`.`Activo` = 'S'));
 
 -- --------------------------------------------------------
 
 --
--- Estructura para la vista `v_producto_deleter`
+-- Estructura para la vista `V_Producto_Deleter`
 --
-DROP TABLE IF EXISTS `v_producto_deleter`;
+DROP TABLE IF EXISTS `V_Producto_Deleter`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_producto_deleter` AS select `ps`.`IDProductoServicio` AS `IDProductoServicio`,`ps`.`IDProductoServicioTipo` AS `IDProductoServicioTipo`,`pst`.`ProductoServicioTipo` AS `ProductoServicioTipo`,`ps`.`Producto` AS `Producto`,`ps`.`PrecioUnitario` AS `PrecioUnitario`,`ps`.`Foto` AS `Foto`,`ps`.`Descripcion` AS `Descripcion` from (`productoservicio` `ps` join `productoserviciotipo` `pst` on((`pst`.`IDProductoServicioTipo` = `ps`.`IDProductoServicioTipo`))) where ((`ps`.`IDProductoServicioTipo` = 1) and (`ps`.`Activo` = 'N'));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `V_Producto_Deleter` AS select `ps`.`IDProductoServicio` AS `IDProductoServicio`,`ps`.`IDProductoServicioTipo` AS `IDProductoServicioTipo`,`pst`.`ProductoServicioTipo` AS `ProductoServicioTipo`,`ps`.`Producto` AS `Producto`,`ps`.`PrecioUnitario` AS `PrecioUnitario`,`ps`.`Foto` AS `Foto`,`ps`.`Descripcion` AS `Descripcion` from (`ProductoServicio` `ps` join `ProductoServicioTipo` `pst` on((`pst`.`IDProductoServicioTipo` = `ps`.`IDProductoServicioTipo`))) where ((`ps`.`IDProductoServicioTipo` = 1) and (`ps`.`Activo` = 'N'));
 
 -- --------------------------------------------------------
 
 --
--- Estructura para la vista `v_proveedor`
+-- Estructura para la vista `V_Proveedor`
 --
-DROP TABLE IF EXISTS `v_proveedor`;
+DROP TABLE IF EXISTS `V_Proveedor`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_proveedor` AS select `p`.`IDProveedor` AS `IDProveedor`,`p`.`Nombre` AS `Nombre`,`p`.`ApellidoPaterno` AS `ApellidoPaterno`,`p`.`ApellidoMaterno` AS `ApellidoMaterno`,`p`.`RFC` AS `RFC`,`p`.`Calle` AS `Calle`,`p`.`NumExterior` AS `NumExterior`,`p`.`NumInterior` AS `NumInterior`,`p`.`Colonia` AS `Colonia`,`p`.`CodigoPostal` AS `CP`,`p`.`Email` AS `Email`,`p`.`Telefono` AS `Telefono`,`p`.`Celular` AS `Celular` from `proveedor` `p` where (`p`.`Activo` = 'S');
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `V_Proveedor` AS select `p`.`IDProveedor` AS `IDProveedor`,`p`.`Nombre` AS `Nombre`,`p`.`ApellidoPaterno` AS `ApellidoPaterno`,`p`.`ApellidoMaterno` AS `ApellidoMaterno`,`p`.`RFC` AS `RFC`,`p`.`Calle` AS `Calle`,`p`.`NumExterior` AS `NumExterior`,`p`.`NumInterior` AS `NumInterior`,`p`.`Colonia` AS `Colonia`,`p`.`CodigoPostal` AS `CP`,`p`.`Email` AS `Email`,`p`.`Telefono` AS `Telefono`,`p`.`Celular` AS `Celular` from `Proveedor` `p` where (`p`.`Activo` = 'S');
 
 -- --------------------------------------------------------
 
 --
--- Estructura para la vista `v_proveedor_deleter`
+-- Estructura para la vista `V_Proveedor_Deleter`
 --
-DROP TABLE IF EXISTS `v_proveedor_deleter`;
+DROP TABLE IF EXISTS `V_Proveedor_Deleter`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_proveedor_deleter` AS select `p`.`IDProveedor` AS `IDProveedor`,`p`.`Nombre` AS `Nombre`,`p`.`ApellidoPaterno` AS `ApellidoPaterno`,`p`.`ApellidoMaterno` AS `ApellidoMaterno`,`p`.`RFC` AS `RFC`,`p`.`Calle` AS `Calle`,`p`.`NumExterior` AS `NumExterior`,`p`.`NumInterior` AS `NumInterior`,`p`.`Colonia` AS `Colonia`,`p`.`CodigoPostal` AS `CP`,`p`.`Email` AS `Email`,`p`.`Telefono` AS `Telefono`,`p`.`Celular` AS `Celular` from `proveedor` `p` where (`p`.`Activo` = 'N');
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `V_Proveedor_Deleter` AS select `p`.`IDProveedor` AS `IDProveedor`,`p`.`Nombre` AS `Nombre`,`p`.`ApellidoPaterno` AS `ApellidoPaterno`,`p`.`ApellidoMaterno` AS `ApellidoMaterno`,`p`.`RFC` AS `RFC`,`p`.`Calle` AS `Calle`,`p`.`NumExterior` AS `NumExterior`,`p`.`NumInterior` AS `NumInterior`,`p`.`Colonia` AS `Colonia`,`p`.`CodigoPostal` AS `CP`,`p`.`Email` AS `Email`,`p`.`Telefono` AS `Telefono`,`p`.`Celular` AS `Celular` from `Proveedor` `p` where (`p`.`Activo` = 'N');
 
 -- --------------------------------------------------------
 
 --
--- Estructura para la vista `v_recepcion`
+-- Estructura para la vista `V_Recepcion`
 --
-DROP TABLE IF EXISTS `v_recepcion`;
+DROP TABLE IF EXISTS `V_Recepcion`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_recepcion` AS select `rec`.`IDRecepcion` AS `IDRecepcion`,`rec`.`IDMovimientoAlmacen` AS `IDMovimientoAlmacen`,`rec`.`Folio` AS `Folio`,`p`.`IDProveedor` AS `IDProveedor`,concat_ws(' ',`p`.`Nombre`,`p`.`ApellidoPaterno`,`p`.`ApellidoMaterno`) AS `Proveedor`,`e`.`IDEmpleado` AS `IDEmpleado`,concat_ws(' ',`e`.`Nombre`,`e`.`ApellidoPaterno`,`e`.`ApellidoMaterno`) AS `Empleado`,`rec`.`FechaRecepcion` AS `FechaRecepcion`,`rec`.`Total` AS `Total` from (((`recepcion` `rec` join `proveedor` `p` on(((`p`.`IDProveedor` = `rec`.`IDProveedor`) and (`p`.`Activo` = 'S')))) join `movimientoalmacen` `ma` on((`ma`.`IDMovimientoAlmacen` = `rec`.`IDMovimientoAlmacen`))) join `empleado` `e` on(((`e`.`IDEmpleado` = `ma`.`IDEmpleado`) and (`e`.`Activo` = 'S'))));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `V_Recepcion` AS select `rec`.`IDRecepcion` AS `IDRecepcion`,`rec`.`IDMovimientoAlmacen` AS `IDMovimientoAlmacen`,`rec`.`Folio` AS `Folio`,`p`.`IDProveedor` AS `IDProveedor`,concat_ws(' ',`p`.`Nombre`,`p`.`ApellidoPaterno`,`p`.`ApellidoMaterno`) AS `Proveedor`,`e`.`IDEmpleado` AS `IDEmpleado`,concat_ws(' ',`e`.`Nombre`,`e`.`ApellidoPaterno`,`e`.`ApellidoMaterno`) AS `Empleado`,`rec`.`FechaRecepcion` AS `FechaRecepcion`,`rec`.`Total` AS `Total` from (((`Recepcion` `rec` join `Proveedor` `p` on(((`p`.`IDProveedor` = `rec`.`IDProveedor`) and (`p`.`Activo` = 'S')))) join `MovimientoAlmacen` `ma` on((`ma`.`IDMovimientoAlmacen` = `rec`.`IDMovimientoAlmacen`))) join `Empleado` `e` on(((`e`.`IDEmpleado` = `ma`.`IDEmpleado`) and (`e`.`Activo` = 'S'))));
 
 -- --------------------------------------------------------
 
 --
--- Estructura para la vista `v_recepciondetalle`
+-- Estructura para la vista `V_RecepcionDetalle`
 --
-DROP TABLE IF EXISTS `v_recepciondetalle`;
+DROP TABLE IF EXISTS `V_RecepcionDetalle`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_recepciondetalle` AS select `recd`.`IDRecepcionDetalle` AS `IDRecepcionDetalle`,`recd`.`IDRecepcion` AS `IDRecepcion`,`recd`.`IDProducto` AS `IDProducto`,`ps`.`Producto` AS `Producto`,`recd`.`Cantidad` AS `Cantidad`,`recd`.`PrecioUnitario` AS `PrecioUnitario`,`recd`.`IVA` AS `IVA`,`recd`.`Descuento` AS `Descuento` from (`recepciondetalle` `recd` join `productoservicio` `ps` on((`ps`.`IDProductoServicio` = `recd`.`IDProducto`)));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `V_RecepcionDetalle` AS select `recd`.`IDRecepcionDetalle` AS `IDRecepcionDetalle`,`recd`.`IDRecepcion` AS `IDRecepcion`,`recd`.`IDProducto` AS `IDProducto`,`ps`.`Producto` AS `Producto`,`recd`.`Cantidad` AS `Cantidad`,`recd`.`PrecioUnitario` AS `PrecioUnitario`,`recd`.`IVA` AS `IVA`,`recd`.`Descuento` AS `Descuento` from (`RecepcionDetalle` `recd` join `ProductoServicio` `ps` on((`ps`.`IDProductoServicio` = `recd`.`IDProducto`)));
 
 -- --------------------------------------------------------
 
 --
--- Estructura para la vista `v_remision`
+-- Estructura para la vista `V_Remision`
 --
-DROP TABLE IF EXISTS `v_remision`;
+DROP TABLE IF EXISTS `V_Remision`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_remision` AS select `rem`.`IDRemision` AS `IDRemision`,`rem`.`IDMovimientoAlmacen` AS `IDMovimientoAlmacen`,`rem`.`Folio` AS `Folio`,`c`.`IDCliente` AS `IDCliente`,concat_ws(' ',`c`.`Nombre`,`c`.`ApellidoPaterno`,`c`.`ApellidoMaterno`) AS `Cliente`,`e`.`IDEmpleado` AS `IDEmpleado`,concat_ws(' ',`e`.`Nombre`,`e`.`ApellidoPaterno`,`e`.`ApellidoMaterno`) AS `Empleado`,`rem`.`FechaRemision` AS `FechaRemision`,`rem`.`Total` AS `Total` from (((`remision` `rem` join `cliente` `c` on(((`c`.`IDCliente` = `rem`.`IDCliente`) and (`c`.`Activo` = 'S')))) join `movimientoalmacen` `ma` on((`ma`.`IDMovimientoAlmacen` = `rem`.`IDMovimientoAlmacen`))) join `empleado` `e` on(((`e`.`IDEmpleado` = `ma`.`IDEmpleado`) and (`e`.`Activo` = 'S'))));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `V_Remision` AS select `rem`.`IDRemision` AS `IDRemision`,`rem`.`IDMovimientoAlmacen` AS `IDMovimientoAlmacen`,`rem`.`Folio` AS `Folio`,`c`.`IDCliente` AS `IDCliente`,concat_ws(' ',`c`.`Nombre`,`c`.`ApellidoPaterno`,`c`.`ApellidoMaterno`) AS `Cliente`,`e`.`IDEmpleado` AS `IDEmpleado`,concat_ws(' ',`e`.`Nombre`,`e`.`ApellidoPaterno`,`e`.`ApellidoMaterno`) AS `Empleado`,`rem`.`FechaRemision` AS `FechaRemision`,`rem`.`Total` AS `Total` from (((`Remision` `rem` join `Cliente` `c` on(((`c`.`IDCliente` = `rem`.`IDCliente`) and (`c`.`Activo` = 'S')))) join `MovimientoAlmacen` `ma` on((`ma`.`IDMovimientoAlmacen` = `rem`.`IDMovimientoAlmacen`))) join `Empleado` `e` on(((`e`.`IDEmpleado` = `ma`.`IDEmpleado`) and (`e`.`Activo` = 'S'))));
 
 -- --------------------------------------------------------
 
 --
--- Estructura para la vista `v_remisiondetalle`
+-- Estructura para la vista `V_RemisionDetalle`
 --
-DROP TABLE IF EXISTS `v_remisiondetalle`;
+DROP TABLE IF EXISTS `V_RemisionDetalle`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_remisiondetalle` AS select `remd`.`IDRemisionDetalle` AS `IDRemisionDetalle`,`remd`.`IDRemision` AS `IDRemision`,`remd`.`IDProducto` AS `IDProducto`,`ps`.`Producto` AS `Producto`,`remd`.`Cantidad` AS `Cantidad`,`remd`.`PrecioUnitario` AS `PrecioUnitario`,`remd`.`IVA` AS `IVA`,`remd`.`Descuento` AS `Descuento` from (`remisiondetalle` `remd` join `productoservicio` `ps` on((`ps`.`IDProductoServicio` = `remd`.`IDProducto`)));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `V_RemisionDetalle` AS select `remd`.`IDRemisionDetalle` AS `IDRemisionDetalle`,`remd`.`IDRemision` AS `IDRemision`,`remd`.`IDProducto` AS `IDProducto`,`ps`.`Producto` AS `Producto`,`remd`.`Cantidad` AS `Cantidad`,`remd`.`PrecioUnitario` AS `PrecioUnitario`,`remd`.`IVA` AS `IVA`,`remd`.`Descuento` AS `Descuento` from (`RemisionDetalle` `remd` join `ProductoServicio` `ps` on((`ps`.`IDProductoServicio` = `remd`.`IDProducto`)));
 
 -- --------------------------------------------------------
 
 --
--- Estructura para la vista `v_servicio`
+-- Estructura para la vista `V_Servicio`
 --
-DROP TABLE IF EXISTS `v_servicio`;
+DROP TABLE IF EXISTS `V_Servicio`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_servicio` AS select `ps`.`IDProductoServicio` AS `IDProductoServicio`,`ps`.`IDProductoServicioTipo` AS `IDProductoServicioTipo`,`pst`.`ProductoServicioTipo` AS `ProductoServicioTipo`,`ps`.`Producto` AS `Producto`,`ps`.`PrecioUnitario` AS `PrecioUnitario`,`ps`.`Foto` AS `Foto`,`ps`.`Descripcion` AS `Descripcion` from (`productoservicio` `ps` join `productoserviciotipo` `pst` on((`pst`.`IDProductoServicioTipo` = `ps`.`IDProductoServicioTipo`))) where ((`ps`.`IDProductoServicioTipo` = 2) and (`ps`.`Activo` = 'S'));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `V_Servicio` AS select `ps`.`IDProductoServicio` AS `IDProductoServicio`,`ps`.`IDProductoServicioTipo` AS `IDProductoServicioTipo`,`pst`.`ProductoServicioTipo` AS `ProductoServicioTipo`,`ps`.`Producto` AS `Producto`,`ps`.`PrecioUnitario` AS `PrecioUnitario`,`ps`.`Foto` AS `Foto`,`ps`.`Descripcion` AS `Descripcion` from (`ProductoServicio` `ps` join `ProductoServicioTipo` `pst` on((`pst`.`IDProductoServicioTipo` = `ps`.`IDProductoServicioTipo`))) where ((`ps`.`IDProductoServicioTipo` = 2) and (`ps`.`Activo` = 'S'));
 
 -- --------------------------------------------------------
 
 --
--- Estructura para la vista `v_servicio_deleter`
+-- Estructura para la vista `V_Servicio_Deleter`
 --
-DROP TABLE IF EXISTS `v_servicio_deleter`;
+DROP TABLE IF EXISTS `V_Servicio_Deleter`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_servicio_deleter` AS select `ps`.`IDProductoServicio` AS `IDProductoServicio`,`ps`.`IDProductoServicioTipo` AS `IDProductoServicioTipo`,`pst`.`ProductoServicioTipo` AS `ProductoServicioTipo`,`ps`.`Producto` AS `Producto`,`ps`.`PrecioUnitario` AS `PrecioUnitario`,`ps`.`Foto` AS `Foto`,`ps`.`Descripcion` AS `Descripcion` from (`productoservicio` `ps` join `productoserviciotipo` `pst` on((`pst`.`IDProductoServicioTipo` = `ps`.`IDProductoServicioTipo`))) where ((`ps`.`IDProductoServicioTipo` = 2) and (`ps`.`Activo` = 'N'));
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `V_Servicio_Deleter` AS select `ps`.`IDProductoServicio` AS `IDProductoServicio`,`ps`.`IDProductoServicioTipo` AS `IDProductoServicioTipo`,`pst`.`ProductoServicioTipo` AS `ProductoServicioTipo`,`ps`.`Producto` AS `Producto`,`ps`.`PrecioUnitario` AS `PrecioUnitario`,`ps`.`Foto` AS `Foto`,`ps`.`Descripcion` AS `Descripcion` from (`ProductoServicio` `ps` join `ProductoServicioTipo` `pst` on((`pst`.`IDProductoServicioTipo` = `ps`.`IDProductoServicioTipo`))) where ((`ps`.`IDProductoServicioTipo` = 2) and (`ps`.`Activo` = 'N'));
 
 -- --------------------------------------------------------
 
 --
--- Estructura para la vista `v_totalcomprado`
+-- Estructura para la vista `V_TotalComprado`
 --
-DROP TABLE IF EXISTS `v_totalcomprado`;
+DROP TABLE IF EXISTS `V_TotalComprado`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_totalcomprado` AS select `ps`.`Producto` AS `Producto`,`recd`.`PrecioUnitario` AS `PrecioUnitario`,sum(`recd`.`Cantidad`) AS `CantidadTotalComprada`,date_format(`ma`.`MovimientoAlmacenFecha`,'%Y-%m-%d') AS `FechaCompra` from (((`productoservicio` `ps` join `recepciondetalle` `recd` on((`recd`.`IDProducto` = `ps`.`IDProductoServicio`))) join `recepcion` `rec` on((`rec`.`IDRecepcion` = `recd`.`IDRecepcion`))) join `movimientoalmacen` `ma` on((`ma`.`IDMovimientoAlmacen` = `rec`.`IDMovimientoAlmacen`))) group by `ps`.`Producto`,`recd`.`PrecioUnitario`,`FechaCompra`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `V_TotalComprado` AS select `ps`.`Producto` AS `Producto`,`recd`.`PrecioUnitario` AS `PrecioUnitario`,sum(`recd`.`Cantidad`) AS `CantidadTotalComprada`,date_format(`ma`.`MovimientoAlmacenFecha`,'%Y-%m-%d') AS `FechaCompra` from (((`ProductoServicio` `ps` join `RecepcionDetalle` `recd` on((`recd`.`IDProducto` = `ps`.`IDProductoServicio`))) join `Recepcion` `rec` on((`rec`.`IDRecepcion` = `recd`.`IDRecepcion`))) join `MovimientoAlmacen` `ma` on((`ma`.`IDMovimientoAlmacen` = `rec`.`IDMovimientoAlmacen`))) group by `ps`.`Producto`,`recd`.`PrecioUnitario`,`FechaCompra`;
 
 -- --------------------------------------------------------
 
 --
--- Estructura para la vista `v_totalvendido`
+-- Estructura para la vista `V_TotalVendido`
 --
-DROP TABLE IF EXISTS `v_totalvendido`;
+DROP TABLE IF EXISTS `V_TotalVendido`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v_totalvendido` AS select `ps`.`Producto` AS `Producto`,`remd`.`PrecioUnitario` AS `PrecioUnitario`,sum(`remd`.`Cantidad`) AS `CantidadTotalVendida`,date_format(`ma`.`MovimientoAlmacenFecha`,'%Y-%m-%d') AS `FechaVenta` from (((`productoservicio` `ps` join `remisiondetalle` `remd` on((`remd`.`IDProducto` = `ps`.`IDProductoServicio`))) join `remision` `rem` on((`rem`.`IDRemision` = `remd`.`IDRemision`))) join `movimientoalmacen` `ma` on((`ma`.`IDMovimientoAlmacen` = `rem`.`IDMovimientoAlmacen`))) group by `ps`.`Producto`,`remd`.`PrecioUnitario`,`FechaVenta`;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `V_TotalVendido` AS select `ps`.`Producto` AS `Producto`,`remd`.`PrecioUnitario` AS `PrecioUnitario`,sum(`remd`.`Cantidad`) AS `CantidadTotalVendida`,date_format(`ma`.`MovimientoAlmacenFecha`,'%Y-%m-%d') AS `FechaVenta` from (((`ProductoServicio` `ps` join `RemisionDetalle` `remd` on((`remd`.`IDProducto` = `ps`.`IDProductoServicio`))) join `Remision` `rem` on((`rem`.`IDRemision` = `remd`.`IDRemision`))) join `MovimientoAlmacen` `ma` on((`ma`.`IDMovimientoAlmacen` = `rem`.`IDMovimientoAlmacen`))) group by `ps`.`Producto`,`remd`.`PrecioUnitario`,`FechaVenta`;
 
 --
 -- Índices para tablas volcadas
@@ -1900,165 +1608,165 @@ MODIFY `IDTipoCelulitis` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 -- Filtros para la tabla `AguaAlDia`
 --
 ALTER TABLE `AguaAlDia`
-ADD CONSTRAINT `FKAguaAlDia625443` FOREIGN KEY (`IDHistorialMedico`) REFERENCES `historialmedico` (`IDHistorialMedico`);
+ADD CONSTRAINT `FKAguaAlDia625443` FOREIGN KEY (`IDHistorialMedico`) REFERENCES `HistorialMedico` (`IDHistorialMedico`);
 
 --
 -- Filtros para la tabla `AjusteEntrada`
 --
 ALTER TABLE `AjusteEntrada`
-ADD CONSTRAINT `FKAjusteEntr133801` FOREIGN KEY (`IDAjusteEntradaTipo`) REFERENCES `ajusteentradatipo` (`IDAjusteEntradaTipo`),
-ADD CONSTRAINT `FKAjusteEntr762431` FOREIGN KEY (`IDCliente`) REFERENCES `cliente` (`IDCliente`),
-ADD CONSTRAINT `FKAjusteEntr817793` FOREIGN KEY (`IDMovimientoAlmacen`) REFERENCES `movimientoalmacen` (`IDMovimientoAlmacen`);
+ADD CONSTRAINT `FKAjusteEntr133801` FOREIGN KEY (`IDAjusteEntradaTipo`) REFERENCES `AjusteEntradaTipo` (`IDAjusteEntradaTipo`),
+ADD CONSTRAINT `FKAjusteEntr762431` FOREIGN KEY (`IDCliente`) REFERENCES `Cliente` (`IDCliente`),
+ADD CONSTRAINT `FKAjusteEntr817793` FOREIGN KEY (`IDMovimientoAlmacen`) REFERENCES `MovimientoAlmacen` (`IDMovimientoAlmacen`);
 
 --
 -- Filtros para la tabla `AjusteEntradaDetalle`
 --
 ALTER TABLE `AjusteEntradaDetalle`
-ADD CONSTRAINT `FKAjusteEntr951580` FOREIGN KEY (`IDProductoServicio`) REFERENCES `productoservicio` (`IDProductoServicio`),
-ADD CONSTRAINT `FKAjusteEntr965676` FOREIGN KEY (`IDAjusteEntrada`) REFERENCES `ajusteentrada` (`IDAjusteEntrada`);
+ADD CONSTRAINT `FKAjusteEntr951580` FOREIGN KEY (`IDProductoServicio`) REFERENCES `ProductoServicio` (`IDProductoServicio`),
+ADD CONSTRAINT `FKAjusteEntr965676` FOREIGN KEY (`IDAjusteEntrada`) REFERENCES `AjusteEntrada` (`IDAjusteEntrada`);
 
 --
 -- Filtros para la tabla `AjusteSalida`
 --
 ALTER TABLE `AjusteSalida`
-ADD CONSTRAINT `FKAjusteSali232744` FOREIGN KEY (`IDMovimientoAlmacen`) REFERENCES `movimientoalmacen` (`IDMovimientoAlmacen`),
-ADD CONSTRAINT `FKAjusteSali329927` FOREIGN KEY (`IDAjusteSalidaTipo`) REFERENCES `ajustesalidatipo` (`IDAjusteSalidaTipo`),
-ADD CONSTRAINT `FKAjusteSali566873` FOREIGN KEY (`IDProveedor`) REFERENCES `proveedor` (`IDProveedor`);
+ADD CONSTRAINT `FKAjusteSali232744` FOREIGN KEY (`IDMovimientoAlmacen`) REFERENCES `MovimientoAlmacen` (`IDMovimientoAlmacen`),
+ADD CONSTRAINT `FKAjusteSali329927` FOREIGN KEY (`IDAjusteSalidaTipo`) REFERENCES `AjusteSalidaTipo` (`IDAjusteSalidaTipo`),
+ADD CONSTRAINT `FKAjusteSali566873` FOREIGN KEY (`IDProveedor`) REFERENCES `Proveedor` (`IDProveedor`);
 
 --
 -- Filtros para la tabla `AjusteSalidaDetalle`
 --
 ALTER TABLE `AjusteSalidaDetalle`
-ADD CONSTRAINT `FKAjusteSali116948` FOREIGN KEY (`IDProductoServicio`) REFERENCES `productoservicio` (`IDProductoServicio`),
-ADD CONSTRAINT `FKAjusteSali199966` FOREIGN KEY (`IDAjusteSalida`) REFERENCES `ajustesalida` (`IDAjusteSalida`);
+ADD CONSTRAINT `FKAjusteSali116948` FOREIGN KEY (`IDProductoServicio`) REFERENCES `ProductoServicio` (`IDProductoServicio`),
+ADD CONSTRAINT `FKAjusteSali199966` FOREIGN KEY (`IDAjusteSalida`) REFERENCES `AjusteSalida` (`IDAjusteSalida`);
 
 --
 -- Filtros para la tabla `Alimentacion`
 --
 ALTER TABLE `Alimentacion`
-ADD CONSTRAINT `FKAlimentaci962672` FOREIGN KEY (`IDHistorialMedico`) REFERENCES `historialmedico` (`IDHistorialMedico`);
+ADD CONSTRAINT `FKAlimentaci962672` FOREIGN KEY (`IDHistorialMedico`) REFERENCES `HistorialMedico` (`IDHistorialMedico`);
 
 --
 -- Filtros para la tabla `Consulta`
 --
 ALTER TABLE `Consulta`
-ADD CONSTRAINT `FKConsulta287998` FOREIGN KEY (`IDCliente`) REFERENCES `cliente` (`IDCliente`),
-ADD CONSTRAINT `FKConsulta393400` FOREIGN KEY (`IDConsultaStatus`) REFERENCES `consultastatus` (`IDConsultaStatus`),
-ADD CONSTRAINT `FKConsulta768151` FOREIGN KEY (`IDTerapeuta`) REFERENCES `empleado` (`IDEmpleado`);
+ADD CONSTRAINT `FKConsulta287998` FOREIGN KEY (`IDCliente`) REFERENCES `Cliente` (`IDCliente`),
+ADD CONSTRAINT `FKConsulta393400` FOREIGN KEY (`IDConsultaStatus`) REFERENCES `ConsultaStatus` (`IDConsultaStatus`),
+ADD CONSTRAINT `FKConsulta768151` FOREIGN KEY (`IDTerapeuta`) REFERENCES `Empleado` (`IDEmpleado`);
 
 --
 -- Filtros para la tabla `Empleado`
 --
 ALTER TABLE `Empleado`
-ADD CONSTRAINT `FKEmpleado545786` FOREIGN KEY (`IDCargo`) REFERENCES `cargo` (`IDCargo`);
+ADD CONSTRAINT `FKEmpleado545786` FOREIGN KEY (`IDCargo`) REFERENCES `Cargo` (`IDCargo`);
 
 --
 -- Filtros para la tabla `EmpleadoSueldo`
 --
 ALTER TABLE `EmpleadoSueldo`
-ADD CONSTRAINT `EmpleadoSueldo_ibfk_1` FOREIGN KEY (`IDEmpleado`) REFERENCES `empleado` (`IDEmpleado`);
+ADD CONSTRAINT `EmpleadoSueldo_ibfk_1` FOREIGN KEY (`IDEmpleado`) REFERENCES `Empleado` (`IDEmpleado`);
 
 --
 -- Filtros para la tabla `Exfoliacion`
 --
 ALTER TABLE `Exfoliacion`
-ADD CONSTRAINT `FKExfoliacio997845` FOREIGN KEY (`IDHistorialMedico`) REFERENCES `historialmedico` (`IDHistorialMedico`);
+ADD CONSTRAINT `FKExfoliacio997845` FOREIGN KEY (`IDHistorialMedico`) REFERENCES `HistorialMedico` (`IDHistorialMedico`);
 
 --
 -- Filtros para la tabla `Existencia`
 --
 ALTER TABLE `Existencia`
-ADD CONSTRAINT `FKExistencia174224` FOREIGN KEY (`IDProductoServicio`) REFERENCES `productoservicio` (`IDProductoServicio`);
+ADD CONSTRAINT `FKExistencia174224` FOREIGN KEY (`IDProductoServicio`) REFERENCES `ProductoServicio` (`IDProductoServicio`);
 
 --
 -- Filtros para la tabla `ExploracionFinal`
 --
 ALTER TABLE `ExploracionFinal`
-ADD CONSTRAINT `ExploracionFinal_ibfk_1` FOREIGN KEY (`IDHistorialMedico`) REFERENCES `historialmedico` (`IDHistorialMedico`);
+ADD CONSTRAINT `ExploracionFinal_ibfk_1` FOREIGN KEY (`IDHistorialMedico`) REFERENCES `HistorialMedico` (`IDHistorialMedico`);
 
 --
 -- Filtros para la tabla `ExploracionInicial`
 --
 ALTER TABLE `ExploracionInicial`
-ADD CONSTRAINT `ExploracionInicial_ibfk_1` FOREIGN KEY (`IDHistorialMedico`) REFERENCES `historialmedico` (`IDHistorialMedico`);
+ADD CONSTRAINT `ExploracionInicial_ibfk_1` FOREIGN KEY (`IDHistorialMedico`) REFERENCES `HistorialMedico` (`IDHistorialMedico`);
 
 --
 -- Filtros para la tabla `FichaClinica`
 --
 ALTER TABLE `FichaClinica`
-ADD CONSTRAINT `FKFichaClini138377` FOREIGN KEY (`IDHistorialMedico`) REFERENCES `historialmedico` (`IDHistorialMedico`);
+ADD CONSTRAINT `FKFichaClini138377` FOREIGN KEY (`IDHistorialMedico`) REFERENCES `HistorialMedico` (`IDHistorialMedico`);
 
 --
 -- Filtros para la tabla `Habito`
 --
 ALTER TABLE `Habito`
-ADD CONSTRAINT `FKHabito806866` FOREIGN KEY (`IDHistorialMedico`) REFERENCES `historialmedico` (`IDHistorialMedico`);
+ADD CONSTRAINT `FKHabito806866` FOREIGN KEY (`IDHistorialMedico`) REFERENCES `HistorialMedico` (`IDHistorialMedico`);
 
 --
 -- Filtros para la tabla `HistorialMedico`
 --
 ALTER TABLE `HistorialMedico`
-ADD CONSTRAINT `FKHistorialM865695` FOREIGN KEY (`IDCliente`) REFERENCES `cliente` (`IDCliente`),
-ADD CONSTRAINT `FKHistorialM959828` FOREIGN KEY (`IDServicio`) REFERENCES `productoservicio` (`IDProductoServicio`);
+ADD CONSTRAINT `FKHistorialM865695` FOREIGN KEY (`IDCliente`) REFERENCES `Cliente` (`IDCliente`),
+ADD CONSTRAINT `FKHistorialM959828` FOREIGN KEY (`IDServicio`) REFERENCES `ProductoServicio` (`IDProductoServicio`);
 
 --
 -- Filtros para la tabla `MovimientoAlmacen`
 --
 ALTER TABLE `MovimientoAlmacen`
-ADD CONSTRAINT `FKMovimiento137480` FOREIGN KEY (`IDMovimientoAlmacenTipo`) REFERENCES `movimientoalmacentipo` (`IDMovimientoAlmacenTipo`),
-ADD CONSTRAINT `FKMovimiento729160` FOREIGN KEY (`IDEmpleado`) REFERENCES `empleado` (`IDEmpleado`);
+ADD CONSTRAINT `FKMovimiento137480` FOREIGN KEY (`IDMovimientoAlmacenTipo`) REFERENCES `MovimientoAlmacenTipo` (`IDMovimientoAlmacenTipo`),
+ADD CONSTRAINT `FKMovimiento729160` FOREIGN KEY (`IDEmpleado`) REFERENCES `Empleado` (`IDEmpleado`);
 
 --
 -- Filtros para la tabla `Padecimiento`
 --
 ALTER TABLE `Padecimiento`
-ADD CONSTRAINT `FKPadecimien990892` FOREIGN KEY (`IDHistorialMedico`) REFERENCES `historialmedico` (`IDHistorialMedico`);
+ADD CONSTRAINT `FKPadecimien990892` FOREIGN KEY (`IDHistorialMedico`) REFERENCES `HistorialMedico` (`IDHistorialMedico`);
 
 --
 -- Filtros para la tabla `Piel`
 --
 ALTER TABLE `Piel`
-ADD CONSTRAINT `FKPiel612399` FOREIGN KEY (`IDHistorialMedico`) REFERENCES `historialmedico` (`IDHistorialMedico`);
+ADD CONSTRAINT `FKPiel612399` FOREIGN KEY (`IDHistorialMedico`) REFERENCES `HistorialMedico` (`IDHistorialMedico`);
 
 --
 -- Filtros para la tabla `ProductoServicio`
 --
 ALTER TABLE `ProductoServicio`
-ADD CONSTRAINT `FKProductoSe737139` FOREIGN KEY (`IDProductoServicioTipo`) REFERENCES `productoserviciotipo` (`IDProductoServicioTipo`);
+ADD CONSTRAINT `FKProductoSe737139` FOREIGN KEY (`IDProductoServicioTipo`) REFERENCES `ProductoServicioTipo` (`IDProductoServicioTipo`);
 
 --
 -- Filtros para la tabla `Recepcion`
 --
 ALTER TABLE `Recepcion`
-ADD CONSTRAINT `FKRecepcion658770` FOREIGN KEY (`IDProveedor`) REFERENCES `proveedor` (`IDProveedor`),
-ADD CONSTRAINT `FKRecepcion859152` FOREIGN KEY (`IDMovimientoAlmacen`) REFERENCES `movimientoalmacen` (`IDMovimientoAlmacen`);
+ADD CONSTRAINT `FKRecepcion658770` FOREIGN KEY (`IDProveedor`) REFERENCES `Proveedor` (`IDProveedor`),
+ADD CONSTRAINT `FKRecepcion859152` FOREIGN KEY (`IDMovimientoAlmacen`) REFERENCES `MovimientoAlmacen` (`IDMovimientoAlmacen`);
 
 --
 -- Filtros para la tabla `RecepcionDetalle`
 --
 ALTER TABLE `RecepcionDetalle`
-ADD CONSTRAINT `FKRecepcionD531606` FOREIGN KEY (`IDProducto`) REFERENCES `productoservicio` (`IDProductoServicio`),
-ADD CONSTRAINT `FKRecepcionD845984` FOREIGN KEY (`IDRecepcion`) REFERENCES `recepcion` (`IDRecepcion`);
+ADD CONSTRAINT `FKRecepcionD531606` FOREIGN KEY (`IDProducto`) REFERENCES `ProductoServicio` (`IDProductoServicio`),
+ADD CONSTRAINT `FKRecepcionD845984` FOREIGN KEY (`IDRecepcion`) REFERENCES `Recepcion` (`IDRecepcion`);
 
 --
 -- Filtros para la tabla `Remision`
 --
 ALTER TABLE `Remision`
-ADD CONSTRAINT `FKRemision610110` FOREIGN KEY (`IDCliente`) REFERENCES `cliente` (`IDCliente`),
-ADD CONSTRAINT `FKRemision665472` FOREIGN KEY (`IDMovimientoAlmacen`) REFERENCES `movimientoalmacen` (`IDMovimientoAlmacen`);
+ADD CONSTRAINT `FKRemision610110` FOREIGN KEY (`IDCliente`) REFERENCES `Cliente` (`IDCliente`),
+ADD CONSTRAINT `FKRemision665472` FOREIGN KEY (`IDMovimientoAlmacen`) REFERENCES `MovimientoAlmacen` (`IDMovimientoAlmacen`);
 
 --
 -- Filtros para la tabla `RemisionDetalle`
 --
 ALTER TABLE `RemisionDetalle`
-ADD CONSTRAINT `FKRemisionDe425762` FOREIGN KEY (`IDProducto`) REFERENCES `productoservicio` (`IDProductoServicio`),
-ADD CONSTRAINT `FKRemisionDe671804` FOREIGN KEY (`IDRemision`) REFERENCES `remision` (`IDRemision`);
+ADD CONSTRAINT `FKRemisionDe425762` FOREIGN KEY (`IDProducto`) REFERENCES `ProductoServicio` (`IDProductoServicio`),
+ADD CONSTRAINT `FKRemisionDe671804` FOREIGN KEY (`IDRemision`) REFERENCES `Remision` (`IDRemision`);
 
 --
 -- Filtros para la tabla `TipoCelulitis`
 --
 ALTER TABLE `TipoCelulitis`
-ADD CONSTRAINT `FKTipoCeluli51692` FOREIGN KEY (`IDHistorialMedico`) REFERENCES `historialmedico` (`IDHistorialMedico`);
+ADD CONSTRAINT `FKTipoCeluli51692` FOREIGN KEY (`IDHistorialMedico`) REFERENCES `HistorialMedico` (`IDHistorialMedico`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
