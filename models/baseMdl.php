@@ -21,8 +21,9 @@
 			//TODO
 			//Cargar las configuraciones de la bdd y crear el driver
 			$mysqli = new mysqli($server,$user,$pass,$db);
-			if($mysqli->connect_error)
+			if($mysqli->connect_error){
 				return false;
+			}
 			$this->driver = $mysqli;
 			return true;
 		}	
