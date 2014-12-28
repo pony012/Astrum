@@ -1,5 +1,6 @@
 	</div>
 	<!-- /#wrapper -->
+
 	<!-- jQuery -->
 	<script src="{{session.document_root}}/js/jquery.js"></script>
 
@@ -8,6 +9,10 @@
 
 	<!-- Metis Menu Plugin JavaScript -->
 	<script src="{{session.document_root}}/js/plugins/metisMenu/metisMenu.min.js"></script>
+
+	<!-- DataTables JavaScript-->
+    <script src="{{session.document_root}}/js/plugins/dataTables/jquery.dataTables.js"></script>
+    <script src="{{session.document_root}}/js/plugins/dataTables/dataTables.bootstrap.js"></script>
 
 	<!-- Custom Theme JavaScript -->
 	<script src="{{session.document_root}}/js/sb-admin-2.js"></script>
@@ -61,6 +66,13 @@
 			});
 		});
 	</script>
+
+	<!-- Tabla -->
+	<script>
+    $(document).ready(function() {
+        $('#dataTables-example').dataTable();
+    });
+    </script>
 
 	{% if jsLibs is defined%}
 		{% for jsLib in jsLibs%}
