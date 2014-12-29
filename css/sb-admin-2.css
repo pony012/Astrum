@@ -394,3 +394,9 @@ table.dataTable thead .sorting:after {
         margin-right: 16px;
      }
     /* Fin de estilos del login */ 
+
+    /* Vertical Scrolling */
+    .scroll-vertical{
+        overflow-y: auto;
+        height: 71ex;
+    }
