@@ -67,13 +67,6 @@
 		});
 	</script>
 
-	<!-- Tabla -->
-	<script>
-    $(document).ready(function() {
-        $('#dataTables-example').dataTable();
-    });
-    </script>
-
 	{% if jsLibs is defined%}
 		{% for jsLib in jsLibs%}
 			<script src="{{session.document_root}}/{{jsLib}}"></script>
