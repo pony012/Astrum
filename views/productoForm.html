@@ -1,64 +1,78 @@
 {% include 'header.html' %}
-<section class = "row">
-	<h1 class="page-header text-center col-xs-12">{{session.action == 'create'?'Nuevo Producto':session.action == 'update'?'Modificar Producto':'Detalles'}}</h1>
-    <div class = "col-sm-offset-1 col-sm-10 col-lg-offset-2 col-lg-8">
-    {% if session.action != 'list' %}
-        <form id="formulario" role="form" class="" action="{{session.document_root}}/producto/api/{{session.action}}/" {%if session.action == "update" %}data-tolocation="{{session.document_root}}/producto/list/id/{{data.IDProductoServicio}}"{% else %} data-tolocation="{{session.document_root}}/producto/list/" {% endif %} method="POST" enctype="multipart/form-data">
-    {% endif %}
-            <div class="form-group {{session.action != 'create'?'col-md-6':'col-md-12'}}">
-                <label for="producto">Producto:</label>
-                <input class="form-control" type = "text" id = "producto" name = "producto" placeholder = "Producto" value="{{data.Producto}}" required {{session.action == 'list'?'disabled':''}}>
-            </div>
-        {% if session.action != 'create' %}
-            <div class="form-group col-md-6">
-                <label for="idProducto">Id Producto:</label>
-                <input class="form-control" type="text" id="idProducto" name="idProducto" value="{{data.IDProductoServicio}}" readonly>
-            </div>
-        {% endif %}
-        	<div class="form-group col-md-6">
-                <label for="precioUnitario">Precio Unitario:</label>
-                <input class="form-control" type="number" step="any" id="precioUnitario" name="precioUnitario" min="0" placeholder = "Precio Unitario" value="{{data.PrecioUnitario}}" required {{session.action == 'list'?'disabled':''}}>
-            </div>
-            <div class="form-group col-md-6 col-lg-6">
-                <label for="foto">Fotografía:</label>
-            {% if data.Foto %}
-                <img class="img-responsive" id="imagePrev" src="{{session.document_root}}/uploads/{{data.Foto}}" alt="{{data.Usuario}}" /><br />
-            {% endif %}
-            {% if session.action != 'list' %}
-                <input type="file" id="fileUpload" name="fileUpload" data-url="{{session.document_root}}/uploadPhoto">
-                <input class="form-control" type="text" id="foto" name="foto" value="{{data.Foto}}" readonly>
-            {% endif %}
-            </div>
-            <div class="form-group col-md-12">
-                <label for="descripcion">Descripcion:</label>
-                <textarea class="form-control" id = "descripcion" name = "descripcion" placeholder = "Descripcion" {{session.action == 'list'?'disabled':''}} required >{{data.Descripcion}}</textarea>
-            </div>
-        {% if session.action != 'list' %}
-            <div class="col-xs-12" for="archivo">
-                <label for="archivo">Carga un Archivo Xls o Csv Para Registrar Varios Productos:</label>
-                <input type="file" id="archivo" name='archivo'>
-            </div>
-        {% endif %}
-        {% if session.action != 'list' %}
-            <div class = "col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <button type="submit" class="btn btn-default pull-left">Enviar</button>
-                <button type="reset" class="btn btn-default pull-right">Limpiar Campos</button>
-            </div>
-        </form>
-        <div class="modal fade" id="modalCargar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title text-center" id="myModalLabel">Cargando</h4>
-                    </div>
-                    <div class="modal-body text-center">
-                        <span class="fa fa-spinner fa-spin fa-5x"></span>
+<div class="container-fluid">    
+    <div class="col-lg-12">
+       <section class = "row">
+            <h1>Productos</h1> <!--Nombre  del Modulo -->
+            <ol class="breadcrumb">
+               <h4><li class="active"><i class="fa fa-shopping-cart">{{session.action == 'create'?' Nuevo Producto':session.action == 'update'?' Modificar Producto':'Detalles'}}</i></li></h4>
+            </ol>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Registro
+                </div>
+                <div class="panel-body"> 
+                    <div class = "col-sm-12  col-lg-12 scroll-vertical">                        
+                    {% if session.action != 'list' %}
+                        <form id="formulario" role="form" class="" action="{{session.document_root}}/producto/api/{{session.action}}/" {%if session.action == "update" %}data-tolocation="{{session.document_root}}/producto/list/id/{{data.IDProductoServicio}}"{% else %} data-tolocation="{{session.document_root}}/producto/list/" {% endif %} method="POST" enctype="multipart/form-data">
+                    {% endif %}
+                            <div class="form-group {{session.action != 'create'?'col-md-6':'col-md-12'}}">
+                                <label for="producto">Producto:</label>
+                                <input class="form-control" type = "text" id = "producto" name = "producto" placeholder = "Producto" value="{{data.Producto}}" required {{session.action == 'list'?'disabled':''}}>
+                            </div>
+                        {% if session.action != 'create' %}
+                            <div class="form-group col-md-6">
+                                <label for="idProducto">Id Producto:</label>
+                                <input class="form-control" type="text" id="idProducto" name="idProducto" value="{{data.IDProductoServicio}}" readonly>
+                            </div>
+                        {% endif %}
+                        	<div class="form-group col-md-6">
+                                <label for="precioUnitario">Precio Unitario:</label>
+                                <input class="form-control" type="number" step="any" id="precioUnitario" name="precioUnitario" min="0" placeholder = "Precio Unitario" value="{{data.PrecioUnitario}}" required {{session.action == 'list'?'disabled':''}}>
+                            </div>
+                            <div class="form-group col-md-6 col-lg-6">
+                                <label for="foto">Fotografía:</label>
+                            {% if data.Foto %}
+                                <img class="img-responsive" id="imagePrev" src="{{session.document_root}}/uploads/{{data.Foto}}" alt="{{data.Usuario}}" /><br />
+                            {% endif %}
+                            {% if session.action != 'list' %}
+                                <input type="file" id="fileUpload" name="fileUpload" data-url="{{session.document_root}}/uploadPhoto">
+                                <input class="form-control" type="text" id="foto" name="foto" value="{{data.Foto}}" readonly>
+                            {% endif %}
+                            </div>
+                            <div class="form-group col-md-12">
+                                <label for="descripcion">Descripcion:</label>
+                                <textarea class="form-control" id = "descripcion" name = "descripcion" placeholder = "Descripcion" {{session.action == 'list'?'disabled':''}} required >{{data.Descripcion}}</textarea>
+                            </div>
+                        {% if session.action != 'list' %}
+                            <div class="col-xs-12" for="archivo">
+                                <label for="archivo">Carga un Archivo Xls o Csv Para Registrar Varios Productos:</label>
+                                <input type="file" id="archivo" name='archivo'>
+                            </div>
+                        {% endif %}
+                        {% if session.action != 'list' %}
+                            <div class = "col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                  <!--  <button type="reset"  class="btn btn-warning"><span class="fa fa-file-o"></span> Limpiar Campos</button>--> 
+                                    <button type="submit" class="btn btn-success"><span class="fa fa-save "></span> Enviar</button>
+                            </div>
+                        </form>
+                        <div class="modal fade" id="modalCargar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                        <h4 class="modal-title text-center" id="myModalLabel">Cargando</h4>
+                                    </div>
+                                    <div class="modal-body text-center">
+                                        <span class="fa fa-spinner fa-spin fa-5x"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
-        </div>
-        {% endif %}
+        </section>
     </div>
-</section>
+</div>
 {% include 'footer.html' with {'jsLibs': ['js/plugins/jquery.ui.widget.js','js/plugins/jquery.fileupload.js','js/producto.js']}%}

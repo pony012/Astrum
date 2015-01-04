@@ -1,100 +1,117 @@
 {% include 'header.html' %}
-<section class = "row">
-    <h1 class="page-header text-center col-xs-12">{{session.action == 'create'?'Nuevo Ajuste de Entrada':session.action == 'update'?'Modificar Ajuste de Entrada':'Detalles'}}</h1>
-    <div class = "col-sm-offset-1 col-sm-10 col-lg-offset-2 col-lg-8">
-    {% if session.action != 'list' %}
-        <form id="formulario" role="form" class="" action="{{session.document_root}}/ajusteEntrada/api/{{session.action}}/" {%if session.action == "update" %}data-tolocation="{{session.document_root}}/ajusteEntrada/list/id/{{data.ajusteEntrada[0].IDAjusteEntrada}}"{% else %} data-tolocation="{{session.document_root}}/ajusteEntrada/list/" {% endif %} method="POST">
-    {% endif %}
-        {% if session.action != 'create' %}
-            <div class="form-group col-md-6">
-                <label for="idAjusteEntrada">Id Ajuste de Entrada:</label>
-                <input class="form-control" type="text" id="idAjusteEntrada" name="idAjusteEntrada" value="{{data.ajusteEntrada[0].IDAjusteEntrada}}" readonly>
-            </div>
-        {% endif %}
-        {% if session.action == 'list' %}
-            <div class="form-group col-md-6">
-                <label for="folio">Folio:</label>
-                <input class="form-control" type="text" id="folio" name="folio" value="{{data.ajusteEntrada[0].Folio}}" readonly>
-            </div>
-        {% endif %}
-        	<div class="form-group col-md-6">
-                <label for="idAjusteEntradaTipo">Tipo:</label>
-                <select data-url="{{session.document_root}}/ajusteEntradaTipo/api/list/activos" class="form-control" id = "idAjusteEntradaTipo" name = "idAjusteEntradaTipo" placeholder = "Tipo" value="{{data.ajusteEntrada[0].IDAjusteEntradaTipo}}" data-selected="{{data.ajusteEntrada[0].IDAjusteEntradaTipo}}" required {{session.action == 'list'?'disabled':''}}>
-                    <option>Selecciona un Tipo</option>
-                </select>
-            </div>
-            <div class="form-group col-md-6">
-                <label for="idCliente">Cliente:</label>
-                <select data-url="{{session.document_root}}/cliente/api/list/activos" class="form-control" id = "idCliente" name = "idCliente" placeholder = "Cliente" value="{{data.ajusteEntrada[0].IDCliente}}" data-selected="{{data.ajusteEntrada[0].IDCliente}}" required {{session.action == 'list'?'disabled':''}}>
-                    <option>Selecciona un cliente</option>
-                </select>
-            </div>
-            
-        {% if session.action != 'list' %}
-            <div class="form-group col-xs-12 col-sm-6 col-md-12">
-                <label for="listaProductos">Productos:</label>
-                <select size="6" data-url="{{session.document_root}}/producto/api/list/activos" class="form-control" multiple id="listaProductos" name="listaProductos" placeholder="Productos" {{session.action == 'list'?'disabled':''}}>
-                </select>
-            </div>
-        {%endif%}
-            <div class="form-group col-xs-12">
-                <label>Productos Seleccionados: </label>
-                <div class="table-responsive">
-                    <table class="table table-hover tabla-grande">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>Id</th>
-                                <th>Nombre</th>
-                                <th>P. Unitario ($)</th>
-                                <th>Cantidad</th>
-                                <th>Sub Total ($)</th>
-                            </tr>
-                        </thead>
-                        <tbody id="productosContainer">
-                        {% for producto in data.productos %}
-                            <tr>
-                                <td colspan="2">{{producto.IDProductoServicio}}</td>
-                                <td>{{producto.Producto}}</td>
-                                <td>{{producto.PrecioUnitario}}</td>
-                                <td>{{producto.Cantidad}}</td>
-                                <td>{{(producto.Cantidad*producto.PrecioUnitario)}}</td>
-                            </tr>
-                        {% endfor %}
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <th colspan="5" class="text-right">Total: {{data.ajusteEntrada[0].Total}}</th>
-                                <th id="totalProductos"></th>
-                            </tr>
-                        </tfoot>
-                    </table>
+
+<div class="container-fluid">    
+    <div class="col-lg-12">
+       <section class = "row">
+            <h1>Ajustes de Inventario</h1> <!--Nombre  del Modulo -->
+            <ol class="breadcrumb">
+               <h4><li class="active"><i class="fa fa-shopping-cart">{{session.action == 'create'?' Ajuste de Entrada de productos':session.action == 'update'?' Modificar Ajuste de Entrada':' Detalles'}}</i></li></h4>
+            </ol>
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    Registro
                 </div>
-            </div>
-            <div class="form-group col-md-12">
-                <label for="observaciones">Observaciones:</label>
-                <textarea class="form-control" id = "observaciones" name = "observaciones" placeholder = "Observaciones" {{session.action == 'list'?'disabled':''}} required >{{data.ajusteEntrada[0].Observaciones}}</textarea>
-            </div>
-        {% if session.action != 'list' %}
-            <div class = "col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <button type="submit" class="btn btn-default pull-left">Enviar</button>
-                <button type="reset" class="btn btn-default pull-right">Limpiar Campos</button>
-            </div>
-        </form>
-        <div class="modal fade" id="modalCargar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title text-center" id="myModalLabel">Cargando</h4>
-                    </div>
-                    <div class="modal-body text-center">
-                        <span class="fa fa-spinner fa-spin fa-5x"></span>
+                <div class="panel-body ">            
+                    <div class = "col-sm-12  col-lg-12 scroll-vertical">
+                        {% if session.action != 'list' %} 
+                            <form id="formulario" role="form" class="" action="{{session.document_root}}/ajusteEntrada/api/{{session.action}}/" {%if session.action == "update" %}data-tolocation="{{session.document_root}}/ajusteEntrada/list/id/{{data.ajusteEntrada[0].IDAjusteEntrada}}"{% else %} data-tolocation="{{session.document_root}}/ajusteEntrada/list/" {% endif %} method="POST">
+                        {% endif %}
+                            {% if session.action != 'create' %}
+                                <div class="form-group col-md-6">
+                                    <label for="idAjusteEntrada">Id Ajuste de Entrada:</label>
+                                    <input class="form-control" type="text" id="idAjusteEntrada" name="idAjusteEntrada" value="{{data.ajusteEntrada[0].IDAjusteEntrada}}" readonly>
+                                </div>
+                            {% endif %}
+                            {% if session.action == 'list' %}
+                                <div class="form-group col-md-6">
+                                    <label for="folio">Folio:</label>
+                                    <input class="form-control" type="text" id="folio" name="folio" value="{{data.ajusteEntrada[0].Folio}}" readonly>
+                                </div>
+                            {% endif %}
+                            	<div class="form-group col-md-6">
+                                    <label for="idAjusteEntradaTipo">Tipo:</label>
+                                    <select data-url="{{session.document_root}}/ajusteEntradaTipo/api/list/activos" class="form-control" id = "idAjusteEntradaTipo" name = "idAjusteEntradaTipo" placeholder = "Tipo" value="{{data.ajusteEntrada[0].IDAjusteEntradaTipo}}" data-selected="{{data.ajusteEntrada[0].IDAjusteEntradaTipo}}" required {{session.action == 'list'?'disabled':''}}>
+                                        <option>Selecciona un Tipo</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="idCliente">Cliente:</label>
+                                    <select data-url="{{session.document_root}}/cliente/api/list/activos" class="form-control" id = "idCliente" name = "idCliente" placeholder = "Cliente" value="{{data.ajusteEntrada[0].IDCliente}}" data-selected="{{data.ajusteEntrada[0].IDCliente}}" required {{session.action == 'list'?'disabled':''}}>
+                                        <option>Selecciona un cliente</option>
+                                    </select>
+                                </div>
+                                
+                            {% if session.action != 'list' %}
+                                <div class="form-group col-lg-12">
+                                    <label for="listaProductos">Productos:</label>
+                                    <select size="6" data-url="{{session.document_root}}/producto/api/list/activos" class="form-control" multiple id="listaProductos" name="listaProductos" placeholder="Productos" {{session.action == 'list'?'disabled':''}}>
+                                    </select>
+                                </div>
+                            {%endif%}
+                                <div class="form-group col-xs-12">
+                                    <label>Productos Seleccionados: </label>
+                                    <div class="table-responsive col-xs-12">
+                                        <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                            <thead>
+                                                <tr class="gradeA">
+                                                    <th></th>
+                                                    <th>Id</th>
+                                                    <th>Nombre</th>
+                                                    <th>P. Unitario ($)</th>
+                                                    <th>Cantidad</th>
+                                                    <th>Sub Total ($)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="productosContainer">
+                                            {% for producto in data.productos %}
+                                                <tr>
+                                                    <td colspan="2">{{producto.IDProductoServicio}}</td>
+                                                    <td>{{producto.Producto}}</td>
+                                                    <td>{{producto.PrecioUnitario}}</td>
+                                                    <td>{{producto.Cantidad}}</td>
+                                                    <td>{{(producto.Cantidad*producto.PrecioUnitario)}}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th colspan="5" class="text-right">Total: {{data.ajusteEntrada[0].Total}}</th>
+                                                    <th id="totalProductos"></th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="observaciones">Observaciones:</label>
+                                    <textarea class="form-control" id = "observaciones" name = "observaciones" placeholder = "Observaciones" {{session.action == 'list'?'disabled':''}} required >{{data.ajusteEntrada[0].Observaciones}}</textarea>
+                                </div>
+                            {% if session.action != 'list' %}
+                                <div class = "col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                  <!--  <button type="reset"  class="btn btn-warning"><span class="fa fa-file-o"></span> Limpiar Campos</button>--> 
+                                    <button type="submit" class="btn btn-success"><span class="fa fa-save "></span> Enviar</button>
+                                </div>
+
+                            </form>
+                            <div class="modal fade" id="modalCargar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <h4 class="modal-title text-center" id="myModalLabel">Cargando</h4>
+                                        </div>
+                                        <div class="modal-body text-center">
+                                            <span class="fa fa-spinner fa-spin fa-5x"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        {% endif %}
+         </section>
     </div>
-</section>
+    <!-- /.col-lg-12 -->    
+</div>
 {% include 'footer.html' with {'jsLibs': ['js/ajusteEntrada.js']}%}
