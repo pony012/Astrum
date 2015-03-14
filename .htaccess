@@ -33,6 +33,7 @@ RewriteRule ^([a-zA-z]+)/list/(\-?[0-9]+)/ index.php?ctrl=$1&act=lists&offset=$2
 #	rutas para api	#
 #####################
 
+RewriteRule ^api/login index.php?ctrl=login
 RewriteRule ^([a-zA-z]+)/api/list/activos/(\-?[0-9]+) index.php?ctrl=$1&act=lists&offset=$2&api=1
 RewriteRule ^([a-zA-z]+)/api/list/activos/ index.php?ctrl=$1&act=lists&offset=-1&api=1
 RewriteRule ^([a-zA-z]+)/api/list/activos index.php?ctrl=$1&act=lists&offset=-1&api=1
