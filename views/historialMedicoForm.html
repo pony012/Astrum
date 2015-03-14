@@ -6,556 +6,573 @@
         <ol class="breadcrumb">
            <h4><li class="active"><i class="fa fa-h-square">{{session.action == 'create'?' Nuevo Historial Medico':session.action == 'update'?' Modificar Historial Medico':'Detalles'}}</i></li></h4>
         </ol>            
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                Registro
-            </div>
+        <div id="content" class="panel panel-primary">
+            <div class="panel-heading">Registro</div>
             <div class="panel-body">
-                <div class = "col-sm-12  col-lg-12 scroll-vertical">  
+            <div class = "col-sm-12  col-lg-12 scroll-vertical">  
 
-            {% if session.action != 'list' %}
+                {% if session.action != 'list' %}
                 <form id="formulario" role="form" class="" action="{{session.document_root}}/historialMedico/api/{{session.action}}/" {%if session.action == "update" %}data-tolocation="{{session.document_root}}/historialMedico/list/id/{{data.IDHistorialMedico}}"{% else %} data-tolocation="{{session.document_root}}/historialMedico/list/" {% endif %} method="POST" enctype="multipart/form-data">
-            {% endif %}
+                {% endif %}
                 <!--Comienza el contenido del formulario -->
-                <div lass="form-group col-xs-12">
-                <div class=" row well">                    
-                    {% if session.action != 'create' %}
+                <div class="form-group col-xs-12">
+                    <div class=" row well">                    
+                        {% if session.action != 'create' %}
                         <div class="form-group col-md-6">
                             <label for="idHistorialMedico">Id Consulta:</label>
                             <input class="form-control" type="text" id="idHistorialMedico" name="idHistorialMedico" value="{{data.historialMedico[0].IDHistorialMedico}}" readonly>
                         </div>
-                    {% endif %}
-                    <div class="form-group col-md-6">
-                        <label for="idCliente">Cliente:</label>
-                        <select data-url="{{session.document_root}}/cliente/api/list/activos" class="form-control" id = "idCliente" name = "idCliente" placeholder = "Cliente" value="{{data.IDCliente}}" data-selected="{{data.historialMedico[0].IDCliente}}" required {{session.action == 'list'?'disabled':''}}>
-                            <option>Selecciona un cliente</option>
-                        </select>
+                            {% endif %}
+                        <div class="form-group col-md-6">
+                            <label for="idCliente">Cliente:</label>
+                            <select data-url="{{session.document_root}}/cliente/api/list/activos" class="form-control" id = "idCliente" name = "idCliente" placeholder = "Cliente" value="{{data.IDCliente}}" data-selected="{{data.historialMedico[0].IDCliente}}" required {{session.action == 'list'?'disabled':''}}>
+                                <option>Selecciona un cliente</option>
+                            </select>
+                        </div>
+                        <!--<div class="form-group">
+                            <label for="cliente">Nombre del Cliente:</label>
+                            <input class="form-control" type = "text" id = "cliente" name = "cliente" placeholder = "Nombre del Cliente" value="{{data.historialMedico[0].Cliente}}" required {{session.action == 'list'?'disabled':''}}>
+                        </div>-->
+                        <div class="form-group col-md-6">
+                            <label for="idServicio">Servicio:</label>
+                            <select data-url="{{session.document_root}}/servicio/api/list/activos" class="form-control" id = "idServicio" name = "idServicio" placeholder = "Servicio" value="{{data.IDProductoServicio}}" data-selected="{{data.historialMedico[0].IDServicio}}" required {{session.action == 'list'?'disabled':''}}>
+                                <option>Selecciona un servicio</option>
+                            </select>
+                        </div>
+                        <!--<div class="form-group">
+                            <label for="producto">Servicio:</label>
+                            <input class="form-control" type = "text" id = "producto" name = "producto" placeholder = "Servicio" value="{{data.historialMedico[0].Producto}}" required {{session.action == 'list'?'disabled':''}}>
+                        </div>-->                
                     </div>
-                    <!--<div class="form-group">
-                        <label for="cliente">Nombre del Cliente:</label>
-                        <input class="form-control" type = "text" id = "cliente" name = "cliente" placeholder = "Nombre del Cliente" value="{{data.historialMedico[0].Cliente}}" required {{session.action == 'list'?'disabled':''}}>
-                    </div>-->
-                    <div class="form-group col-md-6">
-                        <label for="idServicio">Servicio:</label>
-                        <select data-url="{{session.document_root}}/servicio/api/list/activos" class="form-control" id = "idServicio" name = "idServicio" placeholder = "Servicio" value="{{data.IDProductoServicio}}" data-selected="{{data.historialMedico[0].IDServicio}}" required {{session.action == 'list'?'disabled':''}}>
-                            <option>Selecciona un servicio</option>
-                        </select>
-                    </div>
-                    <!--<div class="form-group">
-                        <label for="producto">Servicio:</label>
-                        <input class="form-control" type = "text" id = "producto" name = "producto" placeholder = "Servicio" value="{{data.historialMedico[0].Producto}}" required {{session.action == 'list'?'disabled':''}}>
-                    </div>-->
-                </div>
-                    
-                    <legend>Ficha Clínica</legend>
-                    <ol>
-                        <div class="form-group col-xs-12 col-lg-6">
-                            <li><label for="motivoConsulta">Motivo de la Consulta?</label></li>                        
-                            <input class="form-control" type = "text" id = "motivoConsulta" name = "motivoConsulta" placeholder = "escriba algo" value="{{data.fichaClinica[0].MotivoConsulta}}"  {{session.action == 'list'?'disabled':''}}>
-                        </div>                        
-                        <div class="form-group col-xs-12 col-lg-6">
-                            <li><label for="relacionaCon">Con que lo relaciona?</label></li>                                    
-                            <input type="text" class="form-control" name="relacionaCon" id="relacionaCon" value="{{data.fichaClinica[0].RelacionaCon}}"  {{session.action == 'list'?'disabled':''}}/>
-                        </div>                        
-                        <div class="form-group col-xs-12 col-lg-6">
-                            <li><label for="tratamientoAnterior">Se ha tratado con anterioridad?</label></li>
-                            <input type="text" class="form-control" name="tratamientoAnterior" id="tratamientoAnterior" value="{{data.fichaClinica[0].TratamientoAnterior}}"  {{session.action == 'list'?'disabled':''}}/>                        
-                        </div>                            
-                        <div class="form-group col-xs-12 col-lg-6">
-                            <li><label for="metProbados">Que métodos ha probado?</label></li>                            
-                            <input type="text" class="form-control" name="metProbados" id="metProbados" value="{{data.fichaClinica[0].MetodosProbados}}"  {{session.action == 'list'?'disabled':''}}/>
-                        </div>                        
-                        <div class="form-group col-xs-12 col-lg-6">
-                            <li><label for="resAnteriores">Con que resultados?</label></li>
-                            <input type="text" class="form-control" name="resAnteriores" id="resAnteriores" value="{{data.fichaClinica[0].ResultadosAnteriores}}"  {{session.action == 'list'?'disabled':''}}/>
+                    <ul id="tabs" class="nav nav-pills nav-justified" data-tabs="tabs">
+                        <li class="active"><a href="#ficha" data-toggle="tab"><i class="fa fa-tag"> Ficha Clinica</i></a></li>
+                        <li><a href="#padecimientos" data-toggle="tab"><i class="fa fa-heartbeat"> Historial de Padecimientos</i></a></li>
+                        <li><a href="#medidas" data-toggle="tab"><i class="fa fa-street-view"> Medidas del Cuerpo</i></a></li>
+                    </ul>
+                <div id="my-tab-content" class="tab-content">
+                    <div class="tab-pane active" id="ficha">
+                        <div class="col-xs-12">
+                            <h2 class="text-center">Ficha Clinica</h2><hr>
+                            <legend>Motivos de la consulta</legend>
+                            <ol>
+                                <div class="form-group col-xs-12 col-lg-6">
+                                    <li><label for="motivoConsulta">Motivo de la Consulta?</label></li>                        
+                                    <input class="form-control" type = "text" id = "motivoConsulta" name = "motivoConsulta" placeholder = "escriba algo" value="{{data.fichaClinica[0].MotivoConsulta}}"  {{session.action == 'list'?'disabled':''}}>
+                                </div>                        
+                                <div class="form-group col-xs-12 col-lg-6">
+                                    <li><label for="relacionaCon">Con que lo relaciona?</label></li>                                    
+                                    <input type="text" class="form-control" name="relacionaCon" id="relacionaCon" value="{{data.fichaClinica[0].RelacionaCon}}"  {{session.action == 'list'?'disabled':''}}/>
+                                </div>                        
+                                <div class="form-group col-xs-12 col-lg-6">
+                                    <li><label for="tratamientoAnterior">Se ha tratado con anterioridad?</label></li>
+                                    <input type="text" class="form-control" name="tratamientoAnterior" id="tratamientoAnterior" value="{{data.fichaClinica[0].TratamientoAnterior}}"  {{session.action == 'list'?'disabled':''}}/>                        
+                                </div>                            
+                                <div class="form-group col-xs-12 col-lg-6">
+                                    <li><label for="metProbados">Que métodos ha probado?</label></li>                            
+                                    <input type="text" class="form-control" name="metProbados" id="metProbados" value="{{data.fichaClinica[0].MetodosProbados}}"  {{session.action == 'list'?'disabled':''}}/>
+                                </div>                        
+                                <div class="form-group col-xs-12 col-lg-6">
+                                    <li><label for="resAnteriores">Con que resultados?</label></li>
+                                    <input type="text" class="form-control" name="resAnteriores" id="resAnteriores" value="{{data.fichaClinica[0].ResultadosAnteriores}}"  {{session.action == 'list'?'disabled':''}}/>
+                                </div>
+                            </ol>
                         </div>
-                    </ol>
-                    <div class="col-xs-12">
-                    <legend>Estado de la Piel</legend>
-                        <div class="checkbox col-xs-12 col-sm-6 col-lg-3 first_check">
-                            <label for="fina">
-                                <input type="checkbox" name="arregloPiel[]" value="fina" id="fina" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Fina == 'S'?'checked':''}}/>
-                                Fina
-                            </label>
+
+                        <div class="col-xs-12">
+                            <legend>Estado de la Piel</legend>
+                            <div class="checkbox col-xs-12 col-sm-6 col-lg-3 first_check">
+                                <label for="fina">
+                                    <input type="checkbox" name="arregloPiel[]" value="fina" id="fina" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Fina == 'S'?'checked':''}}/>
+                                    Fina
+                                </label>
+                            </div>
+                            <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
+                                <label for="seca"><input type="checkbox" name="arregloPiel[]" value="seca" id="seca" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Seca == 'S'?'checked':''}}/>
+                                    Seca
+                                </label>                        
+                            </div>                    
+                            <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
+                                <label for="manchas">
+                                    <input type="checkbox" name="arregloPiel[]" value="manchas" id="manchas" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Manchas == 'S'?'checked':''}}/>
+                                    Manchas
+                                </label>
+                            </div>                    
+                            <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
+                                <label for="lunares">
+                                    <input type="checkbox" name="arregloPiel[]" value="lunares" id="lunares" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Lunares == 'S'?'checked':''}}/>
+                                    Lunares
+                                </label>                        
+                            </div>                    
+                            <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
+                                <label for="arrugas">
+                                    <input type="checkbox" name="arregloPiel[]" value="arrugas" id="arrugas" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Arrugas == 'S'?'checked':''}}/>
+                                    Arrugas
+                                </label>
+                            </div>                                                    
+                        
+                            <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
+                                <label for="gruesa">
+                                    <input type="checkbox" name="arregloPiel[]" value="gruesa" id="gruesa" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Gruesa == 'S'?'checked':''}}/>
+                                    Gruesa
+                                </label>
+                            </div>
+                            <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
+                                <label for="mixta">
+                                    <input type="checkbox" name="arregloPiel[]" value="mixta" id="mixta"  {{session.action == 'list'?'disabled':''}} {{data.piel[0].Mixta == 'S'?'checked':''}}/>
+                                    Mixta
+                                </label>
+                            </div>                    
+                            <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
+                                <label for="cicatrices">
+                                    <input type="checkbox" name="arregloPiel[]" value="cicatrices" id="cicatrices" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Cicatrices == 'S'?'checked':''}}/>
+                                    Cicatrices
+                                </label>
+                            </div>
+                            <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
+                                <label for="pecas">
+                                    <input type="checkbox" name="arregloPiel[]" value="pecas" id="pecas" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Pecas == 'S'?'checked':''}}/>
+                                    Pecas
+                                </label>
+                            </div>                    
+                            <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
+                                <label for="brilloFacial">
+                                    <input type="checkbox" name="arregloPiel[]" value="brilloFacial" id="brilloFacial" {{session.action == 'list'?'disabled':''}} {{data.piel[0].BrilloFacial == 'S'?'checked':''}}/>
+                                    Brillo Facial
+                                </label>
+                                
+                            </div>                    
+                        
+                            <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
+                                <label for="deshidratada">
+                                    <input type="checkbox" name="arregloPiel[]" value="deshidratada" id="deshidratada" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Deshidratada == 'S'?'checked':''}}/>
+                                    Deshidratada
+                                </label>
+                            </div>                    
+                            <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
+                                <label for="grasa">
+                                    <input type="checkbox" name="arregloPiel[]" value="grasa" id="grasa" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Grasa == 'S'?'checked':''}}/>
+                                    Grasa
+                                </label>
+                            </div>                    
+                            <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
+                                <label for="poroAbierto">
+                                    <input type="checkbox" name="arregloPiel[]" value="poroAbierto" id="poroAbierto" {{session.action == 'list'?'disabled':''}} {{data.piel[0].PoroAbierto == 'S'?'checked':''}}/>
+                                    Poro Abierto
+                                </label>
+                            </div>                    
+                            <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
+                                <label for="puntosNegros">
+                                    <input type="checkbox" name="arregloPiel[]" value="puntosNegros" id="puntosNegros" {{session.action == 'list'?'disabled':''}} {{data.piel[0].PuntosNegros == 'S'?'checked':''}}/>
+                                    Puntos Negros
+                                </label>                                                
+                            </div>                    
+                            <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
+                                <label for="pielAsfixiada">
+                                    <input type="checkbox" name="arregloPiel[]" value="pielAsfixiada" id="pielAsfixiada" {{session.action == 'list'?'disabled':''}} {{data.piel[0].PielAsfixiada == 'S'?'checked':''}}/>
+                                    Piel Asfixiada
+                                </label>                                               
+                            </div> 
+                            <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
+                                <label for="flacida">
+                                    <input type="checkbox" name="arregloPiel[]" value="flacida" id="flacida" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Flacida == 'S'?'checked':''}}/>
+                                    Flácida
+                                </label>                        
+                            </div>                    
+                            <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
+                                <label for="acneica">
+                                    <input type="checkbox" name="arregloPiel[]" value="acneica" id="acneica" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Acneica == 'S'?'checked':''}}/>
+                                    Acneica
+                                </label>                        
+                            </div>                    
+                            <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
+                                <label for="ojeras">
+                                    <input type="checkbox" name="arregloPiel[]" value="ojeras" id="ojeras" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Ojeras == 'S'?'checked':''}}/>
+                                    Ojeras
+                                </label>                        
+                            </div>                    
+                            <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
+                                <label for="verrugas">
+                                    <input type="checkbox" name="arregloPiel[]" value="verrugas" id="verrugas" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Verrugas == 'S'?'checked':''}}/>
+                                    Verrugas
+                                </label>            
+                            </div>                    
+                            <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
+                                <label for="despigmentacion">
+                                    <input type="checkbox" name="arregloPiel[]" value="despigmentacion" id="despigmentacion" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Despigmentacion == 'S'?'checked':''}}/>
+                                    Despigmentación
+                                </label>
+                            </div> 
                         </div>
-                        <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
-                            <label for="seca"><input type="checkbox" name="arregloPiel[]" value="seca" id="seca" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Seca == 'S'?'checked':''}}/>
-                                Seca
-                            </label>                        
-                        </div>                    
-                        <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
-                            <label for="manchas">
-                                <input type="checkbox" name="arregloPiel[]" value="manchas" id="manchas" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Manchas == 'S'?'checked':''}}/>
-                                Manchas
-                            </label>
-                        </div>                    
-                        <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
-                            <label for="lunares">
-                                <input type="checkbox" name="arregloPiel[]" value="lunares" id="lunares" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Lunares == 'S'?'checked':''}}/>
-                                Lunares
-                            </label>                        
-                        </div>                    
-                        <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
-                            <label for="arrugas">
-                                <input type="checkbox" name="arregloPiel[]" value="arrugas" id="arrugas" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Arrugas == 'S'?'checked':''}}/>
-                                Arrugas
-                            </label>
-                        </div>                                                    
-                    
-                        <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
-                            <label for="gruesa">
-                                <input type="checkbox" name="arregloPiel[]" value="gruesa" id="gruesa" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Gruesa == 'S'?'checked':''}}/>
-                                Gruesa
-                            </label>
-                        </div>
-                        <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
-                            <label for="mixta">
-                                <input type="checkbox" name="arregloPiel[]" value="mixta" id="mixta"  {{session.action == 'list'?'disabled':''}} {{data.piel[0].Mixta == 'S'?'checked':''}}/>
-                                Mixta
-                            </label>
-                        </div>                    
-                        <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
-                            <label for="cicatrices">
-                                <input type="checkbox" name="arregloPiel[]" value="cicatrices" id="cicatrices" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Cicatrices == 'S'?'checked':''}}/>
-                                Cicatrices
-                            </label>
-                        </div>
-                        <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
-                            <label for="pecas">
-                                <input type="checkbox" name="arregloPiel[]" value="pecas" id="pecas" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Pecas == 'S'?'checked':''}}/>
-                                Pecas
-                            </label>
-                        </div>                    
-                        <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
-                            <label for="brilloFacial">
-                                <input type="checkbox" name="arregloPiel[]" value="brilloFacial" id="brilloFacial" {{session.action == 'list'?'disabled':''}} {{data.piel[0].BrilloFacial == 'S'?'checked':''}}/>
-                                Brillo Facial
-                            </label>
-                            
-                        </div>                    
-                    
-                        <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
-                            <label for="deshidratada">
-                                <input type="checkbox" name="arregloPiel[]" value="deshidratada" id="deshidratada" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Deshidratada == 'S'?'checked':''}}/>
-                                Deshidratada
-                            </label>
-                        </div>                    
-                        <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
-                            <label for="grasa">
-                                <input type="checkbox" name="arregloPiel[]" value="grasa" id="grasa" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Grasa == 'S'?'checked':''}}/>
-                                Grasa
-                            </label>
-                        </div>                    
-                        <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
-                            <label for="poroAbierto">
-                                <input type="checkbox" name="arregloPiel[]" value="poroAbierto" id="poroAbierto" {{session.action == 'list'?'disabled':''}} {{data.piel[0].PoroAbierto == 'S'?'checked':''}}/>
-                                Poro Abierto
-                            </label>
-                        </div>                    
-                        <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
-                            <label for="puntosNegros">
-                                <input type="checkbox" name="arregloPiel[]" value="puntosNegros" id="puntosNegros" {{session.action == 'list'?'disabled':''}} {{data.piel[0].PuntosNegros == 'S'?'checked':''}}/>
-                                Puntos Negros
-                            </label>                                                
-                        </div>                    
-                        <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
-                            <label for="pielAsfixiada">
-                                <input type="checkbox" name="arregloPiel[]" value="pielAsfixiada" id="pielAsfixiada" {{session.action == 'list'?'disabled':''}} {{data.piel[0].PielAsfixiada == 'S'?'checked':''}}/>
-                                Piel Asfixiada
-                            </label>                                               
-                        </div> 
-                        <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
-                            <label for="flacida">
-                                <input type="checkbox" name="arregloPiel[]" value="flacida" id="flacida" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Flacida == 'S'?'checked':''}}/>
-                                Flácida
-                            </label>                        
-                        </div>                    
-                        <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
-                            <label for="acneica">
-                                <input type="checkbox" name="arregloPiel[]" value="acneica" id="acneica" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Acneica == 'S'?'checked':''}}/>
-                                Acneica
-                            </label>                        
-                        </div>                    
-                        <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
-                            <label for="ojeras">
-                                <input type="checkbox" name="arregloPiel[]" value="ojeras" id="ojeras" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Ojeras == 'S'?'checked':''}}/>
-                                Ojeras
-                            </label>                        
-                        </div>                    
-                        <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
-                            <label for="verrugas">
-                                <input type="checkbox" name="arregloPiel[]" value="verrugas" id="verrugas" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Verrugas == 'S'?'checked':''}}/>
-                                Verrugas
-                            </label>            
-                        </div>                    
-                        <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
-                            <label for="despigmentacion">
-                                <input type="checkbox" name="arregloPiel[]" value="despigmentacion" id="despigmentacion" {{session.action == 'list'?'disabled':''}} {{data.piel[0].Despigmentacion == 'S'?'checked':''}}/>
-                                Despigmentación
-                            </label>
-                        </div> 
-                    </div>
-                    <div class="row">
-                        <legend class="col-xs-12">Habitos</legend>
-                        <div class="checkbox col-xs-12 col-sm-6 col-lg-3 first_check">
-                            <label for="fumar">
-                                <input type="checkbox" name="arregloHabito[]" id="fumar" value="fumar"  {{session.action == 'list'?'disabled':''}} {{data.habito[0].Fumar == 'S'?'checked':''}}/>
-                                Fumar
-                            </label>
-                        </div>
-                        <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
-                            <label for="ejercicio">
-                                <input type="checkbox" name="arregloHabito[]" id="ejercicio" value="ejercicio"  {{session.action == 'list'?'disabled':''}} {{data.habito[0].Ejercicio == 'S'?'checked':''}}/>
-                                Ejercicio
-                            </label>
-                        </div>
-                        <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
-                            <label for="usarFaja">
-                                <input type="checkbox" name="arregloHabito[]" id="usarFaja" value="usarFaja"  {{session.action == 'list'?'disabled':''}} {{data.habito[0].UsarFaja == 'S'?'checked':''}}/>
-                                Uso de Faja
-                            </label>
-                        </div>
-                        <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
-                            <label for="suenio">
-                                <input type="checkbox" name="arregloHabito[]" id="suenio" value="suenio"  {{session.action == 'list'?'disabled':''}} {{data.habito[0].Suenio == 'S'?'checked':''}}/>
-                                Sueño
-                            </label>
-                        </div>
-                        <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
-                            <label for="tomaSol">
-                                <input type="checkbox" name="arregloHabito[]" id="tomaSol" value="tomaSol"  {{session.action == 'list'?'disabled':''}} {{data.habito[0].TomaSol == 'S'?'checked':''}}/>
-                                Toma sol
-                            </label>                              
-                        </div>
-                        <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
-                            <label for="bloqueador">
-                                <input type="checkbox" name="arregloHabito[]" id="bloqueador" value="bloqueador"  {{session.action == 'list'?'disabled':''}} {{data.habito[0].Bloqueador == 'S'?'checked':''}}/>
-                                Bloqueador
-                            </label>
-                        </div> 
-                        <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
-                            <label for="hidroquinona">
-                                <input type="checkbox" name="arregloHabito[]" id="hidroquinona" value="hidroquinona"  {{session.action == 'list'?'disabled':''}} {{data.habito[0].Hidroquinona == 'S'?'checked':''}}/>
-                                Hidroquinona
-                            </label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <legend>Historial de Exfoliación</legend>
-                        <ol>
-                            <div class="col-xs-12 col-md-6">
-                                <li><label for="arregloExfolacion">Cual de los siguientes procedimientos se ha realizado?</label></li>
-                                <div class="checkbox col-xs-12 col-sm-6 first_check">
-                                    <label for="peelingQuim">
-                                        <input type="checkbox" name="arregloExfolacion[]" id="peelingQuim" value="peelingQuim"  {{session.action == 'list'?'disabled':''}} {{data.exfoliacion[0].PeelingQuimico == 'S'?'checked':''}}/>
-                                        Peelin quimico
+
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <legend class="col-xs-12">Habitos</legend>
+                                <div class="checkbox col-xs-12 col-sm-6 col-lg-3 first_check">
+                                    <label for="fumar">
+                                        <input type="checkbox" name="arregloHabito[]" id="fumar" value="fumar"  {{session.action == 'list'?'disabled':''}} {{data.habito[0].Fumar == 'S'?'checked':''}}/>
+                                        Fumar
                                     </label>
                                 </div>
-                                <div class="checkbox col-xs-12 col-sm-6">
-                                    <label for="laser">
-                                        <input type="checkbox" name="arregloExfolacion[]" id="laser" value="laser"  {{session.action == 'list'?'disabled':''}} {{data.exfoliacion[0].Laser == 'S'?'checked':''}}/>
-                                        Láser
+                                <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
+                                    <label for="ejercicio">
+                                        <input type="checkbox" name="arregloHabito[]" id="ejercicio" value="ejercicio"  {{session.action == 'list'?'disabled':''}} {{data.habito[0].Ejercicio == 'S'?'checked':''}}/>
+                                        Ejercicio
+                                    </label>
+                                </div>
+                                <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
+                                    <label for="usarFaja">
+                                        <input type="checkbox" name="arregloHabito[]" id="usarFaja" value="usarFaja"  {{session.action == 'list'?'disabled':''}} {{data.habito[0].UsarFaja == 'S'?'checked':''}}/>
+                                        Uso de Faja
+                                    </label>
+                                </div>
+                                <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
+                                    <label for="suenio">
+                                        <input type="checkbox" name="arregloHabito[]" id="suenio" value="suenio"  {{session.action == 'list'?'disabled':''}} {{data.habito[0].Suenio == 'S'?'checked':''}}/>
+                                        Sueño
+                                    </label>
+                                </div>
+                                <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
+                                    <label for="tomaSol">
+                                        <input type="checkbox" name="arregloHabito[]" id="tomaSol" value="tomaSol"  {{session.action == 'list'?'disabled':''}} {{data.habito[0].TomaSol == 'S'?'checked':''}}/>
+                                        Toma sol
                                     </label>                              
                                 </div>
-                                <div class="checkbox col-xs-12 col-sm-6">
-                                    <label for="dermobrasion">
-                                        <input type="checkbox" name="arregloExfolacion[]" id="dermobrasion" value="dermobrasion"  {{session.action == 'list'?'disabled':''}} {{data.exfoliacion[0].Dermoabrasion == 'S'?'checked':''}}/>
-                                        Dermoabrasión
-                                    </label>                         
+                                <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
+                                    <label for="bloqueador">
+                                        <input type="checkbox" name="arregloHabito[]" id="bloqueador" value="bloqueador"  {{session.action == 'list'?'disabled':''}} {{data.habito[0].Bloqueador == 'S'?'checked':''}}/>
+                                        Bloqueador
+                                    </label>
+                                </div> 
+                                <div class="checkbox col-xs-12 col-sm-6 col-lg-3">
+                                    <label for="hidroquinona">
+                                        <input type="checkbox" name="arregloHabito[]" id="hidroquinona" value="hidroquinona"  {{session.action == 'list'?'disabled':''}} {{data.habito[0].Hidroquinona == 'S'?'checked':''}}/>
+                                        Hidroquinona
+                                    </label>
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-md-6">
-                                <li><label for="arregloExfolacion">Esta usando alguno de los siguientes medicamentos?</label></li>
-                                <div class="checkbox col-xs-12 col-sm-6 first_check">
-                                    <label for="retinA">
-                                        <input type="checkbox" name="arregloExfolacion[]" id="retinA" value="retinA"  {{session.action == 'list'?'disabled':''}} {{data.exfoliacion[0].RetinA == 'S'?'checked':''}}/>
-                                        Retin A
-                                    </label>                             
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="padecimientos">
+                        <h2 class="text-center">Padeciminetos</h2>
+                        <div class="row">
+                            <legend>Historial de Exfoliación</legend>
+                            <ol>
+                                <div class="col-xs-12 col-md-6">
+                                    <li><label for="arregloExfolacion">Cual de los siguientes procedimientos se ha realizado?</label></li>
+                                    <div class="checkbox col-xs-12 col-sm-6 first_check">
+                                        <label for="peelingQuim">
+                                            <input type="checkbox" name="arregloExfolacion[]" id="peelingQuim" value="peelingQuim"  {{session.action == 'list'?'disabled':''}} {{data.exfoliacion[0].PeelingQuimico == 'S'?'checked':''}}/>
+                                            Peelin quimico
+                                        </label>
+                                    </div>
+                                    <div class="checkbox col-xs-12 col-sm-6">
+                                        <label for="laser">
+                                            <input type="checkbox" name="arregloExfolacion[]" id="laser" value="laser"  {{session.action == 'list'?'disabled':''}} {{data.exfoliacion[0].Laser == 'S'?'checked':''}}/>
+                                            Láser
+                                        </label>                              
+                                    </div>
+                                    <div class="checkbox col-xs-12 col-sm-6">
+                                        <label for="dermobrasion">
+                                            <input type="checkbox" name="arregloExfolacion[]" id="dermobrasion" value="dermobrasion"  {{session.action == 'list'?'disabled':''}} {{data.exfoliacion[0].Dermoabrasion == 'S'?'checked':''}}/>
+                                            Dermoabrasión
+                                        </label>                         
+                                    </div>
                                 </div>
-                                <div class="checkbox col-xs-12 col-sm-6">
-                                    <label for="renova">
-                                        <input type="checkbox" name="arregloExfolacion[]" id="renova" value="renova"  {{session.action == 'list'?'disabled':''}} {{data.exfoliacion[0].Renova == 'S'?'checked':''}}/>
-                                        Renova
-                                    </label>                               
+                                <div class="col-xs-12 col-md-6">
+                                    <li><label for="arregloExfolacion">Esta usando alguno de los siguientes medicamentos?</label></li>
+                                    <div class="checkbox col-xs-12 col-sm-6 first_check">
+                                        <label for="retinA">
+                                            <input type="checkbox" name="arregloExfolacion[]" id="retinA" value="retinA"  {{session.action == 'list'?'disabled':''}} {{data.exfoliacion[0].RetinA == 'S'?'checked':''}}/>
+                                            Retin A
+                                        </label>                             
+                                    </div>
+                                    <div class="checkbox col-xs-12 col-sm-6">
+                                        <label for="renova">
+                                            <input type="checkbox" name="arregloExfolacion[]" id="renova" value="renova"  {{session.action == 'list'?'disabled':''}} {{data.exfoliacion[0].Renova == 'S'?'checked':''}}/>
+                                            Renova
+                                        </label>                               
+                                    </div>
+                                    <div class="checkbox col-xs-12 col-sm-6">
+                                        <label for="racutan">
+                                            <input type="checkbox" name="arregloExfolacion[]" id="racutan" value="racutan"  {{session.action == 'list'?'disabled':''}} {{data.exfoliacion[0].Racutan == 'S'?'checked':''}}/>
+                                            Racutan
+                                        </label>                              
+                                    </div>
+                                    <div class="checkbox col-xs-12 col-sm-6">
+                                        <label for="adapaleno">
+                                            <input type="checkbox" name="arregloExfolacion[]" id="adapaleno" value="adapaleno"  {{session.action == 'list'?'disabled':''}} {{data.exfoliacion[0].Adapaleno == 'S'?'checked':''}}/>
+                                            Adapaleno
+                                        </label>                        
+                                    </div>                        
                                 </div>
-                                <div class="checkbox col-xs-12 col-sm-6">
-                                    <label for="racutan">
-                                        <input type="checkbox" name="arregloExfolacion[]" id="racutan" value="racutan"  {{session.action == 'list'?'disabled':''}} {{data.exfoliacion[0].Racutan == 'S'?'checked':''}}/>
-                                        Racutan
-                                    </label>                              
+                                <div class="col-xs-12 col-md-6">
+                                    <li><label for="arregloExfolacion">Utiliza alguno de estos productos?</label></li>
+                                    <div class="checkbox col-xs-12 col-sm-6 first_check">
+                                        <label for="acidoGlicolico">
+                                            <input type="checkbox" name="arregloExfolacion[]" value="acidoGlicolico" id="acidoGlicolico"  {{session.action == 'list'?'disabled':''}} {{data.exfoliacion[0].AcidoGlicolico == 'S'?'checked':''}}/>
+                                            Ácido glicólico
+                                        </label>                                            
+                                    </div>
+                                    <div class="checkbox col-xs-12 col-sm-6">
+                                        <label for="alfaHidroiacidos">
+                                            <input type="checkbox" name="arregloExfolacion[]" value="alfaHidroiacidos" id="alfaHidroiacidos"  {{session.action == 'list'?'disabled':''}} {{data.exfoliacion[0].AlfaHidroxiacidos == 'S'?'checked':''}}/>
+                                            Alfa hidroxiácidos
+                                        </label>                                          
+                                    </div>                                        
+                                    <div class="checkbox col-xs-12 col-sm-6">
+                                        <label for="exfolianteGranuloso">
+                                            <input type="checkbox" name="arregloExfolacion[]" value="exfolianteGranuloso" id="exfolianteGranuloso"  {{session.action == 'list'?'disabled':''}} {{data.exfoliacion[0].ExfolianteGranuloso == 'S'?'checked':''}}/>
+                                            Exfoliante granuloso
+                                        </label>                                           
+                                    </div>
+                                    <div class="checkbox col-xs-12 col-sm-6">
+                                        <label for="acidoLactico">
+                                            <input type="checkbox" name="arregloExfolacion[]" value="acidoLactico" id="acidoLactico"  {{session.action == 'list'?'disabled':''}} {{data.exfoliacion[0].AcidoLactico == 'S'?'checked':''}}/>
+                                            Ácido láctico
+                                        </label>                                           
+                                    </div>
+                                    <div class="checkbox col-xs-12 col-sm-6">
+                                        <label for="vitaminaA">
+                                            <input type="checkbox" name="arregloExfolacion[]" value="vitaminaA" id="vitaminaA"  {{session.action == 'list'?'disabled':''}} {{data.exfoliacion[0].VitaminaA == 'S'?'checked':''}}/>
+                                            Vitamina A (retinol)
+                                        </label>                                           
+                                    </div>
+                                    <div class="checkbox col-xs-12 col-sm-6">
+                                        <label for="blanqueadorAclarador">
+                                            <input type="checkbox" name="arregloExfolacion[]" value="blanqueadorAclarador" id="blanqueadorAclarador"  {{session.action == 'list'?'disabled':''}} {{data.exfoliacion[0].BlanqueadorOAclarador == 'S'?'checked':''}}/>
+                                            Blanqueador ó Aclarador
+                                        </label>                                           
+                                    </div>
                                 </div>
-                                <div class="checkbox col-xs-12 col-sm-6">
-                                    <label for="adapaleno">
-                                        <input type="checkbox" name="arregloExfolacion[]" id="adapaleno" value="adapaleno"  {{session.action == 'list'?'disabled':''}} {{data.exfoliacion[0].Adapaleno == 'S'?'checked':''}}/>
-                                        Adapaleno
-                                    </label>                        
+                            </ol>
+                        </div>
+
+                        <div class="row">
+                            <legend>Alimentación</legend>
+                            <ol>
+                                <div class="col-xs-12 col-sm-6">
+                                    <li><label for="motivoConsulta">Tipo de Alimentación</label></li>
+                                    <div class="radio col-xs-6 col-md-3 first_check">
+                                        <label><input type="radio" name="alimentacion" id="buena" value="buena"  {{session.action == 'list'?'disabled':''}}  {{data.alimentacion[0].Buena == 'S'?'checked':''}}/>Buena</label>
+                                    </div>
+                                    <div class="radio col-xs-6 col-md-3">
+                                        <label><input type="radio" name="alimentacion" id="regular" value="regular"  {{session.action == 'list'?'disabled':''}}  {{data.alimentacion[0].Regular == 'S'?'checked':''}}/>Regular</label>
+                                    </div>
+                                    <div class="radio col-xs-6 col-md-3">
+                                        <label><input type="radio" name="alimentacion" id="mala" value="mala"  {{session.action == 'list'?'disabled':''}}  {{data.alimentacion[0].Mala == 'S'?'checked':''}}/>Mala</label>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-6">
+                                    <li><label for="motivoConsulta">Cuanta agua bebe al dia</label></li>
+                                    <div class="radio col-xs-6 col-md-3  first_check">
+                                        <label><input type="radio" name="aguaAlDia" id="poca" value="poca"  {{session.action == 'list'?'disabled':''}}  {{data.aguaAlDia[0].Poca == 'S'?'checked':''}}/>Poca</label>
+                                    </div>
+                                    <div class="radio col-xs-6 col-md-3">
+                                        <label><input type="radio" name="aguaAlDia" id="regular" value="regular"  {{session.action == 'list'?'disabled':''}}  {{data.aguaAlDia[0].Regular == 'S'?'checked':''}}/>Regular</label>
+                                    </div>
+                                    <div class="radio col-xs-6 col-md-3">
+                                        <label><input type="radio" name="aguaAlDia" id="mucha" value="mucha"  {{session.action == 'list'?'disabled':''}}  {{data.aguaAlDia[0].Mucha == 'S'?'checked':''}}/>Mucha</label>
+                                    </div>
+                                </div>
+                            </ol>
+                            <div class="form-group col-xs-12">
+                                <label for="observaciones">Observaciones:</label>
+                                <textarea class="form-control" id = "observaciones" name = "observaciones" placeholder = "Observaciones" {{session.action == 'list'?'disabled':''}}  >{{data.historialMedico[0].Observaciones}}</textarea>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <legend>Padecimientos:</legend>
+                            <div class="form-group col-xs-12">
+                                <div class="checkbox col-xs-12 col-sm-6 col-md-3 first_check">
+                                    <label for="diabetes">
+                                        <input type="checkbox" name="arregloPadecimiento[]" value="diabetes" id="diabetes"  {{session.action == 'list'?'disabled':''}} {{data.padecimiento[0].Diabetes == 'S'?'checked':''}}/>
+                                        Diabetes
+                                    </label>
+                                </div>                            
+                                <div class="checkbox col-xs-12 col-sm-6 col-md-3">
+                                    <label for="obesidad">
+                                        <input type="checkbox" name="arregloPadecimiento[]" value="obesidad" id="obesidad"  {{session.action == 'list'?'disabled':''}} {{data.padecimiento[0].Obesisdad == 'S'?'checked':''}}/>
+                                        Obesidad
+                                    </label>                          
+                                </div>                            
+                                <div class="checkbox col-xs-12 col-sm-6 col-md-3">
+                                    <label for="depresion">
+                                        <input type="checkbox" name="arregloPadecimiento[]" value="depresion" id="depresion"  {{session.action == 'list'?'disabled':''}} {{data.padecimiento[0].Depresion == 'S'?'checked':''}}/>
+                                        Depresion
+                                    </label>                          
+                                </div>                            
+                                <div class="checkbox col-xs-12 col-sm-6 col-md-3">
+                                    <label for="estres">
+                                        <input type="checkbox" name="arregloPadecimiento[]" value="estres" id="estres"  {{session.action == 'list'?'disabled':''}} {{data.padecimiento[0].Estres == 'S'?'checked':''}}/>
+                                        Estres
+                                    </label>                          
+                                </div>                                                    
+                                <div class="checkbox col-xs-12 col-sm-6 col-md-3">
+                                    <label for="sobrepeso">
+                                        <input type="checkbox" name="arregloPadecimiento[]" value="sobrepeso" id="sobrepeso"  {{session.action == 'list'?'disabled':''}} {{data.padecimiento[0].Sobrepeso == 'S'?'checked':''}}/>
+                                        Sobrepeso
+                                    </label>                          
+                                </div>                            
+                                <div class="checkbox col-xs-12 col-sm-6 col-md-3">
+                                    <label for="estrenimiento">
+                                        <input type="checkbox" name="arregloPadecimiento[]" value="estrenimiento" id="estrenimiento"  {{session.action == 'list'?'disabled':''}} {{data.padecimiento[0].Estrenimiento == 'S'?'checked':''}}/>
+                                        Estreñimiento
+                                    </label>                          
+                                </div>                            
+                                <div class="checkbox col-xs-12 col-sm-6 col-md-3">
+                                    <label for="colitis">
+                                        <input type="checkbox" name="arregloPadecimiento[]" value="colitis" id="colitis"  {{session.action == 'list'?'disabled':''}} {{data.padecimiento[0].Colitis == 'S'?'checked':''}}/>
+                                        Colitis
+                                    </label>                          
+                                </div>                            
+                                <div class="checkbox col-xs-12 col-sm-6 col-md-3">
+                                    <label for="retencionLiquidos">
+                                        <input type="checkbox" name="arregloPadecimiento[]" value="retencionLiquidos" id="retencionLiquidos"  {{session.action == 'list'?'disabled':''}} {{data.padecimiento[0].RetencionLiquidos == 'S'?'checked':''}}/>
+                                        Retención de Líquidos
+                                    </label>                          
+                                </div>     
+                                <div class="checkbox col-xs-12 col-sm-6 col-md-3">
+                                    <label for="transtornoMes">
+                                        <input type="checkbox" name="arregloPadecimiento[]" value="transtornoMes" id="transtornoMes"  {{session.action == 'list'?'disabled':''}} {{data.padecimiento[0].TranstornosMenstruales == 'S'?'checked':''}}/>
+                                        Transtorno Menstrual
+                                    </label>                          
+                                </div>                            
+                                <div class="checkbox col-xs-12 col-sm-6 col-md-3">
+                                    <label for="cuidadoCorporal">
+                                        <input type="checkbox" name="arregloPadecimiento[]" value="cuidadoCorporal" id="cuidadoCorporal"  {{session.action == 'list'?'disabled':''}} {{data.padecimiento[0].CuidadosCorporales == 'S'?'checked':''}}/>
+                                        Cuidados Corporales Habituales
+                                    </label>                          
+                                </div>
+                                <div class="checkbox col-xs-12 col-sm-6 col-md-3">
+                                    <label for="embarazo">
+                                        <input type="checkbox" name="arregloPadecimiento[]" value="embarazo" id="embarazo"  {{session.action == 'list'?'disabled':''}} {{data.padecimiento[0].Embarazo == 'S'?'checked':''}}/>
+                                        Embarazo
+                                    </label>   
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <legend>Tipo de Celulitis:</legend>
+                            <div class="form-group col-xs-12">
+                                <div class="checkbox col-xs-12 col-sm-6 col-md-3 first_check">
+                                    <label for="fibrosa">
+                                        <input type="checkbox" name="arregloTipoCelulitis[]" value="fibrosa" id="fibrosa"  {{session.action == 'list'?'disabled':''}} {{data.tipoCelulitis[0].Fibrosa == 'S'?'checked':''}}/>
+                                        Fibrosa
+                                    </label>                            
+                                </div>                            
+                                <div class="checkbox col-xs-12 col-sm-6 col-md-3">
+                                    <label for="edematosa">
+                                        <input type="checkbox" name="arregloTipoCelulitis[]" value="edematosa" id="edematosa"  {{session.action == 'list'?'disabled':''}} {{data.tipoCelulitis[0].Edematosa == 'S'?'checked':''}}/>
+                                        Edematosa
+                                    </label>                            
                                 </div>                        
-                            </div>
-                            <div class="col-xs-12 col-md-6">
-                                <li><label for="arregloExfolacion">Utiliza alguno de estos productos?</label></li>
-                                <div class="checkbox col-xs-12 col-sm-6 first_check">
-                                    <label for="acidoGlicolico">
-                                        <input type="checkbox" name="arregloExfolacion[]" value="acidoGlicolico" id="acidoGlicolico"  {{session.action == 'list'?'disabled':''}} {{data.exfoliacion[0].AcidoGlicolico == 'S'?'checked':''}}/>
-                                        Ácido glicólico
-                                    </label>                                            
-                                </div>
-                                <div class="checkbox col-xs-12 col-sm-6">
-                                    <label for="alfaHidroiacidos">
-                                        <input type="checkbox" name="arregloExfolacion[]" value="alfaHidroiacidos" id="alfaHidroiacidos"  {{session.action == 'list'?'disabled':''}} {{data.exfoliacion[0].AlfaHidroxiacidos == 'S'?'checked':''}}/>
-                                        Alfa hidroxiácidos
-                                    </label>                                          
-                                </div>                                        
-                                <div class="checkbox col-xs-12 col-sm-6">
-                                    <label for="exfolianteGranuloso">
-                                        <input type="checkbox" name="arregloExfolacion[]" value="exfolianteGranuloso" id="exfolianteGranuloso"  {{session.action == 'list'?'disabled':''}} {{data.exfoliacion[0].ExfolianteGranuloso == 'S'?'checked':''}}/>
-                                        Exfoliante granuloso
-                                    </label>                                           
-                                </div>
-                                <div class="checkbox col-xs-12 col-sm-6">
-                                    <label for="acidoLactico">
-                                        <input type="checkbox" name="arregloExfolacion[]" value="acidoLactico" id="acidoLactico"  {{session.action == 'list'?'disabled':''}} {{data.exfoliacion[0].AcidoLactico == 'S'?'checked':''}}/>
-                                        Ácido láctico
-                                    </label>                                           
-                                </div>
-                                <div class="checkbox col-xs-12 col-sm-6">
-                                    <label for="vitaminaA">
-                                        <input type="checkbox" name="arregloExfolacion[]" value="vitaminaA" id="vitaminaA"  {{session.action == 'list'?'disabled':''}} {{data.exfoliacion[0].VitaminaA == 'S'?'checked':''}}/>
-                                        Vitamina A (retinol)
-                                    </label>                                           
-                                </div>
-                                <div class="checkbox col-xs-12 col-sm-6">
-                                    <label for="blanqueadorAclarador">
-                                        <input type="checkbox" name="arregloExfolacion[]" value="blanqueadorAclarador" id="blanqueadorAclarador"  {{session.action == 'list'?'disabled':''}} {{data.exfoliacion[0].BlanqueadorOAclarador == 'S'?'checked':''}}/>
-                                        Blanqueador ó Aclarador
-                                    </label>                                           
-                                </div>
-                            </div>
-                        </ol>
-                    </div>
-                    <div class="row">
-                        <legend>Alimentación</legend>
-                        <ol>
-                            <div class="col-xs-12 col-sm-6">
-                                <li><label for="motivoConsulta">Tipo de Alimentación</label></li>
-                                <div class="radio col-xs-6 col-md-3 first_check">
-                                    <label><input type="radio" name="alimentacion" id="buena" value="buena"  {{session.action == 'list'?'disabled':''}}  {{data.alimentacion[0].Buena == 'S'?'checked':''}}/>Buena</label>
-                                </div>
-                                <div class="radio col-xs-6 col-md-3">
-                                    <label><input type="radio" name="alimentacion" id="regular" value="regular"  {{session.action == 'list'?'disabled':''}}  {{data.alimentacion[0].Regular == 'S'?'checked':''}}/>Regular</label>
-                                </div>
-                                <div class="radio col-xs-6 col-md-3">
-                                    <label><input type="radio" name="alimentacion" id="mala" value="mala"  {{session.action == 'list'?'disabled':''}}  {{data.alimentacion[0].Mala == 'S'?'checked':''}}/>Mala</label>
-                                </div>
-                            </div>
-                            <div class="col-xs-12 col-sm-6">
-                                <li><label for="motivoConsulta">Cuanta agua bebe al dia</label></li>
-                                <div class="radio col-xs-6 col-md-3  first_check">
-                                    <label><input type="radio" name="aguaAlDia" id="poca" value="poca"  {{session.action == 'list'?'disabled':''}}  {{data.aguaAlDia[0].Poca == 'S'?'checked':''}}/>Poca</label>
-                                </div>
-                                <div class="radio col-xs-6 col-md-3">
-                                    <label><input type="radio" name="aguaAlDia" id="regular" value="regular"  {{session.action == 'list'?'disabled':''}}  {{data.aguaAlDia[0].Regular == 'S'?'checked':''}}/>Regular</label>
-                                </div>
-                                <div class="radio col-xs-6 col-md-3">
-                                    <label><input type="radio" name="aguaAlDia" id="mucha" value="mucha"  {{session.action == 'list'?'disabled':''}}  {{data.aguaAlDia[0].Mucha == 'S'?'checked':''}}/>Mucha</label>
-                                </div>
-                            </div>
-                        </ol>
-                        <div class="form-group col-xs-12">
-                            <label for="observaciones">Observaciones:</label>
-                            <textarea class="form-control" id = "observaciones" name = "observaciones" placeholder = "Observaciones" {{session.action == 'list'?'disabled':''}}  >{{data.historialMedico[0].Observaciones}}</textarea>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <legend>Padecimientos:</legend>
-                        <div class="form-group col-xs-12">
-                            <div class="checkbox col-xs-12 col-sm-6 col-md-3 first_check">
-                                <label for="diabetes">
-                                    <input type="checkbox" name="arregloPadecimiento[]" value="diabetes" id="diabetes"  {{session.action == 'list'?'disabled':''}} {{data.padecimiento[0].Diabetes == 'S'?'checked':''}}/>
-                                    Diabetes
-                                </label>
-                            </div>                            
-                            <div class="checkbox col-xs-12 col-sm-6 col-md-3">
-                                <label for="obesidad">
-                                    <input type="checkbox" name="arregloPadecimiento[]" value="obesidad" id="obesidad"  {{session.action == 'list'?'disabled':''}} {{data.padecimiento[0].Obesisdad == 'S'?'checked':''}}/>
-                                    Obesidad
-                                </label>                          
-                            </div>                            
-                            <div class="checkbox col-xs-12 col-sm-6 col-md-3">
-                                <label for="depresion">
-                                    <input type="checkbox" name="arregloPadecimiento[]" value="depresion" id="depresion"  {{session.action == 'list'?'disabled':''}} {{data.padecimiento[0].Depresion == 'S'?'checked':''}}/>
-                                    Depresion
-                                </label>                          
-                            </div>                            
-                            <div class="checkbox col-xs-12 col-sm-6 col-md-3">
-                                <label for="estres">
-                                    <input type="checkbox" name="arregloPadecimiento[]" value="estres" id="estres"  {{session.action == 'list'?'disabled':''}} {{data.padecimiento[0].Estres == 'S'?'checked':''}}/>
-                                    Estres
-                                </label>                          
-                            </div>                                                    
-                            <div class="checkbox col-xs-12 col-sm-6 col-md-3">
-                                <label for="sobrepeso">
-                                    <input type="checkbox" name="arregloPadecimiento[]" value="sobrepeso" id="sobrepeso"  {{session.action == 'list'?'disabled':''}} {{data.padecimiento[0].Sobrepeso == 'S'?'checked':''}}/>
-                                    Sobrepeso
-                                </label>                          
-                            </div>                            
-                            <div class="checkbox col-xs-12 col-sm-6 col-md-3">
-                                <label for="estrenimiento">
-                                    <input type="checkbox" name="arregloPadecimiento[]" value="estrenimiento" id="estrenimiento"  {{session.action == 'list'?'disabled':''}} {{data.padecimiento[0].Estrenimiento == 'S'?'checked':''}}/>
-                                    Estreñimiento
-                                </label>                          
-                            </div>                            
-                            <div class="checkbox col-xs-12 col-sm-6 col-md-3">
-                                <label for="colitis">
-                                    <input type="checkbox" name="arregloPadecimiento[]" value="colitis" id="colitis"  {{session.action == 'list'?'disabled':''}} {{data.padecimiento[0].Colitis == 'S'?'checked':''}}/>
-                                    Colitis
-                                </label>                          
-                            </div>                            
-                            <div class="checkbox col-xs-12 col-sm-6 col-md-3">
-                                <label for="retencionLiquidos">
-                                    <input type="checkbox" name="arregloPadecimiento[]" value="retencionLiquidos" id="retencionLiquidos"  {{session.action == 'list'?'disabled':''}} {{data.padecimiento[0].RetencionLiquidos == 'S'?'checked':''}}/>
-                                    Retención de Líquidos
-                                </label>                          
-                            </div>     
-                            <div class="checkbox col-xs-12 col-sm-6 col-md-3">
-                                <label for="transtornoMes">
-                                    <input type="checkbox" name="arregloPadecimiento[]" value="transtornoMes" id="transtornoMes"  {{session.action == 'list'?'disabled':''}} {{data.padecimiento[0].TranstornosMenstruales == 'S'?'checked':''}}/>
-                                    Transtorno Menstrual
-                                </label>                          
-                            </div>                            
-                            <div class="checkbox col-xs-12 col-sm-6 col-md-3">
-                                <label for="cuidadoCorporal">
-                                    <input type="checkbox" name="arregloPadecimiento[]" value="cuidadoCorporal" id="cuidadoCorporal"  {{session.action == 'list'?'disabled':''}} {{data.padecimiento[0].CuidadosCorporales == 'S'?'checked':''}}/>
-                                    Cuidados Corporales Habituales
-                                </label>                          
-                            </div>
-                            <div class="checkbox col-xs-12 col-sm-6 col-md-3">
-                                <label for="embarazo">
-                                    <input type="checkbox" name="arregloPadecimiento[]" value="embarazo" id="embarazo"  {{session.action == 'list'?'disabled':''}} {{data.padecimiento[0].Embarazo == 'S'?'checked':''}}/>
-                                    Embarazo
-                                </label>   
+                                <div class="checkbox col-xs-12 col-sm-6 col-md-3">
+                                    <label for="flacidaC">
+                                        <input type="checkbox" name="arregloTipoCelulitis[]" value="flacida" id="flacidaC"  {{session.action == 'list'?'disabled':''}} {{data.tipoCelulitis[0].Flacida == 'S'?'checked':''}}/>
+                                        Flacida
+                                    </label>                            
+                                </div>                            
+                                <div class="checkbox col-xs-12 col-sm-6 col-md-3">
+                                    <label for="dura">
+                                        <input type="checkbox" name="arregloTipoCelulitis[]" value="dura" id="dura"  {{session.action == 'list'?'disabled':''}} {{data.tipoCelulitis[0].Dura == 'S'?'checked':''}}/>
+                                        Dura
+                                    </label>                            
+                                </div>                        
+                                <div class="checkbox col-xs-12 col-sm-6 col-md-3">
+                                    <label for="mixtaC">
+                                        <input type="checkbox" name="arregloTipoCelulitis[]" value="mixta" id="mixtaC"  {{session.action == 'list'?'disabled':''}} {{data.tipoCelulitis[0].Mixta == 'S'?'checked':''}}/>
+                                        Mixta
+                                    </label>                            
+                                </div>                            
+                                <div class="checkbox col-xs-12 col-sm-6 col-md-3">
+                                    <label for="dolorosa">
+                                        <input type="checkbox" name="arregloTipoCelulitis[]" value="dolorosa" id="dolorosa"  {{session.action == 'list'?'disabled':''}} {{data.tipoCelulitis[0].Dolorosa == 'S'?'checked':''}}/>
+                                        Dolorosa
+                                    </label>                            
+                                </div>                            
                             </div>
                         </div>
                     </div>
-
-                    <div class="row">
-                        <legend>Tipo de Celulitis:</legend>
-                        <div class="form-group col-xs-12">
-                            <div class="checkbox col-xs-12 col-sm-6 col-md-3 first_check">
-                                <label for="fibrosa">
-                                    <input type="checkbox" name="arregloTipoCelulitis[]" value="fibrosa" id="fibrosa"  {{session.action == 'list'?'disabled':''}} {{data.tipoCelulitis[0].Fibrosa == 'S'?'checked':''}}/>
-                                    Fibrosa
-                                </label>                            
-                            </div>                            
-                            <div class="checkbox col-xs-12 col-sm-6 col-md-3">
-                                <label for="edematosa">
-                                    <input type="checkbox" name="arregloTipoCelulitis[]" value="edematosa" id="edematosa"  {{session.action == 'list'?'disabled':''}} {{data.tipoCelulitis[0].Edematosa == 'S'?'checked':''}}/>
-                                    Edematosa
-                                </label>                            
-                            </div>                        
-                            <div class="checkbox col-xs-12 col-sm-6 col-md-3">
-                                <label for="flacidaC">
-                                    <input type="checkbox" name="arregloTipoCelulitis[]" value="flacida" id="flacidaC"  {{session.action == 'list'?'disabled':''}} {{data.tipoCelulitis[0].Flacida == 'S'?'checked':''}}/>
-                                    Flacida
-                                </label>                            
-                            </div>                            
-                            <div class="checkbox col-xs-12 col-sm-6 col-md-3">
-                                <label for="dura">
-                                    <input type="checkbox" name="arregloTipoCelulitis[]" value="dura" id="dura"  {{session.action == 'list'?'disabled':''}} {{data.tipoCelulitis[0].Dura == 'S'?'checked':''}}/>
-                                    Dura
-                                </label>                            
-                            </div>                        
-                            <div class="checkbox col-xs-12 col-sm-6 col-md-3">
-                                <label for="mixtaC">
-                                    <input type="checkbox" name="arregloTipoCelulitis[]" value="mixta" id="mixtaC"  {{session.action == 'list'?'disabled':''}} {{data.tipoCelulitis[0].Mixta == 'S'?'checked':''}}/>
-                                    Mixta
-                                </label>                            
-                            </div>                            
-                            <div class="checkbox col-xs-12 col-sm-6 col-md-3">
-                                <label for="dolorosa">
-                                    <input type="checkbox" name="arregloTipoCelulitis[]" value="dolorosa" id="dolorosa"  {{session.action == 'list'?'disabled':''}} {{data.tipoCelulitis[0].Dolorosa == 'S'?'checked':''}}/>
-                                    Dolorosa
-                                </label>                            
-                            </div>                            
+                    <div class="tab-pane" id="medidas">
+                        <div class="row">
+                            <h2 class="text-center">Medidas Personales</h2><hr>
+                            <legend>Exploración:</legend>
+                            <div class="form-group col-xs-12">                            
+                                <div class="form-group col-xs-12 col-lg-6">
+                                    <label for="pesoIni">Peso Inicial:</label>
+                                    <input class="form-control" type = "text" id = "pesoIni" name = "pesoIni" placeholder = "Peso Inicial (kg)" value="{{data.exploracionInicial[0].PesoInicial}}"  {{session.action == 'list'?'disabled':''}}>
+                                </div>                            
+                                <div class="form-group col-xs-12 col-lg-6">
+                                    <label for="bustoIni">Busto Inicial:</label>
+                                    <input class="form-control" type = "text" id = "bustoIni" name = "bustoIni" placeholder = "Busto Inicial (cm)" value="{{data.exploracionInicial[0].BustoInicial}}"  {{session.action == 'list'?'disabled':''}}>
+                                </div>
+                                <div class="form-group col-xs-12 col-lg-6">
+                                    <label for="diafragmaIni">Diafragma Inicial:</label>
+                                    <input class="form-control" type = "text" id = "diafragmaIni" name = "diafragmaIni" placeholder = "Diafragma Inicial (cm)" value="{{data.exploracionInicial[0].DiafragmaInicial}}"  {{session.action == 'list'?'disabled':''}}>
+                                </div>
+                                <div class="form-group col-xs-12 col-lg-6">
+                                    <label for="brazoIni">Brazo Inicial:</label>
+                                    <input class="form-control" type = "text" id = "brazoIni" name = "brazoIni" placeholder = "Brazo Inicial (cm)" value="{{data.exploracionInicial[0].BrazoInicial}}"  {{session.action == 'list'?'disabled':''}}>
+                                </div>
+                                <div class="form-group col-xs-12 col-lg-6">
+                                    <label for="cinturaIni">Cintura Inicial:</label>
+                                    <input class="form-control" type = "text" id = "cinturaIni" name = "cinturaIni" placeholder = "Cintura Inicial (cm)" value="{{data.exploracionInicial[0].CinturaInicial}}"  {{session.action == 'list'?'disabled':''}}>
+                                </div>
+                                <div class="form-group col-xs-12 col-lg-6">
+                                    <label for="abdomenIni">Abdomen Inicial:</label>
+                                    <input class="form-control" type = "text" id = "abdomenIni" name = "abdomenIni" placeholder = "Abdomen Inicial (cm)" value="{{data.exploracionInicial[0].AbdomenInicial}}"  {{session.action == 'list'?'disabled':''}}>
+                                </div>
+                                <div class="form-group col-xs-12 col-lg-6">
+                                    <label for="caderaIni">Cadera Inicial:</label>
+                                    <input class="form-control" type = "text" id = "caderaIni" name = "caderaIni" placeholder = "Cadera Inicial (cm)" value="{{data.exploracionInicial[0].CaderaInicial}}"  {{session.action == 'list'?'disabled':''}}>
+                                </div>
+                                <div class="form-group col-xs-12 col-lg-6">
+                                    <label for="musloIni">Muslo Inicial:</label>
+                                    <input class="form-control" type = "text" id = "musloIni" name = "musloIni" placeholder = "Muslo Inicial (cm)" value="{{data.exploracionInicial[0].MusloInicial}}"  {{session.action == 'list'?'disabled':''}}>
+                                </div>
+                                <div class="form-group col-xs-12 col-lg-6">
+                                    <label for="pesoFin">Peso Final:</label>
+                                    <input class="form-control" type = "text" id = "pesoFin" name = "pesoFin" placeholder = "Peso Final (kg)" value="{{data.exploracionFinal[0].PesoFinal}}"  {{session.action == 'list'?'disabled':''}}>
+                                </div>
+                                <div class="form-group col-xs-12 col-lg-6">
+                                    <label for="bustoFin">Busto Final:</label>
+                                    <input class="form-control" type = "text" id = "bustoFin" name = "bustoFin" placeholder = "Busto Final (cm)" value="{{data.exploracionFinal[0].BustoFinal}}"  {{session.action == 'list'?'disabled':''}}>
+                                </div>
+                                <div class="form-group col-xs-12 col-lg-6">
+                                    <label for="diafragmaFin">Diafragma Final:</label>
+                                    <input class="form-control" type = "text" id = "diafragmaFin" name = "diafragmaFin" placeholder = "Diafragma Final (cm)" value="{{data.exploracionFinal[0].DiafragmaFinal}}"  {{session.action == 'list'?'disabled':''}}>
+                                </div>
+                                <div class="form-group col-xs-12 col-lg-6">
+                                    <label for="brazoFin">Brazo Final:</label>
+                                    <input class="form-control" type = "text" id = "brazoFin" name = "brazoFin" placeholder = "Brazo Final (cm)" value="{{data.exploracionFinal[0].BrazoFinal}}"  {{session.action == 'list'?'disabled':''}}>
+                                </div>
+                                <div class="form-group col-xs-12 col-lg-6">
+                                    <label for="cinturaFin">Cintura Final:</label>
+                                    <input class="form-control" type = "text" id = "cinturaFin" name = "cinturaFin" placeholder = "Cintura Final (cm)" value="{{data.exploracionFinal[0].CinturaFinal}}"  {{session.action == 'list'?'disabled':''}}>
+                                </div>
+                                <div class="form-group col-xs-12 col-lg-6">
+                                    <label for="abdomenFin">Abdomen Final:</label>
+                                    <input class="form-control" type = "text" id = "abdomenFin" name = "abdomenFin" placeholder = "Abdomen Final (cm)" value="{{data.exploracionFinal[0].AbdomenFinal}}"  {{session.action == 'list'?'disabled':''}}>
+                                </div>
+                                <div class="form-group col-xs-12 col-lg-6">
+                                    <label for="caderaFin">Cadera Final:</label>
+                                    <input class="form-control" type = "text" id = "caderaFin" name = "caderaFin" placeholder = "Cadera Final (cm)" value="{{data.exploracionFinal[0].CaderaFinal}}"  {{session.action == 'list'?'disabled':''}}>
+                                </div>
+                                <div class="form-group col-xs-12 col-lg-6">
+                                    <label for="musloFin">Muslo Final:</label>
+                                    <input class="form-control" type = "text" id = "musloFin" name = "musloFin" placeholder = "Muslo Final (cm)" value="{{data.exploracionFinal[0].MusloFinal}}"  {{session.action == 'list'?'disabled':''}}>
+                                </div>                            
+                            </div>
                         </div>
                     </div>
-
-                    <div class="row">
-                        <legend>Exploración:</legend>
-                        <div class="form-group col-xs-12">                            
-                            <div class="form-group col-xs-12 col-lg-6">
-                                <label for="pesoIni">Peso Inicial:</label>
-                                <input class="form-control" type = "text" id = "pesoIni" name = "pesoIni" placeholder = "Peso Inicial (kg)" value="{{data.exploracionInicial[0].PesoInicial}}"  {{session.action == 'list'?'disabled':''}}>
-                            </div>                            
-                            <div class="form-group col-xs-12 col-lg-6">
-                                <label for="bustoIni">Busto Inicial:</label>
-                                <input class="form-control" type = "text" id = "bustoIni" name = "bustoIni" placeholder = "Busto Inicial (cm)" value="{{data.exploracionInicial[0].BustoInicial}}"  {{session.action == 'list'?'disabled':''}}>
-                            </div>
-                            <div class="form-group col-xs-12 col-lg-6">
-                                <label for="diafragmaIni">Diafragma Inicial:</label>
-                                <input class="form-control" type = "text" id = "diafragmaIni" name = "diafragmaIni" placeholder = "Diafragma Inicial (cm)" value="{{data.exploracionInicial[0].DiafragmaInicial}}"  {{session.action == 'list'?'disabled':''}}>
-                            </div>
-                            <div class="form-group col-xs-12 col-lg-6">
-                                <label for="brazoIni">Brazo Inicial:</label>
-                                <input class="form-control" type = "text" id = "brazoIni" name = "brazoIni" placeholder = "Brazo Inicial (cm)" value="{{data.exploracionInicial[0].BrazoInicial}}"  {{session.action == 'list'?'disabled':''}}>
-                            </div>
-                            <div class="form-group col-xs-12 col-lg-6">
-                                <label for="cinturaIni">Cintura Inicial:</label>
-                                <input class="form-control" type = "text" id = "cinturaIni" name = "cinturaIni" placeholder = "Cintura Inicial (cm)" value="{{data.exploracionInicial[0].CinturaInicial}}"  {{session.action == 'list'?'disabled':''}}>
-                            </div>
-                            <div class="form-group col-xs-12 col-lg-6">
-                                <label for="abdomenIni">Abdomen Inicial:</label>
-                                <input class="form-control" type = "text" id = "abdomenIni" name = "abdomenIni" placeholder = "Abdomen Inicial (cm)" value="{{data.exploracionInicial[0].AbdomenInicial}}"  {{session.action == 'list'?'disabled':''}}>
-                            </div>
-                            <div class="form-group col-xs-12 col-lg-6">
-                                <label for="caderaIni">Cadera Inicial:</label>
-                                <input class="form-control" type = "text" id = "caderaIni" name = "caderaIni" placeholder = "Cadera Inicial (cm)" value="{{data.exploracionInicial[0].CaderaInicial}}"  {{session.action == 'list'?'disabled':''}}>
-                            </div>
-                            <div class="form-group col-xs-12 col-lg-6">
-                                <label for="musloIni">Muslo Inicial:</label>
-                                <input class="form-control" type = "text" id = "musloIni" name = "musloIni" placeholder = "Muslo Inicial (cm)" value="{{data.exploracionInicial[0].MusloInicial}}"  {{session.action == 'list'?'disabled':''}}>
-                            </div>
-                            <div class="form-group col-xs-12 col-lg-6">
-                                <label for="pesoFin">Peso Final:</label>
-                                <input class="form-control" type = "text" id = "pesoFin" name = "pesoFin" placeholder = "Peso Final (kg)" value="{{data.exploracionFinal[0].PesoFinal}}"  {{session.action == 'list'?'disabled':''}}>
-                            </div>
-                            <div class="form-group col-xs-12 col-lg-6">
-                                <label for="bustoFin">Busto Final:</label>
-                                <input class="form-control" type = "text" id = "bustoFin" name = "bustoFin" placeholder = "Busto Final (cm)" value="{{data.exploracionFinal[0].BustoFinal}}"  {{session.action == 'list'?'disabled':''}}>
-                            </div>
-                            <div class="form-group col-xs-12 col-lg-6">
-                                <label for="diafragmaFin">Diafragma Final:</label>
-                                <input class="form-control" type = "text" id = "diafragmaFin" name = "diafragmaFin" placeholder = "Diafragma Final (cm)" value="{{data.exploracionFinal[0].DiafragmaFinal}}"  {{session.action == 'list'?'disabled':''}}>
-                            </div>
-                            <div class="form-group col-xs-12 col-lg-6">
-                                <label for="brazoFin">Brazo Final:</label>
-                                <input class="form-control" type = "text" id = "brazoFin" name = "brazoFin" placeholder = "Brazo Final (cm)" value="{{data.exploracionFinal[0].BrazoFinal}}"  {{session.action == 'list'?'disabled':''}}>
-                            </div>
-                            <div class="form-group col-xs-12 col-lg-6">
-                                <label for="cinturaFin">Cintura Final:</label>
-                                <input class="form-control" type = "text" id = "cinturaFin" name = "cinturaFin" placeholder = "Cintura Final (cm)" value="{{data.exploracionFinal[0].CinturaFinal}}"  {{session.action == 'list'?'disabled':''}}>
-                            </div>
-                            <div class="form-group col-xs-12 col-lg-6">
-                                <label for="abdomenFin">Abdomen Final:</label>
-                                <input class="form-control" type = "text" id = "abdomenFin" name = "abdomenFin" placeholder = "Abdomen Final (cm)" value="{{data.exploracionFinal[0].AbdomenFinal}}"  {{session.action == 'list'?'disabled':''}}>
-                            </div>
-                            <div class="form-group col-xs-12 col-lg-6">
-                                <label for="caderaFin">Cadera Final:</label>
-                                <input class="form-control" type = "text" id = "caderaFin" name = "caderaFin" placeholder = "Cadera Final (cm)" value="{{data.exploracionFinal[0].CaderaFinal}}"  {{session.action == 'list'?'disabled':''}}>
-                            </div>
-                            <div class="form-group col-xs-12 col-lg-6">
-                                <label for="musloFin">Muslo Final:</label>
-                                <input class="form-control" type = "text" id = "musloFin" name = "musloFin" placeholder = "Muslo Final (cm)" value="{{data.exploracionFinal[0].MusloFinal}}"  {{session.action == 'list'?'disabled':''}}>
-                            </div>                            
-                        </div>
-                    </div>
-
                 </div>
+            </div>
                 {% if session.action != 'list' %}
-                    <div class = "col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                        <button type="submit" class="btn btn-default pull-left">Enviar</button>
-                        <button type="reset" class="btn btn-default pull-right">Limpiar Campos</button>
-                    </div>
+                <div class = "col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    <button type="submit" class="btn btn-default pull-left">Enviar</button>
+                </div>
                 </form>
                 <div class="modal fade" id="modalCargar" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
@@ -568,7 +585,6 @@
                                 <span class="fa fa-spinner fa-spin fa-5x"></span>
                             </div>
                         </div>
-
                     </div>
                 </div>
                 {% endif %}
@@ -577,4 +593,5 @@
         </div>
     </section>
 </div>
+
 {% include 'footer.html' with {'jsLibs': ['js/plugins/jquery.ui.widget.js','js/plugins/jquery.fileupload.js','js/historialMedico.js']} %}
