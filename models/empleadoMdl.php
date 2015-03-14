@@ -7,6 +7,7 @@ class EmpleadoMdl extends BaseMdl{
 	private $nombre;
 	private $apellidoPat;
 	private $apellidoMat;
+	private $sueldo;
 	private $usuario;
 	private $contrasena;
 	private $idCargo;
@@ -24,6 +25,7 @@ class EmpleadoMdl extends BaseMdl{
 	 *@param string $nombre
 	 *@param string $apellidoPat
 	 *@param string $apellidoMat
+	 *@param string $sueldo
 	 *@param string $usuario
 	 *@param string $contrasena
 	 *@param integer $idCargo
@@ -39,11 +41,12 @@ class EmpleadoMdl extends BaseMdl{
 	 *Crea un nuevo empleado
 	 *@return true or false
 	 */
-	function create($nombre, $apellidoPat, $apellidoMat, $usuario, $contrasena, $idCargo, $calle, $numExterior, $numInterior, $colonia, $codigoPostal, 
+	function create($nombre, $apellidoPat, $apellidoMat, $sueldo, $usuario, $contrasena, $idCargo, $calle, $numExterior, $numInterior, $colonia, $codigoPostal, 
 		$foto = NULL, $email, $telefono = NULL, $celular = NULL){
 		$this->nombre		= $this->driver->real_escape_string($nombre);
 		$this->apellidoPat	= $this->driver->real_escape_string($apellidoPat);
 		$this->apellidoMat	= $this->driver->real_escape_string($apellidoMat);
+		$this->sueldo		= $this->driver->real_escape_string($sueldo);
 		$this->usuario		= $this->driver->real_escape_string($usuario);
 		$this->contrasena	= $this->driver->real_escape_string($contrasena);
 		$this->idCargo		= $idCargo;
@@ -57,9 +60,10 @@ class EmpleadoMdl extends BaseMdl{
 		$this->telefono		= $this->driver->real_escape_string($telefono);
 		$this->celular		= $this->driver->real_escape_string($celular);
 		
-		$stmt = $this->driver->prepare('INSERT INTO Empleado (Nombre, ApellidoPaterno, ApellidoMaterno, Usuario, Contrasena, IDCargo, Calle, NumExterior, NumInterior, Colonia, CodigoPostal, Foto, Email, Telefono, Celular)
-										VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)');
-		if(!$stmt->bind_param('sssssisssssssss',$this->nombre, $this->apellidoPat, $this->apellidoMat, $this->usuario, 
+		$stmt = $this->driver->prepare('INSERT INTO Empleado (Nombre, ApellidoPaterno, ApellidoMaterno, Sueldo, Usuario, Contrasena, IDCargo, Calle, NumExterior, NumInterior, Colonia, CodigoPostal, Foto, Email, Telefono, Celular)
+										VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)');
+		if(!$stmt->bind_param('sssdssisssssssss',$this->nombre, $this->apellidoPat, $this->apellidoMat, 
+												$this->sueldo,$this->usuario, 
 												$this->contrasena, $this->idCargo, $this->calle, $this->numExterior,
 												$this->numInterior, $this->colonia, $this->codigoPostal, $this->foto,
 												$this->email, $this->telefono, $this->celular)){
@@ -81,6 +85,7 @@ class EmpleadoMdl extends BaseMdl{
 	 *@param string $nombre
 	 *@param string $apellidoPat
 	 *@param string $apellidoMat
+	 *@param string $sueldo
 	 *@param string $usuario
 	 *@param string $contrasena
 	 *@param integer $idCargo
@@ -96,11 +101,12 @@ class EmpleadoMdl extends BaseMdl{
 	 *Modifica un empleado
 	 *@return true or false
 	 */
-	function update($idEmpleado, $nombre, $apellidoPat, $apellidoMat, $usuario, $contrasena, $idCargo, $calle, $numExterior, $numInterior, $colonia, $codigoPostal, 
+	function update($idEmpleado, $nombre, $apellidoPat, $apellidoMat, $sueldo, $usuario, $contrasena, $idCargo, $calle, $numExterior, $numInterior, $colonia, $codigoPostal, 
 		$foto = NULL, $email, $telefono = NULL, $celular = NULL){
 		$this->nombre		= $this->driver->real_escape_string($nombre);
 		$this->apellidoPat	= $this->driver->real_escape_string($apellidoPat);
 		$this->apellidoMat	= $this->driver->real_escape_string($apellidoMat);
+		$this->sueldo		= $this->driver->real_escape_string($sueldo);
 		$this->usuario		= $this->driver->real_escape_string($usuario);
 		$this->contrasena	= $this->driver->real_escape_string($contrasena);
 		$this->idCargo		= $idCargo;
@@ -115,10 +121,11 @@ class EmpleadoMdl extends BaseMdl{
 		$this->celular		= $this->driver->real_escape_string($celular);
 		
 		$stmt = $this->driver->prepare('UPDATE Empleado SET 
-										Nombre = ?, ApellidoPaterno = ?, ApellidoMaterno = ?, Usuario = ?, Contrasena = ?, IDCargo = ?, Calle = ?,
+										Nombre = ?, ApellidoPaterno = ?, ApellidoMaterno = ?, Sueldo = ?,Usuario = ?, Contrasena = ?, IDCargo = ?, Calle = ?,
 										NumExterior = ?, NumInterior = ?, Colonia = ?, CodigoPostal = ?, Foto = ?, Email = ?, Telefono = ?, Celular = ?
 										WHERE IDEmpleado = ?');
-		if(!$stmt->bind_param('sssssisssssssssi',$this->nombre, $this->apellidoPat, $this->apellidoMat, $this->usuario, 
+		if(!$stmt->bind_param('sssdssisssssssssi',$this->nombre, $this->apellidoPat, $this->apellidoMat, 
+												$this->sueldo, $this->usuario, 
 												$this->contrasena, $this->idCargo, $this->calle, $this->numExterior,
 												$this->numInterior, $this->colonia, $this->codigoPostal, $this->foto,
 												$this->email, $this->telefono, $this->celular, $idEmpleado)){

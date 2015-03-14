@@ -46,7 +46,7 @@ class ClienteMdl extends BaseMdl{
 		$this->email		= $this->driver->real_escape_string($email);
 		$this->telefono		= $this->driver->real_escape_string($telefono);
 		$this->celular		= $this->driver->real_escape_string($celular);
-		$this->idTerapeuta	= $this->driver->real_escape_string($idTerapeuta);
+		$this->idTerapeuta	= $idTerapeuta;
 		
 		$stmt = $this->driver->prepare("INSERT INTO 
 										Cliente (IDTerapeuta, Nombre, ApellidoPaterno, ApellidoMaterno, Calle, NumExterior, NumInterior, Colonia, CodigoPostal, Email, Telefono, Celular) 
@@ -104,7 +104,7 @@ class ClienteMdl extends BaseMdl{
 		$this->email		= $this->driver->real_escape_string($email);
 		$this->telefono		= $this->driver->real_escape_string($telefono);
 		$this->celular		= $this->driver->real_escape_string($celular);
-		$this->idTerapeuta	= $this->driver->real_escape_string($idTerapeuta);
+		$this->idTerapeuta	= $idTerapeuta;
 		
 		$stmt = $this->driver->prepare("UPDATE Cliente SET
 										IDTerapeuta = ?, Nombre = ?, ApellidoPaterno = ?, ApellidoMaterno = ?, Calle = ?, NumExterior = ?, NumInterior = ?, Colonia = ?, CodigoPostal = ?, Email = ?, Telefono = ?, Celular = ?

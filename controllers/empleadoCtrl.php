@@ -65,6 +65,7 @@
 				$nombre 			= $this->validateName(isset($_POST['nombre'])?$_POST['nombre']:NULL);
 				$apellidoPaterno 	= $this->validateName(isset($_POST['apellidoPaterno'])?$_POST['apellidoPaterno']:NULL);
 				$apellidoMaterno	= $this->validateName(isset($_POST['apellidoMaterno'])?$_POST['apellidoMaterno']:NULL);
+				$sueldo				= $this->validateNumber(isset($_POST['sueldo'])?$_POST['sueldo']:NULL);
 				$usuario			= $this->validateText(isset($_POST['usuario'])?$_POST['usuario']:NULL);
 				$idCargo			= $this->validateNumber(isset($_POST['idCargo'])?$_POST['idCargo']:NULL);
 				$calle				= $this->validateText(isset($_POST['calle'])?$_POST['calle']:NULL);
@@ -85,6 +86,8 @@
 					$errors['apellidoPaterno'] = 1;
 				if(strlen($apellidoMaterno)==0)
 					$errors['apellidoMaterno'] = 1;
+				if(strlen($sueldo)==0)
+					$errors['sueldo'] = 1;
 				if(strlen($usuario)==0)
 					$errors['usuario'] = 1;
 				if(strlen($idCargo)==0)
@@ -104,6 +107,7 @@
 					$result = $this->model->create(	$nombre, 
 												$apellidoPaterno, 
 												$apellidoMaterno,
+												$sueldo,
 												$usuario,
 												$contrasena,
 												$idCargo,
@@ -223,6 +227,7 @@
 				$nombre 			= $this->validateName(isset($_POST['nombre'])?$_POST['nombre']:NULL);
 				$apellidoPaterno 	= $this->validateName(isset($_POST['apellidoPaterno'])?$_POST['apellidoPaterno']:NULL);
 				$apellidoMaterno	= $this->validateName(isset($_POST['apellidoMaterno'])?$_POST['apellidoMaterno']:NULL);
+				$sueldo				= $this->validateNumber(isset($_POST['sueldo'])?$_POST['sueldo']:NULL);
 				$usuario			= $this->validateText(isset($_POST['usuario'])?$_POST['usuario']:NULL);
 				$contrasena			= $this->validateText(isset($_POST['contrasena'])?$_POST['contrasena']:NULL);
 				$idCargo			= $this->validateNumber(isset($_POST['idCargo'])?$_POST['idCargo']:NULL);
@@ -246,6 +251,8 @@
 					$errors['apellidoPaterno'] = 1;
 				if(strlen($apellidoMaterno)==0)
 					$errors['apellidoMaterno'] = 1;
+				if(strlen($sueldo)==0)
+					$errors['sueldo'] = 1;
 				if(strlen($usuario)==0)
 					$errors['usuario'] = 1;
 				if(strlen($contrasena)==0)
@@ -267,6 +274,7 @@
 					$result = $this->model->update($idEmpleado,$nombre, 
 												$apellidoPaterno, 
 												$apellidoMaterno,
+												$sueldo,
 												$usuario,
 												$contrasena,
 												$idCargo,

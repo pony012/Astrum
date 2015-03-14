@@ -1,6 +1,6 @@
 CREATE VIEW V_Empleado_Deleter AS
 SELECT IDEmpleado, Nombre, CONCAT_WS(' ',ApellidoPaterno,ApellidoMaterno) AS Apellidos, 
-e.IDCargo, c.Cargo as Cargo, Calle, NumExterior, 
+Contrasena,e.IDCargo, c.Cargo as Cargo, Calle, NumExterior, 
 NumInterior, Colonia, CodigoPostal as CP, Foto, Email, Telefono, Celular 
 From Empleado e 
 inner join Cargo c 
@@ -8,7 +8,7 @@ on c.IDCargo=e.IDCargo and e.Activo='N';
 
 CREATE VIEW V_Empleado AS
 SELECT IDEmpleado, Nombre, CONCAT_WS(' ',ApellidoPaterno,ApellidoMaterno) AS Apellidos, 
-e.IDCargo, c.Cargo as Cargo, Calle, NumExterior, 
+Contrasena,e.IDCargo, c.Cargo as Cargo, Calle, NumExterior, 
 NumInterior, Colonia, CodigoPostal as CP, Foto, Email, Telefono, Celular 
 From Empleado e 
 inner join Cargo c 
