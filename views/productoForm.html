@@ -20,7 +20,7 @@
                                 <input class="form-control" type = "text" id = "producto" name = "producto" placeholder = "Producto" value="{{data.Producto}}" required {{session.action == 'list'?'disabled':''}}>
                             </div>
                         {% if session.action != 'create' %}
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md-6 hide">
                                 <label for="idProducto">Id Producto:</label>
                                 <input class="form-control" type="text" id="idProducto" name="idProducto" value="{{data.IDProductoServicio}}" readonly>
                             </div>

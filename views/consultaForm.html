@@ -16,7 +16,7 @@
                                 <form id="formulario" role="form" class="" action="{{session.document_root}}/consulta/api/{{session.action}}/" {%if session.action == "update" %}data-tolocation="{{session.document_root}}/consulta/list/id/{{data.IDEmpleado}}"{% else %} data-tolocation="{{session.document_root}}/consulta/list/" {% endif %} method="POST" enctype="multipart/form-data">
                             {% endif %}
                             {% if session.action != 'create' %}
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-6 hide">
                                     <label for="idConsulta">Id Consulta:</label>
                                     <input class="form-control" type="text" id="idConsulta" name="idConsulta" value="{{data.IDConsulta}}" readonly>
                                 </div>

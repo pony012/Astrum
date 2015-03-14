@@ -16,7 +16,7 @@
                     <form id="formulario" role="form" class="" action="{{session.document_root}}/ajusteSalida/api/{{session.action}}/" {%if session.action == "update" %}data-tolocation="{{session.document_root}}/ajusteSalida/list/id/{{data.ajusteSalida[0].IDAjusteSalida}}"{% else %} data-tolocation="{{session.document_root}}/ajusteSalida/list/" {% endif %} method="POST">
                 {% endif %}
                 {% if session.action != 'create' %}
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6 hide">
                         <label for="idAjusteSalida">Id Ajuste de Salida:</label>
                         <input class="form-control" type="text" id="idAjusteSalida" name="idAjusteSalida" value="{{data.ajusteSalida[0].IDAjusteSalida}}" readonly>
                     </div>

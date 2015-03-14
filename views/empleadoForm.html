@@ -34,7 +34,7 @@
                         <input class="form-control" type = "text" id = "usuario" name = "usuario" placeholder = "Usuario" value="{{data.Usuario}}" required {{session.action != 'create'?'readonly':''}}>
                     </div>
                     {% if session.action != 'create' %}
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6 hide">
                         <label for="idEmpleado">Id Empleado:</label>
                         <input class="form-control" type="text" id="idEmpleado" name="idEmpleado" value="{{data.IDEmpleado}}" readonly>
                     </div>

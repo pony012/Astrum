@@ -16,7 +16,7 @@
                             <form id="formulario" role="form" class="" action="{{session.document_root}}/recepcion/api/{{session.action}}/" {%if session.action == "update" %}data-tolocation="{{session.document_root}}/recepcion/list/id/{{data.recepcion[0].IDRecepcion}}"{% else %} data-tolocation="{{session.document_root}}/recepcion/list/" {% endif %} method="POST">
                         {% endif %}
                     	{% if session.action != 'create' %}
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-md- hide">
                                 <label for="idRecepcion">Id Compra:</label>
                                 <input class="form-control" type="text" id="idRecepcion" name="idRecepcion" value="{{data.recepcion[0].IDRecepcion}}" readonly>
                             </div>
