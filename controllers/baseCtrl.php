@@ -218,10 +218,10 @@
     		return ($d && $d->format('Y-m-d') == $data)?$data:"";
 		}
 
-		public static function validateHour($data){
+		public static function validateDateHour($data){
 			$data = trim($data);
-			$d = DateTime::createFromFormat('H:i', $data);
-    		return ($d && $d->format('H:i') == $data)?$data:"";
+			$d = DateTime::createFromFormat('Y-m-d H:i:s', $data);
+    		return ($d && $d->format('Y-m-d H:i:s') == $data)?$data:"";
 		}
 		
 		/**

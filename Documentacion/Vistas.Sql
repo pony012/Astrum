@@ -1,5 +1,5 @@
 CREATE VIEW V_Empleado_Deleter AS
-SELECT IDEmpleado, Nombre, CONCAT_WS(' ',ApellidoPaterno,ApellidoMaterno) AS Apellidos, 
+SELECT IDEmpleado, Nombre,ApellidoPaterno,ApellidoMaterno, 
 Contrasena,e.IDCargo, c.Cargo as Cargo, Calle, NumExterior, 
 NumInterior, Colonia, CodigoPostal as CP, Foto, Email, Telefono, Celular 
 From Empleado e 
@@ -7,7 +7,7 @@ inner join Cargo c
 on c.IDCargo=e.IDCargo and e.Activo='N';
 
 CREATE VIEW V_Empleado AS
-SELECT IDEmpleado, Nombre, CONCAT_WS(' ',ApellidoPaterno,ApellidoMaterno) AS Apellidos, 
+SELECT IDEmpleado, Nombre, ApellidoPaterno,ApellidoMaterno, 
 Contrasena,e.IDCargo, c.Cargo as Cargo, Calle, NumExterior, 
 NumInterior, Colonia, CodigoPostal as CP, Foto, Email, Telefono, Celular 
 From Empleado e 
@@ -147,28 +147,28 @@ on pst.IDProductoServicioTipo=ps.IDProductoServicioTipo
 WHERE ps.IDProductoServicioTipo=2 and ps.Activo='N';
 
 CREATE VIEW V_Proveedor AS
-SELECT IDProveedor, Nombre, CONCAT_WS(' ',ApellidoPaterno,ApellidoMaterno) AS Apellidos, 
+SELECT IDProveedor, Nombre, ApellidoPaterno,ApellidoMaterno, 
 RFC, Calle, NumExterior, 
 NumInterior, Colonia, CodigoPostal as CP, Email, Telefono, Celular 
 From Proveedor p
 WHERE p.Activo='S';
 
 CREATE VIEW V_Proveedor_Deleter AS
-SELECT IDProveedor, Nombre, CONCAT_WS(' ',ApellidoPaterno,ApellidoMaterno) AS Apellidos, 
+SELECT IDProveedor, Nombre, ApellidoPaterno,ApellidoMaterno, 
 RFC, Calle, NumExterior, 
 NumInterior, Colonia, CodigoPostal as CP, Email, Telefono, Celular 
 From Proveedor p
 WHERE p.Activo='N';
 
 CREATE VIEW V_Cliente AS
-SELECT IDCliente, IDTerapeuta, Nombre, CONCAT_WS(' ',ApellidoPaterno,ApellidoMaterno) AS Apellidos, 
+SELECT IDCliente, IDTerapeuta, Nombre, ApellidoPaterno,ApellidoMaterno, 
 Calle, NumExterior, 
 NumInterior, Colonia, CodigoPostal as CP, Email, Telefono, Celular 
 From Cliente c
 WHERE c.Activo='S';
 
 CREATE VIEW V_Cliente_Deleter AS
-SELECT IDCliente, IDTerapeuta, Nombre, CONCAT_WS(' ',ApellidoPaterno,ApellidoMaterno) AS Apellidos, 
+SELECT IDCliente, IDTerapeuta, Nombre, ApellidoPaterno,ApellidoMaterno, 
 Calle, NumExterior, 
 NumInterior, Colonia, CodigoPostal as CP, Email, Telefono, Celular 
 From Cliente c
