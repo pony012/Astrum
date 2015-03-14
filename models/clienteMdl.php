@@ -16,6 +16,7 @@ class ClienteMdl extends BaseMdl{
 	private $email;
 	private $telefono;
 	private $celular;
+	private $idTerapeuta;
 	
 	/**
 	 *@param string $nombre
@@ -33,7 +34,7 @@ class ClienteMdl extends BaseMdl{
 	 *@return true
 	 */
 	function create($nombre, $apellidoPat, $apellidoMat, $calle, $numExterior, $numInterior, $colonia, $codigoPostal, 
-		$email = NULL, $telefono = NULL, $celular = NULL){
+		$email = NULL, $telefono = NULL, $celular = NULL, $idTerapeuta = NULL){
 		$this->nombre		= $this->driver->real_escape_string($nombre);
 		$this->apellidoPat	= $this->driver->real_escape_string($apellidoPat);
 		$this->apellidoMat	= $this->driver->real_escape_string($apellidoMat);
@@ -45,10 +46,12 @@ class ClienteMdl extends BaseMdl{
 		$this->email		= $this->driver->real_escape_string($email);
 		$this->telefono		= $this->driver->real_escape_string($telefono);
 		$this->celular		= $this->driver->real_escape_string($celular);
+		$this->idTerapeuta	= $this->driver->real_escape_string($idTerapeuta);
 		
 		$stmt = $this->driver->prepare("INSERT INTO 
-										Cliente (Nombre, ApellidoPaterno, ApellidoMaterno, Calle, NumExterior, NumInterior, Colonia, CodigoPostal, Email, Telefono, Celular) 
-										VALUES(?, 
+										Cliente (IDTerapeuta, Nombre, ApellidoPaterno, ApellidoMaterno, Calle, NumExterior, NumInterior, Colonia, CodigoPostal, Email, Telefono, Celular) 
+										VALUES(	?,
+												?, 
 												?, 
 												?, 
 												?, 
@@ -59,7 +62,7 @@ class ClienteMdl extends BaseMdl{
 												?, 
 												?, 
 												?)");
-		if(!$stmt->bind_param('sssssssssss',$this->nombre,$this->apellidoPat,$this->apellidoMat,$this->calle,$this->numExterior,$this->numInterior,$this->colonia,$this->codigoPostal,$this->email,$this->telefono,$this->celular)){
+		if(!$stmt->bind_param('isssssssssss',$this->idTerapeuta,$this->nombre,$this->apellidoPat,$this->apellidoMat,$this->calle,$this->numExterior,$this->numInterior,$this->colonia,$this->codigoPostal,$this->email,$this->telefono,$this->celular)){
 			return false;
 		}
 		if (!$stmt->execute()) {
@@ -89,7 +92,7 @@ class ClienteMdl extends BaseMdl{
 	 *@return true
 	 */
 	function update($idCliente, $nombre, $apellidoPat, $apellidoMat, $calle, $numExterior, $numInterior, $colonia, $codigoPostal, 
-		$email = NULL, $telefono = NULL, $celular = NULL){
+		$email = NULL, $telefono = NULL, $celular = NULL, $idTerapeuta = NULL){
 		$this->nombre		= $this->driver->real_escape_string($nombre);
 		$this->apellidoPat	= $this->driver->real_escape_string($apellidoPat);
 		$this->apellidoMat	= $this->driver->real_escape_string($apellidoMat);
@@ -101,11 +104,12 @@ class ClienteMdl extends BaseMdl{
 		$this->email		= $this->driver->real_escape_string($email);
 		$this->telefono		= $this->driver->real_escape_string($telefono);
 		$this->celular		= $this->driver->real_escape_string($celular);
+		$this->idTerapeuta	= $this->driver->real_escape_string($idTerapeuta);
 		
 		$stmt = $this->driver->prepare("UPDATE Cliente SET
-										Nombre = ?, ApellidoPaterno = ?, ApellidoMaterno = ?, Calle = ?, NumExterior = ?, NumInterior = ?, Colonia = ?, CodigoPostal = ?, Email = ?, Telefono = ?, Celular = ?
+										IDTerapeuta = ?, Nombre = ?, ApellidoPaterno = ?, ApellidoMaterno = ?, Calle = ?, NumExterior = ?, NumInterior = ?, Colonia = ?, CodigoPostal = ?, Email = ?, Telefono = ?, Celular = ?
 										WHERE IDCliente = ?");
-		if(!$stmt->bind_param('sssssssssssi',$this->nombre,$this->apellidoPat,$this->apellidoMat,$this->calle,$this->numExterior,$this->numInterior,$this->colonia,$this->codigoPostal,$this->email,$this->telefono,$this->celular, $idCliente)){
+		if(!$stmt->bind_param('isssssssssssi',$this->idTerapeuta,$this->nombre,$this->apellidoPat,$this->apellidoMat,$this->calle,$this->numExterior,$this->numInterior,$this->colonia,$this->codigoPostal,$this->email,$this->telefono,$this->celular, $idCliente)){
 			return false;
 		}
 		if (!$stmt->execute()) {

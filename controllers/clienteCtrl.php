@@ -90,6 +90,7 @@
 			if($this->api){
 				$errors = array();
 
+				$idTerapeuta		= $this->validateNumber(isset($_POST['idTerapeuta'])?$_POST['idTerapeuta']:NULL);
 				$nombre 			= $this->validateName(isset($_POST['nombre'])?$_POST['nombre']:NULL);
 				$apellidoPaterno 	= $this->validateName(isset($_POST['apellidoPaterno'])?$_POST['apellidoPaterno']:NULL);
 				$apellidoMaterno	= $this->validateName(isset($_POST['apellidoMaterno'])?$_POST['apellidoMaterno']:NULL);
@@ -127,7 +128,8 @@
 												$codigoPostal,
 												$email,
 												$telefono,
-												$celular);
+												$celular,
+												$idTerapeuta);
 
 					//Si pudo ser creado
 					if ($result) {
@@ -195,7 +197,7 @@
 		private function update(){
 			if($this->api){
 				$errors = array();
-
+				$idTerapeuta		= $this->validateNumber(isset($_POST['idTerapeuta'])?$_POST['idTerapeuta']:NULL);
 				$idCliente			= $this->validateNumber(isset($_POST['idCliente'])?$_POST['idCliente']:NULL);
 				$nombre 			= $this->validateName(isset($_POST['nombre'])?$_POST['nombre']:NULL);
 				$apellidoPaterno 	= $this->validateName(isset($_POST['apellidoPaterno'])?$_POST['apellidoPaterno']:NULL);
@@ -237,7 +239,8 @@
 												$codigoPostal,
 												$email,
 												$telefono,
-												$celular);
+												$celular,
+												$idTerapeuta);
 
 					//Si pudo ser creado
 					if ($result) {
@@ -486,7 +489,7 @@
 				//Obtener la vista
 				$vista		= file_get_contents("views/clienteFormP.html");
 				$headerP	= file_get_contents("views/headerP.html");
-				$footerP		= file_get_contents("views/footerP.html");
+				$footerP	= file_get_contents("views/footerP.html");
 
 				$diccionario = array(
 					'{idCliente}' 		=> $data['IDCliente'],
@@ -500,7 +503,8 @@
 					'{codigoPostal}'	=> $data['CP'],
 					'{email}'			=> $data['Email'],
 					'{telefono}'		=> $data['Telefono'],
-					'{celular}'			=> $data['Celular']
+					'{celular}'			=> $data['Celular'],
+					'{idTerapeuta}' 	=> $data['IDTerapeuta']
 					);
 
 				$vista = strtr($vista,$diccionario);

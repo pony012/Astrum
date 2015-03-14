@@ -1,6 +1,6 @@
 CREATE VIEW V_Empleado_Deleter AS
 SELECT IDEmpleado, Nombre, CONCAT_WS(' ',ApellidoPaterno,ApellidoMaterno) AS Apellidos, 
-Usuario, Contrasena, e.IDCargo, c.Cargo as Cargo, Calle, NumExterior, 
+e.IDCargo, c.Cargo as Cargo, Calle, NumExterior, 
 NumInterior, Colonia, CodigoPostal as CP, Foto, Email, Telefono, Celular 
 From Empleado e 
 inner join Cargo c 
@@ -8,7 +8,7 @@ on c.IDCargo=e.IDCargo and e.Activo='N';
 
 CREATE VIEW V_Empleado AS
 SELECT IDEmpleado, Nombre, CONCAT_WS(' ',ApellidoPaterno,ApellidoMaterno) AS Apellidos, 
-Usuario, Contrasena, e.IDCargo, c.Cargo as Cargo, Calle, NumExterior, 
+e.IDCargo, c.Cargo as Cargo, Calle, NumExterior, 
 NumInterior, Colonia, CodigoPostal as CP, Foto, Email, Telefono, Celular 
 From Empleado e 
 inner join Cargo c 
@@ -161,14 +161,14 @@ From Proveedor p
 WHERE p.Activo='N';
 
 CREATE VIEW V_Cliente AS
-SELECT IDCliente, Nombre, CONCAT_WS(' ',ApellidoPaterno,ApellidoMaterno) AS Apellidos, 
+SELECT IDCliente, IDTerapeuta, Nombre, CONCAT_WS(' ',ApellidoPaterno,ApellidoMaterno) AS Apellidos, 
 Calle, NumExterior, 
 NumInterior, Colonia, CodigoPostal as CP, Email, Telefono, Celular 
 From Cliente c
 WHERE c.Activo='S';
 
 CREATE VIEW V_Cliente_Deleter AS
-SELECT IDCliente, Nombre, CONCAT_WS(' ',ApellidoPaterno,ApellidoMaterno) AS Apellidos, 
+SELECT IDCliente, IDTerapeuta, Nombre, CONCAT_WS(' ',ApellidoPaterno,ApellidoMaterno) AS Apellidos, 
 Calle, NumExterior, 
 NumInterior, Colonia, CodigoPostal as CP, Email, Telefono, Celular 
 From Cliente c
