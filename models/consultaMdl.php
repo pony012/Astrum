@@ -8,6 +8,7 @@ class ConsultaMdl extends BaseMdl{
 	private $idTerapeuta;
 	private $idHistorialMedico;
 	private $fechaCita;
+	private $horaCita;
 	private $idConsultaStatus;
 	private $idServicio;
 	private $observaciones;
@@ -16,24 +17,26 @@ class ConsultaMdl extends BaseMdl{
 	 *@param integer $idCliente
 	 *@param integer $idTerapeuta
 	 *@param date $fechaCita
+	 *@param time $horaCita
 	 *@param integer $idConsultaStatus
 	 *@param string $observaciones
 	 *Crea una nueva consulta
 	 *@return true
 	 */
-	function create($idCliente, $idTerapeuta, $idHistorialMedico = NULL, $fechaCita, $idConsultaStatus, $idServicio, $observaciones){
+	function create($idCliente, $idTerapeuta, $idHistorialMedico = NULL, $fechaCita, $horaCita, $idConsultaStatus, $idServicio, $observaciones){
 		$this->idCliente 		= $idCliente;
 		$this->idTerapeuta		= $idTerapeuta;
 		$this->idHistorialMedico= $idHistorialMedico;
 		$this->idServicio 		= $idServicio;
 		$this->fechaCita		= $fechaCita;
+		$this->horaCita			= $horaCita;
 		$this->idConsultaStatus	= $idConsultaStatus;
 		$this->observaciones	= $this->driver->real_escape_string($observaciones);
 		
-		$stmt = $this->driver->prepare("INSERT INTO Consulta (IDCliente, IDTerapeuta, IDHistorialMedico, FechaCita, IDConsultaStatus, IDServicio,Observaciones)
-										VALUES(?,?,?,?,?,?,?)");
+		$stmt = $this->driver->prepare("INSERT INTO Consulta (IDCliente, IDTerapeuta, IDHistorialMedico, FechaCita, HoraCita, IDConsultaStatus, IDServicio,Observaciones)
+										VALUES(?,?,?,?,?,?,?,?)");
 
-		if(!$stmt->bind_param('iiisiis',$this->idCliente,$this->idTerapeuta,$this->idHistorialMedico,$this->fechaCita,$this->idConsultaStatus,$this->idServicio,$this->observaciones)){
+		if(!$stmt->bind_param('iiissiis',$this->idCliente,$this->idTerapeuta,$this->idHistorialMedico,$this->fechaCita,$this->horaCita,$this->idConsultaStatus,$this->idServicio,$this->observaciones)){
 			return false;
 		}
 
@@ -54,21 +57,23 @@ class ConsultaMdl extends BaseMdl{
 	 *@param integer $idCliente
 	 *@param integer $idTerapeuta
 	 *@param date $fechaCita
+	 *@param time $horaCita
 	 *@param integer $idConsultaStatus
 	 *@param string $observaciones
 	 *Crea una nueva consulta
 	 *@return true
 	 */
-	function update($idConsulta,$idCliente, $idTerapeuta, $idHistorialMedico=NULL, $fechaCita, $idConsultaStatus,$idServicio, $observaciones){
+	function update($idConsulta,$idCliente, $idTerapeuta, $idHistorialMedico=NULL, $fechaCita, $horaCita, $idConsultaStatus,$idServicio, $observaciones){
 		$this->idCliente 		= $idCliente;
 		$this->idTerapeuta		= $idTerapeuta;
 		$this->idServicio 		= $idServicio;
 		$this->fechaCita		= $fechaCita;
+		$this->horaCita			= $horaCita;
 		$this->idConsultaStatus	= $idConsultaStatus;
 		$this->observaciones	= $this->driver->real_escape_string($observaciones);
 		
-		$stmt = $this->driver->prepare("UPDATE Consulta SET IDCliente=?, IDTerapeuta=?, IDHistorialMedico=?, FechaCita=?, IDConsultaStatus=?, IDServicio=?, Observaciones=? WHERE IDConsulta=?");
-		if(!$stmt->bind_param('iiisiisi',$this->idCliente,$this->idTerapeuta,$this->idHistorialMedico,$this->fechaCita,$this->idConsultaStatus, $this->idServicio, $this->observaciones,$idConsulta)){
+		$stmt = $this->driver->prepare("UPDATE Consulta SET IDCliente=?, IDTerapeuta=?, IDHistorialMedico=?, FechaCita=?, HoraCita=?,IDConsultaStatus=?, IDServicio=?, Observaciones=? WHERE IDConsulta=?");
+		if(!$stmt->bind_param('iiissiisi',$this->idCliente,$this->idTerapeuta,$this->idHistorialMedico,$this->fechaCita,$this->horaCita,$this->idConsultaStatus, $this->idServicio, $this->observaciones,$idConsulta)){
 			return false;
 		}
 		if (!$stmt->execute()) {

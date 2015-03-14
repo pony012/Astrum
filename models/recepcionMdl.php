@@ -13,7 +13,6 @@ class RecepcionMdl extends BaseMdl{
 	private $idProductoServicio;
 	private $cantidad;
 	private $precioUnitario;
-	private $iva;
 	private $descuento;
 	
 	/**
@@ -24,7 +23,7 @@ class RecepcionMdl extends BaseMdl{
 	 *Crea una nueva recepcion
 	 *@return true
 	 */
-	function create($idProveedor, $folio, $fechaRecepcion,$idProductos,$cantidades,$precioUnitario,$ivas,$descuentos){
+	function create($idProveedor, $folio, $fechaRecepcion,$idProductos,$cantidades,$precioUnitario,$descuentos){
 		$this->idProveedor 		= $idProveedor;
 		$this->folio			= $folio;
 		$this->fechaRecepcion	= $this->driver->real_escape_string($fechaRecepcion);
@@ -76,13 +75,13 @@ class RecepcionMdl extends BaseMdl{
 
 		
 		for($i = 0;$i < count($idProductos);$i++){
-			if(!$this->createDetails($lastId,$idProductos[$i],$cantidades[$i],$precioUnitario[$i],$ivas[$i],$descuentos[$i])){
+			if(!$this->createDetails($lastId,$idProductos[$i],$cantidades[$i],$precioUnitario[$i],$descuentos[$i])){
 				$this->driver->rollback();
 				return false;
 			}
 			$subTotal 			=  $cantidades[$i]*$precioUnitario[$i];
 			$descuentoAplicado  =  $subTotal - ($subTotal*$descuentos[$i]/100);
-			$total 				+= $descuentoAplicado + ($descuentoAplicado*$ivas[$i]/100);
+			$total 				+= $descuentoAplicado;
 		}
 		$this->total = $total;
 
@@ -112,23 +111,21 @@ class RecepcionMdl extends BaseMdl{
 	 *@param integer $idProductoServicio
 	 *@param decimal $cantidad
 	 *@param decimal $precioUnitario
-	 *@param decimal $iva
 	 *@param decimal $descuento
 	 *Crea un nuevo detalle de una recepcion
 	 *@return true
 	 */
-	function createDetails($idRecepcion,$idProductoServicio,$cantidad,$precioUnitario,$iva,$descuento){
+	function createDetails($idRecepcion,$idProductoServicio,$cantidad,$precioUnitario,$descuento){
 		$this->idRecepcion 			= $idRecepcion;
 		$this->idProductoServicio 	= $idProductoServicio;
 		$this->cantidad				= $cantidad;
 		$this->precioUnitario		= $precioUnitario;
-		$this->iva					= $iva;
 		$this->descuento			= $descuento;
 		
 		$stmt = $this->driver->prepare("INSERT INTO 
-										RecepcionDetalle (IDRecepcion, IDProducto, Cantidad, PrecioUnitario, IVA, Descuento)
-										VALUES(?,?,?,?,?,?)");
-		if(!$stmt->bind_param('iidddd',$this->idRecepcion, $this->idProductoServicio, $this->cantidad, $this->precioUnitario, $this->iva, $this->descuento)){
+										RecepcionDetalle (IDRecepcion, IDProducto, Cantidad, PrecioUnitario, Descuento)
+										VALUES(?,?,?,?,?)");
+		if(!$stmt->bind_param('iiddd',$this->idRecepcion, $this->idProductoServicio, $this->cantidad, $this->precioUnitario, $this->descuento)){
 			return false;
 		}
 		if (!$stmt->execute()) {

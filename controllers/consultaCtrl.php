@@ -46,7 +46,8 @@
 				$idCliente 			= $this->validateNumber(isset($_POST['idCliente'])?$_POST['idCliente']:NULL);
 				$idTerapeuta 		= $this->validateNumber(isset($_POST['idTerapeuta'])?$_POST['idTerapeuta']:NULL);
 				$idHistorialMedico	= $this->validateNumber(isset($_POST['idHistorialMedico'])?$_POST['idHistorialMedico']:NULL);
-				$fechaCita 			= $this->validateDateHour(isset($_POST['fechaCita'])?$_POST['fechaCita']:NULL);
+				$fechaCita 			= $this->validateDate(isset($_POST['fechaCita'])?$_POST['fechaCita']:NULL);
+				$horaCita			= $this->validateDate(isset($_POST['horaCita'])?$_POST['horaCita']:NULL);
 				$idConsultaStatus 	= $this->validateNumber(isset($_POST['idConsultaStatus'])?$_POST['idConsultaStatus']:NULL);
 				$idServicio 		= $this->validateNumber(isset($_POST['idServicio'])?$_POST['idServicio']:NULL);
 				$observaciones		= $this->validateText(isset($_POST['observaciones'])?$_POST['observaciones']:NULL);
@@ -57,6 +58,8 @@
 					$errors['idTerapeuta'] = 1;
 				if(strlen($fechaCita)==0)
 					$errors['fechaCita'] = 1;
+				if(strlen($horaCita)==0)
+					$errors['horaCita'] = 1;
 				if(strlen($idConsultaStatus)==0)
 					$errors['idConsultaStatus'] = 1;
 				if(strlen($idServicio)==0)
@@ -65,7 +68,7 @@
 					$errors['observaciones'] = 1;
 				if (count($errors) == 0) {
 
-					$result = $this->model->create($idCliente, $idTerapeuta, $idHistorialMedico,$fechaCita, $idConsultaStatus, $idServicio,$observaciones);
+					$result = $this->model->create($idCliente, $idTerapeuta, $idHistorialMedico,$fechaCita, $horaCita, $idConsultaStatus, $idServicio,$observaciones);
 
 					//Si pudo ser creado
 					if ($result) {
@@ -100,7 +103,8 @@
 				$idCliente 			= $this->validateNumber(isset($_POST['idCliente'])?$_POST['idCliente']:NULL);
 				$idTerapeuta 		= $this->validateNumber(isset($_POST['idTerapeuta'])?$_POST['idTerapeuta']:NULL);
 				$idServicio 		= $this->validateNumber(isset($_POST['idServicio'])?$_POST['idServicio']:NULL);
-				$fechaCita 			= $this->validateDateHour(isset($_POST['fechaCita'])?$_POST['fechaCita']:NULL);
+				$fechaCita 			= $this->validateDate(isset($_POST['fechaCita'])?$_POST['fechaCita']:NULL);
+				$horaCita			= $this->validateDate(isset($_POST['horaCita'])?$_POST['horaCita']:NULL);
 				$idHistorialMedico	= $this->validateNumber(isset($_POST['idHistorialMedico'])?$_POST['idHistorialMedico']:NULL);
 				$idConsultaStatus 	= $this->validateNumber(isset($_POST['idConsultaStatus'])?$_POST['idConsultaStatus']:NULL);
 				$observaciones		= $this->validateText(isset($_POST['observaciones'])?$_POST['observaciones']:NULL);
@@ -115,12 +119,14 @@
 					$errors['idServicio'] = 1;
 				if(strlen($fechaCita)==0)
 					$errors['fechaCita'] = 1;
+				if(strlen($horaCita)==0)
+					$errors['horaCita'] = 1;
 				if(strlen($idConsultaStatus)==0)
 					$errors['idConsultaStatus'] = 1;
 				if(strlen($observaciones)==0)
 					$errors['observaciones'] = 1;
 				if (count($errors) == 0) {
-					$result = $this->model->update($idConsulta,$idCliente, $idTerapeuta, $idHistorialMedico,$fechaCita, $idConsultaStatus, $idServicio, $observaciones);
+					$result = $this->model->update($idConsulta,$idCliente, $idTerapeuta, $idHistorialMedico,$fechaCita,$horaCita, $idConsultaStatus, $idServicio, $observaciones);
 
 					//Si pudo ser creado
 					if ($result) {

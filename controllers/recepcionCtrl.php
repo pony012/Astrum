@@ -61,7 +61,6 @@
 				$idProductos 	= (isset($_POST['idProductos'])?$_POST['idProductos']:NULL);
 				$cantidades		= (isset($_POST['cantidades'])?$_POST['cantidades']:NULL);
 				$precioUnitario	= (isset($_POST['precioUnitario'])?$_POST['precioUnitario']:NULL);
-				$ivas 			= (isset($_POST['ivas'])?$_POST['ivas']:NULL);
 				$descuentos 	= (isset($_POST['descuentos'])?$_POST['descuentos']:NULL);
 				
 				if(strlen($idProveedor)==0)
@@ -72,19 +71,17 @@
 					$errors['idProductos'] = 1;
 				if(count($this->validateNumericArray($cantidades)) != 0)
 					$errors['cantidades'] = 1;
-				if(count($this->validateNumericArray($ivas)) != 0)
-					$errors['ivas'] = 1;
 				if(count($this->validateNumericArray($descuentos)) != 0)
 					$errors['descuentos'] = 1;
 
 				if (count($errors) == 0) {
 					
-					$result = $this->model->create($idProveedor, $folio, $fechaRecepcion,$idProductos,$cantidades,$precioUnitario,$ivas,$descuentos);
+					$result = $this->model->create($idProveedor, $folio, $fechaRecepcion,$idProductos,$cantidades,$precioUnitario,$descuentos);
 
 					//Si pudo ser creado
 					if ($result != false) {
 						//Guardamos los campos en un arreglo
-						//$data = array($idProveedor, $folio, $fechaRecepcion,$idProductos,$cantidades,$precioUnitario,$ivas,$descuentos);
+						//$data = array($idProveedor, $folio, $fechaRecepcion,$idProductos,$cantidades,$precioUnitario,$descuentos);
 						
 						echo $this->json_encode(array('error'=>OK,'data'=>$result,'mensaje'=>'Correcto'));
 					}else{

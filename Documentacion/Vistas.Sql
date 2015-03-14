@@ -1,5 +1,5 @@
 CREATE VIEW V_Empleado_Deleter AS
-SELECT IDEmpleado, Nombre, ApellidoPaterno, ApellidoMaterno, 
+SELECT IDEmpleado, Nombre, CONCAT_WS(' ',ApellidoPaterno,ApellidoMaterno) AS Apellidos, 
 Usuario, Contrasena, e.IDCargo, c.Cargo as Cargo, Calle, NumExterior, 
 NumInterior, Colonia, CodigoPostal as CP, Foto, Email, Telefono, Celular 
 From Empleado e 
@@ -7,7 +7,7 @@ inner join Cargo c
 on c.IDCargo=e.IDCargo and e.Activo='N';
 
 CREATE VIEW V_Empleado AS
-SELECT IDEmpleado, Nombre, ApellidoPaterno, ApellidoMaterno, 
+SELECT IDEmpleado, Nombre, CONCAT_WS(' ',ApellidoPaterno,ApellidoMaterno) AS Apellidos, 
 Usuario, Contrasena, e.IDCargo, c.Cargo as Cargo, Calle, NumExterior, 
 NumInterior, Colonia, CodigoPostal as CP, Foto, Email, Telefono, Celular 
 From Empleado e 
@@ -40,7 +40,7 @@ on ma.IDEmpleado=e.IDEmpleado and e.Activo='S';
 
 CREATE VIEW V_Consulta AS
 SELECT IDConsulta, con.IDCliente, CONCAT_WS(' ',c.Nombre,c.ApellidoPaterno,c.ApellidoMaterno) as Cliente, 
-IDTerapeuta, CONCAT_WS(' ',e.Nombre,e.ApellidoPaterno,e.ApellidoMaterno) as Terapeuta, ps.IDProductoServicio, ps.Producto, FechaCita,
+IDTerapeuta, CONCAT_WS(' ',e.Nombre,e.ApellidoPaterno,e.ApellidoMaterno) as Terapeuta, ps.IDProductoServicio, ps.Producto, FechaCita, HoraCita,
 con.IDHistorialMedico, cs.IDConsultaStatus, cs.Status, con.Observaciones
 FROM Consulta con
 inner join ConsultaStatus cs
@@ -75,13 +75,13 @@ inner join Empleado e
 on e.IDEmpleado=ma.IDEmpleado and e.Activo='S';
 
 CREATE VIEW V_RemisionDetalle AS
-SELECT IDRemisionDetalle, IDRemision, remd.IDProducto, ps.Producto, Cantidad, remd.PrecioUnitario, IVA, Descuento
+SELECT IDRemisionDetalle, IDRemision, remd.IDProducto, ps.Producto, Cantidad, remd.PrecioUnitario, Descuento
 FROM RemisionDetalle remd
 inner join ProductoServicio ps
 on ps.IDProductoServicio=remd.IDProducto;
 
 CREATE VIEW V_RecepcionDetalle AS
-SELECT IDRecepcionDetalle, IDRecepcion, recd.IDProducto, ps.Producto, Cantidad, recd.PrecioUnitario, IVA, Descuento
+SELECT IDRecepcionDetalle, IDRecepcion, recd.IDProducto, ps.Producto, Cantidad, recd.PrecioUnitario, Descuento
 FROM RecepcionDetalle recd
 inner join ProductoServicio ps
 on ps.IDProductoServicio=recd.IDProducto;
@@ -147,28 +147,28 @@ on pst.IDProductoServicioTipo=ps.IDProductoServicioTipo
 WHERE ps.IDProductoServicioTipo=2 and ps.Activo='N';
 
 CREATE VIEW V_Proveedor AS
-SELECT IDProveedor, Nombre, ApellidoPaterno, ApellidoMaterno, 
+SELECT IDProveedor, Nombre, CONCAT_WS(' ',ApellidoPaterno,ApellidoMaterno) AS Apellidos, 
 RFC, Calle, NumExterior, 
 NumInterior, Colonia, CodigoPostal as CP, Email, Telefono, Celular 
 From Proveedor p
 WHERE p.Activo='S';
 
 CREATE VIEW V_Proveedor_Deleter AS
-SELECT IDProveedor, Nombre, ApellidoPaterno, ApellidoMaterno, 
+SELECT IDProveedor, Nombre, CONCAT_WS(' ',ApellidoPaterno,ApellidoMaterno) AS Apellidos, 
 RFC, Calle, NumExterior, 
 NumInterior, Colonia, CodigoPostal as CP, Email, Telefono, Celular 
 From Proveedor p
 WHERE p.Activo='N';
 
 CREATE VIEW V_Cliente AS
-SELECT IDCliente, Nombre, ApellidoPaterno, ApellidoMaterno, 
+SELECT IDCliente, Nombre, CONCAT_WS(' ',ApellidoPaterno,ApellidoMaterno) AS Apellidos, 
 Calle, NumExterior, 
 NumInterior, Colonia, CodigoPostal as CP, Email, Telefono, Celular 
 From Cliente c
 WHERE c.Activo='S';
 
 CREATE VIEW V_Cliente_Deleter AS
-SELECT IDCliente, Nombre, ApellidoPaterno, ApellidoMaterno, 
+SELECT IDCliente, Nombre, CONCAT_WS(' ',ApellidoPaterno,ApellidoMaterno) AS Apellidos, 
 Calle, NumExterior, 
 NumInterior, Colonia, CodigoPostal as CP, Email, Telefono, Celular 
 From Cliente c
