@@ -21,6 +21,7 @@ RewriteRule ^uploadPhoto uploadPhoto.php
 #	rutas generales	#
 #####################
 
+RewriteRule ^login index.php?ctrl=loginB
 RewriteRule ^([a-zA-z]+)/list/id/(\-?[0-9]+) index.php?ctrl=$1&act=lists&offset=-1&id=$2&api=0
 RewriteRule ^([a-zA-z]+)/list/id/(\-?[0-9]+)/ index.php?ctrl=$1&act=lists&offset=-1&id=$2&api=0
 RewriteRule ^([a-zA-z]+)/list index.php?ctrl=$1&act=lists&offset=0&api=0

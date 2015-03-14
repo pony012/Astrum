@@ -66,7 +66,6 @@ class EmpleadoMdl extends BaseMdl{
 			return false;
 		}
 		if (!$stmt->execute()) {
-			print_r($stmt->error);
 			return false;
 		}
 

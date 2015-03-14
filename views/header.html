@@ -58,7 +58,7 @@
                     <ul class="nav" id="side-menu">
                         {% if session.isLoged == false %}
                             <li>
-                                <a class="{{session.controller == 'loginB' ?'active':''}}" href="{{session.document_root}}/?ctrl=loginB"><i class="fa fa-key"></i> Iniciar Sesión</a>
+                                <a class="{{session.controller == 'loginB' ?'active':''}}" href="{{session.document_root}}/login"><i class="fa fa-key"></i> Iniciar Sesión</a>
                             </li>
                         {% else %}
                             {% include 'bienvenido.html' %}
