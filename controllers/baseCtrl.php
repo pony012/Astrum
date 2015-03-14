@@ -26,11 +26,11 @@
 		*/
 		public static function startSession($user, $pass){
 			if (BaseCtrl::isLoged()){
-				echo '<meta http-equiv="refresh" content="0; url=./">';
+				echo '<meta http-equiv="refresh" content="0; url=../">';
 				return true;
 			}
 			if (empty($user) || empty($pass)){
-				echo '<meta http-equiv="refresh" content="0; url=./">';
+				echo '<meta http-equiv="refresh" content="0; url=../">';
 				return false;
 			}
 			require_once 'models/baseMdl.php';
@@ -56,18 +56,18 @@
 						//$_SESSION['pass'] = $pass;
 						$_SESSION['type'] = $result['IDCargo'];
 						$_SESSION['IDEmpleado'] = $result['IDEmpleado'];
-						echo '<meta http-equiv="refresh" content="0; url=./">';
+						echo '<meta http-equiv="refresh" content="0; url=../">';
 						return true;
 					}else{
 						//Cargar vista de fallo de contraseña
-						echo '<meta http-equiv="refresh" content="0; url=./">';
+						echo '<meta http-equiv="refresh" content="0; url=../">';
 					}
 				}else{
 					//No se encontró usuario con ese nombre :(
-					echo '<meta http-equiv="refresh" content="0; url=./">';
+					echo '<meta http-equiv="refresh" content="0; url=../">';
 				}
 			}
-			echo '<meta http-equiv="refresh" content="0; url=./">';
+			echo '<meta http-equiv="refresh" content="0; url=../">';
 			return false;
 		}
 
