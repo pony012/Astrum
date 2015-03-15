@@ -22,6 +22,8 @@
 	<script src="{{session.document_root}}/js/datepicker/js/bootstrap-datepicker.js"></script>
 	<script src="{{session.document_root}}/js/datepicker/js/locales/es.js" charset="UTF-8"></script>
 
+	<!-- Select2 Plugin JavaScript -->
+	<script src="{{session.document_root}}/js/Select2.js"></script>
 	<script type="text/javascript">
 		$(function(){
 			function detectIE() {
@@ -72,7 +74,7 @@
 	        $('#dataTables-example').dataTable();
 	    });
 	</script>
-
+	
 	{% if jsLibs is defined%}
 		{% for jsLib in jsLibs%}
 			<script src="{{session.document_root}}/{{jsLib}}"></script>

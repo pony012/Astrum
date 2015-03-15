@@ -44,7 +44,7 @@
                     {% endif %}
                     <div class="form-group  col-md-6 col-lg-6">
                         <label for ="idCargo">Cargo:</label>
-                        <select class="form-control" name = "idCargo" required {{session.action == 'list'?'disabled':''}}>
+                        <select id="cargo" class="form-control" name = "idCargo" required {{session.action == 'list'?'disabled':''}}>
                             <option {{ data.Cargo ? '' : 'selected'}}>Selecciona un cargo</option>
                             <option value = "1" {{ data.Cargo == 'Administrador' ? 'selected' : ''}}>Administrador</option>
                             <option value = "2" {{ data.Cargo == 'Terapeuta' ? 'selected' : ''}}>Terapeuta</option>
@@ -125,6 +125,7 @@
     </div>
     <!-- /.col-lg-12 -->    
 </div>
-
-
+<script>
+    $(document).ready(function() { $("#cargo").select2(); });
+</script>
 {% include 'footer.html' with {'jsLibs': ['js/plugins/jquery.ui.widget.js','js/plugins/jquery.fileupload.js','js/empleado.js']} %}
