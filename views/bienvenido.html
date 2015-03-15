@@ -1,10 +1,17 @@
-<div>
-    Bienvenido {{session.user}}, tu cargo es {{session.cargo}}
-</div>
-<div class="block-center">
-    <img class="img-profile-responsive" id="imagePrev" src="{{session.document_root}}/uploads/{{session.Foto}}"/>
-</div>
-<a href="{{session.document_root}}/logout">
-    Cerrar Sesion
-</a>
-<br>
+<section>
+    <p class="centered">
+        <a ui-sref="#">
+            <img class="img-profile-responsive" src="{{session.document_root}}/uploads/{{session.Foto}}"/>
+        </a>
+    </p>
+    <div class="text-center welcome-text">
+        <strong>Bienvenido {{session.user}}</strong>
+        <br>
+        <a class="text-center logout-text" href="{{session.document_root}}/logout">
+            <strong>
+                <i class="fa fa-sign-out"></i> Cerrar Sesion
+            </strong>
+        </a>
+    </div>
+    <br>    
+</section>
