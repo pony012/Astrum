@@ -16,22 +16,20 @@
                         <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                             <thead>
                                 <tr>
-                                    <th>Nombre</th>
-                                    <th>Apellido Paterno</th>
-                                    <th>Apellido Materno</th>
-                                    <th>Detalles</th>
+                                    <th class="text-center">Nombre</th>
+                                    <th class="text-center">Detalles</th>
                                 {% if session.isAdmin %}
-                                    <th>Editar</th>
-                                    <th>Eliminar</th>
+                                    <th class="text-center">Editar</th>
+                                    <th class="text-center">Eliminar</th>
                                 {% endif %}
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for cliente in data %}
                                     <tr>
-                                        <td>{{cliente.Nombre}}</td>
-                                        <td>{{cliente.ApellidoPaterno}}</td>
-                                        <td>{{cliente.ApellidoMaterno}}</td>
+                                        <td>
+                                            {{cliente.Nombre}} {{cliente.ApellidoPaterno}} {{cliente.ApellidoMaterno}}
+                                        </td>
                                         <td align="center"><a href="{{session.document_root}}/cliente/list/id/{{cliente.IDCliente}}"><span class="fa fa-list-ul fa-2x"></span></a></td>
                                     {% if session.isAdmin %}
                                         <td align="center"><a href="{{session.document_root}}/cliente/update/{{cliente.IDCliente}}"><span class="fa fa-edit fa-2x"></span></a></td>

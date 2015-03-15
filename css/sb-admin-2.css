@@ -404,3 +404,21 @@ table.dataTable thead .sorting:after {
 .first_check {    
     margin-top: -5px;    
 }
+
+.img-list-responsive {
+    display: block;
+    max-width: 80px;
+    max-height: 80px;
+}
+
+.img-product-list-responsive {
+    display: block;
+    max-width: 12ex;
+    max-height: 12ex;
+}
+
+.img-profile-responsive {
+    display: block;
+    max-width: 10ex;
+    max-height: 10ex;
+}

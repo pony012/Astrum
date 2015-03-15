@@ -8,7 +8,7 @@
             </ol>
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    Lista de Empleados
+                    Lista de Empleados {{session.document_root}}
                 </div>
                 <!-- /.panel-heading -->
                 <div class="panel-body">
@@ -16,25 +16,27 @@
                         <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                             <thead>
                                 <tr>
-                                    <th>Nombre</th>
-                                    <th>Apellido Paterno</th>
-                                    <th>Apellido Materno</th>
-                                    <th>Cargo</th>
-                                    <th>Detalles</th>
-                                    <th>Editar</th>
-                                    <th>Eliminar</th>
+                                    <th class="text-center">Foto</th>                                
+                                    <th class="text-center">Nombre</th>
+                                    <th class="text-center">Cargo</th>
+                                    <th class="text-center">Detalles</th>
+                                    <th class="text-center">Editar</th>
+                                    <th class="text-center">Eliminar</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for empleado in data %}
                                     <tr class="gradeA">
-                                        <td>{{empleado.Nombre}}</td>
-                                        <td>{{empleado.ApellidoPaterno}}</td>
-                                        <td>{{empleado.ApellidoMaterno}}</td>
+                                        <td align="center">
+                                            <img class="img-list-responsive" id="imagePrev" src="{{session.document_root}}/uploads/{{empleado.Foto}}"/>
+                                        </td>
+                                        <td>
+                                            {{empleado.Nombre}} {{empleado.ApellidoPaterno}} {{empleado.ApellidoMaterno}}
+                                        </td>
                                         <td>{{empleado.Cargo}}</td>
-                                        <td align="center"><a href="{{session.document_root}}/empleado/list/id/{{empleado.IDEmpleado}}"><span class="fa fa-list-ul fa-2x"></span></a></td>
-                                        <td align="center"><a href="{{session.document_root}}/empleado/update/{{empleado.IDEmpleado}}"><span class="fa fa-edit fa-2x"></span></a></td>
-                                        <td align="center"><a href="#" data-id="{{empleado.IDEmpleado}}" data-toggle="modal" data-target="#myModal"><span class="fa fa-close fa-2x"></span></a></td>
+                                        <td align="center"><a href="{{session.document_root}}/empleado/list/id/{{empleado.IDEmpleado}}"><i class="fa fa-list-ul fa-2x"></i></a></td>
+                                        <td align="center"><a href="{{session.document_root}}/empleado/update/{{empleado.IDEmpleado}}"><i class="fa fa-edit fa-2x"></i></a></td>
+                                        <td align="center"><a href="#" data-id="{{empleado.IDEmpleado}}" data-toggle="modal" data-target="{{empleado.IDEmpleado == session.IDEmpleado ? '#alertModal':'#myModal'}}"><i class="fa fa-close fa-2x"></i></a></td>
                                     </tr>
                                 {% endfor %}
                                 <!--
@@ -394,6 +396,21 @@
                     </div>
                 </div>
             </div>
+
+            <div class="modal fade" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title text-warning" id="myModalLabel">Advertencia</h4>
+                        </div>
+                        <div class="modal-body">
+                            No puedes eliminarte a ti mismo
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </section>
         <!-- /#section -->
     </div>

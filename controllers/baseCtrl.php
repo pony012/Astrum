@@ -56,6 +56,7 @@
 						//$_SESSION['pass'] = $pass;
 						$_SESSION['type'] = $result['IDCargo'];
 						$_SESSION['IDEmpleado'] = $result['IDEmpleado'];
+						$_SESSION['Foto'] = $result['Foto'];
 						echo '<meta http-equiv="refresh" content="0; url=../">';
 						return true;
 					}else{
@@ -299,6 +300,7 @@
 			$session = array(
 				'isLoged'=>BaseCtrl::isLoged(),
 				'user'=>isset($_SESSION['user'])?$_SESSION['user']:NULL,
+				'Foto'=>isset($_SESSION['Foto'])?$_SESSION['Foto']:NULL,
 				'IDEmpleado' => isset($_SESSION['IDEmpleado'])?$_SESSION['IDEmpleado']:NULL,
 				'isAdmin' => BaseCtrl::isAdmin(),
 				'isTerapeuta' => BaseCtrl::isTerapeuta(),
@@ -327,6 +329,7 @@
 			$session = array(
 				'isLoged'=>BaseCtrl::isLoged(),
 				'user'=>isset($_SESSION['user'])?$_SESSION['user']:NULL,
+				'Foto'=>isset($_SESSION['Foto'])?$_SESSION['Foto']:NULL,
 				'IDEmpleado' => isset($_SESSION['IDEmpleado'])?$_SESSION['IDEmpleado']:NULL,
 				'isAdmin' => BaseCtrl::isAdmin(),
 				'isTerapeuta' => BaseCtrl::isTerapeuta(),
@@ -384,6 +387,7 @@
 			$this->session = array(
 				'isLoged'=>BaseCtrl::isLoged(),
 				'user'=>isset($_SESSION['user'])?$_SESSION['user']:NULL,
+				'Foto'=>isset($_SESSION['Foto'])?$_SESSION['Foto']:NULL,
 				'IDEmpleado' => isset($_SESSION['IDEmpleado'])?$_SESSION['IDEmpleado']:NULL,
 				'isAdmin' => BaseCtrl::isAdmin(),
 				'isTerapeuta' => BaseCtrl::isTerapeuta(),

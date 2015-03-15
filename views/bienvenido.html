@@ -1,1 +1,10 @@
-<div>Bienvenido {{session.user}}, tu cargo es {{session.cargo}}</div><a href="{{session.document_root}}/logout">Cerrar Sesion</a><br>
+<div>
+    Bienvenido {{session.user}}, tu cargo es {{session.cargo}}
+</div>
+<div class="block-center">
+    <img class="img-profile-responsive" id="imagePrev" src="{{session.document_root}}/uploads/{{session.Foto}}"/>
+</div>
+<a href="{{session.document_root}}/logout">
+    Cerrar Sesion
+</a>
+<br>
