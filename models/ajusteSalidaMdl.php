@@ -14,6 +14,7 @@ class AjusteSalidaMdl extends BaseMdl{
 	private $idAjusteSalida;
 	private $idProductoServicio;
 	private $cantidad;
+	private $idRecepcion;
 	
 	/**
 	 *@param integer $idMovimientoAlmacen
@@ -24,10 +25,12 @@ class AjusteSalidaMdl extends BaseMdl{
 	 *@param integer $idAjusteSalida
 	 *@param array $idProductos
 	 *@param array $cantidades
+	 *@param integer $idRecepcion
 	 *Crea un nuevo ajuste de salida
 	 *@return true
 	 */
-	function create($idAjusteSalidaTipo, $idProveedor = NULL, $folio, $observaciones,$idProductos,$cantidades,$precioUnitario){
+	function create($idAjusteSalidaTipo, $idProveedor = NULL, $folio, $observaciones,$idProductos,$cantidades,$precioUnitario, $idRecepcion = NULL){
+		$this->idRecepcion 			= $idRecepcion;
 		$this->idAjusteSalidaTipo 	= $idAjusteSalidaTipo;
 		$this->idProveedor			= $idProveedor;
 		$this->folio				= $folio;
@@ -74,6 +77,24 @@ class AjusteSalidaMdl extends BaseMdl{
 
 		$lastId = $this->driver->insert_id;
 		$idAjusteSalida = $lastId;
+		if($idRecepcion !== NULL && $idRecepcion != ''){
+			$stmt = $this->driver->prepare("INSERT INTO 
+											AjusteSalidaRecepcion (IDAjusteEntrada, IDRecepcion)
+											VALUES(?,?)");
+			if(!$stmt->bind_param('ii',$lastId,$this->idRecepcion)){
+				$this->driver->rollback();
+				return false;
+			}
+			if (!$stmt->execute()) {
+				$this->driver->rollback();
+				return false;
+			}
+
+			if($this->driver->error){
+				$this->driver->rollback();
+				return false;
+			}
+		}
 		for($i = 0;$i < count($idProductos);$i++){
 			if(!$this->createDetails($lastId,$idProductos[$i],$cantidades[$i],$precioUnitario[$i])){
 				$this->driver->rollback();

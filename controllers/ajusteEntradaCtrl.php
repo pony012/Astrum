@@ -56,10 +56,10 @@
 
 			if($this->api){
 				$errors = array();
-
+				$idRemision 			= $this->validateNumber(isset($_POST['idRemision'])?$_POST['idRemision']:NULL;
 				$idAjusteEntradaTipo 	= $this->validateNumber(isset($_POST['idAjusteEntradaTipo'])?$_POST['idAjusteEntradaTipo']:NULL);
 				$idCliente 				= $this->validateNumber(isset($_POST['idCliente'])?$_POST['idCliente']:NULL);
-				$folio					= $this->model->getFolio('AjusteEntrada'); //$this->validateNumber(isset($_POST['folio'])?$_POST['folio']:NULL);
+				$folio					= $this->model->getFolio('AjusteEntrada');
 				$observaciones			= $this->validateText(isset($_POST['observaciones'])?$_POST['observaciones']:NULL);
 				$idProductoServicios 	= (isset($_POST['idProductos'])?$_POST['idProductos']:NULL);
 				$cantidades				= (isset($_POST['cantidades'])?$_POST['cantidades']:NULL);
@@ -75,7 +75,7 @@
 
 				if (count($errors) == 0) {
 
-					$result = $this->model->create($idAjusteEntradaTipo, $idCliente, $folio, $observaciones, $idProductoServicios, $cantidades,$precioUnitario);
+					$result = $this->model->create($idAjusteEntradaTipo, $idCliente, $folio, $observaciones, $idProductoServicios, $cantidades,$precioUnitario,$idRemision);
 
 					//Si pudo ser creado
 					if ($result != false) {
